@@ -8,11 +8,7 @@ public abstract class User {
     private String password;
     private String name;
     private String phoneNumber;
-    private int rating;
-    /**??? map is not entity specific but a view/controller
-     * place it under a fragment class instead
-     * https://github.com/CMPUT301F19T02/Vybe/blob/master/app/src/main/java/com/example/vybe/MapFragment.java*/
-    //private GoogleMap myMap;
+    private double deposit;
 
     public User(){}
 
@@ -20,30 +16,46 @@ public abstract class User {
         this.email = email; //unique
         this.password = password;
         this.name = name;
-        this.phoneNumber = phoneNumber; //unique?
+        this.phoneNumber = phoneNumber;
     }
 
-    //setters for email, password, name, phoneNumber, trip data
-    public void setEmail(String email){ this.email = email;}
+    public String getEmail() {
+        return email;
+    }
 
-    public void setPassword(String password){ this.password = password;}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public void setName(String name){ this.name = name;}
+    public String getPassword() {
+        return password;
+    }
 
-    public void setPhoneNumber(String phoneNumber){ this.phoneNumber = phoneNumber;}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public void setRating(int rating) { this.rating = rating; }
+    public String getName() {
+        return name;
+    }
 
-    //getters for email, password, name, phoneNumber, trip data
-    public String getEmail(){ return this.email;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getPassword(){ return this.password;}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-    public String getName(){ return this.name;}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-    public String getPhoneNumber(){ return this.phoneNumber;}
+    public double getDeposit() {
+        return deposit;
+    }
 
-    public int getRating() { return rating; }
-
-
+    public void setDeposit(double deposit) {
+        this.deposit = deposit;
+    }
 }
