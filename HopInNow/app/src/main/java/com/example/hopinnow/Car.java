@@ -6,6 +6,10 @@ class Car {
     private String color;
     private String plateNumber;
 
+    /**
+     *
+     * @return
+     */
     public String getMake() {
         return make;
     }
