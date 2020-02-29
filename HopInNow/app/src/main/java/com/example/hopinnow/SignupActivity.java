@@ -2,25 +2,21 @@ package com.example.hopinnow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.firestore.FirebaseFirestore;
+public class SignupActivity extends AppCompatActivity {
+    public static final String TAG = "SignupActivity";
+    private EditText nameEditText;
+    private EditText passwordEditText;
+    private EditText phoneNumberEditText;
+    private EditText emailEditText;
 
-public class LoginSignupActivity extends AppCompatActivity {
-    public static final String TAG = "LoginSignupActivity";
-    EditText nameEditText;
-    EditText passwordEditText;
-    EditText phoneNumberEditText;
-    EditText emailEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_signup_view);
+        setContentView(R.layout.activity_signup);
 
         nameEditText = findViewById(R.id.name);
         passwordEditText = findViewById(R.id.password);
@@ -37,6 +33,6 @@ public class LoginSignupActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
 
         Rider rider = new Rider(name, password, phoneNumber, email);
-        databaseAccessor.signupRider(rider);
+        databaseAccessor.registerRider(getApplicationContext(), rider);
     }
 }
