@@ -1,23 +1,17 @@
 package com.example.hopinnow;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 class DatabaseAccessor {
     public static final String TAG = "DatabaseAccessor";
@@ -118,8 +112,7 @@ class DatabaseAccessor {
             Toast.makeText(finalContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
         }
     }
-    public Rider viewRiderProfile(Context context, Rider rider) {
-
-        return rider;
+    public FirebaseUser getUserProfile(Context context) {
+        return firebaseAuth.getCurrentUser();
     }
 }
