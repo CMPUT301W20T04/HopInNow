@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.SignupAndLogin.DriverProfileActivity"></activity>
-        <activity android:name=".Activities.SignupAndLogin.RiderProfileActivity" />
+        <activity android:name=".ActivitiesAndFragments.SignupAndLogin.DriverProfileActivity"></activity>
+        <activity android:name=".ActivitiesAndFragments.SignupAndLogin.RiderProfileActivity" />
         <activity android:name=".UserProfileActivity" />
 
         <uses-library
@@ -29,7 +29,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name=".Activities.SignupAndLogin.SignupActivity">
+        <activity android:name=".ActivitiesAndFragments.SignupAndLogin.SignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -37,7 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Map.RiderMapActivity" />
+        <activity android:name=".ActivitiesAndFragments.Map.RiderMapActivity" />
     </application>
 
 </manifest>

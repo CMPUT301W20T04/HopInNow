@@ -1,4 +1,4 @@
-package com.example.hopinnow.Activities.SignupAndLogin;
+package com.example.hopinnow.ActivitiesAndFragments.SignupAndLogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
