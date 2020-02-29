@@ -32,11 +32,11 @@ class DatabaseAccessor {
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    boolean isLoggedin(Context context) {
+    public boolean isLoggedin(Context context) {
         return (firebaseAuth.getCurrentUser() != null);
     }
 
-    void loginRider(Context context, Rider rider) {
+    public void loginRider(Context context, Rider rider) {
         final Context finalContext = context;
         // login the rider:
         this.firebaseAuth.signInWithEmailAndPassword(rider.getEmail(), rider.getPassword())
@@ -51,7 +51,7 @@ class DatabaseAccessor {
                     }
                 });
     }
-    void loginDriver(Context context, Driver driver) {
+    public void loginDriver(Context context, Driver driver) {
         final Context finalContext = context;
         // login the rider:
         this.firebaseAuth.signInWithEmailAndPassword(driver.getEmail(), driver.getPassword())
@@ -66,11 +66,11 @@ class DatabaseAccessor {
                     }
                 });
     }
-    void logoutUser(Context context) {
+    public void logoutUser(Context context) {
         this.firebaseAuth.signOut();
     }
 
-    void registerRider(Context context, Rider rider) {
+    public void registerRider(Context context, Rider rider) {
         // get a top-level reference to the collection
         final Context finalContext = context;
         // create a rider first
@@ -94,7 +94,7 @@ class DatabaseAccessor {
             Toast.makeText(finalContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
         }
     }
-    void registerDriver(Context context, Driver driver) {
+    public void registerDriver(Context context, Driver driver) {
         // get a top-level reference to the collection
         final Context finalContext = context;
         // create a driver first
@@ -118,4 +118,5 @@ class DatabaseAccessor {
             Toast.makeText(finalContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
         }
     }
+    
 }
