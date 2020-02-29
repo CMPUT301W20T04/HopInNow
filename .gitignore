@@ -8,3 +8,5 @@
 .externalNativeBuild
 .cxx
 workspace.xml
+AndroidManifest.xml
+/.idea/workspace.xml
