@@ -1,11 +1,39 @@
 package com.example.hopinnow;
 
+import java.util.ArrayList;
+
 public abstract class User {
+    private double userDeposit;
     private String name;
+    private String password;
     private String phoneNumber;
     private String email;
-    private String password;
-    private int rating;
+    private ArrayList<Trip> tripList;
+
+    User() {}
+
+    User(String name, String password, String phoneNumber, String email) {
+        this.name = name;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public double getUserDeposit() {
+        return userDeposit;
+    }
+
+    public void setUserDeposit(double userDeposit) {
+        this.userDeposit = userDeposit;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getName() {
         return name;
@@ -31,19 +59,11 @@ public abstract class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public ArrayList<Trip> getTripList() {
+        return tripList;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setTripList(ArrayList<Trip> tripList) {
+        this.tripList = tripList;
     }
 }
