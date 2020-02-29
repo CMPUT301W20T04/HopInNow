@@ -87,9 +87,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         addRequest = findViewById(R.id.add_request_button);
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //get all information for new request
-                 Location pickUpLoc = null;
-                 Location dropOffLoc = null;
+                /**
+                 LatLng pickUpLoc = null;
+                 LatLng dropOffLoc = null;
                  Driver driver = null;
                  Rider rider = null;
                  Date dateTime = Calendar.getInstance().getTime();
@@ -98,6 +98,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                  Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
                  //set current Request
                  curRequest = new Request(driver,rider, pickUpLoc, dropOffLoc, dateTime,car, estimatedFare);
+                 */
 
 
                 /**pop up dialog, show current request waiting to be accepted*/
