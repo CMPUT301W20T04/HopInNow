@@ -12,8 +12,6 @@
 /captures
 .externalNativeBuild
 .cxx
-workspace.xml
-AndroidManifest.xml
 
   
 # Built application files
