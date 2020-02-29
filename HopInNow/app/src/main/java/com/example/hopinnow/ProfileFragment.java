@@ -1,12 +1,10 @@
 package com.example.hopinnow;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileFragment extends AppCompatActivity {
@@ -20,12 +18,15 @@ public class ProfileFragment extends AppCompatActivity {
     private EditText carColor;
     private EditText driverRating;
     public Button updateBtn;
-    public Button returnBtn;
     public EditText password;//add password to uml
     public ProfileFragment(String name, String password, String phoneNumber, String email){
-
+        this.nameEt.setText(name);
+        this.password.setText(password);
+        this.phoneNumberEt.setText(phoneNumber);
+        this.emailEt.setText(email);
 
     }
+    public ProfileFragment(){}
 
 
     @Override
@@ -41,20 +42,21 @@ public class ProfileFragment extends AppCompatActivity {
     public void setProfileMode(int mode) {
         this.modeSwitch = mode;
     }
+    /*
+    public void getProfile(){
+        final DatabaseAccessor databaseAccessor = new DatabaseAccessor();
+        FirebaseUser rider =  databaseAccessor.getUserProfile(getApplicationContext());
+        nameEt.setText(rider.getDisplayName());
+        phoneNumberEt.setText(rider.getPhoneNumber());
+        emailEt.setText(rider.getEmail());
+        //need password
+    }*/
 
-    public void getProfile(Rider rider){
+    public void updateProfile(View view){
+        //save the new profile to database
         final DatabaseAccessor databaseAccessor = new DatabaseAccessor();
 
     }
 
-    public void updateProfile(View view){
-        //save the new profile to database
 
-    }
-
-    public void returnButton(View view){
-        //back to the menu
-
-        //getActivity().getFragmentManager().popBackStack();
-    }
 }
