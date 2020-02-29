@@ -90,7 +90,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         riderMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), MenuActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(), RiderMenuActivity.class);
                 //startIntent.putExtra()
 
                 startActivity(startIntent);

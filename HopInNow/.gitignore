@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 workspace.xml
+AndroidManifest.xml

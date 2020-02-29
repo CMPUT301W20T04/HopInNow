@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MenuActivity extends AppCompatActivity {
+public class RiderMenuActivity extends AppCompatActivity {
 
 
     private Button riderMyProfileBtn, riderChatBtn, riderMyTripsBtn;
@@ -24,6 +24,7 @@ public class MenuActivity extends AppCompatActivity {
         riderMyProfileBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
 
             }
         });
