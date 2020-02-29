@@ -66,8 +66,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private Button addRequest;
 
+    private Rider rider;
     private LatLng pickUpLoc,dropOffLoc;
     private String pickUpLocName, dropOffLocName;
+    private Marker pickUpMarker, dropOffMarker;
     private Request curRequest;
 
     @Override
@@ -77,9 +79,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
 
+        rider = new Rider();
+
         //initialize autocomplete fragments
         if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), "Your api key");
+            Places.initialize(getApplicationContext(), getString(R.string.map_key));
         }
         setupAutoCompleteFragment();
 
@@ -87,22 +91,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         addRequest = findViewById(R.id.add_request_button);
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                /**
-                 LatLng pickUpLoc = null;
-                 LatLng dropOffLoc = null;
-                 Driver driver = null;
-                 Rider rider = null;
-                 Date dateTime = Calendar.getInstance().getTime();
-                 Car car = null;
-                 EstimateFare fare = new EstimateFare();
-                 Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
-                 //set current Request
-                 curRequest = new Request(driver,rider, pickUpLoc, dropOffLoc, dateTime,car, estimatedFare);
-                 */
+                 if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
+                     Date dateTime = Calendar.getInstance().getTime();
+                     EstimateFare fare = new EstimateFare();
+                     Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
+                     //set current Request
+                     curRequest = new Request(null,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
 
+                     /**save cur Request to firebase*/
 
-                /**pop up dialog, show current request waiting to be accepted*/
+                     /**change intent to new activity*/
 
+                 }
 
             }
         });
@@ -112,7 +112,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
-        mMap.addMarker(new MarkerOptions()
+        pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(edmonton) /**set to current location later on pickUpLoc*/
                 .title("Edmonton")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
@@ -130,9 +130,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 if (place!=null){
                     pickUpLocName = place.getName();
                     pickUpLoc = place.getLatLng();
-                    mMap.addMarker(new MarkerOptions()
-                                    .position(pickUpLoc)
-                                    .title("Pick Up Location"));
+                    pickUpMarker.setPosition(pickUpLoc);
+                    pickUpMarker.setTitle("Pick Up Location");
                     //unsure if this is needed for update
                     //mapFragment.getMapAsync(RiderMapActivity.this);
                 }
@@ -156,9 +155,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 if (place!=null){
                     dropOffLocName = place.getName();
                     dropOffLoc = place.getLatLng();
-                    mMap.addMarker(new MarkerOptions()
-                            .position(dropOffLoc)
-                            .title("Drop Off Location"));
+                    dropOffMarker.setPosition(dropOffLoc);
+                    dropOffMarker.setTitle("Drop Off Location");
                     //unsure if this is needed for update
                     //mapFragment.getMapAsync(RiderMapActivity.this);
                 }
