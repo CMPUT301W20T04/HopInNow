@@ -7,8 +7,10 @@ public class Driver extends User {
     private Car car;
     private ArrayList<Request> availableRequests;
     private ArrayList<Trip> driverTripList;
+    private int rating;
 
     //constructor
+    public Driver() {}
     public Driver(String email, String password, String name, String phoneNumber, Request curRequest,
                   Car car, ArrayList<Request> availableRequest, ArrayList<Trip> driverTripList) {
         super(email, password, name, phoneNumber);
@@ -18,39 +20,44 @@ public class Driver extends User {
         this.driverTripList = driverTripList;
     }
 
-    //getter
+    // setters and getters
     public Request getCurRequest() {
         return curRequest;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public ArrayList<Request> getAvailableRequest() {
-        return availableRequests;
-    }
-
-    public ArrayList<Trip> getDriverTripList() {
-        return driverTripList;
-    }
-
-    //setter
-    public void setDriverTripList(ArrayList<Trip> driverTripList) {
-        this.driverTripList = driverTripList;
-    }
-
-    public void setAvailableRequest(ArrayList<Request> availableRequest) {
-        this.availableRequests = availableRequest;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
     }
 
     public void setCurRequest(Request curRequest) {
         this.curRequest = curRequest;
     }
 
+    public Car getCar() {
+        return car;
+    }
 
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public ArrayList<Request> getAvailableRequests() {
+        return availableRequests;
+    }
+
+    public void setAvailableRequests(ArrayList<Request> availableRequests) {
+        this.availableRequests = availableRequests;
+    }
+
+    public ArrayList<Trip> getDriverTripList() {
+        return driverTripList;
+    }
+
+    public void setDriverTripList(ArrayList<Trip> driverTripList) {
+        this.driverTripList = driverTripList;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 }
