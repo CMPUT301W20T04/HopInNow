@@ -3,44 +3,54 @@ package com.example.hopinnow;
 import java.util.ArrayList;
 
 public class Driver extends User {
-    private Request curRide;
+    private Request curRequest;
     private Car car;
-    private int rating;
     private ArrayList<Request> availableRequests;
-    Driver() {}
-    public Driver(String name, String password, String phoneNumber, String email) {
-        super(name, password, phoneNumber, email);
+    private ArrayList<Trip> driverTripList;
+
+    //constructor
+    public Driver(String email, String password, String name, String phoneNumber, Request curRequest,
+                  Car car, ArrayList<Request> availableRequest, ArrayList<Trip> driverTripList) {
+        super(email, password, name, phoneNumber);
+        this.curRequest = curRequest;
+        this.car = car;
+        this.availableRequests = availableRequest;
+        this.driverTripList = driverTripList;
     }
 
-    public Request getCurRide() {
-        return curRide;
-    }
-
-    public void setCurRide(Request curRide) {
-        this.curRide = curRide;
+    //getter
+    public Request getCurRequest() {
+        return curRequest;
     }
 
     public Car getCar() {
         return car;
     }
 
+    public ArrayList<Request> getAvailableRequest() {
+        return availableRequests;
+    }
+
+    public ArrayList<Trip> getDriverTripList() {
+        return driverTripList;
+    }
+
+    //setter
+    public void setDriverTripList(ArrayList<Trip> driverTripList) {
+        this.driverTripList = driverTripList;
+    }
+
+    public void setAvailableRequest(ArrayList<Request> availableRequest) {
+        this.availableRequests = availableRequest;
+    }
+
     public void setCar(Car car) {
         this.car = car;
     }
 
-    public int getRating() {
-        return rating;
+    public void setCurRequest(Request curRequest) {
+        this.curRequest = curRequest;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
 
-    public ArrayList<Request> getAvailableRequests() {
-        return availableRequests;
-    }
-
-    public void setAvailableRequests(ArrayList<Request> availableRequests) {
-        this.availableRequests = availableRequests;
-    }
 }

@@ -1,69 +1,49 @@
 package com.example.hopinnow;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class User {
-    private double userDeposit;
-    private String name;
-    private String password;
-    private String phoneNumber;
     private String email;
-    private ArrayList<Trip> tripList;
+    private String password;
+    private String name;
+    private String phoneNumber;
+    private int rating;
+    /**??? map is not entity specific but a view/controller
+     * place it under a fragment class instead
+     * https://github.com/CMPUT301F19T02/Vybe/blob/master/app/src/main/java/com/example/vybe/MapFragment.java*/
+    //private GoogleMap myMap;
 
-    User() {}
+    public User(){}
 
-    User(String name, String password, String phoneNumber, String email) {
-        this.name = name;
+    public User(String email, String password, String name, String phoneNumber){
+        this.email = email; //unique
         this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
-
-    public double getUserDeposit() {
-        return userDeposit;
-    }
-
-    public void setUserDeposit(double userDeposit) {
-        this.userDeposit = userDeposit;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
+        this.phoneNumber = phoneNumber; //unique?
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    //setters for email, password, name, phoneNumber, trip data
+    public void setEmail(String email){ this.email = email;}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public void setPassword(String password){ this.password = password;}
 
-    public String getEmail() {
-        return email;
-    }
+    public void setName(String name){ this.name = name;}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setPhoneNumber(String phoneNumber){ this.phoneNumber = phoneNumber;}
 
-    public ArrayList<Trip> getTripList() {
-        return tripList;
-    }
+    public void setRating(int rating) { this.rating = rating; }
 
-    public void setTripList(ArrayList<Trip> tripList) {
-        this.tripList = tripList;
-    }
+    //getters for email, password, name, phoneNumber, trip data
+    public String getEmail(){ return this.email;}
+
+    public String getPassword(){ return this.password;}
+
+    public String getName(){ return this.name;}
+
+    public String getPhoneNumber(){ return this.phoneNumber;}
+
+    public int getRating() { return rating; }
+
+
 }
