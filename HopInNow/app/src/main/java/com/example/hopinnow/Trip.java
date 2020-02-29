@@ -1,13 +1,55 @@
 package com.example.hopinnow;
 
-class Trip extends Ride {
-    private int rating;
+import android.location.Location;
 
-    public int getRating() {
+import java.util.Date;
+
+public class Trip extends Ride {
+    private Double cost;
+    private Double rating;
+    private Date dropOffDateTime;
+    private int duration;
+
+    public Trip(){}
+
+    public Trip(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date pickUpDateTime,
+                Date dropOffTime, int duration, Car car, Double cost, Double rating) {
+        super(driver, rider, pickUpLoc, dropOffLoc, pickUpDateTime, car);
+        this.cost = cost;
+        this.rating = rating;
+        this.dropOffDateTime = dropOffTime;
+        this.duration = duration;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
+
+    public void setDropOffTime(Date dropOffTime) {
+        this.dropOffDateTime = dropOffTime;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public Date getDropOffTime() {
+        return dropOffDateTime;
+    }
+
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 }

@@ -1,70 +1,77 @@
 package com.example.hopinnow;
 
-import java.sql.Time;
+import android.location.Location;
 
-class Ride {
+import java.sql.Time;
+import java.util.Date;
+
+public abstract class Ride {
     private Driver driver;
     private Rider rider;
-    private Location pickupLoc;
-    private Location dropoffLoc;
-    private Time pickupTime;
+    private Location pickUpLoc;
+    private Location dropOffLoc;
+    private Date pickUpDateTime;
 
-    public Driver getDriver() {
-        return driver;
+    private Car car;
+
+    public Ride(){}
+
+    public Ride (Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date pickUpDateTime, Car car){
+        this.driver = driver;
+        this.rider = rider;
+        this.pickUpLoc = pickUpLoc;
+        this.dropOffLoc = dropOffLoc;
+        this.pickUpDateTime = pickUpDateTime;
+        this.car = car;
     }
 
-    public void setDriver(Driver driver) {
+    //setters for all attributes
+    public void setDriver(Driver driver){
         this.driver = driver;
+    }
+
+    public void setRider(Rider rider){
+        this.rider = rider;
+    }
+
+    public void setPickUpLoc(Location pickUpLoc){
+        this.pickUpLoc = pickUpLoc;
+    }
+
+    public void setDropOffLoc(Location dropOffLoc){
+        this.dropOffLoc = dropOffLoc;
+    }
+
+    public void setPickUpDateTime(Date dateTime) {
+        this.pickUpDateTime = dateTime;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    //getters
+    public Car getCar() {
+        return car;
+    }
+
+    public Date getPickUpDateTime() {
+        return pickUpDateTime;
+    }
+
+    public Location getDropOffLoc() {
+        return dropOffLoc;
+    }
+
+    public Location getPickUpLoc() {
+        return pickUpLoc;
     }
 
     public Rider getRider() {
         return rider;
     }
 
-    public void setRider(Rider rider) {
-        this.rider = rider;
+    public Driver getDriver() {
+        return driver;
     }
-
-    public Location getPickupLoc() {
-        return pickupLoc;
-    }
-
-    public void setPickupLoc(Location pickupLoc) {
-        this.pickupLoc = pickupLoc;
-    }
-
-    public Location getDropoffLoc() {
-        return dropoffLoc;
-    }
-
-    public void setDropoffLoc(Location dropoffLoc) {
-        this.dropoffLoc = dropoffLoc;
-    }
-
-    public Time getPickupTime() {
-        return pickupTime;
-    }
-
-    public void setPickupTime(Time pickupTime) {
-        this.pickupTime = pickupTime;
-    }
-
-    public Time getDropoffTime() {
-        return dropoffTime;
-    }
-
-    public void setDropoffTime(Time dropoffTime) {
-        this.dropoffTime = dropoffTime;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    private Time dropoffTime;
-    private double price;
 }

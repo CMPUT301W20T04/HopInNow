@@ -36,7 +36,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         String phoneNumber = phoneNumberEditText.getText().toString();
         String email = emailEditText.getText().toString();
 
-        Rider rider = new Rider(name, password, phoneNumber, email);
+        Rider rider = new Rider(name, password, phoneNumber, email,null,null);
         databaseAccessor.signupRider(rider);
     }
 }
