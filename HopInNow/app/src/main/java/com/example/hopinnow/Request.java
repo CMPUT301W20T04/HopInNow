@@ -10,7 +10,7 @@ import java.util.Date;
 public class Request extends Ride {
     private Double estimatedFare;
 
-    public Request(){}
+    public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date dateTime, Car car, Double estimatedFare){}
 
     // constructor
     public Request (Driver driver, Rider rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName, String dropOffLocName,  Date pickUpDateTime,
