@@ -6,6 +6,7 @@ public class Driver extends User {
     private Request curRide;
     private Car car;
     private ArrayList<Request> availableRequests;
+    //
 
     public void acceptRequest (){
 
