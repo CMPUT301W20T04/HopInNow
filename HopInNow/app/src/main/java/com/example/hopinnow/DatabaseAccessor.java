@@ -112,7 +112,7 @@ class DatabaseAccessor {
             Toast.makeText(finalContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
         }
     }
-    public FirebaseUser getUserProfile(Context context) {
+    public FirebaseUser getUserProfile() {
         return firebaseAuth.getCurrentUser();
     }
 }
