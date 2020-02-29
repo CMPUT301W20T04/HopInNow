@@ -65,6 +65,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**change to current location later on pickUpLoc*/
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private Button addRequest;
+    private Button riderMenuBtn;
 
     private LatLng pickUpLoc,dropOffLoc;
     private String pickUpLocName, dropOffLocName;
@@ -82,6 +83,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             Places.initialize(getApplicationContext(), "Your api key");
         }
         setupAutoCompleteFragment();
+
+
+
+        riderMenuBtn = (Button) findViewById(R.id.riderMenuBtn);
+        riderMenuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(getApplicationContext(), MenuActivity.class);
+                //startIntent.putExtra()
+
+                startActivity(startIntent);
+            }
+        });
 
 
         addRequest = findViewById(R.id.add_request_button);
