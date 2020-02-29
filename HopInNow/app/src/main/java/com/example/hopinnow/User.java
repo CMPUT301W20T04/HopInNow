@@ -35,13 +35,13 @@ public abstract class User {
     public void setRating(int rating) { this.rating = rating; }
 
     //getters for email, password, name, phoneNumber, trip data
-    public String getEmail(String email){ return this.email;}
+    public String getEmail(){ return this.email;}
 
-    public String getPassword(String password){ return this.password;}
+    public String getPassword(){ return this.password;}
 
-    public String getName(String name){ return this.name;}
+    public String getName(){ return this.name;}
 
-    public String getPhoneNumber(String phoneNumber){ return this.phoneNumber;}
+    public String getPhoneNumber(){ return this.phoneNumber;}
 
     public int getRating() { return rating; }
 
