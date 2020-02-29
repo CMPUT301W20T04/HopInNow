@@ -2,6 +2,8 @@ package com.example.hopinnow;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +17,7 @@ public class EstimateFare {
     //      + (cost per mile x ride distance) x surge boost multiplier)
     //      + booking fee = Passengers Ride Fare.
     /**give attributes locations or google map object?*/
-    public Double estimateFare(Location pickUpLoc, Location dropOffLoc, Date pickUpDateTime){
+    public Double estimateFare(LatLng pickUpLoc, LatLng dropOffLoc, Date pickUpDateTime){
         Double price;
         Double baseFare = 1.5;
         Double costPerMinute = 0.16;
@@ -27,8 +29,8 @@ public class EstimateFare {
          * */
 
         //temporary, to be replaced by above
-        Location pickUp = pickUpLoc;
-        Location dropOff = dropOffLoc;
+        LatLng pickUp = pickUpLoc;
+        LatLng dropOff = dropOffLoc;
         Date dateTime = pickUpDateTime;
         Double distance = 1.0;
         Double time = 1.0; //= pickUpDateTime;
