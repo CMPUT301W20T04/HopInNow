@@ -18,12 +18,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-        <activity android:name=".SignupActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-=======
 
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
@@ -32,10 +26,10 @@
             android:value="@string/map_key" />
 
 
-        <activity android:name=".LoginSignupActivity">
+        <activity android:name=".SignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
->>>>>>> c230afd6434ffadfa47e5551aab25c5082701725
+		<action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

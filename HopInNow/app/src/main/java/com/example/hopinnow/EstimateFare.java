@@ -1,11 +1,7 @@
 package com.example.hopinnow;
 
-import android.location.Location;
-
 import com.google.android.gms.maps.model.LatLng;
 
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class EstimateFare {
