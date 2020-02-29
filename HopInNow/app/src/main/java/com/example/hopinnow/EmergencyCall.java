@@ -1,17 +1,26 @@
 package com.example.hopinnow;
 
-public class EmergencyAlert {
+public class EmergencyCall {
     private String dialogNumber;
 
-    public void call () {
 
+    //Constructor
+    public EmergencyCall() {
+        this.dialogNumber = "911";
     }
 
+    public EmergencyCall(String dialogNumber) {
+        this.dialogNumber = dialogNumber;
+    }
+
+    //getter
     public String getDialogNumber() {
         return dialogNumber;
     }
 
+    //setter
     public void setDialogNumber(String dialogNumber) {
         this.dialogNumber = dialogNumber;
     }
 }
+
