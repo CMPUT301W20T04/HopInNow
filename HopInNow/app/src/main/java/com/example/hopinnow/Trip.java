@@ -2,6 +2,8 @@ package com.example.hopinnow;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
 
 public class Trip extends Ride {
@@ -12,7 +14,7 @@ public class Trip extends Ride {
 
     public Trip(){}
 
-    public Trip(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date pickUpDateTime,
+    public Trip(Driver driver, Rider rider, LatLng pickUpLoc, LatLng dropOffLoc, Date pickUpDateTime,
                 Date dropOffTime, int duration, Car car, Double cost, Double rating) {
         super(driver, rider, pickUpLoc, dropOffLoc, pickUpDateTime, car);
         this.cost = cost;
