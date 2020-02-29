@@ -118,5 +118,8 @@ class DatabaseAccessor {
             Toast.makeText(finalContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
         }
     }
-    
+    public Rider viewRiderProfile(Context context, Rider rider) {
+
+        return rider;
+    }
 }
