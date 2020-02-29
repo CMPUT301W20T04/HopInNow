@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.Entities.Request;
 import com.google.android.gms.common.api.Status;
 
 

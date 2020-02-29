@@ -1,4 +1,4 @@
-package com.example.hopinnow.entities;
+package com.example.hopinnow.Entities;
 
 public class Car {
     private String make;

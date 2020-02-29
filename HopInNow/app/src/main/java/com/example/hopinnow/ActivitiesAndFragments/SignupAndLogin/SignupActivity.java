@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.example.hopinnow.Database.DatabaseAccessor;
 import com.example.hopinnow.R;
-import com.example.hopinnow.entities.Rider;
+import com.example.hopinnow.Entities.Rider;
 
 public class SignupActivity extends AppCompatActivity {
     public static final String TAG = "SignupActivity";
@@ -37,6 +37,7 @@ public class SignupActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
 
         Rider rider = new Rider(name, password, phoneNumber, email,null,null);
+
         databaseAccessor.registerRider(getApplicationContext(), RiderProfileActivity.class, rider);
     }
 }

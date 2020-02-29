@@ -1,7 +1,4 @@
-package com.example.hopinnow.entities;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+package com.example.hopinnow.Entities;
 
 public abstract class User {
     private String email;
@@ -10,6 +7,7 @@ public abstract class User {
     private String phoneNumber;
     private double deposit;
 
+    // constructors
     public User(){}
 
     public User(String email, String password, String name, String phoneNumber){
@@ -19,6 +17,7 @@ public abstract class User {
         this.phoneNumber = phoneNumber;
     }
 
+    // getters and setters
     public String getEmail() {
         return email;
     }
