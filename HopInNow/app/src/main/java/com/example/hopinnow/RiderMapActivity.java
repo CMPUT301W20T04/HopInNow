@@ -128,10 +128,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             @Override
             public void onPlaceSelected(Place place) {
                 if (place!=null){
-                    pickUpLocName = place.getName();
+                    pickUpLocName = place.getAddress();
                     pickUpLoc = place.getLatLng();
-                    pickUpMarker.setPosition(pickUpLoc);
-                    pickUpMarker.setTitle("Pick Up Location");
+                    //pickUpMarker.setPosition(pickUpLoc);
+                    //pickUpMarker.setTitle("Pick Up Location");
                     //unsure if this is needed for update
                     //mapFragment.getMapAsync(RiderMapActivity.this);
                 }
@@ -153,10 +153,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             @Override
             public void onPlaceSelected(Place place) {
                 if (place!=null){
-                    dropOffLocName = place.getName();
+                    dropOffLocName = place.getAddress();
                     dropOffLoc = place.getLatLng();
-                    dropOffMarker.setPosition(dropOffLoc);
-                    dropOffMarker.setTitle("Drop Off Location");
+                    //dropOffMarker.setPosition(dropOffLoc);
+                    //dropOffMarker.setTitle("Drop Off Location");
                     //unsure if this is needed for update
                     //mapFragment.getMapAsync(RiderMapActivity.this);
                 }
