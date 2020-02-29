@@ -51,7 +51,21 @@ class DatabaseAccessor {
                     }
                 });
     }
-
+    void loginDriver(Context context, Driver driver) {
+        final Context finalContext = context;
+        // login the rider:
+        this.firebaseAuth.signInWithEmailAndPassword(driver.getEmail(), driver.getPassword())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(finalContext, "Login successfully!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(finalContext, "Login failed!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
     void logoutUser(Context context) {
         this.firebaseAuth.signOut();
     }
@@ -59,7 +73,7 @@ class DatabaseAccessor {
     void registerRider(Context context, Rider rider) {
         // get a top-level reference to the collection
         final Context finalContext = context;
-        // create a user first
+        // create a rider first
         this.firebaseAuth.createUserWithEmailAndPassword(rider.getEmail(), rider.getPassword())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -75,6 +89,30 @@ class DatabaseAccessor {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             this.database.getReference().child(user.getUid()).setValue(rider);
+            Toast.makeText(finalContext, "User info saved!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(finalContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    void registerDriver(Context context, Driver driver) {
+        // get a top-level reference to the collection
+        final Context finalContext = context;
+        // create a driver first
+        this.firebaseAuth.createUserWithEmailAndPassword(driver.getEmail(), driver.getPassword())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(finalContext, "registered successfully!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(finalContext, "register failed!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        this.loginDriver(finalContext, driver);
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            this.database.getReference().child(user.getUid()).setValue(driver);
             Toast.makeText(finalContext, "User info saved!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(finalContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
