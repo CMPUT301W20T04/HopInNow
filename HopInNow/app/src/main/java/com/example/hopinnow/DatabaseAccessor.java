@@ -20,8 +20,7 @@ class DatabaseAccessor {
         this.database = FirebaseFirestore.getInstance();
     }
 
-    boolean signupRider(Rider rider) {
-        boolean flag = false;
+    void signupRider(Rider rider) {
         // get a top-level reference to the collection
         this.database
                 .collection("Riders")
@@ -40,7 +39,6 @@ class DatabaseAccessor {
                         // happens when data added failed
                         Log.d(TAG, "Data addition failed" + e.toString());
                     }
-                });
-        return flag;
+                }).isSuccessful();
     }
 }

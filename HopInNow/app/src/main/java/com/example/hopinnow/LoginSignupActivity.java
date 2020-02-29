@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -36,7 +37,6 @@ public class LoginSignupActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
 
         Rider rider = new Rider(name, password, phoneNumber, email);
-        rider.setUserDeposit(100);
         databaseAccessor.signupRider(rider);
     }
 }
