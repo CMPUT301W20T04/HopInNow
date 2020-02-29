@@ -1,5 +1,6 @@
 package com.example.hopinnow;
-
+//car
+//char
 class Car {
     private String make;
     private String model;
