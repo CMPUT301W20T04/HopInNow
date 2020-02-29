@@ -1,8 +1,10 @@
-package com.example.hopinnow;
+package com.example.hopinnow.ActivitiesAndFragments.SignupAndLogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.hopinnow.R;
 
 public class DriverProfileActivity extends AppCompatActivity {
 
