@@ -15,6 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DatabaseAccessor {
@@ -128,4 +129,6 @@ public class DatabaseAccessor {
     public FirebaseUser getUserProfile() {
         return firebaseAuth.getCurrentUser();
     }
+
+
 }
