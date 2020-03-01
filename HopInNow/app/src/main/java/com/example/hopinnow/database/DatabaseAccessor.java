@@ -1,4 +1,4 @@
-package com.example.hopinnow.Database;
+package com.example.hopinnow.database;
 
 import android.content.Context;
 import android.content.Intent;

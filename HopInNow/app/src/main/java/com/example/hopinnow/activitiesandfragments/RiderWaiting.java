@@ -1,4 +1,4 @@
-package com.example.hopinnow.ActivitiesAndFragments;
+package com.example.hopinnow.activitiesandfragments;
 
 import android.os.Bundle;
 import android.view.View;
