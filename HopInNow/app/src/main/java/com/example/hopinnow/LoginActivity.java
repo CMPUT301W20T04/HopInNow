@@ -39,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Initialize Firebase Auth
         this.firebaseAuth = FirebaseAuth.getInstance();
-        this.email = findViewById(R.id.regEmailEditText);
-        this.password = findViewById(R.id.regPassword);
+        this.email = findViewById(R.id.loginEmailEditText);
+        this.password = findViewById(R.id.loginPassword);
         this.loginWarn = findViewById(R.id.loginWarning);
         // set the warning as invisible
         this.loginWarn.setVisibility(View.INVISIBLE);
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                             updateUI(null);
                         }
                     }
@@ -89,8 +89,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            Toast.makeText(getApplicationContext(), "Username or Password not found...",
-                    Toast.LENGTH_LONG).show();
             this.email.setText("");
             this.password.setText("");
         }
