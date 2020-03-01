@@ -42,35 +42,6 @@
           ]
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:360808243211:android:cd77895ed9739c9f1e270e",
-        "android_client_info": {
-          "package_name": "com.example.simpleparadox.listycity"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "360808243211-sa3vq5v8r35kpg9rnc1rtecct8835oqm.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBJFykWG_q5IhBImzuubLcO9w9yYyqaCoQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "360808243211-sa3vq5v8r35kpg9rnc1rtecct8835oqm.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
     }
   ],
   "configuration_version": "1"

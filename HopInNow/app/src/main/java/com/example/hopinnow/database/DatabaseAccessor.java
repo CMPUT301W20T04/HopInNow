@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,7 +13,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DatabaseAccessor {
@@ -99,30 +96,6 @@ public class DatabaseAccessor {
             finalCurrentContext.startActivity(tempIntent);
         } else {
             Toast.makeText(finalCurrentContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
-        }
-    }
-    public void registerDriver(Context context, Driver driver) {
-        // get a top-level reference to the collection
-        final Context finalContext = context;
-        // create a driver first
-        this.firebaseAuth.createUserWithEmailAndPassword(driver.getEmail(), driver.getPassword())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(finalContext, "registered successfully!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(finalContext, "register failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-        this.loginDriver(finalContext, driver);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            this.database.getReference().child(user.getUid()).setValue(driver);
-            Toast.makeText(finalContext, "User info saved!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(finalContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
         }
     }
 

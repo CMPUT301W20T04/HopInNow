@@ -6,15 +6,15 @@ public abstract class User {
     private String name;
     private String phoneNumber;
     private double deposit;
-
+    private boolean userType;
     // constructors
     public User(){}
-
-    public User(String email, String password, String name, String phoneNumber){
+    public User(String email, String password, String name, String phoneNumber, boolean userType){
         this.email = email; //unique
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.userType = userType;
     }
 
     // getters and setters
@@ -56,5 +56,13 @@ public abstract class User {
 
     public void setDeposit(double deposit) {
         this.deposit = deposit;
+    }
+
+    public boolean isUserType() {
+        return userType;
+    }
+
+    public void setUserType(boolean userType) {
+        this.userType = userType;
     }
 }
