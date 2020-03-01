@@ -27,7 +27,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name=".ActivitiesAndFragments.ProfileFragment">
+        <activity android:name=".activitiesandfragments.ProfileFragment">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -35,7 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RiderMapActivity" />
+        <activity android:name=".activitiesandfragments.map.RiderMapActivity" />
     </application>
 
 </manifest>

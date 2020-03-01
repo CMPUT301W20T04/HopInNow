@@ -1,4 +1,4 @@
-package com.example.hopinnow.ActivitiesAndFragments.Map;
+package com.example.hopinnow.activitiesandfragments.map;
 
 import android.os.Bundle;
 import android.util.Log;

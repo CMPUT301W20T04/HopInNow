@@ -1,7 +1,8 @@
-package com.example.hopinnow.Database;
+package com.example.hopinnow.database;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,7 @@ public class DatabaseAccessor {
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public boolean isLoggedin(Context context) {
+    public boolean isLoggedin() {
         return (firebaseAuth.getCurrentUser() != null);
     }
 
@@ -83,6 +84,7 @@ public class DatabaseAccessor {
                     Toast.makeText(finalCurrentContext, "registered successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(finalCurrentContext, "register failed!", Toast.LENGTH_SHORT).show();
+                    Log.v(TAG, "register failed!");
                 }
             }
         });
