@@ -1,4 +1,4 @@
-package com.example.hopinnow.ActivitiesAndFragments.Map;
+package com.example.hopinnow.activitiesandfragments.map;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.Entities.Request;
+import com.example.hopinnow.entities.Request;
 import com.google.android.gms.common.api.Status;
 
 

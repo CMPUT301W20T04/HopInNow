@@ -1,4 +1,4 @@
-package com.example.hopinnow.ActivitiesAndFragments;
+package com.example.hopinnow.activitiesandfragments;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hopinnow.Database.DatabaseAccessor;
+import com.example.hopinnow.database.DatabaseAccessor;
 import com.example.hopinnow.R;
 
 public class ProfileFragment extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.example.hopinnow.Entities;
+package com.example.hopinnow.entities;
 
 import com.google.android.gms.maps.model.LatLng;
 

@@ -1,4 +1,4 @@
-package com.example.hopinnow.Database;
+package com.example.hopinnow.database;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +7,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.hopinnow.Entities.Driver;
-import com.example.hopinnow.Entities.Rider;
+import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.Rider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

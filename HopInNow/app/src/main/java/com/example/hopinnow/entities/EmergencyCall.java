@@ -1,4 +1,4 @@
-package com.example.hopinnow.Entities;
+package com.example.hopinnow.entities;
 
 public class EmergencyCall {
     private String dialogNumber;

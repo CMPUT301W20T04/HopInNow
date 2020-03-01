@@ -1,4 +1,4 @@
-package com.example.hopinnow.ActivitiesAndFragments.SignupAndLogin;
+package com.example.hopinnow.activitiesandfragments.signupandlogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.hopinnow.Database.DatabaseAccessor;
+import com.example.hopinnow.database.DatabaseAccessor;
 import com.example.hopinnow.R;
-import com.example.hopinnow.Entities.Rider;
+import com.example.hopinnow.entities.Rider;
 
 public class SignupActivity extends AppCompatActivity {
     public static final String TAG = "SignupActivity";
