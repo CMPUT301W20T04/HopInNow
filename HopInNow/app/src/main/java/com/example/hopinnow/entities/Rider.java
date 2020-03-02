@@ -14,6 +14,11 @@ public class Rider extends User {
         this.curRequest = curRequest;
         this.riderTripList = riderTripList;
     }
+    public void setSelf(Rider rider) {
+        super.setSelf(rider);
+        this.curRequest = rider.getCurRequest();
+        this.riderTripList = rider.getRiderTripList();
+    }
 
     // setters and getters
     public Request getCurRequest() {

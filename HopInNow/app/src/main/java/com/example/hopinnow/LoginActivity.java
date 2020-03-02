@@ -30,28 +30,30 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private TextView loginWarn;
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        this.databaseAccessor = new DatabaseAccessor();
-        // if user already logged in, go to the profile activity
-        if (this.databaseAccessor.isLoggedin()) {
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Check if user is signed in (non-null) and update UI accordingly.
+        this.databaseAccessor = new DatabaseAccessor();
         // here, the database accessor is already initialized
         this.email = findViewById(R.id.loginEmailEditText);
         this.password = findViewById(R.id.loginPassword);
         this.loginWarn = findViewById(R.id.loginWarning);
         // set the warning as invisible
         this.loginWarn.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // if user already logged in, go to the profile activity
+        if (this.databaseAccessor.isLoggedin()) {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void login(View v) {

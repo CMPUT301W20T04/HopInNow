@@ -20,7 +20,13 @@ public class Driver extends User {
         this.availableRequests = availableRequest;
         this.driverTripList = driverTripList;
     }
-
+    public void setSelf(Driver driver) {
+        super.setSelf(driver);
+        this.curRequest = driver.getCurRequest();
+        this.car = driver.getCar();
+        this.availableRequests = driver.getAvailableRequests();
+        this.driverTripList = driver.getDriverTripList();
+    }
     // setters and getters
     public Request getCurRequest() {
         return curRequest;

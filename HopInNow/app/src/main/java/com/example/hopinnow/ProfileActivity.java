@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.hopinnow.database.DatabaseAccessor;
 import com.example.hopinnow.entities.User;
@@ -18,8 +17,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -28,10 +25,7 @@ import java.util.Objects;
 public class ProfileActivity extends AppCompatActivity {
     // establish the TAG of this activity:
     public static final String TAG = "ProfileActivity";
-    /*// initialize FirebaseAuth:
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser currentUser;
-    private FirebaseFirestore firestore;*/
+   // declare database accessor:
     DatabaseAccessor databaseAccessor;
     // UI Components:
     private EditText name;
@@ -40,44 +34,81 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView userType;
     private Button editBtn;
     private Button updateBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+        // init the databaseAccessor:
+        this.databaseAccessor = new DatabaseAccessor();
+        // retrieve the current user information
+        //User user = this.databaseAccessor.getUserProfile(TAG);
+
+        // UI init:
+        this.name = findViewById(R.id.proNameET);
+        //this.name.setText(Objects.requireNonNull(user).getName());
+        this.name.setEnabled(false);
+        this.email = findViewById(R.id.proEmailET);
+        //this.email.setText(user.getEmail());
+        this.email.setEnabled(false);
+        this.phoneNumber = findViewById(R.id.proPhoneET);
+        //this.phoneNumber.setText(user.getPhoneNumber());
+        this.phoneNumber.setEnabled(false);
+        this.userType = findViewById(R.id.proUserType);
+        /*if (user.isUserType()) {    // if true, then the user is driver
+            this.userType.setText(R.string.usertype_driver);
+        } else {    // or else, the user is a rider
+            this.userType.setText(R.string.usertype_rider);
+        }*/
+        this.editBtn = findViewById(R.id.editProfileBtn);
+        this.updateBtn = findViewById(R.id.proUpdateBtn);
+        this.updateBtn.setVisibility(View.INVISIBLE);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        this.databaseAccessor = new DatabaseAccessor();
         if (!this.databaseAccessor.isLoggedin()) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
         }
-    }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rider_profile);
-        /*// firebase init:
-        this.firebaseAuth = FirebaseAuth.getInstance();
-        this.firestore = FirebaseFirestore.getInstance();*/
-        // retrieve the current user information
-        User user = this.databaseAccessor.getUserProfile(TAG);
-        // UI init:
-        this.name = findViewById(R.id.proNameET);
-        this.name.setText(Objects.requireNonNull(user).getName());
-        this.name.setEnabled(false);
-        this.email = findViewById(R.id.proEmailET);
-        this.email.setText(user.getEmail());
-        this.email.setEnabled(false);
-        this.phoneNumber = findViewById(R.id.proPhoneET);
-        this.phoneNumber.setText(user.getPhoneNumber());
-        this.phoneNumber.setEnabled(false);
-        this.userType = findViewById(R.id.proUserType);
-        if (user.isUserType()) {    // if true, then the user is driver
-            this.userType.setText(R.string.usertype_driver);
-        } else {    // or else, the user is a rider
-            this.userType.setText(R.string.usertype_rider);
+        // FIXME
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        // sheck if logged in:
+        if (currentUser != null) {
+            Objects.requireNonNull(firestore
+                    .collection("Users")
+                    .document(currentUser.getUid())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Log.v(TAG, "Get User Successfully!");
+                            if (documentSnapshot.exists()) {
+                                User user = documentSnapshot.toObject(User.class);
+                                name.setText(Objects.requireNonNull(user).getName());
+                                email.setText(user.getEmail());
+                                phoneNumber.setText(user.getPhoneNumber());
+                                if (user.isUserType()) {    // if true, then the user is driver
+                                    userType.setText(R.string.usertype_driver);
+                                } else {    // or else, the user is a rider
+                                    userType.setText(R.string.usertype_rider);
+                                }
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.v(TAG, "Get User Failed!");
+                        }
+                    }));
+
+        } else {    // the user is not logged in
+            Log.v(TAG, "User is not logged in!");
         }
-        this.editBtn = findViewById(R.id.editProfileBtn);
-        this.updateBtn = findViewById(R.id.proUpdateBtn);
-        this.updateBtn.setVisibility(View.INVISIBLE);
     }
 
     public void editProfile(View v) {
