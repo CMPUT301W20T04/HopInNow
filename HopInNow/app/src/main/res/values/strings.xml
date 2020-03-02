@@ -23,4 +23,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_warning">Please fill in both text fields</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="usertype_driver">Driver</string>
+    <string name="usertype_rider">Rider</string>
 </resources>

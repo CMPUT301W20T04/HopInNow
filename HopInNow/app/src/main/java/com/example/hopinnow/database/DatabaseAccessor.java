@@ -7,24 +7,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
+import com.example.hopinnow.entities.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class DatabaseAccessor {
     public static final String TAG = "DatabaseAccessor";
     // Access a Cloud Firestore instance from your Activity
     private FirebaseFirestore firestore;
-    private FirebaseDatabase database;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
 
     public DatabaseAccessor() {
         this.firestore = FirebaseFirestore.getInstance();
-        this.database = FirebaseDatabase.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -32,75 +37,87 @@ public class DatabaseAccessor {
         return (firebaseAuth.getCurrentUser() != null);
     }
 
-    public void loginRider(Context context, Rider rider) {
-        final Context finalContext = context;
-        // login the rider:
-        this.firebaseAuth.signInWithEmailAndPassword(rider.getEmail(), rider.getPassword())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(finalContext, "Login successfully!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(finalContext, "Login failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-    public void loginDriver(Context context, Driver driver) {
-        final Context finalContext = context;
-        // login the rider:
-        this.firebaseAuth.signInWithEmailAndPassword(driver.getEmail(), driver.getPassword())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(finalContext, "Login successfully!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(finalContext, "Login failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-    public void logoutUser(Context context, Class nextClass) {
+    public void logoutUser() {
         this.firebaseAuth.signOut();
-        Intent tempIntent = new Intent(context, nextClass)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(tempIntent);
     }
 
-    public void registerRider(Context currentContext, Class nextClass, Rider rider) {
-        // get a top-level reference to the collection
-        final Context finalCurrentContext = currentContext;
+    public void registerUser(String TAGstr, User user) {
+        final String tag = TAGstr;
         // create a rider first
-        this.firebaseAuth.createUserWithEmailAndPassword(rider.getEmail(), rider.getPassword())
+        this.firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(finalCurrentContext, "registered successfully!", Toast.LENGTH_SHORT).show();
+                    Log.v(tag, "registered successfully!");
                 } else {
-                    Toast.makeText(finalCurrentContext, "register failed!", Toast.LENGTH_SHORT).show();
-                    Log.v(TAG, "register failed!");
+                    Log.v(tag, "register failed!");
                 }
             }
         });
-        this.loginRider(finalCurrentContext, rider);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
+    }
+
+    public void loginUser(String TAGstr, User user) {
+        final String tag = TAGstr;
+        // login the rider:
+        this.firebaseAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.v(tag, "Login successfully!");
+                        } else {
+                            Log.v(tag, "Login failed!");
+                        }
+                    }
+                });
+    }
+
+    public void createUserProfile(String TAGstr, User user) {
+        final String tag = TAGstr;
+        this.currentUser = firebaseAuth.getCurrentUser();
+        if (this.currentUser != null) {
             // the user is logged in successfully
-            this.database.getReference().child(user.getUid()).setValue(rider);
-            Toast.makeText(finalCurrentContext, "User info saved!", Toast.LENGTH_SHORT).show();
-            Intent tempIntent = new Intent(finalCurrentContext, nextClass)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            finalCurrentContext.startActivity(tempIntent);
-        } else {
-            Toast.makeText(finalCurrentContext, "Login failed, check internet and re-login!", Toast.LENGTH_SHORT).show();
+            this.firestore
+                    .collection("Users")
+                    .document(this.currentUser.getUid())
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.v(tag, "User info saved!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.v(tag, "User info did not save successfully!");
+                        }
+                    });
         }
     }
 
-    public FirebaseUser getUserProfile() {
-        return firebaseAuth.getCurrentUser();
+    public User getUserProfile(String TAGstr) {
+        final String tag = TAGstr;
+        this.currentUser = firebaseAuth.getCurrentUser();
+        return Objects.requireNonNull(this.firestore
+                .collection("Users")
+                .document(this.currentUser.getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Log.v(tag, "Got user profile successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v(tag, "Failed to get user profile!");
+                    }
+                })
+                .getResult())
+                .toObject(User.class);
     }
 
 

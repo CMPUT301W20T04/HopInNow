@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hopinnow.database.DatabaseAccessor;
+import com.example.hopinnow.entities.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,8 +22,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
     // establish the TAG of this activity:
     public static final String TAG = "LoginActivity";
-    // initialize FirebaseAuth:
-    private FirebaseAuth firebaseAuth;
+    /*// initialize FirebaseAuth:
+    private FirebaseAuth firebaseAuth;*/
+    // initialize Database helper:
+    DatabaseAccessor databaseAccessor;
     // UI components:
     private EditText email;
     private EditText password;
@@ -30,15 +34,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        this.updateUI(currentUser);
+        this.databaseAccessor = new DatabaseAccessor();
+        // if user already logged in, go to the profile activity
+        if (this.databaseAccessor.isLoggedin()) {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Initialize Firebase Auth
-        this.firebaseAuth = FirebaseAuth.getInstance();
+        // here, the database accessor is already initialized
         this.email = findViewById(R.id.loginEmailEditText);
         this.password = findViewById(R.id.loginPassword);
         this.loginWarn = findViewById(R.id.loginWarning);
@@ -56,41 +64,22 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             this.loginWarn.setVisibility(View.INVISIBLE);
         }
-        // verify the user
-        firebaseAuth.signInWithEmailAndPassword(emailData, passwordData)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_LONG).show();
-                            updateUI(null);
-                        }
-                    }
-                });
+        User user = new User();
+        user.setEmail(emailData);
+        user.setPassword(passwordData);
+        // log in the user
+        this.databaseAccessor.loginUser(TAG, user);
+        // check if logged in, go to user profile activity:
+        if (this.databaseAccessor.isLoggedin()) {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void toRegister(View v) {
         Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private void updateUI(FirebaseUser currentUser) {
-        if (currentUser != null) {
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            this.email.setText("");
-            this.password.setText("");
-        }
     }
 }
