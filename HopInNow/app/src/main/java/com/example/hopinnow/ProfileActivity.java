@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.hopinnow.database.DatabaseAccessor;
+import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
     // establish the TAG of this activity:
     public static final String TAG = "ProfileActivity";
    // declare database accessor:
-    DatabaseAccessor databaseAccessor;
+    UserDatabaseAccessor userDatabaseAccessor;
     // UI Components:
     private EditText name;
     private EditText email;
@@ -39,10 +40,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        // init the databaseAccessor:
-        this.databaseAccessor = new DatabaseAccessor();
+        // init the userDatabaseAccessor:
+        this.userDatabaseAccessor = new UserDatabaseAccessor();
         // retrieve the current user information
-        //User user = this.databaseAccessor.getUserProfile(TAG);
+        //User user = this.userDatabaseAccessor.getUserProfile(TAG);
 
         // UI init:
         this.name = findViewById(R.id.proNameET);
@@ -68,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (!this.databaseAccessor.isLoggedin()) {
+        if (!this.userDatabaseAccessor.isLoggedin()) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
