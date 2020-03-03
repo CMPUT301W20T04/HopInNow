@@ -11,16 +11,15 @@ public class Driver extends User {
 
     //constructor
     public Driver() {}
-    public Driver(String email, String password, String name, String phoneNumber,
+    public Driver(String email, String password, String name, String phoneNumber, boolean userType,
                   Request curRequest, Car car, ArrayList<Request> availableRequest,
                   ArrayList<Trip> driverTripList) {
-        super(email, password, name, phoneNumber);
+        super(email, password, name, phoneNumber, userType);
         this.curRequest = curRequest;
         this.car = car;
         this.availableRequests = availableRequest;
         this.driverTripList = driverTripList;
     }
-
     // setters and getters
     public Request getCurRequest() {
         return curRequest;
