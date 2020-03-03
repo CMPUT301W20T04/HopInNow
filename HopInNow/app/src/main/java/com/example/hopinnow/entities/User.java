@@ -16,13 +16,6 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.userType = userType;
     }
-    public void setSelf(User user) {
-        this.email = user.getEmail(); //unique
-        this.password = user.getPassword();
-        this.name = user.getName();
-        this.phoneNumber = user.getPhoneNumber();
-        this.userType = user.isUserType();
-    }
     // getters and setters
     public String getEmail() {
         return email;

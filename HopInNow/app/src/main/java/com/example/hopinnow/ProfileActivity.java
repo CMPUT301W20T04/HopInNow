@@ -1,8 +1,6 @@
 package com.example.hopinnow;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,18 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.example.hopinnow.databasestatuslisteners.LoginStatusListener;
+import android.widget.Toast;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.databasestatuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener {
@@ -29,14 +21,17 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     public static final String TAG = "ProfileActivity";
     // declare database accessor:
     private UserDatabaseAccessor userDatabaseAccessor;
+    // Global User object:
+    User currentUser;
     // UI Components:
     private EditText name;
     private EditText email;
     private EditText phoneNumber;
+    private TextView deposit;
     private TextView userType;
     private Button editBtn;
     private Button updateBtn;
-
+    private Button logoutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,32 +44,71 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
             startActivity(intent);
             finish();
         }
-        // UI init:
+        // UI init, button listeners are written in the onStart() method
         this.name = findViewById(R.id.proNameET);
         this.name.setEnabled(false);
         this.email = findViewById(R.id.proEmailET);
         this.email.setEnabled(false);
         this.phoneNumber = findViewById(R.id.proPhoneET);
         this.phoneNumber.setEnabled(false);
+        this.deposit = findViewById(R.id.proDeposit);
         this.userType = findViewById(R.id.proUserType);
         this.editBtn = findViewById(R.id.editProfileBtn);
         this.updateBtn = findViewById(R.id.proUpdateBtn);
+        this.updateBtn.setEnabled(false);
         this.updateBtn.setVisibility(View.INVISIBLE);
+        this.logoutButton = findViewById(R.id.proLogoutBtn);
         // retrieve the current user information
         this.userDatabaseAccessor.getUserProfile(this);
     }
-
-    public void logout(View v) {
-        this.userDatabaseAccessor.logoutUser();
-        // go to the login activity again:
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
-        finish();
+    private boolean verifyFields() {
+        return true;
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // actions when edit button is clicked:
+        this.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                name.setEnabled(true);
+                email.setEnabled(true);
+                phoneNumber.setEnabled(true);
+                editBtn.setEnabled(false);
+                editBtn.setVisibility(View.INVISIBLE);
+                updateBtn.setEnabled(true);
+                updateBtn.setVisibility(View.VISIBLE);
+            }
+        });
+        // actions when update button is clicked:
+        this.updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!verifyFields()) {
+                    return;
+                }
+                currentUser.setName(name.getText().toString());
+                currentUser.setEmail(email.getText().toString());
+                currentUser.setPhoneNumber(phoneNumber.getText().toString());
+                userDatabaseAccessor.updateUserProfile(currentUser, ProfileActivity.this);
+            }
+        });
+        // actions when logout button is clicked:
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userDatabaseAccessor.logoutUser();
+                // go to the login activity again:
+                Toast.makeText(getApplicationContext(),
+                        "You are Logged out!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
-    public void editProfile(View v) {
 
-    }
 
     @Override
     public void onProfileStoreSuccess() {
@@ -87,11 +121,14 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     }
 
     @Override
-    public void onProfileRetreiveSuccess(User user) {
+    public void onProfileRetrieveSuccess(User user) {
+        this.currentUser = user;
         // set all text fields according to the retreived user object:
-        this.name.setText(Objects.requireNonNull(user).getName());
-        this.email.setText(user.getEmail());
-        this.phoneNumber.setText(user.getPhoneNumber());
+        this.name.setText(Objects.requireNonNull(currentUser).getName());
+        this.email.setText(currentUser.getEmail());
+        this.phoneNumber.setText(currentUser.getPhoneNumber());
+        this.deposit.setText(
+                String.format(Locale.CANADA, "%.2f", currentUser.getDeposit()));
         if (user.isUserType()) {    // if true, then the user is driver
             this.userType.setText(R.string.usertype_driver);
         } else {    // or else, the user is a rider
@@ -100,7 +137,33 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     }
 
     @Override
-    public void onProfileRetreiveFailure() {
+    public void onProfileRetrieveFailure() {
+        Toast.makeText(getApplicationContext(),
+                "Info retrieve failed, check network connection.", Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onProfileUpdateSuccess(User user) {
+        this.currentUser = user;
+        // set all text fields according to the retreived user object:
+        this.name.setText(Objects.requireNonNull(currentUser).getName());
+        this.email.setText(currentUser.getEmail());
+        this.phoneNumber.setText(currentUser.getPhoneNumber());
+        name.setEnabled(false);
+        email.setEnabled(false);
+        phoneNumber.setEnabled(false);
+        editBtn.setEnabled(true);
+        editBtn.setVisibility(View.VISIBLE);
+        updateBtn.setEnabled(false);
+        updateBtn.setVisibility(View.INVISIBLE);
+        Toast.makeText(getApplicationContext(),
+                "Your info is updated!", Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onProfileUpdateFailure() {
+        Toast.makeText(getApplicationContext(),
+                "Update failed, check network connection.", Toast.LENGTH_LONG).show();
     }
 }

@@ -8,7 +8,11 @@ public interface UserProfileStatusListener {
     // When profile data stored fails:
     void onProfileStoreFailure();
     // When profile retreive successfullly:
-    void onProfileRetreiveSuccess(User user);
+    void onProfileRetrieveSuccess(User user);
     // When profile retreive failed:
-    void onProfileRetreiveFailure();
+    void onProfileRetrieveFailure();
+    // When profile updated successfully:
+    void onProfileUpdateSuccess(User user);
+    // When profile update fails:
+    void onProfileUpdateFailure();
 }

@@ -146,12 +146,22 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
     }
 
     @Override
-    public void onProfileRetreiveSuccess(User user) {
+    public void onProfileRetrieveSuccess(User user) {
 
     }
 
     @Override
-    public void onProfileRetreiveFailure() {
+    public void onProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onProfileUpdateSuccess(User user) {
+
+    }
+
+    @Override
+    public void onProfileUpdateFailure() {
 
     }
 }

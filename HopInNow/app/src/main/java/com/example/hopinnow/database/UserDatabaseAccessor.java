@@ -13,7 +13,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.Objects;
 
@@ -108,9 +111,8 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
 
     public void getUserProfile(final UserProfileStatusListener listener) {
         this.currentUser = firebaseAuth.getCurrentUser();
-        // sheck if logged in:
+        // check if logged in:
         if (this.currentUser != null) {
-            final User user = new User();
             Objects.requireNonNull(this.firestore
                     .collection("Users")
                     .document(this.currentUser.getUid())
@@ -120,21 +122,60 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Log.v(TAG, "Get User Successfully!");
                         if (documentSnapshot.exists()) {
-                            User tempUser = documentSnapshot.toObject(User.class);
-                            user.setSelf(Objects.requireNonNull(tempUser));
-                            listener.onProfileRetreiveSuccess(user);
+                            listener.onProfileRetrieveSuccess(documentSnapshot
+                                    .toObject(User.class));
                         }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                         Log.v(TAG, "Get User Failed!");
-                        listener.onProfileRetreiveFailure();
+                        listener.onProfileRetrieveFailure();
                         }
                     }));
         } else {    // the user is not logged in
             Log.v(TAG, "User is not logged in!");
         }
     }
-
+    public void updateUserProfile(final User user, final UserProfileStatusListener listener) {
+        Log.v(TAG, "Ready to create user profile.");
+        // should not let any one see the password!
+        user.setPassword(null);
+        // declare Document reference:
+        final DocumentReference documentReference;
+        // check if logged in:
+        this.currentUser = firebaseAuth.getCurrentUser();
+        if (this.currentUser != null) {
+            // the user is logged in successfully
+            Log.v(TAG, "User is logged in!");
+            Log.v(TAG, "Ready to store user information!");
+            documentReference = this.firestore
+                    .collection("Users")
+                    .document(this.currentUser.getUid());
+            this.firestore.runTransaction(new Transaction.Function<Void>() {
+                @Override
+                public Void apply(@NonNull Transaction transaction) {
+                    transaction.update(documentReference, "name", user.getName());
+                    transaction.update(documentReference, "email", user.getEmail());
+                    transaction.update(documentReference, "phoneNumber", user.getPhoneNumber());
+                    return null;
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.v(TAG, "User info updated!");
+                    listener.onProfileUpdateSuccess(user);
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.v(TAG, "User info did not update successfully!");
+                    listener.onProfileUpdateFailure();
+                }
+            });
+        } else {    // the user is not logged in
+            Log.v(TAG, "User is not logged in!");
+        }
+    }
 }
