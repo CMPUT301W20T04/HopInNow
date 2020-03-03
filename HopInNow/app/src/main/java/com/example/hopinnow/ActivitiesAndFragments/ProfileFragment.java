@@ -45,15 +45,7 @@ public class ProfileFragment extends AppCompatActivity {
     public void setProfileMode(int mode) {
         this.modeSwitch = mode;
     }
-    /*
-    public void getProfile(){
-        final DatabaseAccessor databaseAccessor = new DatabaseAccessor();
-        FirebaseUser rider =  databaseAccessor.getUserProfile(getApplicationContext());
-        nameEt.setText(rider.getDisplayName());
-        phoneNumberEt.setText(rider.getPhoneNumber());
-        emailEt.setText(rider.getEmail());
-        //need password
-    }*/
+
 
     public void updateProfile(View view){
         //save the new profile to database

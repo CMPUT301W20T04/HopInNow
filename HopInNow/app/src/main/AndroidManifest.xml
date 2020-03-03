@@ -27,7 +27,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name=".ActivitiesAndFragments.ProfileFragment">
+        <activity android:name=".ActivitiesAndFragments.TripListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
