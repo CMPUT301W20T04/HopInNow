@@ -1,14 +1,15 @@
-package com.example.hopinnow;
+package com.example.hopinnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.hopinnow.R;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.databasestatuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;

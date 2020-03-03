@@ -12,9 +12,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="RtlEnabled"
         tools:targetApi="donut">
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
