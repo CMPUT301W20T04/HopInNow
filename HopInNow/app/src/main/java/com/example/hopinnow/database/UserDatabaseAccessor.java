@@ -4,6 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.hopinnow.databasestatuslisteners.LoginStatusListener;
+import com.example.hopinnow.databasestatuslisteners.RegisterStatusListener;
+import com.example.hopinnow.databasestatuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -15,6 +18,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.Objects;
 
 public class UserDatabaseAccessor extends DatabaseAccessor {
+    public static final String TAG = "UserDatabaseAccessor";
+    public UserDatabaseAccessor() {
+        super();
+    }
 
     public boolean isLoggedin() {
         return (firebaseAuth.getCurrentUser() != null);
@@ -24,9 +31,7 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
         this.firebaseAuth.signOut();
     }
 
-    public void registerUser(String TAGstr, User user) {
-        final String tag = TAGstr;
-        final User finalUser = user;
+    public void registerUser(User user, final RegisterStatusListener listener) {
         if (this.isLoggedin()) {    // if the user is logged in, logout first
             this.logoutUser();
         }
@@ -36,50 +41,48 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.v(tag, "registered successfully!");
-                            loginUser(tag, finalUser);
+                            Log.v(TAG, "registered successfully!");
+                            listener.onRegisterSuccess();
                         } else {
-                            Log.v(tag, "register failed!");
+                            Log.v(TAG, "register failed!");
+                            listener.onRegisterFailure();
                         }
                     }
                 });
     }
 
-    public void loginUser(String TAGstr, User user) {
-        final String tag = TAGstr;
-        final User finalUser = user;
+    public void loginUser(User user, final LoginStatusListener listener) {
         // login the rider:
         if (this.isLoggedin()) {
-            Log.v(tag, "Login successfully!");
-            createUserProfile(tag, finalUser);
+            Log.v(TAG, "Login successfully!");
+            listener.onLoginSuccess();
         } else {
             this.firebaseAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Log.v(tag, "Login successfully!");
-                                createUserProfile(tag, finalUser);
+                                Log.v(TAG, "Login successfully!");
+                                listener.onLoginSuccess();
                             } else {
-                                Log.v(tag, "Login failed!");
+                                Log.v(TAG, "Login failed!");
+                                listener.onLoginFailure();
                             }
                         }
                     });
         }
     }
 
-    public void createUserProfile(String TAGstr, User user) {
-        Log.v(TAGstr, "Ready to create user profile.");
+    public void createUserProfile(User user, final UserProfileStatusListener listener) {
+        Log.v(TAG, "Ready to create user profile.");
         // should not let any one see the password!
         user.setPassword(null);
-        final String tag = TAGstr;
         // check if logged in:
-
         this.currentUser = firebaseAuth.getCurrentUser();
         if (this.currentUser != null) {
             // the user is logged in successfully
-            Log.v(tag, "User is logged in!");
-            Log.v(tag, "Ready to store user information!");
+            Log.v(TAG, "User is logged in!");
+            Log.v(TAG, "Ready to store user information!");
             this.firestore
                     .collection("Users")
                     .document(this.currentUser.getUid())
@@ -87,22 +90,23 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Log.v(tag, "User info saved!");
+                            Log.v(TAG, "User info saved!");
+                            listener.onProfileStoreSuccess();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.v(tag, "User info did not save successfully!");
+                            Log.v(TAG, "User info did not save successfully!");
+                            listener.onProfileStoreFailure();
                         }
                     });
         } else {    // the user is not logged in
-            Log.v(tag, "User is not logged in!");
+            Log.v(TAG, "User is not logged in!");
         }
     }
 
-    public User getUserProfile(String TAGstr) {
-        final String tag = TAGstr;
+    public void getUserProfile(final UserProfileStatusListener listener) {
         this.currentUser = firebaseAuth.getCurrentUser();
         // sheck if logged in:
         if (this.currentUser != null) {
@@ -114,23 +118,22 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Log.v(tag, "Get User Successfully!");
-                            if (documentSnapshot.exists()) {
-                                User tempUser = documentSnapshot.toObject(User.class);
-                                user.setSelf(Objects.requireNonNull(tempUser));
-
-                            }
+                        Log.v(TAG, "Get User Successfully!");
+                        if (documentSnapshot.exists()) {
+                            User tempUser = documentSnapshot.toObject(User.class);
+                            user.setSelf(Objects.requireNonNull(tempUser));
+                            listener.onProfileRetreiveSuccess(user);
+                        }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.v(tag, "Get User Failed!");
+                        Log.v(TAG, "Get User Failed!");
+                        listener.onProfileRetreiveFailure();
                         }
                     }));
-            return user;
         } else {    // the user is not logged in
-            Log.v(tag, "User is not logged in!");
-            return null;
+            Log.v(TAG, "User is not logged in!");
         }
     }
 

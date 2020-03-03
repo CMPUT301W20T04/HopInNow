@@ -1,45 +1,31 @@
 package com.example.hopinnow;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hopinnow.database.DatabaseAccessor;
+import com.example.hopinnow.databasestatuslisteners.LoginStatusListener;
+import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.databasestatuslisteners.RegisterStatusListener;
+import com.example.hopinnow.databasestatuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Objects;
-
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements LoginStatusListener, RegisterStatusListener, UserProfileStatusListener {
     // establish the TAG of this activity:
     public static final String TAG = "RegisterActivity";
-    DatabaseAccessor databaseAccessor;
+    // current user information:
+    User user;
+    // Database methods:
+    private UserDatabaseAccessor userDatabaseAccessor;
     // UI components:
     private EditText name;
     private EditText email;
@@ -49,14 +35,20 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView passdiffwarn;
     private Switch driverSwitch;
     // progressBar for register wait:
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        // init the databaseAccessor:
-        this.databaseAccessor = new DatabaseAccessor();
+        // init the userDatabaseAccessor:
+        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        // if user already logged in, go to the profile activity
+        if (this.userDatabaseAccessor.isLoggedin()) {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        }
         // link components
         this.name = findViewById(R.id.regNameEditText);
         this.email = findViewById(R.id.regEmailEditText);
@@ -71,48 +63,95 @@ public class RegisterActivity extends AppCompatActivity {
         this.progressBar.setVisibility(View.INVISIBLE);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // if user already logged in, go to the profile activity
-        if (this.databaseAccessor.isLoggedin()) {
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
-
-    public void register(View v) {
-        // set the progress bar:
-        this.progressBar.setVisibility(View.VISIBLE);
+    private boolean verifyFields() {
         // initialize the user object to store:
         final String password = this.password.getText().toString();
         String password2 = this.password2.getText().toString();
         // the length of the password must be greater than 6!
         // FIXME
         if (password.compareTo(password2) != 0) {
+            return false;   // no input problem detected
+        } else return password.length() >= 6 && password2.length() >= 6;
+    }
+
+    public void register(View v) {
+        if (!verifyFields()) {
             this.passdiffwarn.setVisibility(View.VISIBLE);
             return;
         } else {
             this.passdiffwarn.setVisibility(View.INVISIBLE);
         }
-        final String name = this.name.getText().toString();
-        final String email = this.email.getText().toString();
-        final String phoneNumber = this.phoneNumber.getText().toString();
-        final boolean isDriver = driverSwitch.isChecked();
-
+        // set the progress bar:
+        this.progressBar.setVisibility(View.VISIBLE);
+        // initialize the user object to store:
+        String password = this.password.getText().toString();
+        String name = this.name.getText().toString();
+        String email = this.email.getText().toString();
+        String phoneNumber = this.phoneNumber.getText().toString();
+        boolean isDriver = driverSwitch.isChecked();
         // save user information in the database:
-        User user;
         if (isDriver) { // the user is a driver
-            user = new Driver(email, password, name, phoneNumber, true,
+            this.user = new Driver(email, password, name, phoneNumber, true,
                     null, null, null, null);
         } else {    // the user is a rider
-            user = new Rider(email, password, name, phoneNumber, false,
+            this.user = new Rider(email, password, name, phoneNumber, false,
                     null, null);
         }
         // create user in the database:
-        this.databaseAccessor.registerUser(TAG, user);
-        this.databaseAccessor.waitAndAct(this,
-                ProfileActivity.class, "User");
+        this.userDatabaseAccessor.registerUser(this.user, this);
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        // go view the user profile:
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onLoginFailure() {
+        // display the login failure massage:
+        Toast.makeText(getApplicationContext(),
+                "Login Failed, try again later.", Toast.LENGTH_SHORT).show();
+        // go view the user profile:
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onRegisterSuccess() {
+        Toast.makeText(getApplicationContext(),
+                "User created, logging in the user...", Toast.LENGTH_SHORT).show();
+        this.userDatabaseAccessor.createUserProfile(this.user, this);
+        this.userDatabaseAccessor.loginUser(this.user, this);
+    }
+
+    @Override
+    public void onRegisterFailure() {
+        // display the login failure massage:
+        Toast.makeText(getApplicationContext(),
+                "Registration Failed, try again later.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProfileStoreSuccess() {
+
+    }
+
+    @Override
+    public void onProfileStoreFailure() {
+
+    }
+
+    @Override
+    public void onProfileRetreiveSuccess(User user) {
+
+    }
+
+    @Override
+    public void onProfileRetreiveFailure() {
+
     }
 }
