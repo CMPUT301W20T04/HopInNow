@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -19,6 +20,7 @@ import com.example.hopinnow.databasestatuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.helperclasses.ProgressbarDialog;
 
 public class RegisterActivity extends AppCompatActivity implements LoginStatusListener, RegisterStatusListener, UserProfileStatusListener {
     // establish the TAG of this activity:
@@ -35,9 +37,8 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
     private EditText password2;
     private TextView passdiffwarn;
     private Switch driverSwitch;
-    // progressBar for register wait:
-    private ProgressBar progressBar;
-
+    // alert progress dialog:
+    private ProgressbarDialog progressbarDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +60,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         this.passdiffwarn = findViewById(R.id.passdiffwarn);
         this.passdiffwarn.setVisibility(View.INVISIBLE);
         this.driverSwitch = findViewById(R.id.driver_rider_switch);
-        // progress bar for registering wait:
-        this.progressBar = findViewById(R.id.regProgressBar);
-        this.progressBar.setVisibility(View.INVISIBLE);
     }
 
     private boolean verifyFields() {
@@ -82,8 +80,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         } else {
             this.passdiffwarn.setVisibility(View.INVISIBLE);
         }
-        // set the progress bar:
-        this.progressBar.setVisibility(View.VISIBLE);
         // initialize the user object to store:
         String password = this.password.getText().toString();
         String name = this.name.getText().toString();
@@ -98,12 +94,22 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
             this.user = new Rider(email, password, name, phoneNumber, false,
                     null, null);
         }
+        // alert progress dialog:
+        ViewGroup viewGroup = findViewById(R.id.activity_register);
+        progressbarDialog = new ProgressbarDialog(RegisterActivity.this, viewGroup);
+        progressbarDialog.startProgressbarDialog();
         // create user in the database:
         this.userDatabaseAccessor.registerUser(this.user, this);
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onLoginSuccess() {
+        this.progressbarDialog.dismissDialog();
         // go view the user profile:
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
         startActivity(intent);
@@ -112,6 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onLoginFailure() {
+        this.progressbarDialog.dismissDialog();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Login Failed, try again later.", Toast.LENGTH_SHORT).show();
@@ -131,6 +138,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onRegisterFailure() {
+        this.progressbarDialog.dismissDialog();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Registration Failed, try again later.", Toast.LENGTH_SHORT).show();
@@ -143,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onProfileStoreFailure() {
-
+        this.progressbarDialog.dismissDialog();
     }
 
     @Override

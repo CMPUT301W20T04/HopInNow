@@ -20,6 +20,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">Welcome !</string>
     <string name="sample_text">Sample Text</string>
+    <string name="loading_prompt">Loading\.\.\.</string>
     <string name="promp_deposit_txt">Deposit: </string>
     <string name="dollar_sign">$</string>
     <string name="invalid_username">Not a valid username</string>

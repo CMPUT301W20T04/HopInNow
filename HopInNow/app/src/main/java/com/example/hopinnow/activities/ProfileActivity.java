@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.databasestatuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.helperclasses.ProgressbarDialog;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -33,6 +35,8 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     private Button editBtn;
     private Button updateBtn;
     private Button logoutButton;
+    // alert progress dialog:
+    private ProgressbarDialog progressbarDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,10 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.updateBtn.setEnabled(false);
         this.updateBtn.setVisibility(View.INVISIBLE);
         this.logoutButton = findViewById(R.id.proLogoutBtn);
+        // alert progress dialog:
+        ViewGroup viewGroup = findViewById(R.id.activity_profile);
+        progressbarDialog = new ProgressbarDialog(ProfileActivity.this, viewGroup);
+        progressbarDialog.startProgressbarDialog();
         // retrieve the current user information
         this.userDatabaseAccessor.getUserProfile(this);
     }
@@ -88,6 +96,11 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                 if (!verifyFields()) {
                     return;
                 }
+                // alert progress dialog:
+                ViewGroup viewGroup = findViewById(R.id.activity_profile);
+                progressbarDialog = new ProgressbarDialog(ProfileActivity.this, viewGroup);
+                progressbarDialog.startProgressbarDialog();
+                // access database:
                 currentUser.setName(name.getText().toString());
                 currentUser.setEmail(email.getText().toString());
                 currentUser.setPhoneNumber(phoneNumber.getText().toString());
@@ -118,7 +131,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
 
     @Override
     public void onProfileStoreFailure() {
-
+        this.progressbarDialog.dismissDialog();
     }
 
     @Override
@@ -135,10 +148,12 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         } else {    // or else, the user is a rider
             this.userType.setText(R.string.usertype_rider);
         }
+        this.progressbarDialog.dismissDialog();
     }
 
     @Override
     public void onProfileRetrieveFailure() {
+        this.progressbarDialog.dismissDialog();
         Toast.makeText(getApplicationContext(),
                 "Info retrieve failed, check network connection.", Toast.LENGTH_LONG).show();
     }
@@ -157,6 +172,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         editBtn.setVisibility(View.VISIBLE);
         updateBtn.setEnabled(false);
         updateBtn.setVisibility(View.INVISIBLE);
+        this.progressbarDialog.dismissDialog();
         Toast.makeText(getApplicationContext(),
                 "Your info is updated!", Toast.LENGTH_LONG).show();
 
@@ -164,6 +180,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
 
     @Override
     public void onProfileUpdateFailure() {
+        this.progressbarDialog.dismissDialog();
         Toast.makeText(getApplicationContext(),
                 "Update failed, check network connection.", Toast.LENGTH_LONG).show();
     }
