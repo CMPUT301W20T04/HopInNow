@@ -11,6 +11,7 @@ public class Driver extends User {
 
     //constructor
     public Driver() {}
+
     public Driver(String email, String password, String name, String phoneNumber, boolean userType,
                   Request curRequest, Car car, ArrayList<Request> availableRequest,
                   ArrayList<Trip> driverTripList) {

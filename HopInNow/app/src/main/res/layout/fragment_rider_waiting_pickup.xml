@@ -1,6 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:andoid="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorDark">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Driver's on the way! Just a moment ..."
+        android:textSize="20sp"
+        android:textColor="@color/ColorWhite"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:textStyle="bold"
+        android:text="My Driver:  "
+        android:textSize="20sp"
+        android:textColor="@color/ColorWhite"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="25dp">
+
+        <TextView
+        android:id="@+id/rider_waiting_driver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+            android:focusable="true"
+            android:clickable="true"
+        android:textColor="@color/ColorWhite"
+        android:text="@string/sample_text"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/rider_waiting_call"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginRight="60dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_round"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/rider_waiting_email"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_round"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="25dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Request: "
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/ColorWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="From "
+            android:textSize="15sp"
+            android:textColor="@color/ColorWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/ColorWhite"
+            android:text="@string/sample_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To "
+            android:textSize="15sp"
+            android:textColor="@color/ColorWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/ColorWhite"
+            android:text="@string/sample_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estimated Fare "
+            android:textSize="15sp"
+            android:textColor="@color/ColorWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/ColorWhite"
+            android:text="@string/sample_text"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="100dp"
+            android:background="@color/ColorOrange"
+            android:text="CANCEL REQUEST"
+            android:textColor="@color/ColorWhite"
+            android:textSize="20sp"> </Button>
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

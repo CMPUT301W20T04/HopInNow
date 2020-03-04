@@ -8,6 +8,7 @@ public class User {
     private double deposit;
     private boolean userType;
     // constructors
+
     public User(){}
     public User(String email, String password, String name, String phoneNumber, boolean userType){
         this.email = email; //unique
