@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorDark">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Is this ride complete?"
+        android:textSize="20sp"
+        android:textColor="@color/ColorWhite"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="50dp" >
+
+        <Button
+            android:id="@+id/rider_complete_yes_button"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="70dp"
+            android:textSize="20sp"
+            android:text="YES"
+            android:textColor="@color/ColorWhite"
+            android:background="@color/ColorOrange">
+        </Button>
+
+        <Button
+            android:id="@+id/rider_complete_no_button"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="70dp"
+            android:textSize="20sp"
+            android:text="NO"
+            android:textColor="@color/ColorWhite"
+            android:background="@color/ColorOrange">
+        </Button>
+
+    </LinearLayout>
+
+
+
+
+    <Button
+        android:id="@+id/rider_confirm_emergency"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"
+        android:text="EMERGENCY CALL"
+        android:textColor="@color/ColorWhite"
+        android:background="@color/ColorRed">
+    </Button>
 
 </LinearLayout>

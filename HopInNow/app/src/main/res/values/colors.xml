@@ -7,4 +7,5 @@
     <color name="ColorOrange">#FF5722</color>
     <color name="ColorWhite">#FFFFFF</color>
     <color name="ColorDarkGray"> </color>
+    <color name="ColorRed">#FF0000</color>
 </resources>

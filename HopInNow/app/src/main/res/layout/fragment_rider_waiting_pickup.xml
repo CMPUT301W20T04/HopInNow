@@ -27,47 +27,49 @@
         android:textSize="20sp"
         android:textColor="@color/ColorWhite"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="25dp">
-
-        <TextView
-        android:id="@+id/rider_waiting_driver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-            android:focusable="true"
-            android:clickable="true"
-        android:textColor="@color/ColorWhite"
-        android:text="@string/sample_text"/>
-
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:id="@+id/rider_waiting_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rider_waiting_driver"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/sample_text"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp" />
+
             <Button
                 android:id="@+id/rider_waiting_call"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginRight="60dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="80dp"
                 android:background="@drawable/button_round"
+                android:drawableTop="@android:drawable/ic_menu_call"
                 android:textColor="@color/ColorWhite"
                 android:textSize="20sp" />
 
             <Button
                 android:id="@+id/rider_waiting_email"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginRight="20dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
                 android:background="@drawable/button_round"
+                android:drawableTop="@android:drawable/sym_action_email"
                 android:textColor="@color/ColorWhite"
-                android:textSize="20sp"/>
-        </RelativeLayout>
+                android:textSize="20sp" />
 
-    </LinearLayout>
+
+
+
+        </RelativeLayout>
 
 
     <LinearLayout
@@ -94,6 +96,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textSize="20sp"
             android:textColor="@color/ColorWhite"
             android:text="@string/sample_text"/>
@@ -108,6 +111,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textSize="20sp"
             android:textColor="@color/ColorWhite"
             android:text="@string/sample_text"/>
@@ -122,6 +126,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textSize="20sp"
             android:textColor="@color/ColorWhite"
             android:text="@string/sample_text"/>
