@@ -22,6 +22,33 @@
         android:textColor="@color/ColorWhite"/>
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="My Driver:  "
+        android:textSize="20sp"
+        android:textColor="@color/ColorWhite"/>
+
+    <RelativeLayout
+        android:id="@+id/rider_waiting_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/rider_pickedup_driver"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/sample_text"
+        android:textColor="@color/ColorWhite"
+        android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Enjoy your journey!"
@@ -32,7 +59,7 @@
 
 
     <Button
-        android:id="@+id/rider_pickedup_emergency"
+        android:id="@+id/rider_pickedup_emergency_button"
         android:layout_width="200dp"
         android:layout_height="35dp"
         android:layout_marginStart="115dp"
