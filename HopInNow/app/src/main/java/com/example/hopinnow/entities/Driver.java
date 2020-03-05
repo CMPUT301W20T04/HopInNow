@@ -20,6 +20,8 @@ public class Driver extends User {
         this.car = car;
         this.availableRequests = availableRequest;
         this.driverTripList = driverTripList;
+        //first time
+        this.rating = -1;
     }
     // setters and getters
     public Request getCurRequest() {

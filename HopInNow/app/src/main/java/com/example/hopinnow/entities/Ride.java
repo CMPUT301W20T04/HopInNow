@@ -12,7 +12,6 @@ public abstract class Ride {
     private String pickUpLocName;
     private String dropOffLocName;
     private Date pickUpDateTime;
-
     private Car car;
 
     public Ride(){}

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 
@@ -22,18 +23,21 @@ public class RiderWaitingPickupFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rider_waiting_pickup, container);
+        View view = inflater.inflate(R.layout.fragment_rider_waiting_pickup, container, false);
 
-        driver = null; //TODO set driver
-        curRequest = null; //TODO set curRequest
+        //TODO assign driver
+        Car car = new Car("Hudson", "Speedster", "Cream", "111111");
+        driver = new Driver("12345678", "12345678", "Lupin the Third",
+                "12345678", true, null, car, null, null);
+        //TODO set current Request
+        curRequest = ((RiderMapActivity) getActivity()).retrieveCurrentRequest();
 
         // Get Fragment belonged Activity
         final FragmentActivity fragmentActivity = getActivity();
 
-        if(view!=null)
-        {
+        if (view != null) {
             //set driver name
-            TextView driverName = view.findViewById(R.id.rider_waiting_name);
+            TextView driverName = view.findViewById(R.id.rider_waiting_driver_name);
             driverName.setText(driver.getName());
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,12 +79,12 @@ public class RiderWaitingPickupFragment extends Fragment {
 
             // Click this button to cancel request
             // Change fragment
-            Button cancelBtn = view.findViewById(R.id.rider_driver_offer_accept_button);
+            Button cancelBtn = view.findViewById(R.id.rider_waiting_cancel_button);
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //change fragment
-                    ((RiderMapActivity)getActivity()).cancelRequest(R.layout.fragment_rider_waiting_pickup);
+                    ((RiderMapActivity) getActivity()).cancelRequest();
                 }
             });
 
@@ -89,16 +93,13 @@ public class RiderWaitingPickupFragment extends Fragment {
         return view;
     }
 
-
-
     /**
      * Shows driver information and contact means on a dialog
      */
-    private void showDriverInfo(){
+    public void showDriverInfo(){
         //change fragment
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.dialog_driver_info);
-        dialog.setTitle("Driver Information");
 
         //driver name
         TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
@@ -106,11 +107,17 @@ public class RiderWaitingPickupFragment extends Fragment {
 
         //set driver rating
         TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
-        driverRating.setText(driver.getRating());
+        String rating;
+        if (driver.getRating()==-1){
+            rating = "not yet rated";
+        } else {
+            rating = Integer.toString(driver.getRating());
+        }
+        driverRating.setText(rating);
 
         //set driver car
         TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
-        String carInfo = driver.getCar().getColor()+" "+driver.getCar().getMake()+" "+driver.getCar().getMake();
+        String carInfo = driver.getCar().getColor()+" "+driver.getCar().getMake()+" "+driver.getCar().getModel();
         driverCar.setText(carInfo);
 
         //set driver license
@@ -147,4 +154,8 @@ public class RiderWaitingPickupFragment extends Fragment {
         //TODO
     }
 }
+
+
+
+
 

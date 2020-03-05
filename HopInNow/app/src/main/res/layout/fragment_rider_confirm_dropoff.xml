@@ -11,8 +11,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="20dp"
         android:text="Is this ride complete?"
-        android:textSize="20sp"
-        android:textColor="@color/ColorWhite"/>
+        android:textColor="@color/ColorWhite"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,38 +25,33 @@
             android:layout_width="100dp"
             android:layout_height="32dp"
             android:layout_marginStart="70dp"
-            android:textSize="20sp"
+            android:background="@color/ColorOrange"
             android:text="YES"
             android:textColor="@color/ColorWhite"
-            android:background="@color/ColorOrange">
-        </Button>
+            android:textSize="18sp"></Button>
 
         <Button
             android:id="@+id/rider_complete_no_button"
             android:layout_width="100dp"
             android:layout_height="32dp"
             android:layout_marginStart="70dp"
-            android:textSize="20sp"
+            android:background="@color/ColorOrange"
             android:text="NO"
             android:textColor="@color/ColorWhite"
-            android:background="@color/ColorOrange">
-        </Button>
+            android:textSize="18sp"></Button>
 
     </LinearLayout>
-
-
 
 
     <Button
         android:id="@+id/rider_confirm_emergency_button"
         android:layout_width="200dp"
-        android:layout_height="35dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
-        android:textSize="20sp"
+        android:background="@color/ColorRed"
         android:text="EMERGENCY CALL"
         android:textColor="@color/ColorWhite"
-        android:background="@color/ColorRed">
-    </Button>
+        android:textSize="18sp"></Button>
 
 </LinearLayout>

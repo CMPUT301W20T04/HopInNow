@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -12,9 +14,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.Trip;
 import com.google.android.gms.common.api.Status;
 
 
@@ -34,10 +39,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverPropertyInfo;
-import java.sql.SQLException;
+
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,6 +59,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Button addRequest;
 
     private Rider rider;
+    private Driver driver;
     private LatLng pickUpLoc,dropOffLoc;
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
@@ -70,47 +75,29 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
 
+        //TODO
         rider = new Rider();
-        mPrefs = getPreferences(MODE_PRIVATE);
+        Car car = new Car("Hudson","Speedster","Cream","111111");
+        driver = new Driver("12345678", "12345678", "Lupin the Third", "12345678", true, null, car, null, null);
 
-        //initialize autocomplete fragments
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), getString(R.string.map_key));
-        }
+
         setupAutoCompleteFragment();
-
 
         addRequest = findViewById(R.id.add_request_button);
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                 if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
-                     Date dateTime = Calendar.getInstance().getTime();
-                     EstimateFare fare = new EstimateFare();
-                     Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
 
-                     //set current Request
-                     curRequest = new Request( null,rider, edmonton, edmonton, "Ed", "Ed", dateTime,null, 11.00);
-                     //curRequest = new Request( null,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
-
-                     SharedPreferences.Editor prefsEditor = mPrefs.edit();
-                     Gson gson = new Gson();
-                     String json = gson.toJson(curRequest); // myObject - instance of MyObject
-                     prefsEditor.putString("CurrentRequest", json);
-                     prefsEditor.apply();
-                     Log.e("An error occurred: ","switch");
-
-                     //TODO save cur Request to firebase
-
-                     //TODO change intent to new activity
-                     switchFragment(R.layout.fragment_rider_driver_offer);
-
-
-
-                 }
+                //TODO if both locations eneterd, then one location cleared, validation below would not work
+                if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
+                    setRequest();
+                } else {
+                    Toast.makeText(RiderMapActivity.this, "Please enter both your pick up and drop off locations.", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -124,10 +111,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     //called in oncreate to set up autocomplete fragments
     private void setupAutoCompleteFragment() {
+        //initialize autocomplete fragments
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), getString(R.string.map_key));
+        }
+
         AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
-        //pickUpAutoComplete.setText("Pick Up Location");
-        pickUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        pickUpAutoComplete.setHint("Pick Up Location");
+        pickUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         pickUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
@@ -145,14 +138,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
-        //set the fragment to selected address
-        pickUpAutoComplete.setText(pickUpLocName);
 
 
-        AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
+        final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
-        //dropOffAutoComplete.setText("Drop Off Location");
-        dropOffAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        dropOffAutoComplete.setHint("Drop Off Location");
+        dropOffAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         dropOffAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
@@ -170,8 +161,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
-        //set the fragment to selected address
-        dropOffAutoComplete.setText(dropOffLocName);
+
+
     }
 
     @Override
@@ -191,6 +182,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             Gson gson = new Gson();
             String json = mPrefs.getString("CurrentRequest", "");
             curRequest = gson.fromJson(json, Request.class);
+        } else {
+            View searchFragment = findViewById(R.id.search_layout);
+            searchFragment.setVisibility(View.VISIBLE);
         }
     }
 
@@ -199,10 +193,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         switch(caseId){
             case R.layout.fragment_rider_driver_offer:
-                View searchFragment = findViewById(R.id.search_layout);
-                searchFragment.setVisibility(View.GONE);
+
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new RiderDriverOfferFragment()).commit();
+                //View searchFragment = findViewById(R.id.search_layout);
+                //searchFragment.setVisibility(View.GONE);
                 break;
             case R.layout.fragment_rider_waiting_pickup:
                 t = getSupportFragmentManager().beginTransaction();
@@ -222,19 +217,62 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //t.commit();
     }
 
-    //remove current request and set it to null
-    public void cancelRequest(int fragmentID){
-        Fragment f = getSupportFragmentManager().findFragmentById(fragmentID);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if(f!=null){
-            ft.remove(f);
-            ft.commit();
-        }
-        curRequest = null;
+    /**
+     * Cancels current request of the rider and return to initial location search prompt page
+     */
+    public void cancelRequest(){
+        //clear all fragments
+        FrameLayout fl = findViewById(R.id.fragment_place);
+        fl.removeAllViews();
 
+        //set curRequest to null
+        curRequest = null;
+        saveRequestLocal(curRequest);
+        pickUpLocName = null;
+        dropOffLocName= null;
+        pickUpLoc = null;
+        dropOffLoc = null;
+
+        //return to initial prompt of location searching
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.VISIBLE);
+        ((AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete)).setText(pickUpLocName);
+        ((AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete)).setText(dropOffLocName);
 
+    }
+
+    public void saveRequestLocal(Request req){
+        mPrefs = getSharedPreferences("Current", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(req); // myObject - instance of MyObject
+        prefsEditor.putString("CurrentRequest", json);
+        prefsEditor.apply();
+    }
+
+    public void setRequest(){
+        Date dateTime = Calendar.getInstance().getTime();
+        EstimateFare fare = new EstimateFare();
+        Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
+
+        //TODO set current Request
+        curRequest = new Request( driver,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
+
+        saveRequestLocal(curRequest);
+
+        //TODO save cur Request to firebase
+
+        //TODO change intent to new activity
+        View searchFragment = findViewById(R.id.search_layout);
+        searchFragment.setVisibility(View.GONE);
+        switchFragment(R.layout.fragment_rider_driver_offer);
+    }
+
+    public Request retrieveCurrentRequest(){
+        Gson gson = new Gson();
+        String json = mPrefs.getString("CurrentRequest", "");
+        Request req = gson.fromJson(json, Request.class);
+        return req;
     }
 
 }
