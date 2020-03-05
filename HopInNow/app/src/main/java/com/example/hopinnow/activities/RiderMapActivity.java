@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -53,6 +55,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private Request curRequest;
+
+    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +85,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
                      //set current Request
                      curRequest = new Request( null,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
+
+                     SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                     Gson gson = new Gson();
+                     String json = gson.toJson(curRequest); // myObject - instance of MyObject
+                     prefsEditor.putString("CurrentRequest", json);
+                     prefsEditor.commit();
 
                      /**save cur Request to firebase*/
 
@@ -154,10 +165,22 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
+    protected void onStart(){
+        super.onStart();
+        if (curRequest!=null){
+            View searchFragment = findViewById(R.id.search_layout);
+            searchFragment.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (mMap != null) {
             //mMap.clear();
+            Gson gson = new Gson();
+            String json = mPrefs.getString("CurrentRequest", "");
+            curRequest = gson.fromJson(json, Request.class);
         }
     }
 
