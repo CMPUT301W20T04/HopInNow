@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.EstimateFare;
@@ -184,5 +187,30 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
+    public void switchFragment(int caseId){
+        FragmentTransaction t;
+
+        switch(caseId){
+            case R.layout.fragment_rider_driver_offer:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderDriverOfferFragment()).commit();
+                break;
+            case R.layout.fragment_rider_waiting_pickup:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderWaitingPickupFragment()).commit();
+                break;
+            case R.layout.fragment_rider_pickedup:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderPickedupFragment()).commit();
+                break;
+            case R.layout.fragment_rider_confirm_dropoff:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderConfirmDropoffFragment()).commit();
+                break;
+        }
+
+        //t.addToBackStack(null);
+        //t.commit();
+    }
 
 }

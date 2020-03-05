@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/colorDark">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="20dp"
-        android:text="Would you like to accept this offer?"
-        android:textSize="20sp"
-        android:textColor="@color/ColorWhite"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:textSize="30sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Driver's Information:"
-        android:textColor="@color/ColorWhite"/>
 
     <RelativeLayout
         android:id="@+id/rider_waiting_name"
@@ -43,7 +27,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/rider_offer_call_button"
+            android:id="@+id/dialog_call_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
@@ -54,7 +38,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/rider_offer_email_button"
+            android:id="@+id/dialog_email_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
@@ -101,9 +85,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -113,44 +96,17 @@
             android:textColor="@color/ColorWhite"/>
 
         <TextView
-            android:id="@+id/rider_driver_offer_plate"
+            android:id="@+id/dialog_plate_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="plate number"
+            android:textSize="20sp"
             android:textColor="@color/ColorWhite"
-            android:textSize="20sp" />
+            android:text="plate number"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp" >
 
-        <Button
-            android:id="@+id/rider_driver_offer_accept_button"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="70dp"
-            android:textSize="20sp"
-            android:text="ACCEPT"
-            android:textColor="@color/ColorWhite"
-            android:background="@color/ColorOrange">
-        </Button>
 
-        <Button
-            android:id="@+id/rider_driver_offer_decline_button"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="70dp"
-            android:textSize="20sp"
-            android:text="DECLINE"
-            android:textColor="@color/ColorWhite"
-            android:background="@color/ColorOrange">
-        </Button>
-
-    </LinearLayout>
 
 
 
