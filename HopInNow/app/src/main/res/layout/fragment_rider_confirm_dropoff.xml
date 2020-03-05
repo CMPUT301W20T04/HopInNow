@@ -21,7 +21,7 @@
         android:layout_marginBottom="50dp" >
 
         <Button
-            android:id="@+id/rider_complete_yes_button"
+            android:id="@+id/rider_confirm_yes_button"
             android:layout_width="100dp"
             android:layout_height="32dp"
             android:layout_marginStart="70dp"
@@ -31,7 +31,7 @@
             android:textSize="18sp"></Button>
 
         <Button
-            android:id="@+id/rider_complete_no_button"
+            android:id="@+id/rider_confirm_no_button"
             android:layout_width="100dp"
             android:layout_height="32dp"
             android:layout_marginStart="70dp"

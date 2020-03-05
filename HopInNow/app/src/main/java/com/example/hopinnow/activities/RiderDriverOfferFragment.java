@@ -27,8 +27,8 @@ public class RiderDriverOfferFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rider_driver_offer, container,false);
 
         //TODO assign driver
-        Car car = new Car("Hudson","Speedster","Cream","111111");
-        driver = new Driver("12345678", "12345678", "Lupin the Third",
+        Car car = new Car("Auburn","Speedster","Cream","111111");
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, null, car, null, null);
 
         // Get Fragment belonged Activity
@@ -65,6 +65,24 @@ public class RiderDriverOfferFragment extends Fragment {
             //set driver license
             TextView driverLicense = view.findViewById(R.id.rider_driver_offer_plate);
             driverLicense.setText(driver.getCar().getPlateNumber());
+
+            //call driver
+            Button callBtn= view.findViewById(R.id.rider_offer_call_button);
+            callBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
+                }
+            });
+
+            //email driver
+            Button emailBtn= view.findViewById(R.id.rider_offer_email_button);
+            emailBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((RiderMapActivity) getActivity()).emailDriver(driver.getEmail());
+                }
+            });
 
             // Click this button to accept request
             // Change fragment
@@ -123,21 +141,21 @@ public class RiderDriverOfferFragment extends Fragment {
         TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
         driverLicense.setText(driver.getCar().getPlateNumber());
 
-        //driver name
+        //call driver
         Button callBtn= dialog.findViewById(R.id.dialog_call_button);
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callDriver();
+                ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
             }
         });
 
-        //driver name
+        //email driver
         Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
         emailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emailDriver();
+                ((RiderMapActivity) getActivity()).emailDriver(driver.getEmail());
             }
         });
 
@@ -145,11 +163,4 @@ public class RiderDriverOfferFragment extends Fragment {
         dialog.show();
     }
 
-    public void callDriver(){
-        //TODO
-    }
-
-    public void emailDriver(){
-        //TODO
-    }
 }
