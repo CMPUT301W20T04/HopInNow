@@ -49,7 +49,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private GoogleMap mMap;
     MapFragment mapFragment;
-    /**change to current location later on pickUpLoc*/
+    //TODO change to current location later on pickUpLoc
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private Button addRequest;
 
@@ -179,7 +179,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onResume() {
         super.onResume();
-        if (mMap != null) {
+        if (curRequest != null) {
             //mMap.clear();
             Gson gson = new Gson();
             String json = mPrefs.getString("CurrentRequest", "");
