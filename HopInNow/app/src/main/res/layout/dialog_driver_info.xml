@@ -9,7 +9,6 @@
     android:background="@color/colorDark">
 
     <RelativeLayout
-        android:id="@+id/rider_waiting_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -17,7 +16,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/rider_driver_offer_name"
+            android:id="@+id/dialog_driver_name"
             android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -51,7 +50,7 @@
 
 
     <TextView
-        android:id="@+id/rider_driver_offer_rating"
+        android:id="@+id/dialog_driver_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -73,7 +72,7 @@
             android:textColor="@color/ColorWhite"/>
 
         <TextView
-            android:id="@+id/rider_driver_offer_car"
+            android:id="@+id/dialog_driver_car"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -96,7 +95,7 @@
             android:textColor="@color/ColorWhite"/>
 
         <TextView
-            android:id="@+id/dialog_plate_textView"
+            android:id="@+id/dialog_driver_plate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"

@@ -1,10 +1,6 @@
 package com.example.hopinnow.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +13,6 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Driver;
-import com.squareup.okhttp.Request;
 
 
 public class RiderDriverOfferFragment extends Fragment {

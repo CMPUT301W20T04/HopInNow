@@ -37,7 +37,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/rider_driver_offer_name"
+                android:id="@+id/rider_waiting_driver_name"
                 android:layout_width="135dp"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -71,66 +71,69 @@
         </RelativeLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="25dp">
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/rider_waiting_dropOff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Request: "
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/ColorWhite"/>
+            android:layout_marginBottom="25dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="From "
-            android:textSize="15sp"
-            android:textColor="@color/ColorWhite"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="My Request: "
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/ColorWhite"
-            android:text="@string/sample_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="From "
+                android:textColor="@color/ColorWhite"
+                android:textSize="15sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="To "
-            android:textSize="15sp"
-            android:textColor="@color/ColorWhite"/>
+            <TextView
+                android:id="@+id/rider_waiting_pickUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/sample_text"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/ColorWhite"
-            android:text="@string/sample_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To "
+                android:textColor="@color/ColorWhite"
+                android:textSize="15sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estimated Fare "
-            android:textSize="15sp"
-            android:textColor="@color/ColorWhite"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/sample_text"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/ColorWhite"
-            android:text="@string/sample_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estimated Fare "
+                android:textColor="@color/ColorWhite"
+                android:textSize="15sp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/rider_waiting_fare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/sample_text"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp" />
+
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

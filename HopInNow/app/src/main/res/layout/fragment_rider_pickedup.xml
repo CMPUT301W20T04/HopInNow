@@ -41,7 +41,7 @@
         android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/rider_driver_offer_name"
+        android:id="@+id/rider_pickedup_driver_name"
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:clickable="true"

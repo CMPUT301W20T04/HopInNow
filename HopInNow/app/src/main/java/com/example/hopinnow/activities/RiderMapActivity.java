@@ -213,4 +213,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //t.commit();
     }
 
+    //remove current request and set it to null
+    public void cancelRequest(int fragmentID){
+        Fragment f = getSupportFragmentManager().findFragmentById(fragmentID);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if(f!=null){
+            ft.remove(f);
+            ft.commit();
+        }
+        curRequest = null;
+
+        View searchFragment = findViewById(R.id.search_layout);
+        searchFragment.setVisibility(View.VISIBLE);
+
+    }
+
 }
