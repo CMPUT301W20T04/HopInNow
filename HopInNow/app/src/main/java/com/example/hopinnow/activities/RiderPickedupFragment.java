@@ -26,8 +26,8 @@ public class RiderPickedupFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rider_pickedup, container, false);
 
         //TODO assign driver
-        Car car = new Car("Hudson", "Speedster", "Cream", "111111");
-        driver = new Driver("12345678", "12345678", "Lupin the Third",
+        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, null, car, null, null);
         //TODO set current Request
         curRequest = ((RiderMapActivity) getActivity()).retrieveCurrentRequest();
