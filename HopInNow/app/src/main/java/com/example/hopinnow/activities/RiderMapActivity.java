@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -44,6 +43,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.annotation.Nullable;
+
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -59,7 +60,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Marker pickUpMarker, dropOffMarker;
     private Request curRequest;
 
-    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+    private SharedPreferences mPrefs;
 
 
     @Override
@@ -70,6 +71,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         mapFragment.getMapAsync(RiderMapActivity.this);
 
         rider = new Rider();
+        mPrefs = getPreferences(MODE_PRIVATE);
 
         //initialize autocomplete fragments
         if (!Places.isInitialized()) {
@@ -87,17 +89,22 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                      Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
 
                      //set current Request
-                     curRequest = new Request( null,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
+                     curRequest = new Request( null,rider, edmonton, edmonton, "Ed", "Ed", dateTime,null, 11.00);
+                     //curRequest = new Request( null,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
 
                      SharedPreferences.Editor prefsEditor = mPrefs.edit();
                      Gson gson = new Gson();
                      String json = gson.toJson(curRequest); // myObject - instance of MyObject
                      prefsEditor.putString("CurrentRequest", json);
-                     prefsEditor.commit();
+                     prefsEditor.apply();
+                     Log.e("An error occurred: ","switch");
 
-                     /**save cur Request to firebase*/
+                     //TODO save cur Request to firebase
 
-                     /**change intent to new activity*/
+                     //TODO change intent to new activity
+                     switchFragment(R.layout.fragment_rider_driver_offer);
+
+
 
                  }
 
@@ -192,6 +199,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         switch(caseId){
             case R.layout.fragment_rider_driver_offer:
+                View searchFragment = findViewById(R.id.search_layout);
+                searchFragment.setVisibility(View.GONE);
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new RiderDriverOfferFragment()).commit();
                 break;
