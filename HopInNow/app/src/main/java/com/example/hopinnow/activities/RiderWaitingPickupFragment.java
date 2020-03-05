@@ -64,7 +64,7 @@ public class RiderWaitingPickupFragment extends Fragment {
             callBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callDriver();
+                    ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
                 }
             });
 
@@ -73,7 +73,7 @@ public class RiderWaitingPickupFragment extends Fragment {
             emailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    emailDriver();
+                    ((RiderMapActivity) getActivity()).callNumber(driver.getEmail());
                 }
             });
 
@@ -129,7 +129,7 @@ public class RiderWaitingPickupFragment extends Fragment {
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callDriver();
+                ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
             }
         });
 
@@ -138,7 +138,7 @@ public class RiderWaitingPickupFragment extends Fragment {
         emailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emailDriver();
+                ((RiderMapActivity) getActivity()).emailDriver(driver.getEmail());
             }
         });
 
@@ -146,13 +146,8 @@ public class RiderWaitingPickupFragment extends Fragment {
         dialog.show();
     }
 
-    public void callDriver(){
-        //TODO
-    }
 
-    public void emailDriver(){
-        //TODO
-    }
+
 }
 
 

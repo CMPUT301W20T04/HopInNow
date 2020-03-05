@@ -275,4 +275,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         return req;
     }
 
+    public void callNumber(String phoneNumber){
+        //TODO
+    }
+
+    public void emailDriver(String email){
+        //TODO
+    }
+
 }
