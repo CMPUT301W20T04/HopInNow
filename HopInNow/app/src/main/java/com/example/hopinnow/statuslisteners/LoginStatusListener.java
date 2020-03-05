@@ -1,4 +1,4 @@
-package com.example.hopinnow.databasestatuslisteners;
+package com.example.hopinnow.statuslisteners;
 
 public interface LoginStatusListener {
     // when the user is logged in, the function to do:

@@ -1,4 +1,4 @@
-package com.example.hopinnow.databasestatuslisteners;
+package com.example.hopinnow.statuslisteners;
 
 import com.example.hopinnow.entities.User;
 
