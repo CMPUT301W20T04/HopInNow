@@ -191,7 +191,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (curRequest != null) {
             //mMap.clear();
             curRequest = retrieveCurrentRequest();
-        } 
+        }
     }
 
     public void switchFragment(int caseId){
