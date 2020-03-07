@@ -5,24 +5,35 @@
     android:layout_height="wrap_content"
     android:background="@color/colorDark">
 
+
+    <TextView
+        android:id="@+id/dialog_driver_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/sample_text"
+        android:textColor="@color/ColorWhite"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/dialog_driver_name"
+            android:id="@+id/dialog_driver_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/sample_text"
+            android:drawableLeft="@android:drawable/star_big_on"
+            android:text="rating"
             android:textColor="@color/ColorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/dialog_call_button"
@@ -48,15 +59,7 @@
     </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/dialog_driver_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:text="rating"
-        android:textColor="@color/ColorWhite"
-        android:textSize="20sp" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,9 +77,9 @@
             android:id="@+id/dialog_driver_car"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:text="color make model"
             android:textColor="@color/ColorWhite"
-            android:text="color and make and model"/>
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -84,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="18dp">
 
         <TextView
             android:layout_width="wrap_content"

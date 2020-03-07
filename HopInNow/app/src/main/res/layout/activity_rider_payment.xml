@@ -1,6 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorDark"
+    tools:context=".activities.RiderPaymentActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:text="Payment"
+        android:textColor="@color/ColorWhite"
+        android:textSize="40sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:text="Please show the QR code to your driver! "
+        android:textColor="@color/ColorWhite"
+        android:textSize="18sp"/>
+
+    <ImageView
+        android:id="@+id/rider_payment_qr"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="45dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="45dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tips: "
+            android:textColor="@color/ColorWhite"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/rider_payment_ten"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="22dp"
+            android:background="@color/ColorOrange"
+            android:text="10%"
+            android:textColor="@color/ColorWhite"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/rider_payment_fifteen"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="22dp"
+            android:background="@color/ColorOrange"
+            android:text="15%"
+            android:textColor="@color/ColorWhite"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/rider_payment_twenty"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="22dp"
+            android:background="@color/ColorOrange"
+            android:text="20%"
+            android:textColor="@color/ColorWhite"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/rider_payment_other_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:digits="0123456789."
+            android:hint="other"
+            android:inputType="numberDecimal"
+            android:textColor="@color/ColorWhite"
+            android:textColorHint="@color/ColorWhite"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%"
+            android:textColor="@color/ColorWhite"
+            android:textColorHint="@color/ColorWhite"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Payment:   "
+            android:textColor="@color/ColorWhite"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rider_payment_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sample Text"
+            android:textColor="@color/ColorWhite"
+            android:textSize="22sp" />
+
+
+    </LinearLayout>
 
 </LinearLayout>

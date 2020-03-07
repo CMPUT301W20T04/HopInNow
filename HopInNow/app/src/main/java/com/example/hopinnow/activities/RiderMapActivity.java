@@ -13,9 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
@@ -24,7 +22,6 @@ import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.Trip;
 import com.google.android.gms.common.api.Status;
 
 
@@ -45,14 +42,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 
-import org.json.JSONObject;
-
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
-
-import javax.annotation.Nullable;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -76,7 +68,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_rider_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
 
