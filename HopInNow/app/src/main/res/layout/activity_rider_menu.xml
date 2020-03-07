@@ -29,7 +29,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="82dp"
         android:layout_marginLeft="82dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="171dp"
         android:text="My Profile" />
 
     <Button
