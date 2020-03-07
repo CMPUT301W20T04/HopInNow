@@ -29,7 +29,7 @@
             android:id="@+id/divider"
             android:layout_width="409dp"
             android:layout_height="1dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="92dp"
             android:background="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,12 +52,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
             android:text="@string/prompt_email"
             android:textColor="@color/ColorWhite"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/proNameET" />
+            app:layout_constraintTop_toBottomOf="@+id/proUsertypeTxt" />
 
         <EditText
             android:id="@+id/proNameET"
@@ -71,29 +71,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileNameTxt" />
 
-        <EditText
-            android:id="@+id/proEmailET"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/ColorWhite"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileEmailTxt" />
-
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
             android:text="@string/prompt_phone_number"
             android:textColor="@color/ColorWhite"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/proEmailET" />
+            app:layout_constraintTop_toBottomOf="@+id/proNameET"
+            tools:layout_editor_absoluteX="32dp" />
 
         <EditText
             android:id="@+id/proPhoneET"
@@ -221,6 +207,17 @@
             android:textSize="20sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/proDepositTxt"
             app:layout_constraintStart_toEndOf="@+id/proDepositTxt" />
+
+        <TextView
+            android:id="@+id/proEmailTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="126dp"
+            android:text="@string/sample_text"
+            android:textColor="@color/ColorWhite"
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/profileEmailTxt"
+            app:layout_constraintStart_toEndOf="@+id/profileEmailTxt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

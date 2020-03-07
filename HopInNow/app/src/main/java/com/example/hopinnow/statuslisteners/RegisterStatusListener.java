@@ -1,4 +1,4 @@
-package com.example.hopinnow.databasestatuslisteners;
+package com.example.hopinnow.statuslisteners;
 
 public interface RegisterStatusListener {
     // when a new user is created, the function spec:

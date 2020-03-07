@@ -20,6 +20,8 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.google.gson.Gson;
 
+import static com.android.volley.Request.Method.HEAD;
+
 public class RiderPaymentActivity extends AppCompatActivity {
     private Request curRequest;
     private Driver driver;
@@ -79,6 +81,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 completeRequest();
             }
         });
@@ -99,6 +102,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
         //TODO req to trip list in firbase
 
         //TODO set curRequest as null in shared pref
+
         //curRequest = null;
         /**mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
          SharedPreferences.Editor prefsEditor = mPrefs.edit();
@@ -106,6 +110,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
          String json = gson.toJson(curRequest); // myObject - instance of MyObject
          prefsEditor.putString("CurrentRequest", json);
          prefsEditor.apply();*/
+
 
         //TODO switch intent
         Intent intent = new Intent(RiderPaymentActivity.this,RiderPaymentActivity.class);
