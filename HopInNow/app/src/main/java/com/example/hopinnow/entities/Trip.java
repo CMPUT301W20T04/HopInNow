@@ -2,9 +2,10 @@ package com.example.hopinnow.entities;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Trip extends Ride {
+public class Trip extends Ride implements Serializable {
     private Double cost;
     private Double rating;
     private Date dropOffDateTime;

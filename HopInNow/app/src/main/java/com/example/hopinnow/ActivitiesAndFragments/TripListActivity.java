@@ -1,7 +1,9 @@
 package com.example.hopinnow.ActivitiesAndFragments;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,12 +20,12 @@ import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
-
-public class TripListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class TripListActivity extends AppCompatActivity {
     ListView tripList;
     ArrayAdapter<Trip> tripAdapter;;
     ArrayList<Trip> tripDataList = new ArrayList<>();
@@ -33,6 +35,7 @@ public class TripListActivity extends AppCompatActivity implements AdapterView.O
     private Rider rider1 = new Rider("321@qq.com","qwer","shway","3421",null,null);
     private Car car1 = new Car("1","1","1","1");
     Date d1 = new Date();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +51,30 @@ public class TripListActivity extends AppCompatActivity implements AdapterView.O
         //rider:
         //String email, String password, String name, String phoneNumber,
         // Request curRequest, ArrayList<Trip> riderTripList
-
+        tripAdapter = new CustomTripList(this,tripDataList);
+        tripList.setAdapter(tripAdapter);
         for(int i=0;i<10;i++){
             tripDataList.add(new Trip(driver1,rider1,edmonton,edmonton,"12","21", d1,d1,23,car1,23.5,5.0));}
 
-        tripAdapter = new CustomTripList(this,tripDataList);
-        tripList.setAdapter(tripAdapter);
-        tripList.setOnItemClickListener(this);
+
+        tripAdapter.notifyDataSetChanged();
+        tripList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(),TripDetailActivity.class);
+                //intent.putExtra("trip_index",position);
+                //pass in a key
+                intent.putExtra("trip_key", "21");
+                //intent.putExtra("rider",trip.getRider().getClass());
+                //intent.putExtra("pickup_loc",trip.getPickUpLoc());
+                //intent.putExtra("dropoff_loc",trip.getDropOffLoc());
+
+                startActivity(intent);
+                //startActivityForResult(intent, 2);
+            }
+        });
+
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
 }
