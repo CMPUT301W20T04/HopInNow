@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 
@@ -61,7 +62,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private Request curRequest;
-
+    private FloatingActionButton riderMenuBtn;
     private SharedPreferences mPrefs;
 
 
@@ -91,6 +92,15 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     Toast.makeText(RiderMapActivity.this, "Please enter both your pick up and drop off locations.", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        riderMenuBtn = (FloatingActionButton) findViewById(R.id.riderMenuBtn);
+        riderMenuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(getApplicationContext(), RiderMenuActivity.class);
+                startActivity(startIntent);
             }
         });
     }
