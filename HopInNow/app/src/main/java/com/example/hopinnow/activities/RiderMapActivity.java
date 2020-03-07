@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -45,6 +46,7 @@ import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -101,7 +103,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
-                .position(edmonton) /**set to current location later on pickUpLoc*/
+                .position(edmonton) //set to current location later on pickUpLoc
                 .title("Edmonton")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
     }
@@ -116,11 +118,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
-        pickUpAutoComplete.setHint("Pick Up Location");
+        Objects.requireNonNull(pickUpAutoComplete).setHint("Pick Up Location");
         pickUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         pickUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(Place place) {
+            public void onPlaceSelected(@NonNull Place place) {
                 if (place!=null){
                     pickUpLocName = place.getAddress();
                     pickUpLoc = place.getLatLng();
@@ -131,7 +133,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }
             @Override
-            public void onError(Status status) {
+            public void onError(@NonNull Status status) {
                 Log.e("An error occurred: ", status.toString());
             }
         });
@@ -139,11 +141,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
-        dropOffAutoComplete.setHint("Drop Off Location");
+        Objects.requireNonNull(dropOffAutoComplete).setHint("Drop Off Location");
         dropOffAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         dropOffAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(Place place) {
+            public void onPlaceSelected(@NonNull Place place) {
                 if (place!=null){
                     dropOffLocName = place.getAddress();
                     dropOffLoc = place.getLatLng();
@@ -154,7 +156,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }
             @Override
-            public void onError(Status status) {
+            public void onError(@NonNull Status status) {
                 Log.e("An error occurred: ", status.toString());
             }
         });

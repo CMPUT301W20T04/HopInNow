@@ -28,14 +28,14 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/map_key" />
-        <activity android:name=".activities.LoginActivity"/>
-        <activity android:name=".activities.RiderMapActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.RiderMapActivity"/>
         <activity android:name=".activities.RegisterActivity"/>
         <activity android:name=".activities.ProfileActivity"/>
     </application>
