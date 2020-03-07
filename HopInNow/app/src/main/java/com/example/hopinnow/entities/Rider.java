@@ -6,16 +6,16 @@ public class Rider extends User {
     private Request curRequest;
     private ArrayList<Trip> riderTripList;
 
-    public Rider(){}
 
     //constructor
     public Rider() {}
-    public Rider(String email, String password, String name, String phoneNumber, Request curRequest, ArrayList<Trip> riderTripList) {
-        super(email, password, name, phoneNumber);
+
+    public Rider(String email, String password, String name, String phoneNumber, boolean userType,
+                 Request curRequest, ArrayList<Trip> riderTripList) {
+        super(email, password, name, phoneNumber, userType);
         this.curRequest = curRequest;
         this.riderTripList = riderTripList;
     }
-
     // setters and getters
     public Request getCurRequest() {
         return curRequest;

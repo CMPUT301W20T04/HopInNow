@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="380dp"
+    android:layout_height="wrap_content"
+    android:background="@color/colorDark">
+
+
+    <TextView
+        android:id="@+id/dialog_driver_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/sample_text"
+        android:textColor="@color/ColorWhite"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dialog_driver_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/star_big_on"
+            android:text="rating"
+            android:textColor="@color/ColorWhite"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/dialog_call_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/button_round"
+            android:drawableTop="@android:drawable/ic_menu_call"
+            android:textColor="@color/ColorWhite"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/dialog_email_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp"
+            android:background="@drawable/button_round"
+            android:drawableTop="@android:drawable/sym_action_email"
+            android:textColor="@color/ColorWhite"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Car:  "
+            android:textSize="20sp"
+            android:textColor="@color/ColorWhite"/>
+
+        <TextView
+            android:id="@+id/dialog_driver_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color make model"
+            android:textColor="@color/ColorWhite"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="18dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="License plate:  "
+            android:textSize="20sp"
+            android:textColor="@color/ColorWhite"/>
+
+        <TextView
+            android:id="@+id/dialog_driver_plate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/ColorWhite"
+            android:text="plate number"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
