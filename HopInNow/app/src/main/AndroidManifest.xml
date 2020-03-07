@@ -16,16 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CarInfoActivity"></activity>
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/map_key" />
-
+        <activity android:name=".activities.CarInfoActivity"/>
         <activity android:name=".activities.RiderMenuActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.ProfileActivity" />
@@ -38,6 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/map_key" />
+
+
     </application>
 
 </manifest>
