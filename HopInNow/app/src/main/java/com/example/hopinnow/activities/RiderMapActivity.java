@@ -95,6 +95,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
+
+
+        // a button listener
         riderMenuBtn = (FloatingActionButton) findViewById(R.id.riderMenuBtn);
         riderMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
