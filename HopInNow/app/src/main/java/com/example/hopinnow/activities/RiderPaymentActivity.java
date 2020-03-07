@@ -40,6 +40,8 @@ public class RiderPaymentActivity extends AppCompatActivity {
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gson.fromJson(json, Request.class);
 
+        //TODO create qr code
+
 
     }
 
@@ -70,12 +72,8 @@ public class RiderPaymentActivity extends AppCompatActivity {
                 driver.setRatingCounts(counts+1);
                 driver.setRating(newRating);
 
-                Intent intent=new Intent();
-                //intent.putExtra("MESSAGE",message);
-                setResult(2,intent);
-                finish();
-                Intent myIntent = new Intent(RiderPaymentActivity.this, RiderMapActivity.class);
-                startActivity(myIntent);
+                completeRequest(curRequest);
+
             }
         });
 
@@ -84,18 +82,22 @@ public class RiderPaymentActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                //intent.putExtra("MESSAGE",message);
-                setResult(2,intent);
-                finish();
-                Intent myIntent = new Intent(RiderPaymentActivity.this, RiderMapActivity.class);
-                startActivity(myIntent);
+
+                completeRequest(curRequest);
 
             }
         });
 
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+    }
+
+    private void completeRequest(Request req){
+        //TODO req to trip list in firbase
+
+        //TODO set curRequest as null in shared pref
+
+        //TODO switch intent
     }
 
 }

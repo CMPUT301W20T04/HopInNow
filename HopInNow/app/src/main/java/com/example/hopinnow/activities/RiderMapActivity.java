@@ -178,9 +178,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onStart(){
         super.onStart();
+        curRequest = retrieveCurrentRequest();
         if (curRequest!=null){
             View searchFragment = findViewById(R.id.search_layout);
             searchFragment.setVisibility(View.GONE);
+        } else {
+            cancelRequest();
         }
     }
 
@@ -189,12 +192,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onResume();
         if (curRequest != null) {
             //mMap.clear();
-            Gson gson = new Gson();
-            String json = mPrefs.getString("CurrentRequest", "");
-            curRequest = gson.fromJson(json, Request.class);
+            curRequest = retrieveCurrentRequest();
         } else {
-            View searchFragment = findViewById(R.id.search_layout);
-            searchFragment.setVisibility(View.VISIBLE);
+            cancelRequest();
         }
     }
 
