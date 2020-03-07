@@ -36,7 +36,6 @@
             android:value="@string/map_key" />
 
 
-        <activity android:name=".RiderMapActivity">
         <activity android:name=".activities.RegisterActivity"></activity>
         <activity android:name=".activities.ProfileActivity" ></activity>
         <activity android:name=".activities.RiderMapActivity">
@@ -47,8 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity">
-        </activity>
+
         <activity android:name=".activities.LoginActivity"></activity>
     </application>
 

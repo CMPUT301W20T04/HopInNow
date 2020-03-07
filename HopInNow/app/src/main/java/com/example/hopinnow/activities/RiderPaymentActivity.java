@@ -101,11 +101,11 @@ public class RiderPaymentActivity extends AppCompatActivity {
         //TODO set curRequest as null in shared pref
         //curRequest = null;
         /**mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(curRequest); // myObject - instance of MyObject
-        prefsEditor.putString("CurrentRequest", json);
-        prefsEditor.apply();*/
+         SharedPreferences.Editor prefsEditor = mPrefs.edit();
+         Gson gson = new Gson();
+         String json = gson.toJson(curRequest); // myObject - instance of MyObject
+         prefsEditor.putString("CurrentRequest", json);
+         prefsEditor.apply();*/
 
         //TODO switch intent
         Intent intent = new Intent(RiderPaymentActivity.this,RiderPaymentActivity.class);
