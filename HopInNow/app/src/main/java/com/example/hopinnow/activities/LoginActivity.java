@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
         this.userDatabaseAccessor = new UserDatabaseAccessor();
         // if user already logged in, go to the profile activity
         if (this.userDatabaseAccessor.isLoggedin()) {
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
             startActivity(intent);
             finish();
         }
@@ -98,9 +98,9 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
 
     @Override
     public void onLoginSuccess() {
-        // go view the user profile:
+        // go view the map:
         this.progressbarDialog.dismissDialog();
-        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
         startActivity(intent);
         finish();
     }
