@@ -21,6 +21,7 @@ import java.util.Objects;
 
 public class UserDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "UserDatabaseAccessor";
+    private final String referenceName = "Users";
     public UserDatabaseAccessor() {
         super();
     }
@@ -86,7 +87,7 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
             Log.v(TAG, "User is logged in!");
             Log.v(TAG, "Ready to store user information!");
             this.firestore
-                    .collection("Users")
+                    .collection(referenceName)
                     .document(this.currentUser.getUid())
                     .set(user)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -118,7 +119,7 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
             Log.v(TAG, "User is logged in!");
             Log.v(TAG, "Ready to store user information!");
             this.firestore
-                    .collection("Users")
+                    .collection(referenceName)
                     .document(this.currentUser.getUid())
                     .set(user)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -144,7 +145,7 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
         // check if logged in:
         if (this.currentUser != null) {
             Objects.requireNonNull(this.firestore
-                    .collection("Users")
+                    .collection(referenceName)
                     .document(this.currentUser.getUid())
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
