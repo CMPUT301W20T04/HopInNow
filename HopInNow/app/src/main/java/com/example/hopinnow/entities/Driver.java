@@ -7,10 +7,12 @@ public class Driver extends User {
     private Car car;
     private ArrayList<Request> availableRequests;
     private ArrayList<Trip> driverTripList;
-    private int rating;
+    private Double rating;
+    private int ratingCounts;
 
     //constructor
     public Driver() {}
+
     public Driver(String email, String password, String name, String phoneNumber, boolean userType,
                   Request curRequest, Car car, ArrayList<Request> availableRequest,
                   ArrayList<Trip> driverTripList) {
@@ -19,6 +21,9 @@ public class Driver extends User {
         this.car = car;
         this.availableRequests = availableRequest;
         this.driverTripList = driverTripList;
+        //first time
+        this.rating = 0.00;
+        this.ratingCounts = 0;
     }
     // setters and getters
     public Request getCurRequest() {
@@ -53,11 +58,16 @@ public class Driver extends User {
         this.driverTripList = driverTripList;
     }
 
-    public int getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
+
+    public int getRatingCounts(){ return ratingCounts;}
+
+    public void setRatingCounts(int ratingCounts){this.ratingCounts = ratingCounts;}
+
 }
