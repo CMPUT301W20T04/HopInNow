@@ -66,13 +66,10 @@ public class RiderPaymentActivity extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Double prevRating = driver.getRating();
-                int counts = driver.getRatingCounts();
-                Double newRating = (prevRating+ratingBar.getRating())/(counts+1);
-                driver.setRatingCounts(counts+1);
-                driver.setRating(newRating);
 
-                completeRequest(curRequest);
+                newDriverRating(ratingBar);
+
+                completeRequest();
 
             }
         });
@@ -83,7 +80,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                completeRequest(curRequest);
+                completeRequest();
 
             }
         });
@@ -92,12 +89,30 @@ public class RiderPaymentActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void completeRequest(Request req){
+    private void newDriverRating(RatingBar rb){
+        Double prevRating = driver.getRating();
+        int counts = driver.getRatingCounts();
+        Double newRating = (prevRating + rb.getRating())/(counts+1);
+        driver.setRatingCounts(counts+1);
+        driver.setRating(newRating);
+    }
+
+    private void completeRequest(){
         //TODO req to trip list in firbase
 
         //TODO set curRequest as null in shared pref
+        curRequest = null;
+        mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(curRequest); // myObject - instance of MyObject
+        prefsEditor.putString("CurrentRequest", json);
+        prefsEditor.apply();
 
         //TODO switch intent
+        Intent intent = new Intent(RiderPaymentActivity.this,RiderPaymentActivity.class);
+        startActivity(intent);
+
     }
 
 }
