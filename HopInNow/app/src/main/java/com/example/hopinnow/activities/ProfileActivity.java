@@ -28,7 +28,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     User currentUser;
     // UI Components:
     private EditText name;
-    private EditText email;
+    private TextView email;
     private EditText phoneNumber;
     private TextView deposit;
     private TextView userType;
