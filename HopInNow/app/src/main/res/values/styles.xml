@@ -16,4 +16,8 @@
         <item name="colorControlHighlight">@android:color/darker_gray</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlActivated">@color/quantum_yellow</item>
+    </style>
+
 </resources>

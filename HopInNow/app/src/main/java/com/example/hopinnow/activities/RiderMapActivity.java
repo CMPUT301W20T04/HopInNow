@@ -13,9 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
@@ -24,7 +22,6 @@ import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.Trip;
 import com.google.android.gms.common.api.Status;
 
 
@@ -45,14 +42,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 
-import org.json.JSONObject;
-
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
-
-import javax.annotation.Nullable;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -76,7 +68,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_rider_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
 
@@ -171,6 +163,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2)
+        {
+            //TODO curReqest to firebase trip list
+
+            cancelRequest();
+        }
+    }
+
+    @Override
     protected void onStart(){
         super.onStart();
         if (curRequest!=null){
@@ -232,7 +237,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         //set curRequest to null
         curRequest = null;
-        saveRequestLocal(curRequest);
+        saveCurrentRequest(curRequest);
         pickUpLocName = null;
         dropOffLocName= null;
         pickUpLoc = null;
@@ -246,13 +251,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
-    public void saveRequestLocal(Request req){
-        mPrefs = getSharedPreferences("Current", MODE_PRIVATE);
+    public void saveCurrentRequest(Request req){
+        mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(req); // myObject - instance of MyObject
         prefsEditor.putString("CurrentRequest", json);
         prefsEditor.apply();
+    }
+
+    public Request retrieveCurrentRequest(){
+        Gson gson = new Gson();
+        String json = mPrefs.getString("CurrentRequest", "");
+        Request req = gson.fromJson(json, Request.class);
+        return req;
     }
 
     public void setRequest(){
@@ -263,7 +275,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO set current Request
         curRequest = new Request( driver,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
 
-        saveRequestLocal(curRequest);
+        saveCurrentRequest(curRequest);
 
         //TODO save cur Request to firebase
 
@@ -271,13 +283,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
         switchFragment(R.layout.fragment_rider_driver_offer);
-    }
-
-    public Request retrieveCurrentRequest(){
-        Gson gson = new Gson();
-        String json = mPrefs.getString("CurrentRequest", "");
-        Request req = gson.fromJson(json, Request.class);
-        return req;
     }
 
     public void callNumber(String phoneNumber){

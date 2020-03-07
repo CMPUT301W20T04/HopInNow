@@ -7,7 +7,8 @@ public class Driver extends User {
     private Car car;
     private ArrayList<Request> availableRequests;
     private ArrayList<Trip> driverTripList;
-    private int rating;
+    private Double rating;
+    private int ratingCounts;
 
     //constructor
     public Driver() {}
@@ -21,7 +22,8 @@ public class Driver extends User {
         this.availableRequests = availableRequest;
         this.driverTripList = driverTripList;
         //first time
-        this.rating = -1;
+        this.rating = 0.00;
+        this.ratingCounts = 0;
     }
     // setters and getters
     public Request getCurRequest() {
@@ -56,11 +58,16 @@ public class Driver extends User {
         this.driverTripList = driverTripList;
     }
 
-    public int getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
+
+    public int getRatingCounts(){ return ratingCounts;}
+
+    public void setRatingCounts(int ratingCounts){this.ratingCounts = ratingCounts;}
+
 }

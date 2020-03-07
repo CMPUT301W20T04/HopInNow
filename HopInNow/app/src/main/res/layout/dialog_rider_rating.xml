@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="380dp"
+    android:layout_height="wrap_content"
+    android:background="@color/colorDark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4c4c4c">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="7dp"
+            android:text="Rating"
+            android:textColor="@color/ColorWhite"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/dialog_rider_rating_driver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
+        android:text="Sample Text"
+        android:textColor="@color/ColorWhite"
+        android:textSize="20sp" />
+
+    <RatingBar
+        android:id="@+id/dialog_rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:rating="0"
+        android:theme="@style/RatingBar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_rating_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="180dp"
+            android:background="@color/colorDark"
+            android:text="Cancel"
+            android:textColor="@color/ColorWhite"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/dialog_rating_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="Submit"
+            android:textSize="16sp"
+            android:background="@color/ColorOrange"
+            android:textColor="@color/ColorWhite"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
