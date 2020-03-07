@@ -6,6 +6,8 @@ public class Rider extends User {
     private Request curRequest;
     private ArrayList<Trip> riderTripList;
 
+    public Rider(){}
+
     //constructor
     public Rider() {}
     public Rider(String email, String password, String name, String phoneNumber, Request curRequest, ArrayList<Trip> riderTripList) {
