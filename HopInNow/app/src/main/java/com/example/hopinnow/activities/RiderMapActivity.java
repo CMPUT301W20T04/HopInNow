@@ -175,15 +175,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
+
     @Override
     protected void onStart(){
         super.onStart();
-        curRequest = retrieveCurrentRequest();
+        //curRequest = retrieveCurrentRequest();
         if (curRequest!=null){
             View searchFragment = findViewById(R.id.search_layout);
             searchFragment.setVisibility(View.GONE);
-        } else {
-            cancelRequest();
         }
     }
 
