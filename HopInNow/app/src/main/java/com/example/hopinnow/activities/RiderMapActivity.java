@@ -163,6 +163,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2)
+        {
+            //TODO curReqest to firebase trip list
+
+            cancelRequest();
+        }
+    }
+
+    @Override
     protected void onStart(){
         super.onStart();
         if (curRequest!=null){
@@ -224,7 +237,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         //set curRequest to null
         curRequest = null;
-        saveRequestLocal(curRequest);
+        saveCurrentRequest(curRequest);
         pickUpLocName = null;
         dropOffLocName= null;
         pickUpLoc = null;
@@ -238,13 +251,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
-    public void saveRequestLocal(Request req){
-        mPrefs = getSharedPreferences("Current", MODE_PRIVATE);
+    public void saveCurrentRequest(Request req){
+        mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(req); // myObject - instance of MyObject
         prefsEditor.putString("CurrentRequest", json);
         prefsEditor.apply();
+    }
+
+    public Request retrieveCurrentRequest(){
+        Gson gson = new Gson();
+        String json = mPrefs.getString("CurrentRequest", "");
+        Request req = gson.fromJson(json, Request.class);
+        return req;
     }
 
     public void setRequest(){
@@ -255,7 +275,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO set current Request
         curRequest = new Request( driver,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
 
-        saveRequestLocal(curRequest);
+        saveCurrentRequest(curRequest);
 
         //TODO save cur Request to firebase
 
@@ -263,13 +283,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
         switchFragment(R.layout.fragment_rider_driver_offer);
-    }
-
-    public Request retrieveCurrentRequest(){
-        Gson gson = new Gson();
-        String json = mPrefs.getString("CurrentRequest", "");
-        Request req = gson.fromJson(json, Request.class);
-        return req;
     }
 
     public void callNumber(String phoneNumber){

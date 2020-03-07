@@ -108,10 +108,10 @@ public class RiderWaitingPickupFragment extends Fragment {
         //set driver rating
         TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
         String rating;
-        if (driver.getRating()==-1){
+        if (driver.getRatingCounts()==0){
             rating = "not yet rated";
         } else {
-            rating = Integer.toString(driver.getRating());
+            rating = Double.toString(driver.getRating());
         }
         driverRating.setText(rating);
 

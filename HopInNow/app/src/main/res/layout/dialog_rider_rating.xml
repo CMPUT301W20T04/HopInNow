@@ -25,7 +25,7 @@
 
 
     <TextView
-        android:id="@+id/rider_rating_driver"
+        android:id="@+id/dialog_rider_rating_driver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -36,11 +36,12 @@
         android:textSize="20sp" />
 
     <RatingBar
+        android:id="@+id/dialog_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:rating="0"
-        android:theme="@style/RatingBar"
-        android:layout_gravity="center" />
+        android:theme="@style/RatingBar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,17 +51,18 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/dialog_rating_cancel"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_gravity="center"
             android:layout_marginLeft="180dp"
-            android:text="Cancel"
-            android:textSize="16sp"
             android:background="@color/colorDark"
-            android:textColor="@color/ColorWhite"/>
+            android:text="Cancel"
+            android:textColor="@color/ColorWhite"
+            android:textSize="16sp" />
 
         <Button
-            android:id="@+id/rider_rating_submit"
+            android:id="@+id/dialog_rating_submit"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:text="Submit"
