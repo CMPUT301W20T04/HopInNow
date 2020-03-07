@@ -107,7 +107,38 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
             Log.v(TAG, "User is not logged in!");
         }
     }
-
+    public void updateUserProfile(final User user, final UserProfileStatusListener listener) {
+        Log.v(TAG, "Ready to create user profile.");
+        // should not let any one see the password!
+        user.setPassword(null);
+        // check if logged in:
+        this.currentUser = firebaseAuth.getCurrentUser();
+        if (this.currentUser != null) {
+            // the user is logged in successfully
+            Log.v(TAG, "User is logged in!");
+            Log.v(TAG, "Ready to store user information!");
+            this.firestore
+                    .collection("Users")
+                    .document(this.currentUser.getUid())
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.v(TAG, "User info updated!");
+                            listener.onProfileUpdateSuccess(user);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.v(TAG, "User info did not update successfully!");
+                            listener.onProfileUpdateFailure();
+                        }
+                    });
+        } else {    // the user is not logged in
+            Log.v(TAG, "User is not logged in!");
+        }
+    }
     public void getUserProfile(final UserProfileStatusListener listener) {
         this.currentUser = firebaseAuth.getCurrentUser();
         // check if logged in:
@@ -132,47 +163,6 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                         listener.onProfileRetrieveFailure();
                         }
                     }));
-        } else {    // the user is not logged in
-            Log.v(TAG, "User is not logged in!");
-        }
-    }
-    public void updateUserProfile(final User user, final UserProfileStatusListener listener) {
-        Log.v(TAG, "Ready to create user profile.");
-        // should not let any one see the password!
-        user.setPassword(null);
-        // declare Document reference:
-        final DocumentReference documentReference;
-        // check if logged in:
-        this.currentUser = firebaseAuth.getCurrentUser();
-        if (this.currentUser != null) {
-            // the user is logged in successfully
-            Log.v(TAG, "User is logged in!");
-            Log.v(TAG, "Ready to store user information!");
-            documentReference = this.firestore
-                    .collection("Users")
-                    .document(this.currentUser.getUid());
-            this.firestore.runTransaction(new Transaction.Function<Void>() {
-                @Override
-                public Void apply(@NonNull Transaction transaction) {
-                    transaction.update(documentReference, "name", user.getName());
-                    transaction.update(documentReference, "email", user.getEmail());
-                    transaction.update(documentReference, "phoneNumber", user.getPhoneNumber());
-                    return null;
-                }
-            }).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.v(TAG, "User info updated!");
-                    listener.onProfileUpdateSuccess(user);
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.v(TAG, "User info did not update successfully!");
-                    listener.onProfileUpdateFailure();
-                }
-            });
         } else {    // the user is not logged in
             Log.v(TAG, "User is not logged in!");
         }

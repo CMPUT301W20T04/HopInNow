@@ -22,7 +22,6 @@ import java.util.Objects;
 public class RiderPickedupFragment extends Fragment {
     Request curRequest;
     Driver driver;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rider_pickedup, container, false);
