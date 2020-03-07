@@ -53,7 +53,7 @@ public class RiderDriverOfferFragment extends Fragment {
             if (driver.getRating()==-1){
                 rating = "not yet rated";
             } else {
-                rating = Integer.toString(driver.getRating());
+                rating = Double.toString(driver.getRating());
             }
             driverRating.setText(rating);
 
@@ -128,7 +128,7 @@ public class RiderDriverOfferFragment extends Fragment {
         if (driver.getRating()==-1){
             rating = "not yet rated";
         } else {
-            rating = Integer.toString(driver.getRating());
+            rating = Double.toString(driver.getRating());
         }
         driverRating.setText(rating);
 
