@@ -211,6 +211,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         FragmentTransaction t;
 
         switch(caseId){
+            case R.layout.fragment_rider_waiting_driver:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderWaitingDriverFragment()).commit();
+                View searchFragment = findViewById(R.id.search_layout);
+                searchFragment.setVisibility(View.GONE);
+                break;
             case R.layout.fragment_rider_driver_offer:
 
                 t = getSupportFragmentManager().beginTransaction();
@@ -291,7 +297,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
-        switchFragment(R.layout.fragment_rider_driver_offer);
+        switchFragment(R.layout.fragment_rider_waiting_driver);
+
     }
 
     public void callNumber(String phoneNumber){
