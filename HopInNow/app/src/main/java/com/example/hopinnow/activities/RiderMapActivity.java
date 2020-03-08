@@ -319,6 +319,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
+    /**
+     * set marker to map
+     */
      public void setMapMarker(Marker m, LatLng latLng){
 
          if (m == null) {
