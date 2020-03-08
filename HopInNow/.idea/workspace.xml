@@ -11,8 +11,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4585bf0c-ecf3-4e25-aac8-aa4c9a311b7f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_1_1_3_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_cursoradapter_cursoradapter_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_customview_customview_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_documentfile_documentfile_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_drawerlayout_drawerlayout_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_interpolator_interpolator_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_legacy_legacy_support_core_utils_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_loader_loader_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_localbroadcastmanager_localbroadcastmanager_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_print_print_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_viewpager_viewpager_1_0_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/RiderMapActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/RiderMapActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,12 +63,6 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="524" />
-    <option name="y" value="251" />
-    <option name="width" value="1092" />
-    <option name="height" value="744" />
   </component>
   <component name="ProjectId" id="1YjapSAQmu2qONDTUkIQSGNkZ6m" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -244,13 +253,18 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Android App.HopInNow-app" />
+      <item itemvalue="Android App.HopInNow-HopInNow-app" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="817ba353-98ee-4a6d-b74e-16c7b602f82f" name="Default Changelist" comment="" />
+      <changelist id="4585bf0c-ecf3-4e25-aac8-aa4c9a311b7f" name="Default Changelist" comment="" />
       <created>1583458640365</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -312,21 +326,28 @@
       <option name="project" value="LOCAL" />
       <updated>1583692567885</updated>
     </task>
-    <task id="LOCAL-00009" summary="user constructor update with deposit">
-      <created>1583695613345</created>
+    <task id="LOCAL-00009" summary="driver menu">
+      <created>1583696265412</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1583695613345</updated>
+      <updated>1583696265412</updated>
     </task>
-    <task id="LOCAL-00010" summary="user constructor update with deposit">
-      <created>1583696817909</created>
+    <task id="LOCAL-00010" summary="driver menu">
+      <created>1583696486031</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1583696817909</updated>
+      <updated>1583696486031</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="driver menu">
+      <created>1583701719040</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1583701719040</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -361,6 +382,7 @@
     <MESSAGE value="get new" />
     <MESSAGE value="driver updated" />
     <MESSAGE value="user constructor update with deposit" />
-    <option name="LAST_COMMIT_MESSAGE" value="user constructor update with deposit" />
+    <MESSAGE value="driver menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="driver menu" />
   </component>
 </project>
