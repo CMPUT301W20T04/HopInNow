@@ -10,14 +10,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="817ba353-98ee-4a6d-b74e-16c7b602f82f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/statuslisteners/DriverProfileStatusListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/statuslisteners/RiderProfileStatusListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/database/UserDatabaseAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/database/UserDatabaseAccessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/example/hopinnow/TestUserDatabaseAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/com/example/hopinnow/TestUserDatabaseAccessor.java" afterDir="false" />
-    </list>
+    <list default="true" id="817ba353-98ee-4a6d-b74e-16c7b602f82f" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
