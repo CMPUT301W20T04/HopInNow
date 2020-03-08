@@ -85,6 +85,13 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
+    <configuration name="hopinnow in app" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="TEST_OBJECT" value="directory" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <dir value="$PROJECT_DIR$/app/src/test/java/com/example/hopinnow" />
+=======
     <configuration name="Desktop-HopInNow-HopInNow-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="Desktop-HopInNow-HopInNow-app" />
       <option name="DEPLOY" value="true" />
@@ -132,6 +139,7 @@
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
+>>>>>>> baee8b49ecc181ef532f77bc2c8c8b6a6499973b
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
@@ -238,8 +246,8 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="HopInNow-HopInNow-app" />
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -293,15 +301,24 @@
       <item itemvalue="Android App.app" />
       <item itemvalue="Android App.HopInNow-app" />
       <item itemvalue="Android App.HopInNow-HopInNow-app" />
+<<<<<<< HEAD
+      <item itemvalue="Android JUnit.hopinnow in app" />
+=======
       <item itemvalue="Android App.Desktop-HopInNow-HopInNow-app" />
+>>>>>>> baee8b49ecc181ef532f77bc2c8c8b6a6499973b
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android JUnit.hopinnow in app" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4585bf0c-ecf3-4e25-aac8-aa4c9a311b7f" name="Default Changelist" comment="" />
+      <changelist id="817ba353-98ee-4a6d-b74e-16c7b602f82f" name="Default Changelist" comment="" />
       <created>1583458640365</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
