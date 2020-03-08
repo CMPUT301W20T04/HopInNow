@@ -96,16 +96,17 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                 boolean isDriver = driverSwitch.isChecked();
                 // save user information in the database:
                 if (isDriver) { // the user is a driver
-                    user = new Driver(emailData, passwordData, nameData, phoneNumberData, true,
-                            null, null, null, null);
+                    user = new Driver(emailData, passwordData, nameData, phoneNumberData,
+                            true, 0, null, null,
+                            null, null);
                     Intent intent = new Intent(getApplicationContext(), VehicleInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("DriverObject", user);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {    // the user is a rider
-                    user = new Rider(emailData, passwordData, nameData, phoneNumberData, false,
-                            null, null);
+                    user = new Rider(emailData, passwordData, nameData, phoneNumberData,
+                            false, 0, null, null);
                     // alert progress dialog:
                     ViewGroup viewGroup = findViewById(R.id.activity_register);
                     progressbarDialog = new ProgressbarDialog(RegisterActivity.this, viewGroup);

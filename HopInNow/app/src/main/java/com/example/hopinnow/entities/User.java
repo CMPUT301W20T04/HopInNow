@@ -13,12 +13,13 @@ public class User implements Serializable {
     // constructors
 
     public User(){}
-    public User(String email, String password, String name, String phoneNumber, boolean userType){
+    public User(String email, String password, String name, String phoneNumber, boolean userType,double deposit){
         this.email = email; //unique
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.userType = userType;
+        this.deposit = deposit;
     }
     // getters and setters
     public String getEmail() {

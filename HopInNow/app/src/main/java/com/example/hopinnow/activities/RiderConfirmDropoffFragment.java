@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class RiderConfirmDropoffFragment extends Fragment {
         //TODO assign driver
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, null, car, null, null);
+                "12345678", true, 10.0, null, car, null, null);
         //TODO set current Request
         curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
 
@@ -43,7 +44,8 @@ public class RiderConfirmDropoffFragment extends Fragment {
             completeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO CHANGE INTENT TO PAYMENT
+                    Intent intent = new Intent(getActivity(),RiderPaymentActivity.class);
+                    startActivity(intent);
                 }
             });
 

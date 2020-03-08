@@ -29,7 +29,7 @@ public class RiderPickedupFragment extends Fragment {
         //TODO assign driver
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, null, car, null, null);
+                "12345678", true, 10.0,  null, car, null, null);
         //TODO set current Request
         curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
 
@@ -63,6 +63,15 @@ public class RiderPickedupFragment extends Fragment {
                 public void onClick(View v) {
                     //change fragment
                     ((RiderMapActivity) getActivity()).callNumber("911");
+                }
+            });
+
+            //TODO TEMPORARY
+            Button nextBtn = view.findViewById(R.id.rider_pickedup_next_button);
+            nextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_confirm_dropoff);
                 }
             });
 

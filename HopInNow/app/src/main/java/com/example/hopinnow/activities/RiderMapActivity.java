@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -40,14 +39,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -64,7 +61,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private Request curRequest;
-    private FloatingActionButton riderMenuBtn;
+
     private SharedPreferences mPrefs;
 
 
@@ -78,7 +75,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO set rider, driver, car properly
         rider = new Rider();
         Car car = new Car("Auburn","Speedster","Cream","111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, null, car, null, null);
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, 10.0, null, car, null, null);
 
 
         setupAutoCompleteFragment();
@@ -96,18 +93,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             }
         });
-
-
-
-        // a button listener
-        riderMenuBtn = (FloatingActionButton) findViewById(R.id.riderMenuBtn);
-        riderMenuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), RiderMenuActivity.class);
-                startActivity(startIntent);
-            }
-        });
     }
 
 
@@ -116,7 +101,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
-                .position(edmonton) //set to current location later on pickUpLoc
+                .position(edmonton) /**set to current location later on pickUpLoc*/
                 .title("Edmonton")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
     }
@@ -131,11 +116,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
-        Objects.requireNonNull(pickUpAutoComplete).setHint("Pick Up Location");
+        pickUpAutoComplete.setHint("Pick Up Location");
         pickUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         pickUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(@NonNull Place place) {
+            public void onPlaceSelected(Place place) {
                 if (place!=null){
                     pickUpLocName = place.getAddress();
                     pickUpLoc = place.getLatLng();
@@ -146,7 +131,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }
             @Override
-            public void onError(@NonNull Status status) {
+            public void onError(Status status) {
                 Log.e("An error occurred: ", status.toString());
             }
         });
@@ -154,11 +139,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
-        Objects.requireNonNull(dropOffAutoComplete).setHint("Drop Off Location");
+        dropOffAutoComplete.setHint("Drop Off Location");
         dropOffAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         dropOffAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(@NonNull Place place) {
+            public void onPlaceSelected(Place place) {
                 if (place!=null){
                     dropOffLocName = place.getAddress();
                     dropOffLoc = place.getLatLng();
@@ -169,7 +154,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }
             @Override
-            public void onError(@NonNull Status status) {
+            public void onError(Status status) {
                 Log.e("An error occurred: ", status.toString());
             }
         });
@@ -190,14 +175,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
-
     @Override
     protected void onStart(){
         super.onStart();
         //curRequest = retrieveCurrentRequest();
+        Bundle b = getIntent().getExtras();
 
-        if (curRequest!=null){
+        if(b!=null) {
+            if (Boolean.valueOf(b.get("Current_Request_To_Null").toString())){
+                cancelRequest();
+            };
+        }
 
+        if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
             searchFragment.setVisibility(View.GONE);
         }
