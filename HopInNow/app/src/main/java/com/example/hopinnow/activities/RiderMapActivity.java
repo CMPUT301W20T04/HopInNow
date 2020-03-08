@@ -102,10 +102,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         searchInPlace = true;
         driver = null;
 
-
-
-
-
         setupAutoCompleteFragment();
 
         addRequest = findViewById(R.id.add_request_button);
