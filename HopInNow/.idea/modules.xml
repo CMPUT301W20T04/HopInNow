@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidStudioProjects-HopInNow-HopInNow.iml" filepath="$PROJECT_DIR$/AndroidStudioProjects-HopInNow-HopInNow.iml" group="HopInNow" />
+      <module fileurl="file://$PROJECT_DIR$/Desktop-HopInNow-HopInNow.iml" filepath="$PROJECT_DIR$/Desktop-HopInNow-HopInNow.iml" group="HopInNow" />
+      <module fileurl="file://$PROJECT_DIR$/app/Desktop-HopInNow-HopInNow-app.iml" filepath="$PROJECT_DIR$/app/Desktop-HopInNow-HopInNow-app.iml" group="HopInNow/app" />
       <module fileurl="file://$PROJECT_DIR$/HopInNow.iml" filepath="$PROJECT_DIR$/HopInNow.iml" group="HopInNow" />
       <module fileurl="file://$PROJECT_DIR$/HopInNow-HopInNow.iml" filepath="$PROJECT_DIR$/HopInNow-HopInNow.iml" group="HopInNow" />
       <module fileurl="file://$PROJECT_DIR$/app/HopInNow-HopInNow-app.iml" filepath="$PROJECT_DIR$/app/HopInNow-HopInNow-app.iml" group="HopInNow/app" />

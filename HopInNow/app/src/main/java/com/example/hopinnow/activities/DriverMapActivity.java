@@ -62,7 +62,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         driverMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), RiderMenuActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(), DriverMenuActivity.class);
                 startActivity(startIntent);
             }
         });

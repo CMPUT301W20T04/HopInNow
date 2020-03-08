@@ -11,7 +11,7 @@ public class Driver extends User {
     private int ratingCounts;
 
     //constructor
-    public Driver() {}
+    public Driver(String s, String s1, String lupin_the_third, String s2, boolean b, Object o, Car car, Object o1, Object o2) {}
 
     public Driver(String email, String password, String name, String phoneNumber, boolean userType,double deposit,
                   Request curRequest, Car car, ArrayList<Request> availableRequest,
