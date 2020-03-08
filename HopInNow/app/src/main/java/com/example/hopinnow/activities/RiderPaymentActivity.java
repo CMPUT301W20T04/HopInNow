@@ -71,7 +71,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
 
         baseFare = curRequest.getEstimatedFare();
         totalPaymentTextview = findViewById(R.id.rider_payment_total);
-        totalPaymentTextview.setText(Double.toString(baseFare));
+        totalPaymentTextview.setText("$ "+Double.toString(baseFare));
 
 
         //show total payment calculation by baes fare * my tips
@@ -82,7 +82,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
 
                 setMyTip();
                 totalPayment = formatTotalPayment();
-                totalPaymentTextview.setText(Double.toString(totalPayment));
+                totalPaymentTextview.setText("$ "+Double.toString(totalPayment));
             }
         });
 
@@ -162,7 +162,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
             }
         });
 
-        dialog.setCanceledOnTouchOutside(true);
+        //dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
 
