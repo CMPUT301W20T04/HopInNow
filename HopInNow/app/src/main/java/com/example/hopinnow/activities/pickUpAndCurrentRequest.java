@@ -64,7 +64,7 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
             emergencyCallButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    ((DriverMapActivity)getActivity()).callNumber("7806041057");//shway number
                 }
             });
 
