@@ -37,7 +37,7 @@ public class VehicleInfoActivity extends AppCompatActivity implements LoginStatu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car_info);
+        setContentView(R.layout.activity_vehicle_info);
         // init user database accessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
         // get the information already filled:
