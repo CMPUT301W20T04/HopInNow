@@ -7,6 +7,7 @@ public class Car {
     private String plateNumber;
 
     //constructor
+    public Car(){}
     public Car(String make, String model, String color, String plateNumber) {
         this.make = make;
         this.model = model;
