@@ -1,13 +1,18 @@
 package com.example.hopinnow.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
@@ -83,4 +88,71 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void showAvailableRequest(){
 
     }
+    public void pickUpRider(){
+
+    }
+    public void switchFragment(int caseId){
+        FragmentTransaction t;
+        switch(caseId){
+            case R.layout.fragment_driver_pick_rider_up:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new pickUpAndCurrentRequest()).commit();
+                break;
+        }
+
+
+
+
+    }
+    public void callNumber(String phoneNumber){
+
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:"+phoneNumber));
+
+        if (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        startActivity(callIntent);
+    }
+
+
+    /*
+    *
+    * public void switchFragment(int caseId){
+        FragmentTransaction t;
+
+        switch(caseId){
+            case R.layout.fragment_rider_driver_offer:
+
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderDriverOfferFragment()).commit();
+                //View searchFragment = findViewById(R.id.search_layout);
+                //searchFragment.setVisibility(View.GONE);
+                break;
+            case R.layout.fragment_rider_waiting_pickup:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderWaitingPickupFragment()).commit();
+                break;
+            case R.layout.fragment_rider_pickedup:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderPickedupFragment()).commit();
+                break;
+            case R.layout.fragment_rider_confirm_dropoff:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderConfirmDropoffFragment()).commit();
+                break;
+        }
+
+        //t.addToBackStack(null);
+        //t.commit();
+    }
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    * */
 }

@@ -63,25 +63,29 @@
             android:layout_width="103dp"
             android:layout_height="79dp"
             android:layout_margin="8dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="275dp"
             android:gravity="center"
             android:orientation="vertical"
-            tools:layout_editor_absoluteX="130dp"
-            tools:layout_editor_absoluteY="37dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RequestInfoText">
 
+
+            <TextView
+                android:id="@+id/requestTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Time:"
+                tools:layout_editor_absoluteX="130dp"
+                tools:layout_editor_absoluteY="37dp" />
 
             <TextView
                 android:id="@+id/requestFromText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="From:" />
-
-            <TextView
-                android:id="@+id/timeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Time:"
-                tools:layout_editor_absoluteX="130dp"
-                tools:layout_editor_absoluteY="37dp" />
 
             <TextView
                 android:id="@+id/requestToText"
@@ -92,7 +96,7 @@
                 tools:layout_editor_absoluteY="75dp" />
 
             <TextView
-                android:id="@+id/costText"
+                android:id="@+id/requestCostText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Estimate Fare:"
