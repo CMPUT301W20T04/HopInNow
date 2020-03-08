@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +42,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 
@@ -58,7 +58,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LatLng myPosition;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private Button addRequest;
-
+    private Boolean searchInPlace;
     private Rider rider;
     private Driver driver;
     private LatLng pickUpLoc,dropOffLoc;
@@ -68,7 +68,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private SharedPreferences mPrefs;
 
-    private FloatingActionButton riderMenuBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +75,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         setContentView(R.layout.activity_rider_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
+
+        searchInPlace = true;
 
         //TODO set rider, driver, car properly
         rider = new Rider();
@@ -98,15 +99,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             }
         });
-
-        riderMenuBtn = (FloatingActionButton) findViewById(R.id.riderMenuBtn);
-        riderMenuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), RiderMenuActivity.class);
-                startActivity(startIntent);
-            }
-        });
     }
 
 
@@ -125,7 +117,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //initialize autocomplete fragments
 
         if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), getString(R.string.map_key));
+            Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
         }
 
         AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
@@ -139,10 +131,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     pickUpLocName = place.getAddress();
                     pickUpLoc = place.getLatLng();
                     setMapMarker(pickUpMarker,pickUpLoc);
-                    //pickUpMarker.setPosition(pickUpLoc);
-                    //pickUpMarker.setTitle("Pick Up Location");
-                    //unsure if this is needed for update
-                    //mapFragment.getMapAsync(RiderMapActivity.this);
                 }
             }
             @Override
@@ -163,10 +151,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     dropOffLocName = place.getAddress();
                     dropOffLoc = place.getLatLng();
                     setMapMarker(dropOffMarker,dropOffLoc);
-                    //dropOffMarker.setPosition(dropOffLoc);
-                    //dropOffMarker.setTitle("Drop Off Location");
-                    //unsure if this is needed for update
-                    //mapFragment.getMapAsync(RiderMapActivity.this);
                 }
             }
             @Override
@@ -194,6 +178,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onStart(){
         super.onStart();
+        searchInPlace = false;
         //curRequest = retrieveCurrentRequest();
         Bundle b = getIntent().getExtras();
 
@@ -206,6 +191,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
             searchFragment.setVisibility(View.GONE);
+            searchInPlace = false;
         }
     }
 
@@ -222,12 +208,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         FragmentTransaction t;
 
         switch(caseId){
-            case R.layout.fragment_rider_waiting_driver:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderWaitingDriverFragment()).commit();
-                View searchFragment = findViewById(R.id.search_layout);
-                searchFragment.setVisibility(View.GONE);
-                break;
             case R.layout.fragment_rider_driver_offer:
 
                 t = getSupportFragmentManager().beginTransaction();
@@ -311,8 +291,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
-        switchFragment(R.layout.fragment_rider_waiting_driver);
-
+        searchInPlace = true;
+        switchFragment(R.layout.fragment_rider_driver_offer);
     }
 
     public void callNumber(String phoneNumber){
@@ -337,9 +317,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-    /**
-     * set marker to map
-     */
      public void setMapMarker(Marker m, LatLng latLng){
 
          if (m == null) {
@@ -358,16 +335,24 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
       */
      public void adjustMapFocus(){
 
-        LatLng center = myPosition;
-         if ((pickUpMarker != null)&&(dropOffMarker != null)) {
-             center = LatLngBounds.builder().include(pickUpLoc).include(dropOffLoc).build().getCenter();
-         } else if (pickUpMarker != null) {
-             center = pickUpLoc;
-         } else if (dropOffMarker != null) {
-             center = dropOffLoc;
+         LatLng adjust;
+
+         LatLngBounds.Builder bound = new LatLngBounds.Builder();
+         if ((pickUpLoc != null)&&(dropOffLoc != null)) {
+             bound.include(pickUpLoc);
+             bound.include(dropOffLoc);
+         } else if (pickUpLoc != null) {
+             bound.include(pickUpLoc);
+         } else if (dropOffLoc != null) {
+             bound.include(dropOffLoc);
+         } else {
+             return;
          }
-         CameraUpdate newFocus = CameraUpdateFactory.newLatLngZoom(center, 10);
-         mMap.animateCamera(newFocus);
+
+
+         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
+
+
      }
 
 }
