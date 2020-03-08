@@ -15,8 +15,7 @@
         android:background="@color/colorDark"
         android:textSize="30sp"
         android:gravity="center"
-
-        ></TextView>>
+        />
 
     <ListView
         android:id="@+id/trip_list"

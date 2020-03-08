@@ -10,6 +10,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.activities.RequestListFragment;
 
 import java.util.ArrayList;
 
