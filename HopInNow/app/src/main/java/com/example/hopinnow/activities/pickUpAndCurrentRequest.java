@@ -57,7 +57,7 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
             dropOffButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                 }
             });
             Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
