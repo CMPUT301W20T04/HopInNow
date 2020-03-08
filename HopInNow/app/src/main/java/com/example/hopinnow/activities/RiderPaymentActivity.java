@@ -183,6 +183,8 @@ public class RiderPaymentActivity extends AppCompatActivity {
         intent.putExtra("Current_Request_To_Null", true);
         startActivity(intent);
 
+        Toast.makeText(RiderPaymentActivity.this, "Your trip is completed!", Toast.LENGTH_SHORT).show();
+
     }
 
     public void onRadioButtonClicked(View view) {

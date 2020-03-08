@@ -149,7 +149,18 @@
             android:background="@color/ColorOrange"
             android:text="CANCEL REQUEST"
             android:textColor="@color/ColorWhite"
-            android:textSize="18sp"></Button>
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/rider_waiting_next_button"
+            android:layout_width="30dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/ColorOrange"
+            android:text=">"
+            android:textColor="@color/ColorWhite"
+            android:textSize="18sp"/>
+
     </LinearLayout>
 
     </LinearLayout>

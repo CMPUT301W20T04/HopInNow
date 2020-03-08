@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,8 @@ public class RiderConfirmDropoffFragment extends Fragment {
             completeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO CHANGE INTENT TO PAYMENT
+                    Intent intent = new Intent(getActivity(),RiderPaymentActivity.class);
+                    startActivity(intent);
                 }
             });
 

@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
         android:text="My Driver:  "
         android:textColor="@color/ColorWhite"
         android:textSize="18sp"
@@ -66,11 +67,21 @@
             android:textSize="18sp" />
         <TextView
             android:id="@+id/rider_pickedup_fare"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sample text"
             android:textColor="@color/ColorWhite"
             android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/rider_pickedup_next_button"
+            android:layout_width="30dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/ColorOrange"
+            android:text=">"
+            android:textColor="@color/ColorWhite"
+            android:textSize="18sp"/>
     </LinearLayout>
 
 
@@ -94,6 +105,8 @@
         android:background="@color/ColorRed"
         android:text="EMERGENCY CALL"
         android:textColor="@color/ColorWhite"
-        android:textSize="18sp"></Button>
+        android:textSize="18sp"/>
+
+
 
 </LinearLayout>

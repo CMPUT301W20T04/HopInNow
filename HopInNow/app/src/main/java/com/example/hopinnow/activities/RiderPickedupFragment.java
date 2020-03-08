@@ -65,6 +65,15 @@ public class RiderPickedupFragment extends Fragment {
                 }
             });
 
+            //TODO TEMPORARY
+            Button nextBtn = view.findViewById(R.id.rider_pickedup_next_button);
+            nextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_confirm_dropoff);
+                }
+            });
+
         }
 
         return view;

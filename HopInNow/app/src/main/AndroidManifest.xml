@@ -29,7 +29,7 @@
 
         <activity android:name=".activities.RegisterActivity"></activity>
         <activity android:name=".activities.ProfileActivity" ></activity>
-        <activity android:name=".activities.RiderPaymentActivity">
+        <activity android:name=".activities.RiderMapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -38,6 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.RiderPaymentActivity"></activity>
     </application>
 
 </manifest>

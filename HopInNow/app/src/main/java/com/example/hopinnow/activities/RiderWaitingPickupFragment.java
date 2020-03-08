@@ -88,6 +88,16 @@ public class RiderWaitingPickupFragment extends Fragment {
                 }
             });
 
+
+            //TODO TEMPORARY
+            Button nextBtn = view.findViewById(R.id.rider_waiting_next_button);
+            nextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_pickedup);
+                }
+            });
+
         }
 
         return view;
