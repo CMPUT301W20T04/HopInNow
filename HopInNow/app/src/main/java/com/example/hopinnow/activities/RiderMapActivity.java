@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 
@@ -72,9 +73,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_map);
+
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
-
+        FloatingActionButton riderMenuButton = findViewById(R.id.riderMenuButton);
+        riderMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RiderMenuActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         //TODO set rider, driver, car properly
         rider = new Rider();
         Car car = new Car("Auburn","Speedster","Cream","111111");

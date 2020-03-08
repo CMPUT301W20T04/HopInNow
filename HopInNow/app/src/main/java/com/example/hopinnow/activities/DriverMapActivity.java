@@ -45,7 +45,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
 
-
+    public void setButtonInvisible(){
+        goOnline.setVisibility(View.INVISIBLE);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         goOnline = findViewById(R.id.onlineBtn);
         goOnline.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                switchFragment(R.layout.fragment_driver_requests);
             }
         });
         // a button listener
@@ -102,6 +104,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new RequestListFragment()).commit();
                 break;
+
         }
 
 

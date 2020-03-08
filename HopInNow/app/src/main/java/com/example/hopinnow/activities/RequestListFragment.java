@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -14,23 +15,40 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.RequestListAdapter;
+import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
 import java.util.ArrayList;
 
 
-public class RequestListFragment extends Fragment {
+public class RequestListFragment extends Fragment implements UserProfileStatusListener {
     Integer prePosition;
+    private Driver driver;
+    private UserDatabaseAccessor userDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+        super.onCreateView(inflater,container,savedInstanceState);
+
+
         View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
+
         final ArrayList<Request> requestList = new ArrayList<Request>();
+        //public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date dateTime, Car car, Double estimatedFare){}
+
+
+        userDatabaseAccessor.getUserProfile(this);
+        for(int i=0;i<driver.getAvailableRequests().size();i++)
+            requestList.add(driver.getAvailableRequests().get(i));
+
         final FragmentActivity fragmentActivity = getActivity();
-
+        ((DriverMapActivity)getActivity()).setButtonInvisible();
+        //RequestListAdapter adapter = new RequestListAdapter(requestList, this.getContext());
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
-        final ListView requestListView = (ListView)fragmentActivity.findViewById(R.id.requestList);
+        final ListView requestListView = (ListView)view.findViewById(R.id.requestList);
         requestListView.setAdapter(adapter);
-
         requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -43,7 +61,7 @@ public class RequestListFragment extends Fragment {
 
                 if (prePosition != null){
                     Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
-                    preAcceptBtn.setVisibility(View.GONE);
+                    preAcceptBtn.setVisibility(View.INVISIBLE);
                 }
                 acceptBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
@@ -78,5 +96,35 @@ public class RequestListFragment extends Fragment {
             final int childIndex = pos - firstListItemPosition;
             return listView.getChildAt(childIndex);
         }
+    }
+
+    @Override
+    public void onProfileStoreSuccess() {
+
+    }
+
+    @Override
+    public void onProfileStoreFailure() {
+
+    }
+
+    @Override
+    public void onProfileRetrieveSuccess(User user) {
+
+    }
+
+    @Override
+    public void onProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onProfileUpdateSuccess(User user) {
+        this.driver = (Driver) user;
+    }
+
+    @Override
+    public void onProfileUpdateFailure() {
+
     }
 }
