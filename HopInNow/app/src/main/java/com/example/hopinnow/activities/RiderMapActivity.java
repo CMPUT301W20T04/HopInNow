@@ -25,6 +25,8 @@ import com.example.hopinnow.entities.Driver;
 import com.google.android.gms.common.api.Status;
 
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -52,6 +54,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private GoogleMap mMap;
     MapFragment mapFragment;
     //TODO change to current location later on pickUpLoc
+    private LatLng myPosition;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private Button addRequest;
 
@@ -325,6 +328,25 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
          } else {
              m.setPosition(latLng);
          }
+         adjustMapFocus();
+     }
+
+
+     /**
+      * adjust focus of the map according to the markers
+      */
+     public void adjustMapFocus(){
+
+        LatLng center = myPosition;
+         if ((pickUpMarker != null)&&(dropOffMarker != null)) {
+             center = LatLngBounds.builder().include(pickUpLoc).include(dropOffLoc).build().getCenter();
+         } else if (pickUpMarker != null) {
+             center = pickUpLoc;
+         } else if (dropOffMarker != null) {
+             center = dropOffLoc;
+         }
+         CameraUpdate newFocus = CameraUpdateFactory.newLatLngZoom(center, 10);
+         mMap.animateCamera(newFocus);
      }
 
 }
