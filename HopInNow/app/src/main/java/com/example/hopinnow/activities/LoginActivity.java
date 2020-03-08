@@ -1,6 +1,5 @@
 package com.example.hopinnow.activities;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.databasestatuslisteners.LoginStatusListener;
+import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
@@ -39,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
         this.userDatabaseAccessor = new UserDatabaseAccessor();
         // if user already logged in, go to the profile activity
         if (this.userDatabaseAccessor.isLoggedin()) {
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
             startActivity(intent);
             finish();
         }
@@ -99,9 +98,9 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
 
     @Override
     public void onLoginSuccess() {
-        // go view the user profile:
+        // go view the map:
         this.progressbarDialog.dismissDialog();
-        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
         startActivity(intent);
         finish();
     }

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.UserDatabaseAccessor;
-import com.example.hopinnow.databasestatuslisteners.UserProfileStatusListener;
+import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 
@@ -28,7 +28,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     User currentUser;
     // UI Components:
     private EditText name;
-    private EditText email;
+    private TextView email;
     private EditText phoneNumber;
     private TextView deposit;
     private TextView userType;
@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         // UI init, button listeners are written in the onStart() method
         this.name = findViewById(R.id.proNameET);
         this.name.setEnabled(false);
-        this.email = findViewById(R.id.proEmailET);
+        this.email = findViewById(R.id.proEmailTxt);
         this.email.setEnabled(false);
         this.phoneNumber = findViewById(R.id.proPhoneET);
         this.phoneNumber.setEnabled(false);
@@ -102,7 +102,6 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                 progressbarDialog.startProgressbarDialog();
                 // access database:
                 currentUser.setName(name.getText().toString());
-                currentUser.setEmail(email.getText().toString());
                 currentUser.setPhoneNumber(phoneNumber.getText().toString());
                 userDatabaseAccessor.updateUserProfile(currentUser, ProfileActivity.this);
             }

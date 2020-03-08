@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitiesandfragments.TripListActivity"
+    >
+
+    <TextView
+        android:id="@+id/tripListTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TripList:"
+        android:textColor="@color/ColorWhite"
+        android:background="@color/colorDark"
+        android:textSize="30sp"
+        android:gravity="center"
+
+        ></TextView>>
+
+    <ListView
+        android:id="@+id/trip_list"
+        android:layout_width="341dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        >
+
+    </ListView>
+
+</LinearLayout>

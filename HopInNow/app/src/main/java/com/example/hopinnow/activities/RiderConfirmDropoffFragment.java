@@ -17,6 +17,8 @@ import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 
+import java.util.Objects;
+
 public class RiderConfirmDropoffFragment extends Fragment {
     Request curRequest;
     Driver driver;
@@ -30,7 +32,7 @@ public class RiderConfirmDropoffFragment extends Fragment {
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, 10.0, null, car, null, null);
         //TODO set current Request
-        curRequest = ((RiderMapActivity) getActivity()).retrieveCurrentRequest();
+        curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
 
         // Get Fragment belonged Activity
         final FragmentActivity fragmentActivity = getActivity();
@@ -54,7 +56,7 @@ public class RiderConfirmDropoffFragment extends Fragment {
                 public void onClick(View v) {
                     //TODO TOAST MESSAGE FOR DRIVER, DRIVER SIDE FRAGMENT GOES BACK TO PREVIOUS
 
-                    ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_pickedup);
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(R.layout.fragment_rider_pickedup);
                 }
             });
 
@@ -64,7 +66,7 @@ public class RiderConfirmDropoffFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //change fragment
-                    ((RiderMapActivity) getActivity()).callNumber("911");
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).callNumber("911");
                 }
             });
 

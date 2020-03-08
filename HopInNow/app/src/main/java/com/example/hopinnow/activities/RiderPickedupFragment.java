@@ -17,10 +17,11 @@ import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 
+import java.util.Objects;
+
 public class RiderPickedupFragment extends Fragment {
     Request curRequest;
     Driver driver;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rider_pickedup, container, false);
@@ -30,7 +31,7 @@ public class RiderPickedupFragment extends Fragment {
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, 10.0,  null, car, null, null);
         //TODO set current Request
-        curRequest = ((RiderMapActivity) getActivity()).retrieveCurrentRequest();
+        curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
 
         // Get Fragment belonged Activity
         final FragmentActivity fragmentActivity = getActivity();
@@ -84,7 +85,7 @@ public class RiderPickedupFragment extends Fragment {
      */
     public void showDriverInfo(){
         //change fragment
-        Dialog dialog = new Dialog(getActivity());
+        Dialog dialog = new Dialog(Objects.requireNonNull(getActivity()));
         dialog.setContentView(R.layout.dialog_driver_info);
 
         //driver name
@@ -115,7 +116,7 @@ public class RiderPickedupFragment extends Fragment {
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
+                ((RiderMapActivity) Objects.requireNonNull(getActivity())).callNumber(driver.getPhoneNumber());
             }
         });
 
@@ -124,7 +125,7 @@ public class RiderPickedupFragment extends Fragment {
         emailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((RiderMapActivity) getActivity()).callNumber(driver.getEmail());
+                ((RiderMapActivity) Objects.requireNonNull(getActivity())).callNumber(driver.getEmail());
             }
         });
 
