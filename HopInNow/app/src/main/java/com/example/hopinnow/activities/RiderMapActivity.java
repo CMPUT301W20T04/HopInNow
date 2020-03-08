@@ -25,12 +25,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.common.api.Status;
 
 
@@ -64,7 +66,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback, RiderProfileStatusListener {
 
     private GoogleMap mMap;
     MapFragment mapFragment;
@@ -82,7 +84,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     protected LocationManager locationManager;
 
     private SharedPreferences mPrefs;
-
+    private UserDatabaseAccessor userDatabaseAccessor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +100,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         mapFragment.getMapAsync(RiderMapActivity.this);
 
         searchInPlace = true;
-
-
-        //TODO set rider, driver, car properly
-        rider = new Rider();
-        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, 10.0, null, car, null, null);
+        driver = null;
 
 
 
@@ -124,6 +121,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             }
         });
+        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        userDatabaseAccessor.getRiderProfile(this);
     }
 
 
@@ -396,4 +395,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
      }
 
+    @Override
+    public void onRiderProfileRetrieveSuccess(Rider rider) {
+        this.rider = rider;
+    }
+
+    @Override
+    public void onRiderProfileRetrieveFailure() {
+
+    }
 }
