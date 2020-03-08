@@ -1,4 +1,4 @@
-package com.example.hopinnow.activitiesandfragments;
+package com.example.hopinnow.activities;
 
 import android.os.Bundle;
 import android.widget.TextView;

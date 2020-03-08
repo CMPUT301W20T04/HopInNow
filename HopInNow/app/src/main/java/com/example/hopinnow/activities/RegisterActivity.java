@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -21,11 +22,12 @@ import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 
-public class RegisterActivity extends AppCompatActivity implements LoginStatusListener, RegisterStatusListener, UserProfileStatusListener {
+public class RegisterActivity extends AppCompatActivity implements LoginStatusListener,
+        RegisterStatusListener, UserProfileStatusListener {
     // establish the TAG of this activity:
     public static final String TAG = "RegisterActivity";
     // current user information:
-    User user;
+    private User user;
     // Database methods:
     private UserDatabaseAccessor userDatabaseAccessor;
     // UI components:
@@ -36,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
     private EditText password2;
     private TextView passdiffwarn;
     private Switch driverSwitch;
+    private Button registerBtn;
     // alert progress dialog:
     private ProgressbarDialog progressbarDialog;
     @Override
@@ -59,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         this.passdiffwarn = findViewById(R.id.passdiffwarn);
         this.passdiffwarn.setVisibility(View.INVISIBLE);
         this.driverSwitch = findViewById(R.id.driver_rider_switch);
+        this.registerBtn = findViewById(R.id.regButton);
     }
 
     private boolean verifyFields() {
@@ -72,47 +76,63 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         } else return password.length() >= 6 && password2.length() >= 6;
     }
 
-    public void register(View v) {
-        if (!verifyFields()) {
-            this.passdiffwarn.setVisibility(View.VISIBLE);
-            return;
-        } else {
-            this.passdiffwarn.setVisibility(View.INVISIBLE);
-        }
-        // initialize the user object to store:
-        String password = this.password.getText().toString();
-        String name = this.name.getText().toString();
-        String email = this.email.getText().toString();
-        String phoneNumber = this.phoneNumber.getText().toString();
-        boolean isDriver = driverSwitch.isChecked();
-        // save user information in the database:
-        if (isDriver) { // the user is a driver
-            this.user = new Driver(email, password, name, phoneNumber, true,10.00,
-                    null, null, null, null);
-        } else {    // the user is a rider
-            this.user = new Rider(email, password, name, phoneNumber, false, 10.0,
-                    null, null);
-        }
-        // alert progress dialog:
-        ViewGroup viewGroup = findViewById(R.id.activity_register);
-        progressbarDialog = new ProgressbarDialog(RegisterActivity.this, viewGroup);
-        progressbarDialog.startProgressbarDialog();
-        // create user in the database:
-        this.userDatabaseAccessor.registerUser(this.user, this);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
+        this.registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!verifyFields()) {
+                    passdiffwarn.setVisibility(View.VISIBLE);
+                    return;
+                } else {
+                    passdiffwarn.setVisibility(View.INVISIBLE);
+                }
+                // initialize the user object to store:
+                String passwordData = password.getText().toString();
+                String nameData = name.getText().toString();
+                String emailData = email.getText().toString();
+                String phoneNumberData = phoneNumber.getText().toString();
+                boolean isDriver = driverSwitch.isChecked();
+                // save user information in the database:
+                if (isDriver) { // the user is a driver
+                    user = new Driver(emailData, passwordData, nameData, phoneNumberData,
+                            true, 0, null, null,
+                            null, null);
+                    Intent intent = new Intent(getApplicationContext(), VehicleInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("DriverObject", user);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {    // the user is a rider
+                    user = new Rider(emailData, passwordData, nameData, phoneNumberData,
+                            false, 0, null, null);
+                    // alert progress dialog:
+                    ViewGroup viewGroup = findViewById(R.id.activity_register);
+                    progressbarDialog = new ProgressbarDialog(RegisterActivity.this, viewGroup);
+                    progressbarDialog.startProgressbarDialog();
+                    // create user in the database:
+                    userDatabaseAccessor.registerUser(user, RegisterActivity.this);
+                }
+            }
+        });
     }
 
     @Override
     public void onLoginSuccess() {
+        // first dismiss the progress bar:
         this.progressbarDialog.dismissDialog();
-        // go view the user profile:
+        // initialize intent to go to the ProfileActivity:
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        Bundle bundle = new Bundle();
+        // put the driver object into the bundle, Profile activity can access directly:
+        bundle.putSerializable("UserObject", this.user);
+        intent.putExtras(bundle);
         startActivity(intent);
         finish();
+        // show success message here:
+        Toast.makeText(getApplicationContext(),
+                "Rider logged in successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -132,7 +152,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         Toast.makeText(getApplicationContext(),
                 "User created, logging in the user...", Toast.LENGTH_SHORT).show();
         this.userDatabaseAccessor.createUserProfile(this.user, this);
-        this.userDatabaseAccessor.loginUser(this.user, this);
     }
 
     @Override
@@ -145,7 +164,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onProfileStoreSuccess() {
-
+        this.userDatabaseAccessor.loginUser(this.user, this);
     }
 
     @Override
@@ -160,7 +179,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onProfileRetrieveFailure() {
-
+        this.progressbarDialog.dismissDialog();
     }
 
     @Override
@@ -170,6 +189,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onProfileUpdateFailure() {
-
+        this.progressbarDialog.dismissDialog();
     }
 }

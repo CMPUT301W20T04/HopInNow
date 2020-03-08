@@ -10,7 +10,8 @@ public class Rider extends User {
     //constructor
     public Rider() {}
 
-    public Rider(String email, String password, String name, String phoneNumber, boolean userType,double deposit,
+    public Rider(String email, String password, String name, String phoneNumber,
+                 boolean userType,double deposit,
                  Request curRequest, ArrayList<Trip> riderTripList) {
         super(email, password, name, phoneNumber, userType, deposit);
         this.curRequest = curRequest;
