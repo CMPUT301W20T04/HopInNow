@@ -9,13 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.activitiesandfragments.TripListActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DriverMenuActivity extends AppCompatActivity {
 
     private FloatingActionButton offlineBtn;
-    private Button driverMyProfileBtn, driverMyTripsBtn, carInfoBtn;
+    private Button driverMyProfileBtn, driverMyTripsBtn, vehicleInfoBtn;
     private TextView driverMenuTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,7 @@ public class DriverMenuActivity extends AppCompatActivity {
 
         driverMyProfileBtn = (Button) findViewById(R.id.driverMyProfileBtn);
         driverMyTripsBtn = (Button) findViewById(R.id.driverMyTripsBtn);
-        carInfoBtn = (Button) findViewById(R.id.carInfoBtn);
+        vehicleInfoBtn = (Button) findViewById(R.id.vehicleInfoBtn);
         offlineBtn = (FloatingActionButton) findViewById(R.id.offlineBtn);
 
 
@@ -44,10 +43,10 @@ public class DriverMenuActivity extends AppCompatActivity {
             }
         });
 
-        carInfoBtn.setOnClickListener(new View.OnClickListener() {
+        vehicleInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CarInfoActivity.class);
+                Intent intent = new Intent(getApplicationContext(), VehicleInfoActivity.class);
                 startActivity(intent);
             }
         });

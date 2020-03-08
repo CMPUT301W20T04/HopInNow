@@ -33,7 +33,7 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.RiderMapActivity" />
-        <activity android:name=".activities.CarInfoActivity"/>
+        <activity android:name=".activities.VehicleInfoActivity"/>
         <activity android:name=".activities.DriverMapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
