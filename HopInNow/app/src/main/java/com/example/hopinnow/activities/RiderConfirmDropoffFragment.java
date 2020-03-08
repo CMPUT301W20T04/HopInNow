@@ -27,7 +27,7 @@ public class RiderConfirmDropoffFragment extends Fragment {
         //TODO assign driver
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, null, car, null, null);
+                "12345678", true, 10.0, null, car, null, null);
         //TODO set current Request
         curRequest = ((RiderMapActivity) getActivity()).retrieveCurrentRequest();
 

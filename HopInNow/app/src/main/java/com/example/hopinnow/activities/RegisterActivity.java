@@ -88,10 +88,10 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         boolean isDriver = driverSwitch.isChecked();
         // save user information in the database:
         if (isDriver) { // the user is a driver
-            this.user = new Driver(email, password, name, phoneNumber, true,
+            this.user = new Driver(email, password, name, phoneNumber, true,10.00,
                     null, null, null, null);
         } else {    // the user is a rider
-            this.user = new Rider(email, password, name, phoneNumber, false,
+            this.user = new Rider(email, password, name, phoneNumber, false, 10.0,
                     null, null);
         }
         // alert progress dialog:

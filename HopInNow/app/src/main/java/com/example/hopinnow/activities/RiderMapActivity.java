@@ -75,7 +75,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO set rider, driver, car properly
         rider = new Rider();
         Car car = new Car("Auburn","Speedster","Cream","111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, null, car, null, null);
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, 10.0, null, car, null, null);
 
 
         setupAutoCompleteFragment();
@@ -179,6 +179,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     protected void onStart(){
         super.onStart();
         //curRequest = retrieveCurrentRequest();
+        Bundle b = getIntent().getExtras();
+
+        if(b!=null) {
+            if (Boolean.valueOf(b.get("Current_Request_To_Null").toString())){
+                cancelRequest();
+            };
+        }
+
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
             searchFragment.setVisibility(View.GONE);

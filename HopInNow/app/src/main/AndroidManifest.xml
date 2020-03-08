@@ -29,7 +29,7 @@
 
         <activity android:name=".activities.RegisterActivity"></activity>
         <activity android:name=".activities.ProfileActivity" ></activity>
-        <activity android:name=".activities.RiderMapActivity">
+        <activity android:name=".activities.RiderPaymentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

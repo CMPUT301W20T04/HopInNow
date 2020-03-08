@@ -138,9 +138,21 @@
             android:id="@+id/rider_payment_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
+            android:text="Sample"
             android:textColor="@color/ColorWhite"
             android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/rider_payment_calculate"
+            android:layout_width="66dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="60dp"
+            android:layout_gravity="center"
+            android:text="$ Sum"
+            android:textColor="@color/ColorWhite"
+            android:background="@color/ColorOrange"
+            android:textSize="16sp" />
+
     </LinearLayout>
 
     <Button

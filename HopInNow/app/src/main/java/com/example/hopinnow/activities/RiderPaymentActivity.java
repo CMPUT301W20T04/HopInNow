@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,18 +26,29 @@ import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
+import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class RiderPaymentActivity extends AppCompatActivity {
     private Request curRequest;
     private Driver driver;
     private Rider rider;
     private SharedPreferences mPrefs;
-    private Double totalPayment;
-    private Double baseFare = curRequest.getEstimatedFare();
+    private Double totalPayment = 0.00;
+    private Double myTip;
+    private Double baseFare;
     private ImageView qrImage;
+    private Boolean other = false;
+    private TextView totalPaymentTextview;
+    private Date dropOffDateTime;
+    private Double myRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,38 +56,68 @@ public class RiderPaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rider_payment);
 
         qrImage = findViewById(R.id.rider_payment_qr);
+        dropOffDateTime = Calendar.getInstance().getTime();
 
         //TODO assign driver
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, null, car, null, null);
-        rider = new Rider("1@gmail.com","111111","Me","7654321",false,curRequest,null);
+                "12345678", true, 10.0, null, car, null, null);
+        rider = new Rider("1@gmail.com","111111","Me","7654321",false,10.0, curRequest,null);
         //TODO set current Request
         mPrefs = getSharedPreferences("LocalRequest",MODE_PRIVATE);
         Gson gsonRequest = new Gson();
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
 
+        baseFare = curRequest.getEstimatedFare();
+        totalPaymentTextview = findViewById(R.id.rider_payment_total);
+        totalPaymentTextview.setText(Double.toString(baseFare));
 
-        //TODO create qr code
-        //Double availableRiderDeposit = rider.getDeposit();
+
+        //show total payment calculation by baes fare * my tips
+        Button showTotalBtn = findViewById(R.id.rider_payment_calculate);
+        showTotalBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                setMyTip();
+                totalPayment = formatTotalPayment();
+                totalPaymentTextview.setText(Double.toString(totalPayment));
+            }
+        });
+
+
+
+        // creates QR code on button confirm
         final Button confirmPaymentBtn = findViewById(R.id.rider_payment_submit_tips);
         confirmPaymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO CHANGE INTENT TO PAYMENT
-                Gson gsonPay = new Gson();
-                String serializePay = gsonPay.toJson(totalPayment);
 
-                Bitmap bitmap = QRCodeHelper
-                        .newInstance(RiderPaymentActivity.this)
-                        .setContent(serializePay)
-                        .setErrorCorrectionLevel(ErrorCorrectionLevel.Q)
-                        .setMargin(2)
-                        .getQRCOde();
-                qrImage.setImageBitmap(bitmap);
-                confirmPaymentBtn.setVisibility(View.GONE);
-            }
+                setMyTip();
+                totalPayment = formatTotalPayment();
+                totalPayment = Double.parseDouble(Double.toString(totalPayment));
+
+                if (totalPayment>rider.getDeposit()){
+                    Toast.makeText(RiderPaymentActivity.this, "There is insufficient deposit in your account!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Gson gsonPay = new Gson();
+                    String serializePay = gsonPay.toJson(totalPayment);
+
+                    Bitmap bitmap = QRCodeHelper
+                            .newInstance(RiderPaymentActivity.this)
+                            .setContent(serializePay)
+                            .setErrorCorrectionLevel(ErrorCorrectionLevel.Q)
+                            .setMargin(2)
+                            .getQRCOde();
+                    qrImage.setImageBitmap(bitmap);
+                    confirmPaymentBtn.setVisibility(View.GONE);
+
+                    onScanningCompleted();
+                }
+                }
+
+
         });
 
 
@@ -104,7 +147,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                newDriverRating(ratingBar);
+                setNewDriverRating(ratingBar);
                 completeRequest();
 
             }
@@ -123,28 +166,21 @@ public class RiderPaymentActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void newDriverRating(RatingBar rb){
+    private void setNewDriverRating(RatingBar rb){
         Double prevRating = driver.getRating();
         int counts = driver.getRatingCounts();
+        myRating = (double) rb.getRating();
         Double newRating = (prevRating + rb.getRating())/(counts+1);
         driver.setRatingCounts(counts+1);
         driver.setRating(newRating);
     }
 
     private void completeRequest(){
-        //TODO req to trip list in firbase
+        //TODO req to trip list in rider's trip list in firbase
+        Trip trip = toTrip();
 
-        //TODO set curRequest as null in shared pref
-        //curRequest = null;
-        /**mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
-         SharedPreferences.Editor prefsEditor = mPrefs.edit();
-         Gson gson = new Gson();
-         String json = gson.toJson(curRequest); // myObject - instance of MyObject
-         prefsEditor.putString("CurrentRequest", json);
-         prefsEditor.apply();*/
-
-        //TODO switch intent
-        Intent intent = new Intent(RiderPaymentActivity.this,RiderPaymentActivity.class);
+        Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
+        intent.putExtra("Current_Request_To_Null", true);
         startActivity(intent);
 
     }
@@ -157,30 +193,37 @@ public class RiderPaymentActivity extends AppCompatActivity {
         switch(view.getId()) {
             case R.id.rider_payment_ten:
                 if (checked)
-                    totalPayment = baseFare*1.1;
+                    myTip = 0.1;
+                    other = false;
                 break;
             case R.id.rider_payment_fifteen:
                 if (checked)
-                    totalPayment = baseFare*1.15;
+                    myTip = 0.15;
+                    other = false;
                 break;
             case R.id.rider_payment_twenty:
                 if (checked)
-                    totalPayment = baseFare*1.2;
+                    myTip = 0.2;
+                    other = false;
                 break;
             case R.id.rider_payment_else:
                 if (checked)
-                    totalPayment = baseFare* (1+ (getOtherTip()));
+                    other = true;
+                    myTip = 0.0;
                 break;
         }
+
     }
 
     /**
      * Returns rider input tip amount
      */
-    private int getOtherTip(){
+    private void getOtherTip(){
         EditText otherTip = findViewById(R.id.rider_payment_other_editText);
-        int tipPercentage = Integer.parseInt(otherTip.getText().toString())/100;
-        return tipPercentage;
+        if (!otherTip.getText().toString().isEmpty()) {
+            myTip = (Double.parseDouble(otherTip.getText().toString())) / 100;
+        }
+
     }
 
 
@@ -191,8 +234,41 @@ public class RiderPaymentActivity extends AppCompatActivity {
     public void onScanningCompleted(){
         Double newDepositAmount = rider.getDeposit()-totalPayment;
         rider.setDeposit(newDepositAmount);
-
         showRatingDialog();
     }
+
+    /**
+     * set my tip if customized amount is entered
+     */
+    private void setMyTip(){
+        if (other){
+            getOtherTip();
+        }
+    }
+
+    /**
+     * format total payment to double with two digits
+     */
+    private Double formatTotalPayment(){
+        return Double.parseDouble(new DecimalFormat("##.##").format((1 + myTip)*baseFare));
+    }
+
+    /**
+     * transform request to trip
+     */
+    private Trip toTrip(){
+        int duration = (int) (curRequest.getPickUpDateTime().getTime() - dropOffDateTime.getTime());
+        LatLng pickUpLoc = curRequest.getPickUpLoc();
+        LatLng dropOffLoc = curRequest.getPickUpLoc();
+        String dropOffName = curRequest.getDropOffLocName();
+        String pickUpName = curRequest.getPickUpLocName();
+        Date pickUpTime = curRequest.getPickUpDateTime();
+        Car car = driver.getCar();
+        Trip trip = new Trip(driver,rider,pickUpLoc,dropOffLoc,pickUpName,dropOffName,pickUpTime,
+                dropOffDateTime, duration, car,totalPayment,myRating);
+        return trip;
+    }
+
+
 
 }
