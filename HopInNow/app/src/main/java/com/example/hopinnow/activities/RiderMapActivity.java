@@ -1,11 +1,18 @@
 package com.example.hopinnow.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -26,6 +34,9 @@ import com.example.hopinnow.entities.Driver;
 import com.google.android.gms.common.api.Status;
 
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
@@ -45,9 +56,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -56,15 +70,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     MapFragment mapFragment;
     //TODO change to current location later on pickUpLoc
     private LatLng myPosition;
-    private LatLng edmonton = new LatLng(53.631611,-113.323975);
+    private LatLng edmonton = new LatLng(53.631611, -113.323975);
     private Button addRequest;
     private Boolean searchInPlace;
     private Rider rider;
     private Driver driver;
-    private LatLng pickUpLoc,dropOffLoc;
+    private LatLng pickUpLoc, dropOffLoc;
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private Request curRequest;
+    protected LocationManager locationManager;
 
     private SharedPreferences mPrefs;
 
@@ -72,16 +87,27 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
+        }
+
+
         setContentView(R.layout.activity_rider_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
 
         searchInPlace = true;
 
+
         //TODO set rider, driver, car properly
         rider = new Rider();
-        Car car = new Car("Auburn","Speedster","Cream","111111");
+        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, 10.0, null, car, null, null);
+
+        //rider =
+
+
 
 
         setupAutoCompleteFragment();
@@ -105,10 +131,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
+
+
+        if (myPosition!=null){
+            pickUpLoc = myPosition;
+        } else {
+            pickUpLoc = edmonton;
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pickUpLoc, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
-                .position(edmonton) /**set to current location later on pickUpLoc*/
-                .title("Edmonton")
+                .position(pickUpLoc)
+                .title("My Current Location")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
     }
 
@@ -116,13 +150,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private void setupAutoCompleteFragment() {
         //initialize autocomplete fragments
 
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
-        }
+
 
         AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
-        pickUpAutoComplete.setHint("Pick Up Location");
+        //pickUpAutoComplete.setHint("Pick Up Location");
+        pickUpAutoComplete.setText("My Current Location");
         pickUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         pickUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -138,6 +171,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
+
 
 
         final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
@@ -160,6 +194,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         });
 
 
+    }
+
+
+    private void showPermissionAlert(){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 123);
+        }
     }
 
     @Override
