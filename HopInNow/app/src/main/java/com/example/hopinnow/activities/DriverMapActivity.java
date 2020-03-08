@@ -48,7 +48,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         //TODO set rider, driver, car properly
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, 10.0,null, car, null, null);
+        driver = new Driver("111@gmail.com", "12345678",
+                "Lupin the Third", "12345678",
+                true, 0, null, car,
+                null, null);
 
 
         goOnline = findViewById(R.id.onlineBtn);
@@ -62,7 +65,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         driverMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), RiderMenuActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(), DriverMenuActivity.class);
                 startActivity(startIntent);
             }
         });

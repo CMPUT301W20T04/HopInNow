@@ -25,11 +25,11 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     // declare database accessor:
     private UserDatabaseAccessor userDatabaseAccessor;
     // Global User object:
-    User currentUser;
+    private User currentUser;
     // UI Components:
     private EditText name;
-    private TextView email;
     private EditText phoneNumber;
+    private TextView email;
     private TextView deposit;
     private TextView userType;
     private Button editBtn;
@@ -53,7 +53,6 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.name = findViewById(R.id.proNameET);
         this.name.setEnabled(false);
         this.email = findViewById(R.id.proEmailTxt);
-        this.email.setEnabled(false);
         this.phoneNumber = findViewById(R.id.proPhoneET);
         this.phoneNumber.setEnabled(false);
         this.deposit = findViewById(R.id.proDeposit);
@@ -68,7 +67,24 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         progressbarDialog = new ProgressbarDialog(ProfileActivity.this, viewGroup);
         progressbarDialog.startProgressbarDialog();
         // retrieve the current user information
-        this.userDatabaseAccessor.getUserProfile(this);
+        Intent intent = this.getIntent();
+        this.currentUser = (User)intent.getSerializableExtra("UserObject");
+        if (this.currentUser == null) {
+            this.userDatabaseAccessor.getUserProfile(this);
+        } else {
+            // set all text fields according to the retreived user object:
+            this.name.setText(Objects.requireNonNull(currentUser).getName());
+            this.email.setText(currentUser.getEmail());
+            this.phoneNumber.setText(currentUser.getPhoneNumber());
+            this.deposit.setText(
+                    String.format(Locale.CANADA, "%.2f", currentUser.getDeposit()));
+            if (this.currentUser.isUserType()) {    // if true, then the user is driver
+                this.userType.setText(R.string.usertype_driver);
+            } else {    // or else, the user is a rider
+                this.userType.setText(R.string.usertype_rider);
+            }
+            this.progressbarDialog.dismissDialog();
+        }
     }
     private boolean verifyFields() {
         return true;
@@ -81,7 +97,6 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
             @Override
             public void onClick(View view) {
                 name.setEnabled(true);
-                email.setEnabled(true);
                 phoneNumber.setEnabled(true);
                 editBtn.setEnabled(false);
                 editBtn.setVisibility(View.INVISIBLE);
@@ -165,7 +180,6 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.email.setText(currentUser.getEmail());
         this.phoneNumber.setText(currentUser.getPhoneNumber());
         name.setEnabled(false);
-        email.setEnabled(false);
         phoneNumber.setEnabled(false);
         editBtn.setEnabled(true);
         editBtn.setVisibility(View.VISIBLE);

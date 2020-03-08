@@ -16,6 +16,9 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Author: Viola Bai
+ */
 public class QRCodeHelper {
     private static QRCodeHelper qrCodeHelper = null;
     private ErrorCorrectionLevel mErrorCorrectionLevel;

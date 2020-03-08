@@ -47,9 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/fragment_place"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="95dp"
+        android:layout_marginBottom="94dp"
         android:elevation="30dp"
-        android:text="ONINE"
+        android:text="ONLINE"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white"
         android:textSize="24sp" />
@@ -59,8 +59,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
-
-
-
 
 </RelativeLayout>
