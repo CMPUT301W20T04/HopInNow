@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="RtlEnabled"
         tools:targetApi="donut">
-        <activity android:name=".activities.VehicleViewActivity"></activity>
+        <activity android:name=".activities.VehicleViewActivity"/>
         <activity android:name=".activities.DriverTripListActivity" />
         <activity android:name=".activities.DriverMenuActivity" />
 

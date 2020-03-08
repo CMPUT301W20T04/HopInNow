@@ -14,12 +14,13 @@ import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
 import java.util.Locale;
 import java.util.Objects;
 
-public class VehicleViewActivity extends AppCompatActivity implements UserProfileStatusListener {
+public class VehicleViewActivity extends AppCompatActivity implements DriverProfileStatusListener {
 
     private Button updateBtn;
     private EditText vehicleMakeEditText;
@@ -47,7 +48,7 @@ public class VehicleViewActivity extends AppCompatActivity implements UserProfil
         Intent intent = this.getIntent();
         this.currentDriver = (Driver) intent.getSerializableExtra("DriverObject");
         if (this.currentDriver == null) {
-            this.userDatabaseAccessor.getUserProfile(this);
+            this.userDatabaseAccessor.getDriverProfile(this);
         } else {
             // set all text fields according to the retreived user object:
             this.vehicleMakeEditText.setText(currentDriver.getCar().getMake());
@@ -59,19 +60,8 @@ public class VehicleViewActivity extends AppCompatActivity implements UserProfil
     }
 
     @Override
-    public void onProfileStoreSuccess() {
-
-    }
-
-    @Override
-    public void onProfileStoreFailure() {
-
-    }
-
-    @Override
-    public void onProfileRetrieveSuccess(User user) {
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
         // set all text fields according to the retreived user object:
-        Driver driver = (Driver) user;
         this.vehicleMakeEditText.setText(driver.getCar().getMake());
         this.vehicleModelEditText.setText(driver.getCar().getModel());
         this.vehicleColorEditText.setText(driver.getCar().getColor());
@@ -80,17 +70,7 @@ public class VehicleViewActivity extends AppCompatActivity implements UserProfil
     }
 
     @Override
-    public void onProfileRetrieveFailure() {
-
-    }
-
-    @Override
-    public void onProfileUpdateSuccess(User user) {
-
-    }
-
-    @Override
-    public void onProfileUpdateFailure() {
+    public void onDriverProfileRetrieveFailure() {
 
     }
 }

@@ -12,10 +12,11 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class DriverMenuActivity extends AppCompatActivity implements UserProfileStatusListener {
+public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
 
     private FloatingActionButton offlineBtn;
     private Button driverMyProfileBtn, driverMyTripsBtn, vehicleInfoBtn;
@@ -51,7 +52,7 @@ public class DriverMenuActivity extends AppCompatActivity implements UserProfile
         vehicleInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userDatabaseAccessor.getUserProfile(DriverMenuActivity.this);
+                userDatabaseAccessor.getDriverProfile(DriverMenuActivity.this);
             }
         });
 
@@ -63,38 +64,17 @@ public class DriverMenuActivity extends AppCompatActivity implements UserProfile
         });
 
     }
-
     @Override
-    public void onProfileStoreSuccess() {
-
-    }
-
-    @Override
-    public void onProfileStoreFailure() {
-
-    }
-
-    @Override
-    public void onProfileRetrieveSuccess(User user) {
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
         Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("DriverObject", (Driver)user);
+        bundle.putSerializable("DriverObject", driver);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
     @Override
-    public void onProfileRetrieveFailure() {
-
-    }
-
-    @Override
-    public void onProfileUpdateSuccess(User user) {
-
-    }
-
-    @Override
-    public void onProfileUpdateFailure() {
+    public void onDriverProfileRetrieveFailure() {
 
     }
 }
