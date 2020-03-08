@@ -20,7 +20,7 @@ import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
-public class VehicleInfoActivity extends AppCompatActivity implements LoginStatusListener,
+public class RegisterVehicleInfoActivity extends AppCompatActivity implements LoginStatusListener,
         RegisterStatusListener, UserProfileStatusListener {
     private UserDatabaseAccessor userDatabaseAccessor;
     // the user object past:
@@ -65,7 +65,7 @@ public class VehicleInfoActivity extends AppCompatActivity implements LoginStatu
                 String plateNumberData = plateNumber.getText().toString();
                 Car car = new Car(makeData, modelData, colorData, plateNumberData);
                 driver.setCar(car);
-                userDatabaseAccessor.registerUser(driver, VehicleInfoActivity.this);
+                userDatabaseAccessor.registerUser(driver, RegisterVehicleInfoActivity.this);
             }
         });
     }
