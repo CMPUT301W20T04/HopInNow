@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,7 +58,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LatLng myPosition;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private Button addRequest;
-
+    private Boolean searchInPlace;
     private Rider rider;
     private Driver driver;
     private LatLng pickUpLoc,dropOffLoc;
@@ -74,6 +75,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         setContentView(R.layout.activity_rider_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
+
+        searchInPlace = true;
 
         //TODO set rider, driver, car properly
         rider = new Rider();
@@ -114,7 +117,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //initialize autocomplete fragments
 
         if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), getString(R.string.map_key));
+            Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
         }
 
         AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
@@ -128,10 +131,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     pickUpLocName = place.getAddress();
                     pickUpLoc = place.getLatLng();
                     setMapMarker(pickUpMarker,pickUpLoc);
-                    //pickUpMarker.setPosition(pickUpLoc);
-                    //pickUpMarker.setTitle("Pick Up Location");
-                    //unsure if this is needed for update
-                    //mapFragment.getMapAsync(RiderMapActivity.this);
                 }
             }
             @Override
@@ -152,10 +151,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     dropOffLocName = place.getAddress();
                     dropOffLoc = place.getLatLng();
                     setMapMarker(dropOffMarker,dropOffLoc);
-                    //dropOffMarker.setPosition(dropOffLoc);
-                    //dropOffMarker.setTitle("Drop Off Location");
-                    //unsure if this is needed for update
-                    //mapFragment.getMapAsync(RiderMapActivity.this);
                 }
             }
             @Override
@@ -183,6 +178,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onStart(){
         super.onStart();
+        searchInPlace = false;
         //curRequest = retrieveCurrentRequest();
         Bundle b = getIntent().getExtras();
 
@@ -195,6 +191,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
             searchFragment.setVisibility(View.GONE);
+            searchInPlace = false;
         }
     }
 
@@ -294,6 +291,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
+        searchInPlace = true;
         switchFragment(R.layout.fragment_rider_driver_offer);
     }
 
@@ -337,6 +335,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
       */
      public void adjustMapFocus(){
 
+         LatLng adjust;
+
          LatLngBounds.Builder bound = new LatLngBounds.Builder();
          if ((pickUpLoc != null)&&(dropOffLoc != null)) {
              bound.include(pickUpLoc);
@@ -348,7 +348,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
          } else {
              return;
          }
-         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 10));
+
+
+         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
+
+
      }
 
 }
