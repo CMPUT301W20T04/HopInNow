@@ -1,6 +1,8 @@
 package com.example.hopinnow.entities;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
     private String make;
     private String model;
     private String color;
