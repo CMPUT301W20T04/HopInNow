@@ -19,12 +19,14 @@ import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +43,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private FloatingActionButton driverMenuBtn;
+    private LatLng myPosition;
 
 
     @Override
@@ -54,9 +57,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true,12.0, null, car, null, null);
-        //String email, String password, String name, String phoneNumber, boolean userType,double deposit,
-        //                  Request curRequest, Car car, ArrayList<Request> availableRequest,
-        //                  ArrayList<Trip> driverTripList
 
         goOnline = findViewById(R.id.onlineBtn);
         goOnline.setOnClickListener(new View.OnClickListener() {
@@ -159,4 +159,35 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     *
     *
     * */
+    /**
+     * set marker to map
+     */
+    public void setMapMarker(Marker m, LatLng latLng){
+
+        if (m == null) {
+            MarkerOptions opt = new MarkerOptions();
+            opt.position(latLng);
+            m = mMap.addMarker(opt);
+        } else {
+            m.setPosition(latLng);
+        }
+        adjustMapFocus();
+    }
+
+    /**
+     * adjust focus of the map according to the markers
+     */
+    public void adjustMapFocus(){
+
+        LatLng center = myPosition;
+        if ((pickUpMarker != null)&&(dropOffMarker != null)) {
+            center = LatLngBounds.builder().include(pickUpLoc).include(dropOffLoc).build().getCenter();
+        } else if (pickUpMarker != null) {
+            center = pickUpLoc;
+        } else if (dropOffMarker != null) {
+            center = dropOffLoc;
+        }
+        CameraUpdate newFocus = CameraUpdateFactory.newLatLngZoom(center, 10);
+        mMap.animateCamera(newFocus);
+    }
 }

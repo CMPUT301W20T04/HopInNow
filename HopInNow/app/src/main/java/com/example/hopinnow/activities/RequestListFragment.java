@@ -24,7 +24,7 @@ public class RequestListFragment extends Fragment {
     Integer prePosition;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
-        ArrayList<Request> requestList = new ArrayList<Request>();
+        final ArrayList<Request> requestList = new ArrayList<Request>();
         final FragmentActivity fragmentActivity = getActivity();
 
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
@@ -38,6 +38,8 @@ public class RequestListFragment extends Fragment {
                 Button acceptBtn = itemView.findViewById(R.id.accept_btn);
                 acceptBtn.setVisibility(View.VISIBLE);
 
+                ((DriverMapActivity)getActivity()).setMapMarker(null, requestList.get(position).getPickUpLoc());
+                ((DriverMapActivity)getActivity()).setMapMarker(null, requestList.get(position).getDropOffLoc());
 
                 if (prePosition != null){
                     Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
