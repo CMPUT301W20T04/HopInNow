@@ -124,6 +124,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 if (place!=null){
                     pickUpLocName = place.getAddress();
                     pickUpLoc = place.getLatLng();
+                    setMapMarker(pickUpMarker,pickUpLoc);
                     //pickUpMarker.setPosition(pickUpLoc);
                     //pickUpMarker.setTitle("Pick Up Location");
                     //unsure if this is needed for update
@@ -147,6 +148,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 if (place!=null){
                     dropOffLocName = place.getAddress();
                     dropOffLoc = place.getLatLng();
+                    setMapMarker(dropOffMarker,dropOffLoc);
                     //dropOffMarker.setPosition(dropOffLoc);
                     //dropOffMarker.setTitle("Drop Off Location");
                     //unsure if this is needed for update
@@ -246,6 +248,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         dropOffLocName= null;
         pickUpLoc = null;
         dropOffLoc = null;
+        pickUpMarker = null;
+        dropOffMarker = null;
 
         //return to initial prompt of location searching
         View searchFragment = findViewById(R.id.search_layout);
@@ -309,5 +313,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         startActivity(Intent.createChooser(intent, "Send Email"));
     }
+
+
+     public void setMapMarker(Marker m, LatLng latLng){
+
+         if (m == null) {
+             MarkerOptions opt = new MarkerOptions();
+             opt.position(latLng);
+             m = mMap.addMarker(opt);
+         } else {
+             m.setPosition(latLng);
+         }
+     }
 
 }

@@ -79,7 +79,6 @@ public class RiderPaymentActivity extends AppCompatActivity {
         showTotalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setMyTip();
                 totalPayment = formatTotalPayment();
                 totalPaymentTextView.setText("$ "+Double.toString(totalPayment));
