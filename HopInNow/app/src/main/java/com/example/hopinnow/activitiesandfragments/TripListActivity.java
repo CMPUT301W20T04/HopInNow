@@ -26,8 +26,8 @@ public class TripListActivity extends AppCompatActivity {
     ArrayList<Trip> tripDataList = new ArrayList<>();
     //remember to change the uml
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
-    private Driver driver1 = new Driver("123@qq.com","asdf","leon","123",true,null,null,null,null);
-    private Rider rider1 = new Rider("321@qq.com","qwer","shway","3421",false,null,null);
+    private Driver driver1 = new Driver("123@qq.com","asdf","leon","123",true,10.0,null,null,null,null);
+    private Rider rider1 = new Rider("321@qq.com","qwer","shway","3421",false,10.0,null,null);
     private Car car1 = new Car("1","1","1","1");
     Date d1 = new Date();
 
