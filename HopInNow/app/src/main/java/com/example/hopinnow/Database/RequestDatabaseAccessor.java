@@ -6,13 +6,30 @@ import androidx.annotation.NonNull;
 
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import java.util.ArrayList;
+import java.util.Objects;
 
+/**
+ * Author: Shway Wang.
+ * This class is the database accessor providing all methods relating to ride requests.
+ */
 public class RequestDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
     private final String referenceName = "availableRequests";
 
+    /**
+     * Add a new request to the availableRequests collection.
+     * @param request
+     *      information of the current request.
+     * @param listener
+     *      if the request is added successfully, call the onSuccess method, otherwise, onFailure.
+     */
     public void addRequest(Request request, final AvailRequestListListener listener) {
         this.firestore
                 .collection(referenceName)
@@ -33,6 +50,12 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     }
                 });
     }
+
+    /**
+     * Delete a request from the availableRequests collection.
+     * @param listener
+     *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
+     */
     public void deleteRequest(final AvailRequestListListener listener) {
         this.firestore
                 .collection(referenceName)
@@ -50,6 +73,33 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     public void onFailure(@NonNull Exception e) {
                         Log.v(TAG, "Request did not delete successfully!");
                         listener.onRequestDeleteFailure();
+                    }
+                });
+    }
+
+    /**
+     * Get all available requests as an ArrayList object from collection availableRequests
+     * @param listener
+     *      if all requests are retrieved successfully, call the onSuccess method,
+     *      otherwise, onFailure.
+     */
+    public void getAllRequest(final AvailRequestListListener listener) {
+        this.firestore
+                .collection(referenceName)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Request> requests = new ArrayList<>();
+                            for (QueryDocumentSnapshot document :
+                                    Objects.requireNonNull(task.getResult())) {
+                                requests.add((Request)document.getData());
+                            }
+                            listener.onGetRequiredRequestsSuccess(requests);
+                        } else {
+                            listener.onGetRequiredRequestsFailure();
+                        }
                     }
                 });
     }
