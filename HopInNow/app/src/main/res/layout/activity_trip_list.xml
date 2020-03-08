@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activitiesandfragments.TripListActivity"
+    tools:context=".activities.TripListActivity"
     >
 
     <TextView
@@ -15,8 +15,7 @@
         android:background="@color/colorDark"
         android:textSize="30sp"
         android:gravity="center"
-
-        ></TextView>>
+        />
 
     <ListView
         android:id="@+id/trip_list"

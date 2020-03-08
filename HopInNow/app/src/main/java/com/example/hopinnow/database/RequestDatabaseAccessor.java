@@ -12,14 +12,30 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Author: Shway Wang.
+ * This class is the database accessor providing all methods relating to ride requests.
+ */
 public class RequestDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
     private final String referenceName = "availableRequests";
 
+    /**
+     * Default constructor, calls super();
+     */
+    public RequestDatabaseAccessor() {
+        super();
+    }
+    /**
+     * Add a new request to the availableRequests collection.
+     * @param request
+     *      information of the current request.
+     * @param listener
+     *      if the request is added successfully, call the onSuccess method, otherwise, onFailure.
+     */
     public void addRequest(Request request, final AvailRequestListListener listener) {
         this.firestore
                 .collection(referenceName)
@@ -40,6 +56,12 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     }
                 });
     }
+
+    /**
+     * Delete a request from the availableRequests collection.
+     * @param listener
+     *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
+     */
     public void deleteRequest(final AvailRequestListListener listener) {
         this.firestore
                 .collection(referenceName)
@@ -60,6 +82,13 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     }
                 });
     }
+
+    /**
+     * Get all available requests as an ArrayList object from collection availableRequests
+     * @param listener
+     *      if all requests are retrieved successfully, call the onSuccess method,
+     *      otherwise, onFailure.
+     */
     public void getAllRequest(final AvailRequestListListener listener) {
         this.firestore
                 .collection(referenceName)

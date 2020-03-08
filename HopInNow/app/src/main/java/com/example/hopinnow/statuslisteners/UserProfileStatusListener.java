@@ -2,17 +2,42 @@ package com.example.hopinnow.statuslisteners;
 
 import com.example.hopinnow.entities.User;
 
+/**
+ * Author: Shway Wang
+ * Listener interface listener on user profile related database activities.
+ */
 public interface UserProfileStatusListener {
-    // When profile data stored successfully:
+    /**
+     * Called when profile data stored successfully:
+     */
     void onProfileStoreSuccess();
-    // When profile data stored fails:
+
+    /**
+     * Called when profile data stored fails:
+     */
     void onProfileStoreFailure();
-    // When profile retreive successfullly:
+
+    /**
+     * Called when profile retrieve successfully:
+     * @param user
+     *      receives a user object containing all info about the current user.
+     */
     void onProfileRetrieveSuccess(User user);
-    // When profile retreive failed:
+
+    /**
+     * Called when profile retreive failed:
+     */
     void onProfileRetrieveFailure();
-    // When profile updated successfully:
+
+    /**
+     * Called when profile updated successfully:
+     * @param user
+     *      receives the updated user object.
+     */
     void onProfileUpdateSuccess(User user);
-    // When profile update fails:
+
+    /**
+     * Called when profile update fails:
+     */
     void onProfileUpdateFailure();
 }
