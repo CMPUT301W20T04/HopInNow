@@ -10,11 +10,8 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="817ba353-98ee-4a6d-b74e-16c7b602f82f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/DriverMapActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_driver_map.xml" afterDir="false" />
+    <list default="true" id="4585bf0c-ecf3-4e25-aac8-aa4c9a311b7f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,12 +19,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_5X_API_29_x86" />
-  <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_XL_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_29" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -45,32 +37,21 @@
       </state>
     </system>
   </component>
-  <component name="FavoritesManager">
-    <favorites_list name="HopInNow" />
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
-        <option value="layoutResourceFile" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="RiderMainAct_Viola" />
         <entry key="$PROJECT_DIR$/.." value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="524" />
-    <option name="y" value="251" />
-    <option name="width" value="1092" />
-    <option name="height" value="744" />
   </component>
   <component name="ProjectId" id="1YjapSAQmu2qONDTUkIQSGNkZ6m" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -79,6 +60,9 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.packageName">
@@ -97,8 +81,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Android App.HopInNow-HopInNow-app">
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -106,7 +89,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HopInNow-HopInNow-app" type="AndroidRunConfigurationType" factoryName="Android App">
+    <configuration name="HopInNow-HopInNow-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="HopInNow-HopInNow-app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -265,7 +248,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="817ba353-98ee-4a6d-b74e-16c7b602f82f" name="Default Changelist" comment="" />
+      <changelist id="4585bf0c-ecf3-4e25-aac8-aa4c9a311b7f" name="Default Changelist" comment="" />
       <created>1583458640365</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -285,7 +268,49 @@
       <option name="project" value="LOCAL" />
       <updated>1583624201817</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="get new">
+      <created>1583688940364</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1583688940364</updated>
+    </task>
+    <task id="LOCAL-00004" summary="user constructor update with deposit">
+      <created>1583689151588</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1583689151588</updated>
+    </task>
+    <task id="LOCAL-00005" summary="user constructor update with deposit">
+      <created>1583690598069</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1583690598069</updated>
+    </task>
+    <task id="LOCAL-00006" summary="user constructor update with deposit">
+      <created>1583691345942</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1583691345942</updated>
+    </task>
+    <task id="LOCAL-00007" summary="user constructor update with deposit">
+      <created>1583692518955</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1583692518955</updated>
+    </task>
+    <task id="LOCAL-00008" summary="user constructor update with deposit">
+      <created>1583692567885</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1583692567885</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -318,6 +343,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="change enter activity to login" />
     <MESSAGE value="get new" />
-    <option name="LAST_COMMIT_MESSAGE" value="get new" />
+    <MESSAGE value="driver updated" />
+    <MESSAGE value="user constructor update with deposit" />
+    <option name="LAST_COMMIT_MESSAGE" value="user constructor update with deposit" />
   </component>
 </project>
