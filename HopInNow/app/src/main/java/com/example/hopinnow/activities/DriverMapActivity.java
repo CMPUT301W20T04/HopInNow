@@ -36,7 +36,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private FloatingActionButton driverMenuBtn;
-    private SharedPreferences mPrefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +54,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         goOnline = findViewById(R.id.onlineBtn);
         goOnline.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                //TODO show request list
 
             }
         });
@@ -78,5 +76,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .position(edmonton) //set to current location later on pickUpLoc
                 .title("Edmonton")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+    }
+
+    public void showAvailableRequest(){
+
     }
 }
