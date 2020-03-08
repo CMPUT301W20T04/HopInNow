@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
