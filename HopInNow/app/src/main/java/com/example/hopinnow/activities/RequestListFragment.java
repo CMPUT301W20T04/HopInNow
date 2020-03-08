@@ -38,6 +38,7 @@ public class RequestListFragment extends Fragment {
                 Button acceptBtn = itemView.findViewById(R.id.accept_btn);
                 acceptBtn.setVisibility(View.VISIBLE);
 
+
                 if (prePosition != null){
                     Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
                     preAcceptBtn.setVisibility(View.GONE);
@@ -45,10 +46,11 @@ public class RequestListFragment extends Fragment {
                 acceptBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
+                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
                     }
                 });
-
+                prePosition = position;
 
             }
         });

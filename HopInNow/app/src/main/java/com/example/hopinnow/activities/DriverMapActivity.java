@@ -100,7 +100,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 break;
             case R.layout.fragment_driver_requests:
                 t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RequestListFrament()).commit();
+                t.replace(R.id.fragment_place, new RequestListFragment()).commit();
                 break;
         }
 
