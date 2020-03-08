@@ -4,17 +4,41 @@ import com.example.hopinnow.entities.Request;
 
 import java.util.ArrayList;
 
+/**
+ * Author: Shway Wang
+ * Listener interface listener on request related database activities.
+ */
 public interface AvailRequestListListener {
-    // when a new request added:
+
+    /**
+     * Called when a new request added:
+     */
     void onRequestAddedSuccess();
-    // when a new request fails to add:
+
+    /**
+     * when a new request fails to add:
+     */
     void onRequestAddedFailure();
-    // when a request deleted duccessfully:
+
+    /**
+     * Called when a request deleted successfully:
+     */
     void onRequestDeleteSuccess();
-    // when a request deleted failed：
+
+    /**
+     * Called when a request deleted failed:
+     */
     void onRequestDeleteFailure();
-    // when get all request success:
+
+    /**
+     * Called when get all request success:
+     * @param requests
+     *      receives an array list of all available request
+     */
     void onGetRequiredRequestsSuccess(ArrayList<Request> requests);
-    // when get all request fails:
+
+    /**
+     * Called when get all request fails:
+     */
     void onGetRequiredRequestsFailure();
 }
