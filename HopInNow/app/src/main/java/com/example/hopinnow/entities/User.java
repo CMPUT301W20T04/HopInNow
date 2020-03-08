@@ -1,6 +1,9 @@
 package com.example.hopinnow.entities;
 
-public class User {
+import java.io.Serializable;
+
+// TODO: eventually change to Parcelable
+public class User implements Serializable {
     private String email;
     private String password;
     private String name;

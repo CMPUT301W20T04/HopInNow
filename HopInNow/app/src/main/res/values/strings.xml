@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">HopInNow</string>
     <string name="prompt_username">Name: </string>
+    <string name="vehicle_info_header">Vehicle Info</string>
+
+    <string name="vehicle_make_hint">Make:</string>
+    <string name="vehicle_model_hint">Model:</string>
+    <string name="vehicle_color_hint">Color:</string>
+    <string name="vehicle_platenum_hint">Plate Number:</string>
+    <string name="vehicle_finish_register_btn">finish</string>
     <string name="title_activity_login">Sign in</string>
     <string name="profile_header">Profile</string>
     <string name="profile_edit_btn">Edit Profile</string>
