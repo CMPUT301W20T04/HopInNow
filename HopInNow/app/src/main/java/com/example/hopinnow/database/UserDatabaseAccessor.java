@@ -208,17 +208,17 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Log.v(TAG, "Get User Successfully!");
-                        if (documentSnapshot.exists()) {
-                            listener.onProfileRetrieveSuccess(documentSnapshot
-                                    .toObject(User.class));
-                        }
+                            Log.v(TAG, "Get User Successfully!");
+                            if (documentSnapshot.exists()) {
+                                listener.onProfileRetrieveSuccess(documentSnapshot
+                                        .toObject(User.class));
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                        Log.v(TAG, "Get User Failed!");
-                        listener.onProfileRetrieveFailure();
+                            Log.v(TAG, "Get User Failed!");
+                            listener.onProfileRetrieveFailure();
                         }
                     }));
         } else {    // the user is not logged in
