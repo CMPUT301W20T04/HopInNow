@@ -4,12 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hopinnow.R;
@@ -46,7 +41,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
     private Double baseFare;
     private ImageView qrImage;
     private Boolean other = false;
-    private TextView totalPaymentTextview;
+    private TextView totalPaymentTextView;
     private Date dropOffDateTime;
     private Double myRating;
 
@@ -70,8 +65,8 @@ public class RiderPaymentActivity extends AppCompatActivity {
         curRequest = gsonRequest.fromJson(json, Request.class);
 
         baseFare = curRequest.getEstimatedFare();
-        totalPaymentTextview = findViewById(R.id.rider_payment_total);
-        totalPaymentTextview.setText("$ "+Double.toString(baseFare));
+        totalPaymentTextView = findViewById(R.id.rider_payment_total);
+        totalPaymentTextView.setText("$ "+Double.toString(baseFare));
 
 
         //show total payment calculation by baes fare * my tips
@@ -79,10 +74,9 @@ public class RiderPaymentActivity extends AppCompatActivity {
         showTotalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setMyTip();
                 totalPayment = formatTotalPayment();
-                totalPaymentTextview.setText("$ "+Double.toString(totalPayment));
+                totalPaymentTextView.setText("$ "+Double.toString(totalPayment));
             }
         });
 
@@ -236,6 +230,10 @@ public class RiderPaymentActivity extends AppCompatActivity {
     public void onScanningCompleted(){
         Double newDepositAmount = rider.getDeposit()-totalPayment;
         rider.setDeposit(newDepositAmount);
+
+        String msg = "Your payment  of $"+Double.toString(totalPayment)+" to your driver is successful!";
+        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
+
         showRatingDialog();
     }
 

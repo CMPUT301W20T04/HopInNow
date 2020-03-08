@@ -25,6 +25,8 @@ import com.example.hopinnow.entities.Driver;
 import com.google.android.gms.common.api.Status;
 
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -53,6 +55,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private GoogleMap mMap;
     MapFragment mapFragment;
     //TODO change to current location later on pickUpLoc
+    private LatLng myPosition;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private Button addRequest;
 
@@ -135,6 +138,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 if (place!=null){
                     pickUpLocName = place.getAddress();
                     pickUpLoc = place.getLatLng();
+                    setMapMarker(pickUpMarker,pickUpLoc);
                     //pickUpMarker.setPosition(pickUpLoc);
                     //pickUpMarker.setTitle("Pick Up Location");
                     //unsure if this is needed for update
@@ -158,6 +162,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 if (place!=null){
                     dropOffLocName = place.getAddress();
                     dropOffLoc = place.getLatLng();
+                    setMapMarker(dropOffMarker,dropOffLoc);
                     //dropOffMarker.setPosition(dropOffLoc);
                     //dropOffMarker.setTitle("Drop Off Location");
                     //unsure if this is needed for update
@@ -249,6 +254,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //clear all fragments
         FrameLayout fl = findViewById(R.id.fragment_place);
         fl.removeAllViews();
+        mMap.clear();
 
         //set curRequest to null
         curRequest = null;
@@ -257,6 +263,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         dropOffLocName= null;
         pickUpLoc = null;
         dropOffLoc = null;
+        pickUpMarker = null;
+        dropOffMarker = null;
 
         //return to initial prompt of location searching
         View searchFragment = findViewById(R.id.search_layout);
@@ -320,5 +328,39 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         startActivity(Intent.createChooser(intent, "Send Email"));
     }
+
+
+    /**
+     * set marker to map
+     */
+     public void setMapMarker(Marker m, LatLng latLng){
+
+         if (m == null) {
+             MarkerOptions opt = new MarkerOptions();
+             opt.position(latLng);
+             m = mMap.addMarker(opt);
+         } else {
+             m.setPosition(latLng);
+         }
+         adjustMapFocus();
+     }
+
+
+     /**
+      * adjust focus of the map according to the markers
+      */
+     public void adjustMapFocus(){
+
+        LatLng center = myPosition;
+         if ((pickUpMarker != null)&&(dropOffMarker != null)) {
+             center = LatLngBounds.builder().include(pickUpLoc).include(dropOffLoc).build().getCenter();
+         } else if (pickUpMarker != null) {
+             center = pickUpLoc;
+         } else if (dropOffMarker != null) {
+             center = dropOffLoc;
+         }
+         CameraUpdate newFocus = CameraUpdateFactory.newLatLngZoom(center, 10);
+         mMap.animateCamera(newFocus);
+     }
 
 }
