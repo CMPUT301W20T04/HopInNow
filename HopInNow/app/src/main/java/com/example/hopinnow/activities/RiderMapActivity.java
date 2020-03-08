@@ -391,6 +391,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
      }
 
+
+     public Rider getCurrentRider(){
+         return rider;
+     }
+
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
         this.rider = rider;

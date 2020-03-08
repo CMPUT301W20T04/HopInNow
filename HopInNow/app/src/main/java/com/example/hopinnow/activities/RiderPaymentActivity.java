@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
@@ -23,6 +24,8 @@ import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
+import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -31,7 +34,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class RiderPaymentActivity extends AppCompatActivity {
+public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener {
     private Request curRequest;
     private Driver driver;
     private Rider rider;
@@ -44,6 +47,7 @@ public class RiderPaymentActivity extends AppCompatActivity {
     private TextView totalPaymentTextView;
     private Date dropOffDateTime;
     private Double myRating;
+    private UserDatabaseAccessor userDatabaseAccessor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,6 @@ public class RiderPaymentActivity extends AppCompatActivity {
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, 10.0, null, car, null, null);
-        rider = new Rider("1@gmail.com","111111","Me","7654321",false,10.0, curRequest,null);
         //TODO set current Request
         mPrefs = getSharedPreferences("LocalRequest",MODE_PRIVATE);
         Gson gsonRequest = new Gson();
@@ -113,6 +116,9 @@ public class RiderPaymentActivity extends AppCompatActivity {
 
 
         });
+
+        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        userDatabaseAccessor.getRiderProfile(this);
 
 
 
@@ -172,7 +178,6 @@ public class RiderPaymentActivity extends AppCompatActivity {
     private void completeRequest(){
         //TODO req to trip list in rider's trip list in firbase
         Trip trip = toTrip();
-
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", true);
         startActivity(intent);
@@ -267,6 +272,16 @@ public class RiderPaymentActivity extends AppCompatActivity {
         Trip trip = new Trip(driver,rider,pickUpLoc,dropOffLoc,pickUpName,dropOffName,pickUpTime,
                 dropOffDateTime, duration, car,totalPayment,myRating);
         return trip;
+    }
+
+    @Override
+    public void onRiderProfileRetrieveSuccess(Rider rider) {
+        this.rider = rider;
+    }
+
+    @Override
+    public void onRiderProfileRetrieveFailure() {
+
     }
 
 
