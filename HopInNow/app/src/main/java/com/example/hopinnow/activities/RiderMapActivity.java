@@ -240,6 +240,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //clear all fragments
         FrameLayout fl = findViewById(R.id.fragment_place);
         fl.removeAllViews();
+        mMap.clear();
 
         //set curRequest to null
         curRequest = null;
