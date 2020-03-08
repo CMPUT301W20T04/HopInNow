@@ -4,8 +4,12 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.Rider;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
+import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -208,17 +212,89 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Log.v(TAG, "Get User Successfully!");
+                            if (documentSnapshot.exists()) {
+                                listener.onProfileRetrieveSuccess(documentSnapshot
+                                        .toObject(User.class));
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.v(TAG, "Get User Failed!");
+                            listener.onProfileRetrieveFailure();
+                        }
+                    }));
+        } else {    // the user is not logged in
+            Log.v(TAG, "User is not logged in!");
+        }
+    }
+
+    /**
+     * Get the whole set of rider information from the collection "Users". Password is null due to
+     * security measures.
+     * @param listener
+     *      if the rider info is retrieved successfully, call the onSuccess method,
+     *      otherwise, onFailure.
+     */
+    public void getRiderProfile(final RiderProfileStatusListener listener) {
+        this.currentUser = firebaseAuth.getCurrentUser();
+        // check if logged in:
+        if (this.currentUser != null) {
+            Objects.requireNonNull(this.firestore
+                    .collection(referenceName)
+                    .document(this.currentUser.getUid())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Log.v(TAG, "Get User Successfully!");
                         if (documentSnapshot.exists()) {
-                            listener.onProfileRetrieveSuccess(documentSnapshot
-                                    .toObject(User.class));
+                            listener.onRiderProfileRetrieveSuccess(documentSnapshot
+                                    .toObject(Rider.class));
                         }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                         Log.v(TAG, "Get User Failed!");
-                        listener.onProfileRetrieveFailure();
+                        listener.onRiderProfileRetrieveFailure();
+                        }
+                    }));
+        } else {    // the user is not logged in
+            Log.v(TAG, "User is not logged in!");
+        }
+    }
+
+    /**
+     * Get the whole set of driver information from the collection "Users". Password is null due to
+     * security measures.
+     * @param listener
+     *      if the driver info is retrieved successfully, call the onSuccess method,
+     *      otherwise, onFailure.
+     */
+    public void getDriverProfile(final DriverProfileStatusListener listener) {
+        this.currentUser = firebaseAuth.getCurrentUser();
+        // check if logged in:
+        if (this.currentUser != null) {
+            Objects.requireNonNull(this.firestore
+                    .collection(referenceName)
+                    .document(this.currentUser.getUid())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Log.v(TAG, "Get User Successfully!");
+                            if (documentSnapshot.exists()) {
+                                listener.onDriverProfileRetrieveSuccess(documentSnapshot
+                                        .toObject(Driver.class));
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.v(TAG, "Get User Failed!");
+                            listener.onDriverProfileRetrieveFailure();
                         }
                     }));
         } else {    // the user is not logged in

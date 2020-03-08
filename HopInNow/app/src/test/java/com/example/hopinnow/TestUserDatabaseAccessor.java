@@ -8,16 +8,25 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
+import com.google.android.datatransport.runtime.scheduling.Scheduler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
+
 
 public class TestUserDatabaseAccessor implements RegisterStatusListener{
     public static final String TAG = "TestUserDatabaseAccessor";
+
+    UserDatabaseAccessor userDatabaseAccessor;
     private User mockupUser() {
         User user = new User();
         user.setEmail("tester@test.ca");
@@ -45,7 +54,7 @@ public class TestUserDatabaseAccessor implements RegisterStatusListener{
 
     @Test
     public void testRegisterUser() {
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
+        userDatabaseAccessor = new UserDatabaseAccessor();
         User user = this.mockupUser();
         // test register rider:
         Rider rider = this.mockupRider(user);
@@ -65,9 +74,9 @@ public class TestUserDatabaseAccessor implements RegisterStatusListener{
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-
+                            assertTrue(true);
                         } else {
-
+                            fail();
                         }
                     }
                 });
