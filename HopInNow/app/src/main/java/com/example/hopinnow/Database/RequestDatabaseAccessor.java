@@ -24,6 +24,12 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
     private final String referenceName = "availableRequests";
 
     /**
+     * Default constructor, calls super();
+     */
+    public RequestDatabaseAccessor() {
+        super();
+    }
+    /**
      * Add a new request to the availableRequests collection.
      * @param request
      *      information of the current request.
