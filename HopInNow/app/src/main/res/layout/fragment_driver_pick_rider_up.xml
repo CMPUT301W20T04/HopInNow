@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="386dp"
+        android:layout_height="209dp">
+
+        <TextView
+            android:id="@+id/RequestInfoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Request Information"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/PickUpRiderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="122dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="124dp"
+            android:text="Pick Up Rider At"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <Button
+            android:id="@+id/dropOffRiderButton"
+            android:layout_width="157dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="24dp"
+            android:text="Drop Off Rider At"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/EmergencyCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="24dp"
+            android:text="EMERGENCY CALL"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="103dp"
+            android:layout_height="79dp"
+            android:layout_margin="8dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="275dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RequestInfoText">
+
+
+            <TextView
+                android:id="@+id/requestTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Time:"
+                tools:layout_editor_absoluteX="130dp"
+                tools:layout_editor_absoluteY="37dp" />
+
+            <TextView
+                android:id="@+id/requestFromText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="From:" />
+
+            <TextView
+                android:id="@+id/requestToText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="To:"
+                tools:layout_editor_absoluteX="130dp"
+                tools:layout_editor_absoluteY="75dp" />
+
+            <TextView
+                android:id="@+id/requestCostText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Estimate Fare:"
+                tools:layout_editor_absoluteX="130dp"
+                tools:layout_editor_absoluteY="94dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

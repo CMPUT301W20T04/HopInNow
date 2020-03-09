@@ -1,4 +1,4 @@
-package com.example.hopinnow.Database;
+package com.example.hopinnow.database;
 
 import android.util.Log;
 
@@ -26,7 +26,7 @@ import java.util.Objects;
  * Author: Shway Wang.
  * This class is the database accessor providing all methods relating to ride requests.
  */
-public class RequestDatabaseAccessor extends com.example.hopinnow.Database.DatabaseAccessor {
+public class RequestDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
     private final String referenceName = "availableRequests";
 

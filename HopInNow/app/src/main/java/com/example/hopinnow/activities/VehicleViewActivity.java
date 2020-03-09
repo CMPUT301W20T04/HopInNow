@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
@@ -27,7 +27,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
     private EditText vehicleModelEditText;
     private EditText vehicleColorEditText;
     private EditText vehiclePlateEditText;
-    private UserDatabaseAccessor userDatabaseAccessor;
+    private DriverDatabaseAccessor driverDatabaseAccessor;
     private ProgressbarDialog progressbarDialog;
     private Driver currentDriver;
 
@@ -36,7 +36,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_view);
 
-        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.vehicleMakeEditText = findViewById(R.id.vehicleMakeEditText);
         this.vehicleModelEditText = findViewById(R.id.vehicleModelEditText);
         this.vehicleColorEditText = findViewById(R.id.vehicleColorEditText);
@@ -48,7 +48,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
         Intent intent = this.getIntent();
         this.currentDriver = (Driver) intent.getSerializableExtra("DriverObject");
         if (this.currentDriver == null) {
-            this.userDatabaseAccessor.getDriverProfile(this);
+            this.driverDatabaseAccessor.getDriverProfile(this);
         } else {
             // set all text fields according to the retreived user object:
             this.vehicleMakeEditText.setText(currentDriver.getCar().getMake());

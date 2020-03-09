@@ -1,25 +1,32 @@
 package com.example.hopinnow.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,8 +43,27 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private FloatingActionButton driverMenuBtn;
+    private LatLng myPosition;
+    private int currentRequestPageCounter = 0;
+    /**
+     * set the visibility of goOnline button into invisible
+     */
+    public void setButtonInvisible(){
+        goOnline.setVisibility(View.INVISIBLE);
+    }
 
-
+    /**
+     * get the appear time of the fragment that display the current request
+     * if it's the first time then display the pickup button
+     * else display the emergency button and dropoff button
+     * @return
+     */
+    public int getCurrentRequestPageCounter(){
+        return this.currentRequestPageCounter;
+    }
+    public void setCurrentRequestPageCounter(int value){
+        this.currentRequestPageCounter = value;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,16 +74,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         //TODO set rider, driver, car properly
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678",
-                "Lupin the Third", "12345678",
-                true, 0, null, car,
-                null, null);
-
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true,12.0, null, car, null, null);
 
         goOnline = findViewById(R.id.onlineBtn);
         goOnline.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                switchFragment(R.layout.fragment_driver_requests);
             }
         });
         // a button listener
@@ -83,5 +105,86 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     public void showAvailableRequest(){
 
+    }
+    public void pickUpRider(){
+
+    }
+
+    /**
+     * we have a frame layout in the rider and driver activity
+     * so that the fragments on it can switch easily by calling
+     * switchFragment method,
+     * @param caseId
+     */
+    public void switchFragment(int caseId){
+        FragmentTransaction t;
+        switch(caseId){
+            // change the fragment to the one that display the current
+            // request and the pickup user button
+            case R.layout.fragment_driver_pick_rider_up:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new pickUpAndCurrentRequest()).commit();
+                break;
+                //change the fragment to the one that display the available list.
+            case R.layout.fragment_driver_requests:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RequestListFragment()).commit();
+                break;
+
+        }
+
+
+
+
+    }
+    public void callNumber(String phoneNumber){
+
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:"+phoneNumber));
+
+        if (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        startActivity(callIntent);
+    }
+
+
+
+
+        //t.addToBackStack(null);
+        //t.commit();
+
+
+    /**
+     * set marker to map
+     */
+    public void setMapMarker(Marker m, LatLng latLng){
+
+        if (m == null) {
+            MarkerOptions opt = new MarkerOptions();
+            opt.position(latLng);
+            m = mMap.addMarker(opt);
+        } else {
+            m.setPosition(latLng);
+        }
+        adjustMapFocus();
+    }
+
+    /**
+     * adjust focus of the map according to the markers
+     */
+    public void adjustMapFocus(){
+
+        LatLng center = myPosition;
+        if ((pickUpMarker != null)&&(dropOffMarker != null)) {
+            center = LatLngBounds.builder().include(pickUpLoc).include(dropOffLoc).build().getCenter();
+        } else if (pickUpMarker != null) {
+            center = pickUpLoc;
+        } else if (dropOffMarker != null) {
+            center = dropOffLoc;
+        }
+        CameraUpdate newFocus = CameraUpdateFactory.newLatLngZoom(center, 10);
+        mMap.animateCamera(newFocus);
     }
 }

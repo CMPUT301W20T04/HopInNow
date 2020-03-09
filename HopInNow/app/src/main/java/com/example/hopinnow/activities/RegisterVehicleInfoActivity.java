@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
@@ -75,7 +75,7 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
         // first dismiss the progress bar:
         this.progressbarDialog.dismissDialog();
         // initialize intent to go to the ProfileActivity:
-        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DriverMapActivity.class);
         Bundle bundle = new Bundle();
         // put the driver object into the bundle, Profile activity can access directly:
         bundle.putSerializable("UserObject", this.driver);

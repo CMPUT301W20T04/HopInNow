@@ -14,6 +14,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
+/**
+ * Author: Shway Wang.
+ * UserDatabaseAccessor class extends all access interfaces. Provides all driver related access
+ * methods.
+ */
 public class DriverDatabaseAccessor extends UserDatabaseAccessor {
     /**
      * Update the driver profile according to the User object past in. The key used is the Uid
@@ -23,12 +28,12 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
      * @param listener
      *      if the driver is updated successfully, call the onSuccess method, otherwise, onFailure.
      */
-    public void updateUserProfile(final Driver driver, final UserProfileStatusListener listener) {
+    public void updateDriverProfile(final Driver driver, final UserProfileStatusListener listener) {
         Log.v(TAG, "Ready to create driver profile.");
         // should not let any one see the password!
         driver.setPassword(null);
         // check if logged in:
-        this.currentUser = firebaseAuth.getCurrentUser();
+        super.currentUser = super.firebaseAuth.getCurrentUser();
         if (this.currentUser != null) {
             // the driver is logged in successfully
             Log.v(TAG, "User is logged in!");
