@@ -3,13 +3,20 @@ package com.example.hopinnow.Database;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
+import com.example.hopinnow.statuslisteners.DriverRequestAcceptListener;
+import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
@@ -105,6 +112,50 @@ public class RequestDatabaseAccessor extends com.example.hopinnow.Database.Datab
                             listener.onGetRequiredRequestsSuccess(requests);
                         } else {
                             listener.onGetRequiredRequestsFailure();
+                        }
+                    }
+                });
+    }
+
+    public void driverAcceptRequest(Request request, final DriverRequestAcceptListener listener) {
+        this.firestore
+                .collection(referenceName)
+                .document(this.currentUser.getUid())
+                .set(request)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.v(TAG, "Request added!");
+                        listener.onDriverRequestAccept();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v(TAG, "Request did not save successfully!");
+                        listener.onDriverRequestTimeoutOrFail();
+                    }
+                });
+    }
+
+    public void riderWaitForRequestAcceptance(final RiderRequestAcceptedListener listener) {
+        this.firestore
+                .collection(this.referenceName)
+                .document(this.currentUser.getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.v(TAG, "Listen failed.", e);
+                            listener.onRiderRequestTimeoutOrFail();
+                        }
+                        if (snapshot != null && snapshot.exists()) {
+                            Log.v(TAG, "Got data: ");
+                            listener.onRiderRequestAccept();
+                        } else {
+                            Log.v(TAG, "Current data: null");
+                            listener.onRiderRequestTimeoutOrFail();
                         }
                     }
                 });
