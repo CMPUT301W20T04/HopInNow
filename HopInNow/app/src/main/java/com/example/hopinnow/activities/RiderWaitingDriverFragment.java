@@ -28,7 +28,6 @@ public class RiderWaitingDriverFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rider_waiting_driver, container, false);
         chronometer = view.findViewById(R.id.chronometer);
 
-
         fare_amount = view.findViewById(R.id.fare_amount);
         fare_amount.setText(df2.format(estimate_fare));
 
@@ -59,12 +58,19 @@ public class RiderWaitingDriverFragment extends Fragment {
             }
         });
 
+        //temporary for linking fragments
+        Button next = view.findViewById(R.id.rider_waiting_driver_next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_driver_offer);
+            }
+        });
 
         return view;
     }
 
     private void addFare(){
-
         estimate_fare += 1;
         fare_amount.setText(df2.format(estimate_fare));
     }

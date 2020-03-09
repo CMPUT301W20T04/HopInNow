@@ -1,6 +1,7 @@
 package com.example.hopinnow.activities;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -207,12 +209,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         FragmentTransaction t;
 
         switch(caseId){
+            case R.layout.fragment_rider_waiting_driver:
+                t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.fragment_place, new RiderWaitingDriverFragment()).commit();
+                break;
             case R.layout.fragment_rider_driver_offer:
-
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new RiderDriverOfferFragment()).commit();
-                //View searchFragment = findViewById(R.id.search_layout);
-                //searchFragment.setVisibility(View.GONE);
                 break;
             case R.layout.fragment_rider_waiting_pickup:
                 t = getSupportFragmentManager().beginTransaction();
@@ -224,7 +227,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 break;
             case R.layout.fragment_rider_confirm_dropoff:
                 t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderConfirmDropoffFragment()).commit();
+                t.replace(R.id.fragment_place, new RiderConfirmDropOffFragment()).commit();
                 break;
         }
 
@@ -292,7 +295,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
         searchInPlace = true;
-        switchFragment(R.layout.fragment_rider_driver_offer);
+        switchFragment(R.layout.fragment_rider_waiting_driver);
     }
 
     public void callNumber(String phoneNumber){
@@ -353,13 +356,73 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      }
 
 
+    /**
+     * Called when profile retrieve successfully:
+     * @param rider
+     *      receives a user object containing all info about the current user.
+     */
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
         this.rider = rider;
     }
 
-    @Override
-    public void onRiderProfileRetrieveFailure() {
 
+    /**
+     * Called when profile retrieve failed:
+     */
+    @Override
+    public void onRiderProfileRetrieveFailure() {}
+
+    /**
+     * Shows driver information and contact means on a dialog
+     */
+    public void showDriverInfo(){
+
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_driver_info);
+
+        //set driver name
+        TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
+        driverName.setText(driver.getName());
+
+        //set driver rating
+        TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
+        String rating;
+        if (driver.getRating()==-1){
+            rating = "not yet rated";
+        } else {
+            rating = Double.toString(driver.getRating());
+        }
+        driverRating.setText(rating);
+
+        //set driver car
+        TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
+        String carInfo = driver.getCar().getColor() + " " + driver.getCar().getMake() + " " + driver.getCar().getModel();
+        driverCar.setText(carInfo);
+
+        //set driver license
+        TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
+        driverLicense.setText(driver.getCar().getPlateNumber());
+
+        //call driver
+        Button callBtn= dialog.findViewById(R.id.dialog_call_button);
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callNumber(driver.getPhoneNumber());
+            }
+        });
+
+        //email driver
+        Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
+        emailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailDriver(driver.getEmail());
+            }
+        });
+
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 }

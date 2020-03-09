@@ -17,6 +17,8 @@ import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 
+import java.util.Objects;
+
 public class RiderWaitingPickupFragment extends Fragment {
     Request curRequest;
     Driver driver;
@@ -42,8 +44,7 @@ public class RiderWaitingPickupFragment extends Fragment {
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //shows driver information
-                    showDriverInfo();
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo();
                 }
             });
 
@@ -101,59 +102,6 @@ public class RiderWaitingPickupFragment extends Fragment {
         }
 
         return view;
-    }
-
-    /**
-     * Shows driver information and contact means on a dialog
-     */
-    public void showDriverInfo(){
-        //change fragment
-        Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.dialog_driver_info);
-
-        //driver name
-        TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
-        driverName.setText(driver.getName());
-
-        //set driver rating
-        TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
-        String rating;
-        if (driver.getRatingCounts()==0){
-            rating = "not yet rated";
-        } else {
-            rating = Double.toString(driver.getRating());
-        }
-        driverRating.setText(rating);
-
-        //set driver car
-        TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
-        String carInfo = driver.getCar().getColor()+" "+driver.getCar().getMake()+" "+driver.getCar().getModel();
-        driverCar.setText(carInfo);
-
-        //set driver license
-        TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
-        driverLicense.setText(driver.getCar().getPlateNumber());
-
-        //driver name
-        Button callBtn= dialog.findViewById(R.id.dialog_call_button);
-        callBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
-            }
-        });
-
-        //driver name
-        Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
-        emailBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((RiderMapActivity) getActivity()).emailDriver(driver.getEmail());
-            }
-        });
-
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
     }
 
 

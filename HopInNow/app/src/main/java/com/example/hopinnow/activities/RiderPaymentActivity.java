@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,11 +35,14 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Author: Tianyu Bai
+ * This class defines the activity for rider payment after confirming arrival at drop off location.
+ */
 public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener {
     private Request curRequest;
     private Driver driver;
     private Rider rider;
-    private SharedPreferences mPrefs;
     private Double totalPayment = 0.00;
     private Double myTip;
     private Double baseFare;
@@ -47,45 +51,47 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private TextView totalPaymentTextView;
     private Date dropOffDateTime;
     private Double myRating;
-    private UserDatabaseAccessor userDatabaseAccessor;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_payment);
 
-        qrImage = findViewById(R.id.rider_payment_qr);
-        dropOffDateTime = Calendar.getInstance().getTime();
-
         //TODO assign driver
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0, null, car, null, null);
-        //TODO set current Request
-        mPrefs = getSharedPreferences("LocalRequest",MODE_PRIVATE);
+                "12345678", true, 10.0, null, car,
+                null, null);
+
+        // set current Request
+        SharedPreferences mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
         Gson gsonRequest = new Gson();
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
 
+        //set local variables
         baseFare = curRequest.getEstimatedFare();
+        dropOffDateTime = Calendar.getInstance().getTime();
+
+        //set initial total payment
         totalPaymentTextView = findViewById(R.id.rider_payment_total);
-        totalPaymentTextView.setText("$ "+Double.toString(baseFare));
+        totalPaymentTextView.setText("$ "+ baseFare);
 
 
-        //show total payment calculation by baes fare * my tips
+        //show total payment calculation
         Button showTotalBtn = findViewById(R.id.rider_payment_calculate);
         showTotalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setMyTip();
                 totalPayment = formatTotalPayment();
-                totalPaymentTextView.setText("$ "+Double.toString(totalPayment));
+                totalPaymentTextView.setText("$ "+ totalPayment);
             }
         });
 
-
-
-        // creates QR code on button confirm
+        // creates QR code on button confirm, QR contains total payment amount
+        qrImage = findViewById(R.id.rider_payment_qr);
         final Button confirmPaymentBtn = findViewById(R.id.rider_payment_submit_tips);
         confirmPaymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,14 +99,14 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
                 setMyTip();
                 totalPayment = formatTotalPayment();
-                totalPayment = Double.parseDouble(Double.toString(totalPayment));
 
-                if (totalPayment>rider.getDeposit()){
-                    Toast.makeText(RiderPaymentActivity.this, "There is insufficient deposit in your account!", Toast.LENGTH_SHORT).show();
+                //checks available deposit for payment, if enough then QR code is generated
+                if (totalPayment > rider.getDeposit()){
+                    String msg = "There is insufficient deposit in your account!";
+                    Toast.makeText(RiderPaymentActivity.this,msg,Toast.LENGTH_SHORT).show();
                 } else {
                     Gson gsonPay = new Gson();
                     String serializePay = gsonPay.toJson(totalPayment);
-
                     Bitmap bitmap = QRCodeHelper
                             .newInstance(RiderPaymentActivity.this)
                             .setContent(serializePay)
@@ -109,7 +115,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                             .getQRCOde();
                     qrImage.setImageBitmap(bitmap);
                     confirmPaymentBtn.setVisibility(View.GONE);
-
                     onScanningCompleted();
                 }
                 }
@@ -117,39 +122,32 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         });
 
-        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        // get current rider
+        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getRiderProfile(this);
-
-
-
-
     }
 
+
     /**
-     * Shows driver information and contact means on a dialog
+     * Shows dialog that prompts rider to rate the driver of corresponding trip.
      */
     public void showRatingDialog(){
-        //change fragment
+
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_rider_rating);
 
-        //driver name
+        // set driver name
         TextView driverName= dialog.findViewById(R.id.dialog_rider_rating_driver);
         driverName.setText(driver.getName());
 
-        //assign rating bar
-        final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
-
-
         //submit rating and complete request
+        final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
         Button submitBtn= dialog.findViewById(R.id.dialog_rating_submit);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setNewDriverRating(ratingBar);
                 completeRequest();
-
             }
         });
 
@@ -162,10 +160,15 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             }
         });
 
-        //dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
 
+
+    /**
+     * Calculates new average rating for driver.
+     * @param rb
+     *      rating bar that contains new rating
+     */
     private void setNewDriverRating(RatingBar rb){
         Double prevRating = driver.getRating();
         int counts = driver.getRatingCounts();
@@ -175,19 +178,30 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         driver.setRating(newRating);
     }
 
+
+    /**
+     * Completes current request and returns rider to the new request prompt page.
+     */
     private void completeRequest(){
-        //TODO req to trip list in rider's trip list in firbase
+        String msg = "Your trip is completed!";
+        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+        //TODO req to trip list in rider's trip list in firebase
         Trip trip = toTrip();
+
+        // change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", true);
         startActivity(intent);
-
-        Toast.makeText(RiderPaymentActivity.this, "Your trip is completed!", Toast.LENGTH_SHORT).show();
-
     }
 
+
+    /**
+     * Determines the rider selected tip amount.
+     * @param view
+     *      current view
+     */
     public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
@@ -213,24 +227,12 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                     myTip = 0.0;
                 break;
         }
-
-    }
-
-    /**
-     * Returns rider input tip amount
-     */
-    private void getOtherTip(){
-        EditText otherTip = findViewById(R.id.rider_payment_other_editText);
-        if (!otherTip.getText().toString().isEmpty()) {
-            myTip = (Double.parseDouble(otherTip.getText().toString())) / 100;
-        }
-
     }
 
 
     /**
-     * Complete Transaction
-     * Pops up rating dialog after driver finishes scanning QR from rider
+     * Completes payment transaction and pops up rating dialog.
+     * This method is trigger by driver finishing the scanning of the QR.
      */
     public void onScanningCompleted(){
         Double newDepositAmount = rider.getDeposit()-totalPayment;
@@ -242,24 +244,31 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         showRatingDialog();
     }
 
+
     /**
-     * set my tip if customized amount is entered
+     * Get rider's customized tip amount.
      */
     private void setMyTip(){
         if (other){
-            getOtherTip();
+            EditText otherTip = findViewById(R.id.rider_payment_other_editText);
+            if (!otherTip.getText().toString().isEmpty()) {
+                myTip = (Double.parseDouble(otherTip.getText().toString())) / 100;
+            }
         }
     }
 
-    /**
-     * format total payment to double with two digits
-     */
-    private Double formatTotalPayment(){
-        return Double.parseDouble(new DecimalFormat("##.##").format((1 + myTip)*baseFare));
-    }
 
     /**
-     * transform request to trip
+     * Format total payment to double with two decimals.
+     */
+    private Double formatTotalPayment(){
+        return Double.parseDouble(new DecimalFormat("##.##")
+                .format((1 + myTip) * baseFare));
+    }
+
+
+    /**
+     * Change current request from class Request to class Trip.
      */
     private Trip toTrip(){
         int duration = (int) (curRequest.getPickUpDateTime().getTime() - dropOffDateTime.getTime());
@@ -274,15 +283,23 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         return trip;
     }
 
+
+    /**
+     * Called when profile retrieve successfully:
+     * @param rider
+     *      receives a user object containing all info about the current user.
+     */
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
         this.rider = rider;
     }
 
-    @Override
-    public void onRiderProfileRetrieveFailure() {
 
-    }
+    /**
+     * Called when profile retrieve failed:
+     */
+    @Override
+    public void onRiderProfileRetrieveFailure() {}
 
 
 
