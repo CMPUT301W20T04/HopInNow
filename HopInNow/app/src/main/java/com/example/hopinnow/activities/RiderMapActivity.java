@@ -215,15 +215,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onStart(){
         super.onStart();
-        Bundle b = getIntent().getExtras();
+        String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
 
-        if(b!=null) {
-            Log.e("getting bundle","bundle not null");
-            if (Boolean.parseBoolean(b.get("Current_Request_To_Null").toString())){
-                Log.e("getting bundle","cancel is done");
-                cancelRequestLocal();
-            }
-
+        if (caseCancel =="cancel") {
+            cancelRequestLocal();
         }
 
         if (curRequest!=null) {
