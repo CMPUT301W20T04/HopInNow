@@ -215,13 +215,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onStart(){
         super.onStart();
-        searchInPlace = false;
-        Bundle b = getIntent().getExtras();
+        String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
 
-        if(b!=null) {
-            if (Boolean.parseBoolean(Objects.requireNonNull(b.get("Current_Request_To_Null")).toString())){
-                cancelRequestLocal();
-            }
+        if (caseCancel =="cancel") {
+            cancelRequestLocal();
         }
 
         if (curRequest!=null) {
@@ -229,6 +226,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             curRequest = retrieveCurrentRequestLocal();
             searchFragment.setVisibility(View.GONE);
             searchInPlace = false;
+        } else {
+            searchInPlace = true;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (curRequest != null) {
+            //mMap.clear();
+            curRequest = retrieveCurrentRequestLocal();
         }
     }
 
