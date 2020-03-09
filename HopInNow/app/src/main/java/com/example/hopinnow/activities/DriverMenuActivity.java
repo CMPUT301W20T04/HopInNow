@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
@@ -21,7 +21,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
     private FloatingActionButton offlineBtn;
     private Button driverMyProfileBtn, driverMyTripsBtn, vehicleInfoBtn;
     private TextView driverMenuTextView;
-    private UserDatabaseAccessor userDatabaseAccessor;
+    private DriverDatabaseAccessor userDatabaseAccessor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
         driverMyTripsBtn = (Button) findViewById(R.id.driverMyTripsBtn);
         vehicleInfoBtn = (Button) findViewById(R.id.vehicleInfoBtn);
         offlineBtn = (FloatingActionButton) findViewById(R.id.offlineBtn);
-        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        this.userDatabaseAccessor = new DriverDatabaseAccessor();
 
         driverMyProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
