@@ -1,6 +1,6 @@
 package com.example.hopinnow.activities;
 
-import android.app.Dialog;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,33 +17,41 @@ import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 
+import java.util.Objects;
+
+/**
+ * Authoer: Tianyu Bai
+ * This class defines the fargment while rider is waiting for driver pickup.
+ * This class is triggered by rider accepting driver's offer.
+ */
 public class RiderWaitingPickupFragment extends Fragment {
-    Request curRequest;
-    Driver driver;
+    private Driver driver;
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rider_waiting_pickup, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_rider_waiting_pickup, container,
+                false);
 
-        //TODO assign driver
-        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
+        // set local variables
+        Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                .retrieveCurrentRequestLocal();
+        //driver = curRequest.getDriver();
+        Car car = new Car("Auburn","Speedster","Cream","111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,null, car, null, null);
-        //TODO set current Request
-        curRequest = ((RiderMapActivity) getActivity()).retrieveCurrentRequest();
-
-        // Get Fragment belonged Activity
-        final FragmentActivity fragmentActivity = getActivity();
+                "12345678", true, 10.0,  null, car,
+                null, null);
 
         if (view != null) {
+
             //set driver name
             TextView driverName = view.findViewById(R.id.rider_waiting_driver_name);
             driverName.setText(driver.getName());
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //shows driver information
-                    showDriverInfo();
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo();
                 }
             });
 
@@ -64,7 +72,8 @@ public class RiderWaitingPickupFragment extends Fragment {
             callBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                            .callNumber(driver.getPhoneNumber());
                 }
             });
 
@@ -73,7 +82,8 @@ public class RiderWaitingPickupFragment extends Fragment {
             emailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RiderMapActivity) getActivity()).emailDriver(driver.getEmail());
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                            .emailDriver(driver.getEmail());
                 }
             });
 
@@ -84,7 +94,7 @@ public class RiderWaitingPickupFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //change fragment
-                    ((RiderMapActivity) getActivity()).cancelRequest();
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
                 }
             });
 
@@ -101,59 +111,6 @@ public class RiderWaitingPickupFragment extends Fragment {
         }
 
         return view;
-    }
-
-    /**
-     * Shows driver information and contact means on a dialog
-     */
-    public void showDriverInfo(){
-        //change fragment
-        Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.dialog_driver_info);
-
-        //driver name
-        TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
-        driverName.setText(driver.getName());
-
-        //set driver rating
-        TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
-        String rating;
-        if (driver.getRatingCounts()==0){
-            rating = "not yet rated";
-        } else {
-            rating = Double.toString(driver.getRating());
-        }
-        driverRating.setText(rating);
-
-        //set driver car
-        TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
-        String carInfo = driver.getCar().getColor()+" "+driver.getCar().getMake()+" "+driver.getCar().getModel();
-        driverCar.setText(carInfo);
-
-        //set driver license
-        TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
-        driverLicense.setText(driver.getCar().getPlateNumber());
-
-        //driver name
-        Button callBtn= dialog.findViewById(R.id.dialog_call_button);
-        callBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
-            }
-        });
-
-        //driver name
-        Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
-        emailBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((RiderMapActivity) getActivity()).emailDriver(driver.getEmail());
-            }
-        });
-
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
     }
 
 
