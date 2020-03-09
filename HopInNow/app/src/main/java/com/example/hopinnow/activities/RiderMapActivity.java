@@ -520,4 +520,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderProfileRetrieveFailure() {}
 
+    @Override
+    public void onRiderProfileUpdateSuccess(Rider rider) {
+
+    }
+
+    @Override
+    public void onRiderProfileUpdateFailure() {
+
+    }
+
 }

@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
@@ -57,6 +59,22 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
             this.vehiclePlateEditText.setText(currentDriver.getCar().getPlateNumber());
             this.progressbarDialog.dismissDialog();
         }
+
+        this.updateBtn = findViewById(R.id.vehicleUpdateBtn);
+        this.updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("abcde");
+
+                // access database:
+                currentDriver.getCar().setMake(vehicleMakeEditText.getText().toString());
+                currentDriver.getCar().setModel(vehicleModelEditText.getText().toString());
+                currentDriver.getCar().setColor(vehicleColorEditText.getText().toString());
+                currentDriver.getCar().setPlateNumber(vehiclePlateEditText.getText().toString());
+                driverDatabaseAccessor.updateDriverProfile(currentDriver, VehicleViewActivity.this);
+            }
+        });
+
     }
 
     @Override
@@ -71,6 +89,18 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
 
     @Override
     public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+        this.progressbarDialog.dismissDialog();
+        Toast.makeText(getApplicationContext(),
+                "Your info is updated!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
 
     }
 }
