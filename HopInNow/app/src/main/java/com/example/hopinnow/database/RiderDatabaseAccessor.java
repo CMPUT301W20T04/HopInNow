@@ -14,6 +14,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
+/**
+ * Author: Shway Wang.
+ * UserDatabaseAccessor class extends all access interfaces. Provides all rider related access
+ * methods.
+ */
 public class RiderDatabaseAccessor extends UserDatabaseAccessor {
     /**
      * Update the rider profile according to the User object past in. The key used is the Uid
