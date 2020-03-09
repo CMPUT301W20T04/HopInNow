@@ -92,11 +92,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //TODO [BUG] if both locations eneterd, then one location cleared, validation below would not work
+                //TODO [BUG]
+                // if both locations eneterd, then one cleared, validation below would not work
+                // maybe gettext in autocompletefragment for validation
                 if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
                     setRequest();
                 } else {
-                    Toast.makeText(RiderMapActivity.this, "Please enter both your pick up and drop off locations.", Toast.LENGTH_SHORT).show();
+                    String msg = "Please enter both your pick up and drop off locations.";
+                    Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -104,6 +107,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getRiderProfile(this);
+
+        //TODO listener
+        // on rider curRequest, save waiting driver offer status, calls switch fragment
     }
 
 
@@ -173,7 +179,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         {
             //TODO curReqest to firebase trip list
 
-            cancelRequest();
+            cancelRequestLocal();
         }
     }
 
@@ -185,7 +191,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         if(b!=null) {
             if (Boolean.parseBoolean(Objects.requireNonNull(b.get("Current_Request_To_Null")).toString())){
-                cancelRequest();
+                cancelRequestLocal();
             }
         }
 
@@ -201,7 +207,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onResume();
         if (curRequest != null) {
             //mMap.clear();
-            curRequest = retrieveCurrentRequest();
+            curRequest = retrieveCurrentRequestLocal();
         }
     }
 
@@ -238,7 +244,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**
      * Cancels current request of the rider and return to initial location search prompt page
      */
-    public void cancelRequest(){
+    public void cancelRequestLocal(){
         //clear all fragments
         FrameLayout fl = findViewById(R.id.fragment_place);
         fl.removeAllViews();
@@ -246,7 +252,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         //set curRequest to null
         curRequest = null;
-        saveCurrentRequest(curRequest);
+        saveCurrentRequestLocal(curRequest);
         pickUpLocName = null;
         dropOffLocName= null;
         pickUpLoc = null;
@@ -264,7 +270,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
-    public void saveCurrentRequest(Request req){
+    public void saveCurrentRequestLocal(Request req){
         mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
@@ -273,10 +279,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         prefsEditor.apply();
     }
 
-    public Request retrieveCurrentRequest(){
+    public Request retrieveCurrentRequestLocal(){
         Gson gson = new Gson();
         String json = mPrefs.getString("CurrentRequest", "");
         return gson.fromJson(json, Request.class);
+    }
+
+    public Request retrieveCurrentRequestOnline(){
+        return rider.getCurRequest();
     }
 
     public void setRequest(){
@@ -287,7 +297,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO set current Request
         curRequest = new Request( driver,rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, dateTime,null, estimatedFare);
 
-        saveCurrentRequest(curRequest);
+        saveCurrentRequestLocal(curRequest);
 
         //TODO save cur Request to firebase
 

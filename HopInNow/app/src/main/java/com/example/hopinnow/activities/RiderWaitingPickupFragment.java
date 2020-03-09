@@ -1,6 +1,5 @@
 package com.example.hopinnow.activities;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,25 +18,25 @@ import com.example.hopinnow.entities.Request;
 
 import java.util.Objects;
 
+/**
+ * Authoer: Tianyu Bai
+ * This class defines the fargment while rider is waiting for driver pickup.
+ * This class is triggered by rider accepting driver's offer.
+ */
 public class RiderWaitingPickupFragment extends Fragment {
-    Request curRequest;
-    Driver driver;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rider_waiting_pickup, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_rider_waiting_pickup, container,
+                false);
 
-        //TODO assign driver
-        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,null, car, null, null);
-        //TODO set current Request
-        curRequest = ((RiderMapActivity) getActivity()).retrieveCurrentRequest();
-
-        // Get Fragment belonged Activity
-        final FragmentActivity fragmentActivity = getActivity();
+        // set local variables
+        Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
+        Driver driver = curRequest.getDriver();
 
         if (view != null) {
+
             //set driver name
             TextView driverName = view.findViewById(R.id.rider_waiting_driver_name);
             driverName.setText(driver.getName());

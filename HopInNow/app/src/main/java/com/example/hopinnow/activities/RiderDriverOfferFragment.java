@@ -13,31 +13,45 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.entities.Rider;
+import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
+import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
 
 import java.util.Objects;
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 
 /**
  * Author: Tianyu Bai
  * This class defines the fragment that prompts rider's decision on the driver offer.
+ * This class is trigger by driver sending an offer on rider's current request.
  */
 public class RiderDriverOfferFragment extends Fragment {
+    private Request curRequest;
     private Driver driver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rider_driver_offer, container,false);
+        View view = inflater.inflate(R.layout.fragment_rider_driver_offer, container
+                ,false);
+
+        //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                //.retrieveCurrentRequestOnline();
+        //driver = curRequest.getDriver();
 
 
-        //TODO assign driver from fire base
+        //TODO get curRequest from firebase, acceptance boolean is false
+        //curRequest
         Car car = new Car("Auburn","Speedster","Cream","111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, 10.0,  null, car,
                 null, null);
+
 
 
         if(view!=null) {
@@ -98,6 +112,7 @@ public class RiderDriverOfferFragment extends Fragment {
             acceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //TODO set rider.curRequest to have Boolean accept = true in firebase
                     ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                             .switchFragment(R.layout.fragment_rider_waiting_pickup);
                 }
@@ -117,7 +132,6 @@ public class RiderDriverOfferFragment extends Fragment {
 
         return view;
     }
-
 
 
 

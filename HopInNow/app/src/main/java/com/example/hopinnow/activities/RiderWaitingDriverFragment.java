@@ -16,6 +16,11 @@ import com.example.hopinnow.R;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
+/**
+ * Author:
+ * This class defines the fragment while rider is waiting for driver offer.
+ * This class is triggered by by rider creating a new current request.
+ */
 public class RiderWaitingDriverFragment extends Fragment {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private Chronometer chronometer;
@@ -23,9 +28,12 @@ public class RiderWaitingDriverFragment extends Fragment {
     private Double estimate_fare = 2.68;
     private Double lowest_price = estimate_fare;
     private TextView fare_amount;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_rider_waiting_driver, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState){
+        View view = inflater.inflate(R.layout.fragment_rider_waiting_driver, container,
+                false);
         chronometer = view.findViewById(R.id.chronometer);
 
         fare_amount = view.findViewById(R.id.fare_amount);
@@ -53,11 +61,12 @@ public class RiderWaitingDriverFragment extends Fragment {
         cancel_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequest();
+                ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
                 endChronometer();
             }
         });
 
+        //TODO on rider's current request firebase listener, switch fragment
         //temporary for linking fragments
         Button next = view.findViewById(R.id.rider_waiting_driver_next);
         next.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +75,7 @@ public class RiderWaitingDriverFragment extends Fragment {
                 ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_driver_offer);
             }
         });
+
 
         return view;
     }

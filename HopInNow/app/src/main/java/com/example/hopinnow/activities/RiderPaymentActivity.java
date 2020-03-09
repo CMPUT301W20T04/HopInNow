@@ -58,12 +58,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_payment);
 
-        //TODO assign driver
-        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0, null, car,
-                null, null);
-
         // set current Request
         SharedPreferences mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
         Gson gsonRequest = new Gson();
@@ -71,6 +65,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         curRequest = gsonRequest.fromJson(json, Request.class);
 
         //set local variables
+        driver = curRequest.getDriver();
         baseFare = curRequest.getEstimatedFare();
         dropOffDateTime = Calendar.getInstance().getTime();
 
@@ -235,10 +230,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * This method is trigger by driver finishing the scanning of the QR.
      */
     public void onScanningCompleted(){
-        Double newDepositAmount = rider.getDeposit()-totalPayment;
+        double newDepositAmount = rider.getDeposit()-totalPayment;
         rider.setDeposit(newDepositAmount);
 
-        String msg = "Your payment  of $"+Double.toString(totalPayment)+" to your driver is successful!";
+        String msg = "Your payment of $" + totalPayment + " to your driver is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
         showRatingDialog();
@@ -278,9 +273,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String pickUpName = curRequest.getPickUpLocName();
         Date pickUpTime = curRequest.getPickUpDateTime();
         Car car = driver.getCar();
-        Trip trip = new Trip(driver,rider,pickUpLoc,dropOffLoc,pickUpName,dropOffName,pickUpTime,
+        return new Trip(driver,rider,pickUpLoc,dropOffLoc,pickUpName,dropOffName,pickUpTime,
                 dropOffDateTime, duration, car,totalPayment,myRating);
-        return trip;
     }
 
 
