@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;

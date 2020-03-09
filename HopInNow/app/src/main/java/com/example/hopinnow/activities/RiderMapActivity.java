@@ -19,7 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
