@@ -43,6 +43,19 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
             TextView requestTimeText = view.findViewById(R.id.requestTimeText);
             TextView requestCostText = view.findViewById(R.id.requestCostText);
             Button pickUpButton = view.findViewById(R.id.PickUpRiderButton);
+            Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
+            Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
+            if(((DriverMapActivity)getActivity()).getCurrentRequestPageCounter() == 0){
+                pickUpButton.setVisibility(View.VISIBLE);
+                dropOffButton.setVisibility(View.INVISIBLE);
+                emergencyCallButton.setVisibility(View.INVISIBLE);
+                ((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(1);
+            }else{
+                pickUpButton.setVisibility(View.INVISIBLE);
+                dropOffButton.setVisibility(View.VISIBLE);
+                emergencyCallButton.setVisibility(View.VISIBLE);
+                ((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
+            }
             requestFromText.setText("From: "+driver.getAvailableRequests().get(0).getPickUpLocName());
             requestToText.setText("To: "+driver.getAvailableRequests().get(0).getDropOffLocName());
             requestTimeText.setText("Time: "+driver.getAvailableRequests().get(0).getPickUpDateTime());
@@ -53,14 +66,13 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
                     ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
                 }
             });
-            Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
+
             dropOffButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                 }
             });
-            Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             emergencyCallButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,28 +80,11 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
                 }
             });
 
-
-
-
         }
-
-
-
-
-
-
-
-
 
         return super.onCreateView(inflater, container, savedInstanceState);
 
-
-
-
-
-
     }
-
     @Override
     public void onProfileStoreSuccess() {
 

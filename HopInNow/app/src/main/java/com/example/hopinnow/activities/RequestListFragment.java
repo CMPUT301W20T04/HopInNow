@@ -38,7 +38,7 @@ public class RequestListFragment extends Fragment implements UserProfileStatusLi
         final ArrayList<Request> requestList = new ArrayList<Request>();
         //public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date dateTime, Car car, Double estimatedFare){}
 
-
+        //read request from database
         userDatabaseAccessor.getUserProfile(this);
         for(int i=0;i<driver.getAvailableRequests().size();i++)
             requestList.add(driver.getAvailableRequests().get(i));

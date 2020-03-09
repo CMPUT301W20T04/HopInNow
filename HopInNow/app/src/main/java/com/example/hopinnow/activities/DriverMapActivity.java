@@ -44,9 +44,25 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Marker pickUpMarker, dropOffMarker;
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
-
+    private int currentRequestPageCounter = 0;
+    /**
+     * set the visibility of goOnline button into invisible
+     */
     public void setButtonInvisible(){
         goOnline.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * get the appear time of the fragment that display the current request
+     * if it's the first time then display the pickup button
+     * else display the emergency button and dropoff button
+     * @return
+     */
+    public int getCurrentRequestPageCounter(){
+        return this.currentRequestPageCounter;
+    }
+    public void setCurrentRequestPageCounter(int value){
+        this.currentRequestPageCounter = value;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +109,23 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void pickUpRider(){
 
     }
+
+    /**
+     * we have a frame layout in the rider and driver activity
+     * so that the fragments on it can switch easily by calling
+     * switchFragment method,
+     * @param caseId
+     */
     public void switchFragment(int caseId){
         FragmentTransaction t;
         switch(caseId){
+            // change the fragment to the one that display the current
+            // request and the pickup user button
             case R.layout.fragment_driver_pick_rider_up:
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new pickUpAndCurrentRequest()).commit();
                 break;
+                //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new RequestListFragment()).commit();
@@ -124,44 +150,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     }
 
 
-    /*
-    *
-    * public void switchFragment(int caseId){
-        FragmentTransaction t;
 
-        switch(caseId){
-            case R.layout.fragment_rider_driver_offer:
-
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderDriverOfferFragment()).commit();
-                //View searchFragment = findViewById(R.id.search_layout);
-                //searchFragment.setVisibility(View.GONE);
-                break;
-            case R.layout.fragment_rider_waiting_pickup:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderWaitingPickupFragment()).commit();
-                break;
-            case R.layout.fragment_rider_pickedup:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderPickedupFragment()).commit();
-                break;
-            case R.layout.fragment_rider_confirm_dropoff:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderConfirmDropoffFragment()).commit();
-                break;
-        }
 
         //t.addToBackStack(null);
         //t.commit();
-    }
-    *
-    *
-    *
-    *
-    *
-    *
-    *
-    * */
+
+
     /**
      * set marker to map
      */
