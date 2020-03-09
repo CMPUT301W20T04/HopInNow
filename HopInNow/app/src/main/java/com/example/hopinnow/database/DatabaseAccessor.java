@@ -1,4 +1,4 @@
-package com.example.hopinnow.database;
+package com.example.hopinnow.Database;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

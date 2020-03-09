@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
