@@ -15,39 +15,32 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.example.hopinnow.R;
-import com.example.hopinnow.database.DatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
-import com.example.hopinnow.entities.EstimateFare;
-import com.example.hopinnow.entities.Rider;
-import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.EstimateFare;
+import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.gms.common.api.Status;
-
-
 import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
-
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -93,8 +86,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         rider = new Rider();
         Car car = new Car("Auburn","Speedster","Cream","111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, 10.0, null, car, null, null);
-
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
+        //UserDatabaseAccessor
         setupAutoCompleteFragment();
 
         addRequest = findViewById(R.id.add_request_button);
