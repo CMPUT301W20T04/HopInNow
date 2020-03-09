@@ -10,31 +10,28 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
 
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 public class RiderWaitingDriverFragment extends Fragment {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
-    public Chronometer chronometer;
-    public boolean running;
-    public Double estimate_fare = 2.68;
-    public Double lowest_price = estimate_fare;
-    TextView fare_amount;
+    private Chronometer chronometer;
+    private boolean running;
+    private Double estimate_fare = 2.68;
+    private Double lowest_price = estimate_fare;
+    private TextView fare_amount;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_rider_waiting_driver, container, false);
         chronometer = view.findViewById(R.id.chronometer);
-        final FragmentActivity fragmentActivity = getActivity();
 
 
-        if(view != null){
-            fare_amount = view.findViewById(R.id.fare_amount);
-            fare_amount.setText(df2.format(estimate_fare));
+        fare_amount = view.findViewById(R.id.fare_amount);
+        fare_amount.setText(df2.format(estimate_fare));
 
-        }
         startChronometer();
 
         Button add_money= view.findViewById(R.id.add_money);
@@ -57,7 +54,7 @@ public class RiderWaitingDriverFragment extends Fragment {
         cancel_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((RiderMapActivity) getActivity()).cancelRequest();
+                ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequest();
                 endChronometer();
             }
         });
@@ -66,27 +63,27 @@ public class RiderWaitingDriverFragment extends Fragment {
         return view;
     }
 
-    public void addFare(){
+    private void addFare(){
 
         estimate_fare += 1;
         fare_amount.setText(df2.format(estimate_fare));
     }
 
-    public void reduceFare(){
-        if(Double.valueOf(df2.format(estimate_fare)) - 1 >= lowest_price) {
+    private void reduceFare(){
+        if(Double.parseDouble(df2.format(estimate_fare)) - 1 >= lowest_price) {
             estimate_fare -= 1;
             fare_amount.setText(df2.format(estimate_fare));
         }
     }
 
-    public void startChronometer(){
+    private void startChronometer(){
         if(!running){
             chronometer.start();
             running = true;
         }
     }
 
-    public void endChronometer(){
+    private void endChronometer(){
         if(running){
             chronometer.stop();
             running = false;
