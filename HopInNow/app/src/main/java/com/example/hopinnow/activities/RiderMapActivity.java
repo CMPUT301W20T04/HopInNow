@@ -17,11 +17,15 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DatabaseAccessor;
+import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.gms.common.api.Status;
 
 
@@ -50,7 +54,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback, UserProfileStatusListener {
 
     private GoogleMap mMap;
     MapFragment mapFragment;
@@ -90,7 +94,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Car car = new Car("Auburn","Speedster","Cream","111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true, 10.0, null, car, null, null);
 
-
+        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         setupAutoCompleteFragment();
 
         addRequest = findViewById(R.id.add_request_button);
@@ -362,4 +366,33 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
          mMap.animateCamera(newFocus);
      }
 
+    @Override
+    public void onProfileStoreSuccess() {
+
+    }
+
+    @Override
+    public void onProfileStoreFailure() {
+
+    }
+
+    @Override
+    public void onProfileRetrieveSuccess(User user) {
+
+    }
+
+    @Override
+    public void onProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onProfileUpdateSuccess(User user) {
+
+    }
+
+    @Override
+    public void onProfileUpdateFailure() {
+
+    }
 }

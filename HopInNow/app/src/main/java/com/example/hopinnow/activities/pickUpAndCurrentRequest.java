@@ -27,7 +27,7 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
-
+        int display_mode;
         //here get the driver from database
         userDatabaseAccessor.getUserProfile(this);
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container,false);
@@ -45,7 +45,8 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
             Button pickUpButton = view.findViewById(R.id.PickUpRiderButton);
             Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
-            if(((DriverMapActivity)getActivity()).getCurrentRequestPageCounter() == 0){
+            display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
+            if(display_mode == 0){
                 pickUpButton.setVisibility(View.VISIBLE);
                 dropOffButton.setVisibility(View.INVISIBLE);
                 emergencyCallButton.setVisibility(View.INVISIBLE);
@@ -60,29 +61,29 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
             requestToText.setText("To: "+driver.getAvailableRequests().get(0).getDropOffLocName());
             requestTimeText.setText("Time: "+driver.getAvailableRequests().get(0).getPickUpDateTime());
             requestCostText.setText("Estimate Fare: "+driver.getAvailableRequests().get(0).getEstimatedFare());
-            pickUpButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
-                }
-            });
-
-            dropOffButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
-                }
-            });
-            emergencyCallButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((DriverMapActivity)getActivity()).callNumber("7806041057");//shway number
-                }
-            });
+            if(display_mode == 0){
+                pickUpButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up); }
+                });}
+            else{
+                dropOffButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
+                    }
+                });
+                emergencyCallButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((DriverMapActivity)getActivity()).callNumber("7806041057");//shway number
+                    }
+                });}
 
         }
-
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
+        //return super.onCreateView(inflater, container, savedInstanceState);
 
     }
     @Override
