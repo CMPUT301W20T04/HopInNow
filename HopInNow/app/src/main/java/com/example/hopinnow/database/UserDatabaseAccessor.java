@@ -30,7 +30,7 @@ import java.util.Objects;
  */
 public class UserDatabaseAccessor extends com.example.hopinnow.Database.DatabaseAccessor {
     public static final String TAG = "UserDatabaseAccessor";
-    private final String referenceName = "Users";
+    protected final String referenceName = "Users";
 
     /**
      * Constructor, default setting, call super().
@@ -189,114 +189,6 @@ public class UserDatabaseAccessor extends com.example.hopinnow.Database.Database
                             listener.onProfileUpdateFailure();
                         }
                     });
-        } else {    // the user is not logged in
-            Log.v(TAG, "User is not logged in!");
-        }
-    }
-
-    /**
-     * Get the whole set of user information from the collection "Users". Password is null due to
-     * security measures.
-     * @param listener
-     *      if the user info is retrieved successfully, call the onSuccess method,
-     *      otherwise, onFailure.
-     */
-    public void getUserProfile(final UserProfileStatusListener listener) {
-        this.currentUser = firebaseAuth.getCurrentUser();
-        // check if logged in:
-        if (this.currentUser != null) {
-            Objects.requireNonNull(this.firestore
-                    .collection(referenceName)
-                    .document(this.currentUser.getUid())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Log.v(TAG, "Get User Successfully!");
-                            if (documentSnapshot.exists()) {
-                                listener.onProfileRetrieveSuccess(documentSnapshot
-                                        .toObject(User.class));
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "Get User Failed!");
-                            listener.onProfileRetrieveFailure();
-                        }
-                    }));
-        } else {    // the user is not logged in
-            Log.v(TAG, "User is not logged in!");
-        }
-    }
-
-    /**
-     * Get the whole set of rider information from the collection "Users". Password is null due to
-     * security measures.
-     * @param listener
-     *      if the rider info is retrieved successfully, call the onSuccess method,
-     *      otherwise, onFailure.
-     */
-    public void getRiderProfile(final RiderProfileStatusListener listener) {
-        this.currentUser = firebaseAuth.getCurrentUser();
-        // check if logged in:
-        if (this.currentUser != null) {
-            Objects.requireNonNull(this.firestore
-                    .collection(referenceName)
-                    .document(this.currentUser.getUid())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Log.v(TAG, "Get User Successfully!");
-                        if (documentSnapshot.exists()) {
-                            listener.onRiderProfileRetrieveSuccess(documentSnapshot
-                                    .toObject(Rider.class));
-                        }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        Log.v(TAG, "Get User Failed!");
-                        listener.onRiderProfileRetrieveFailure();
-                        }
-                    }));
-        } else {    // the user is not logged in
-            Log.v(TAG, "User is not logged in!");
-        }
-    }
-
-    /**
-     * Get the whole set of driver information from the collection "Users". Password is null due to
-     * security measures.
-     * @param listener
-     *      if the driver info is retrieved successfully, call the onSuccess method,
-     *      otherwise, onFailure.
-     */
-    public void getDriverProfile(final DriverProfileStatusListener listener) {
-        this.currentUser = firebaseAuth.getCurrentUser();
-        // check if logged in:
-        if (this.currentUser != null) {
-            Objects.requireNonNull(this.firestore
-                    .collection(referenceName)
-                    .document(this.currentUser.getUid())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Log.v(TAG, "Get User Successfully!");
-                            if (documentSnapshot.exists()) {
-                                listener.onDriverProfileRetrieveSuccess(documentSnapshot
-                                        .toObject(Driver.class));
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "Get User Failed!");
-                            listener.onDriverProfileRetrieveFailure();
-                        }
-                    }));
         } else {    // the user is not logged in
             Log.v(TAG, "User is not logged in!");
         }
