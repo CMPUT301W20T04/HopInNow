@@ -13,12 +13,13 @@ import android.widget.Toast;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
-import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
-public class LoginActivity extends AppCompatActivity implements LoginStatusListener, UserProfileStatusListener {
+public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
+        UserProfileStatusListener {
     // establish the TAG of this activity:
     public static final String TAG = "LoginActivity";
     // initialize Database helper:
@@ -31,17 +32,18 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     private TextView register;
     // alert progress dialog:
     private ProgressbarDialog progressbarDialog;
-    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // initialize the userDatabaseAccessor to use the login function within it:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
-            // if user already logged in, go to the profile activity
-        if (this.userDatabaseAccessor.isLoggedin()) {
-            this.userDatabaseAccessor.getUserProfile(this);
-        }
+        // if user already logged in, go to the profile activity
+//        if (this.userDatabaseAccessor.isLoggedin()) {
+//            Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
         // here, the database accessor is already initialized
         this.email = findViewById(R.id.loginEmailEditText);
         this.password = findViewById(R.id.loginPassword);
@@ -99,21 +101,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     @Override
     public void onLoginSuccess() {
         // go view the map:
-        this.progressbarDialog.dismissDialog();
-        //UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
-
-        //here get the driver from database
-        userDatabaseAccessor.getUserProfile(this);
-        Intent intent;
-        if (this.user.isUserType()){
-            intent = new Intent(getApplicationContext(), DriverMapActivity.class);
-        }else{
-            intent = new Intent(getApplicationContext(), RiderMapActivity.class);
-        }
-
-
-        startActivity(intent);
-        finish();
+        this.userDatabaseAccessor.getUserProfile( this);
     }
 
     @Override
@@ -137,13 +125,13 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     @Override
     public void onProfileRetrieveSuccess(User user) {
         Intent intent;
-        if (user.isUserType()){
+        if (user.isUserType()) {    // true is driver
             intent = new Intent(getApplicationContext(), DriverMapActivity.class);
-        }
-        else{
+        } else {    // false is rider
             intent = new Intent(getApplicationContext(), RiderMapActivity.class);
         }
         startActivity(intent);
+        this.progressbarDialog.dismissDialog();
         finish();
     }
 
@@ -154,7 +142,6 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
 
     @Override
     public void onProfileUpdateSuccess(User user) {
-        this.user = user;
 
     }
 

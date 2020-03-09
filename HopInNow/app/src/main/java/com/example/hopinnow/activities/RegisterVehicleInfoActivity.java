@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
@@ -20,7 +20,7 @@ import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
-public class VehicleInfoActivity extends AppCompatActivity implements LoginStatusListener,
+public class RegisterVehicleInfoActivity extends AppCompatActivity implements LoginStatusListener,
         RegisterStatusListener, UserProfileStatusListener {
     private UserDatabaseAccessor userDatabaseAccessor;
     // the user object past:
@@ -37,7 +37,7 @@ public class VehicleInfoActivity extends AppCompatActivity implements LoginStatu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car_info);
+        setContentView(R.layout.activity_vehicle_info);
         // init user database accessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
         // get the information already filled:
@@ -65,7 +65,7 @@ public class VehicleInfoActivity extends AppCompatActivity implements LoginStatu
                 String plateNumberData = plateNumber.getText().toString();
                 Car car = new Car(makeData, modelData, colorData, plateNumberData);
                 driver.setCar(car);
-                userDatabaseAccessor.registerUser(driver, VehicleInfoActivity.this);
+                userDatabaseAccessor.registerUser(driver, RegisterVehicleInfoActivity.this);
             }
         });
     }

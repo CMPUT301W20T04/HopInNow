@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
-import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.Driver;
@@ -70,10 +70,19 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         final String password = this.password.getText().toString();
         String password2 = this.password2.getText().toString();
         // the length of the password must be greater than 6!
-        // FIXME
+        if (password.length() <= 6 || password2.length() <= 6) {
+            Toast.makeText(getApplicationContext(),
+                    "Length of password must be greater than 6!", Toast.LENGTH_LONG).show();
+            this.passdiffwarn.setVisibility(View.INVISIBLE);
+            return false;
+        }
+        // the two password fields must be the same:
         if (password.compareTo(password2) != 0) {
-            return false;   // no input problem detected
-        } else return password.length() >= 6 && password2.length() >= 6;
+            this.passdiffwarn.setVisibility(View.VISIBLE);
+            return false;   // two passwords do not match
+        }
+        this.passdiffwarn.setVisibility(View.INVISIBLE);
+        return true;
     }
 
     @Override
@@ -83,10 +92,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
             @Override
             public void onClick(View view) {
                 if (!verifyFields()) {
-                    passdiffwarn.setVisibility(View.VISIBLE);
                     return;
-                } else {
-                    passdiffwarn.setVisibility(View.INVISIBLE);
                 }
                 // initialize the user object to store:
                 String passwordData = password.getText().toString();
@@ -99,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     user = new Driver(emailData, passwordData, nameData, phoneNumberData,
                             true, 0, null, null,
                             null, null);
-                    Intent intent = new Intent(getApplicationContext(), VehicleInfoActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), RegisterVehicleInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("DriverObject", user);
                     intent.putExtras(bundle);
