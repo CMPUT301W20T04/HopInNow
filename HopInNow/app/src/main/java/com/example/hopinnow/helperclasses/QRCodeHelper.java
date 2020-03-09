@@ -2,7 +2,6 @@ package com.example.hopinnow.helperclasses;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import androidx.annotation.IntRange;
 
@@ -21,23 +20,25 @@ import java.util.Map;
  */
 public class QRCodeHelper {
     private static QRCodeHelper qrCodeHelper = null;
-    private ErrorCorrectionLevel mErrorCorrectionLevel;
     private int mMargin;
     private String mContent;
     private int mWidth, mHeight;
+
+
     /**
-     * private constructor of this class only access by stying in this class.
+     * Constructor class for QRCodeHelper.
      */
     private QRCodeHelper(Context context) {
-        mHeight = (int) (context.getResources().getDisplayMetrics().heightPixels / 2.4);
-        mWidth = (int) (context.getResources().getDisplayMetrics().widthPixels / 1.3);
-        Log.e("Dimension = %s", mHeight + "");
-        Log.e("Dimension = %s", mWidth + "");
+        mHeight = (int) (context.getResources().getDisplayMetrics().heightPixels / 2);
+        mWidth = (int) (context.getResources().getDisplayMetrics().widthPixels);
     }
+
+
     /**
-     * This method is for singleton instance od this class.
+     * Sets a new instance of QRCodeHelper.
      *
-     * @return the QrCode instance.
+     * @return
+     *      QR code instance
      */
     public static QRCodeHelper newInstance(Context context) {
         if (qrCodeHelper == null) {
@@ -45,46 +46,22 @@ public class QRCodeHelper {
         }
         return qrCodeHelper;
     }
-    /**
-     * This method is called generate function who generate the qrcode and return it.
-     *
-     * @return qrcode image with encrypted user in it.
-     */
-    public Bitmap getQRCOde() {
-        return generate();
-    }
-    /**
-     * Simply setting the correctionLevel to qrcode.
-     *
-     * @param level ErrorCorrectionLevel for Qrcode.
-     * @return the instance of QrCode helper class for to use remaining function in class.
-     */
-    public QRCodeHelper setErrorCorrectionLevel(ErrorCorrectionLevel level) {
-        mErrorCorrectionLevel = level;
-        return this;
-    }
+
+
     /**
      * Simply setting the encrypted to qrcode.
      *
-     * @param content encrypted content for to store in qrcode.
-     * @return the instance of QrCode helper class for to use remaining function in class.
+     * @param content
+     *      encrypted content to be stored in the qr code
+     * @return
+     *      instance of QrCode helper class
      */
     public QRCodeHelper setContent(String content) {
         mContent = content;
         return this;
     }
-    /**
-     * Simply setting the width and height for qrcode.
-     *
-     * @param width  for qrcode it needs to greater than 1.
-     * @param height for qrcode it needs to greater than 1.
-     * @return the instance of QrCode helper class for to use remaining function in class.
-     */
-    public QRCodeHelper setWidthAndHeight(@IntRange(from = 1) int width, @IntRange(from = 1) int height) {
-        mWidth = width;
-        mHeight = height;
-        return this;
-    }
+
+
     /**
      * Simply setting the margin for qrcode.
      *
@@ -95,15 +72,18 @@ public class QRCodeHelper {
         mMargin = margin;
         return this;
     }
+
+
     /**
-     * Generate the qrcode with giving the properties.
+     * Generate the QR code.
      *
-     * @return the qrcode image.
+     * @return
+     *      QR code image
      */
-    private Bitmap generate() {
+    public Bitmap generateQR() {
         Map<EncodeHintType, Object> hintsMap = new HashMap<>();
         hintsMap.put(EncodeHintType.CHARACTER_SET, "utf-8");
-        hintsMap.put(EncodeHintType.ERROR_CORRECTION, mErrorCorrectionLevel);
+        hintsMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q);
         hintsMap.put(EncodeHintType.MARGIN, mMargin);
         try {
             BitMatrix bitMatrix = new QRCodeWriter().encode(mContent, BarcodeFormat.QR_CODE, mWidth, mHeight, hintsMap);

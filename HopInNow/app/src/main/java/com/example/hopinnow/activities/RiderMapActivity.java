@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.R;
@@ -43,6 +42,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 
@@ -52,47 +52,52 @@ import java.util.Date;
 import java.util.Objects;
 
 
-public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback, RiderProfileStatusListener {
+/**
+ * Author: Tianyu Bai
+ * This activity defines all methods for main activities of rider.
+ */
+public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
+        RiderProfileStatusListener {
 
     private GoogleMap mMap;
-    MapFragment mapFragment;
+    private SharedPreferences mPrefs;
+    private Boolean searchInPlace; //for map zoom
 
-    //TODO change to current location later on pickUpLoc
-
-    //TODO for map focus on fragment switch
-    private Boolean searchInPlace;
     private Rider rider;
     private Driver driver;
+    private Request curRequest;
+
+    //TODO change to current location later on pickUpLoc
     private LatLng pickUpLoc = new LatLng(53.631611, -113.323975);
     private LatLng dropOffLoc;
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
-    private Request curRequest;
-
-    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // initialize places
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
         }
 
-
+        // sets map
         setContentView(R.layout.activity_rider_map);
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
 
+        // sets variable
         searchInPlace = true;
         driver = null;
 
+        // sets location search bars
         setupAutoCompleteFragment();
 
+        // sets button for adding new request
         Button addRequest = findViewById(R.id.add_request_button);
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 //TODO [BUG]
                 // if both locations eneterd, then one cleared, validation below would not work
                 // maybe gettext in autocompletefragment for validation
@@ -102,10 +107,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     String msg = "Please enter both your pick up and drop off locations.";
                     Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
+        // sets button for viewing rider profile
+        FloatingActionButton riderMenuBtn = findViewById(R.id.riderMenuBtn);
+        riderMenuBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // assign logged in rider to local variable
         UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getRiderProfile(this);
 
@@ -115,6 +129,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
+    /**
+     * Sets up initlal map.
+     * @param googleMap
+     *      map object
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -126,9 +145,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
     }
 
-    //called in oncreate to set up autocomplete fragments
+
+    /**
+     * Sets up auto complete fragment from Google Places API.
+     */
     private void setupAutoCompleteFragment() {
 
+        // fragment for pick up locaation
         AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
         assert pickUpAutoComplete != null;
@@ -148,7 +171,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
-
+        // fragment for drop off location
         final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
         assert dropOffAutoComplete != null;
@@ -166,12 +189,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
-
-
     }
 
 
 
+
+    /**
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -180,11 +203,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if(requestCode==2)
         {
             //TODO curReqest to firebase trip list
-
             cancelRequestLocal();
         }
-    }
+    }*/
 
+
+    /**
+     * Displays appropriate content.
+     */
     @Override
     protected void onStart(){
         super.onStart();
@@ -199,24 +225,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
+            curRequest = retrieveCurrentRequestLocal();
             searchFragment.setVisibility(View.GONE);
             searchInPlace = false;
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (curRequest != null) {
-            //mMap.clear();
-            curRequest = retrieveCurrentRequestLocal();
-        }
-    }
-
 
     /**
-     * 
+     * Switch to appropriate fragment for rider's view.
      * @param caseId
+     *      information of destination fragment
      */
     public void switchFragment(int caseId){
         FragmentManager t = getSupportFragmentManager();
@@ -253,6 +272,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
+
     /**
      * Cancels current request of the rider and return to initial location search prompt page.
      */
@@ -279,6 +299,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 findFragmentById(R.id.pick_up_auto_complete))).setText(pickUpLocName);
         ((AutocompleteSupportFragment) Objects.requireNonNull(getSupportFragmentManager().
                 findFragmentById(R.id.drop_off_auto_complete))).setText(dropOffLocName);
+
+        // TODO CURRENT LOCATION ZOOM AND MARKER
 
     }
 

@@ -43,8 +43,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private Request curRequest;
     private Driver driver;
     private Rider rider;
-    private Double totalPayment = 0.00;
-    private Double myTip;
+    private Double totalPayment;
+    private Double myTip = 0.00;
     private Double baseFare;
     private ImageView qrImage;
     private Boolean other = false;
@@ -58,16 +58,25 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_payment);
 
-        // set current Request
+        //TODO set current Request
         SharedPreferences mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
         Gson gsonRequest = new Gson();
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
 
+        // temporary
+        Car car = new Car("Auburn","Speedster","Cream","111111");
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                "12345678", true, 10.0,  null, car,
+                null, null);
+        rider = new Rider(null,null,null,null,false,10.00,null,null);
+
+
         //set local variables
-        driver = curRequest.getDriver();
+        //driver = curRequest.getDriver();
         baseFare = curRequest.getEstimatedFare();
         dropOffDateTime = Calendar.getInstance().getTime();
+        totalPayment = baseFare;
 
         //set initial total payment
         totalPaymentTextView = findViewById(R.id.rider_payment_total);
@@ -105,9 +114,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                     Bitmap bitmap = QRCodeHelper
                             .newInstance(RiderPaymentActivity.this)
                             .setContent(serializePay)
-                            .setErrorCorrectionLevel(ErrorCorrectionLevel.Q)
                             .setMargin(2)
-                            .getQRCOde();
+                            .generateQR();
                     qrImage.setImageBitmap(bitmap);
                     confirmPaymentBtn.setVisibility(View.GONE);
                     onScanningCompleted();

@@ -24,7 +24,7 @@
         tools:ignore="RtlEnabled"
         tools:targetApi="donut">
         <activity android:name=".activities.DriverTripListActivity"></activity>
-        <activity android:name=".activities.DriverProfileActivity" />
+        <activity android:name=".activities.RiderMenuActivity" />
         <activity android:name=".activities.DriverMenuActivity" />
 
         <meta-data
@@ -34,7 +34,7 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.DriverMapActivity" />
-        <activity android:name=".activities.VehicleInfoActivity"/>
+        <activity android:name=".activities.VehicleViewActivity"/>
         <activity android:name=".activities.RiderMapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
