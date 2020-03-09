@@ -15,20 +15,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.RequestListAdapter;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
 import java.util.ArrayList;
 
 
-public class RequestListFragment extends Fragment implements UserProfileStatusListener {
+public class RequestListFragment extends Fragment implements DriverProfileStatusListener {
     Integer prePosition;
     private Driver driver;
-    private UserDatabaseAccessor userDatabaseAccessor;
+    private DriverDatabaseAccessor driverDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
 
@@ -39,7 +40,7 @@ public class RequestListFragment extends Fragment implements UserProfileStatusLi
         //public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date dateTime, Car car, Double estimatedFare){}
 
         //read request from database
-        userDatabaseAccessor.getUserProfile(this);
+        driverDatabaseAccessor.getDriverProfile(this);
         for(int i=0;i<driver.getAvailableRequests().size();i++)
             requestList.add(driver.getAvailableRequests().get(i));
 
@@ -99,32 +100,12 @@ public class RequestListFragment extends Fragment implements UserProfileStatusLi
     }
 
     @Override
-    public void onProfileStoreSuccess() {
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
 
     }
 
     @Override
-    public void onProfileStoreFailure() {
-
-    }
-
-    @Override
-    public void onProfileRetrieveSuccess(User user) {
-
-    }
-
-    @Override
-    public void onProfileRetrieveFailure() {
-
-    }
-
-    @Override
-    public void onProfileUpdateSuccess(User user) {
-        this.driver = (Driver) user;
-    }
-
-    @Override
-    public void onProfileUpdateFailure() {
+    public void onDriverProfileRetrieveFailure() {
 
     }
 }
