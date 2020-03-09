@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.Database.UserDatabaseAccessor;
@@ -96,7 +97,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 // if both locations eneterd, then one cleared, validation below would not work
                 // maybe gettext in autocompletefragment for validation
                 if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
-                    setRequest();
+                    setNewRequest();
                 } else {
                     String msg = "Please enter both your pick up and drop off locations.";
                     Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
@@ -108,8 +109,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getRiderProfile(this);
 
-        //TODO listener
-        // on rider curRequest, save waiting driver offer status, calls switch fragment
+        //TODO listener on rider curRequest,
+        // save waiting driver offer status, calls switch fragment
+        // update curRequest by retrieveCurrentRequestOnline
     }
 
 
@@ -129,17 +131,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
+        assert pickUpAutoComplete != null;
         pickUpAutoComplete.setHint("Pick Up Location");
         //pickUpAutoComplete.setText("My Current Location");
         pickUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         pickUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(Place place) {
-                if (place!=null){
-                    pickUpLocName = place.getAddress();
-                    pickUpLoc = place.getLatLng();
-                    setMapMarker(pickUpMarker,pickUpLoc);
-                }
+            public void onPlaceSelected(@NonNull Place place) {
+                pickUpLocName = place.getAddress();
+                pickUpLoc = place.getLatLng();
+                setMapMarker(pickUpMarker,pickUpLoc);
             }
             @Override
             public void onError(@NonNull Status status) {
@@ -150,6 +151,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
+        assert dropOffAutoComplete != null;
         dropOffAutoComplete.setHint("Drop Off Location");
         dropOffAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         dropOffAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -211,38 +213,48 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
-    public void switchFragment(int caseId){
-        FragmentTransaction t;
 
+    /**
+     * 
+     * @param caseId
+     */
+    public void switchFragment(int caseId){
+        FragmentManager t = getSupportFragmentManager();
+
+        // caseID defined by id of the next fragment to show
         switch(caseId){
             case R.layout.fragment_rider_waiting_driver:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderWaitingDriverFragment()).commit();
+                t.beginTransaction().add(R.id.fragment_place, new RiderWaitingDriverFragment())
+                        .commit();
                 break;
             case R.layout.fragment_rider_driver_offer:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderDriverOfferFragment()).commit();
+                t.beginTransaction().replace(R.id.fragment_place, new RiderDriverOfferFragment())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case -1:
+                t.popBackStack(); //when rider declines driver offer
                 break;
             case R.layout.fragment_rider_waiting_pickup:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderWaitingPickupFragment()).commit();
+                t.beginTransaction()
+                        .replace(R.id.fragment_place, new RiderWaitingPickupFragment())
+                        .commit();
                 break;
             case R.layout.fragment_rider_pickedup:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderPickedUpFragment()).commit();
+                t.beginTransaction()
+                        .replace(R.id.fragment_place, new RiderPickedUpFragment())
+                        .commit();
                 break;
             case R.layout.fragment_rider_confirm_dropoff:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RiderConfirmDropOffFragment()).commit();
+                t.beginTransaction()
+                        .replace(R.id.fragment_place, new RiderConfirmDropOffFragment())
+                        .commit();
                 break;
         }
-
-        //t.addToBackStack(null);
-        //t.commit();
     }
 
     /**
-     * Cancels current request of the rider and return to initial location search prompt page
+     * Cancels current request of the rider and return to initial location search prompt page.
      */
     public void cancelRequestLocal(){
         //clear all fragments
@@ -252,7 +264,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         //set curRequest to null
         curRequest = null;
-        saveCurrentRequestLocal(curRequest);
+        saveCurrentRequestLocal(null);
         pickUpLocName = null;
         dropOffLocName= null;
         pickUpLoc = null;
@@ -270,26 +282,48 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
+
+    /**
+     * Save current request locally.
+     * @param req
+     *      information of current request
+     */
     public void saveCurrentRequestLocal(Request req){
         mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(req); // myObject - instance of MyObject
-        prefsEditor.putString("CurrentRequest", json);
-        prefsEditor.apply();
+        prefsEditor.putString("CurrentRequest", json).apply();
     }
 
+
+    /**
+     * Retrieves current request form local storage.
+     * @return
+     *      information of current request
+     */
     public Request retrieveCurrentRequestLocal(){
         Gson gson = new Gson();
         String json = mPrefs.getString("CurrentRequest", "");
         return gson.fromJson(json, Request.class);
     }
 
+
+    /**
+     * Retrieves information of the current request from online.
+     * @return
+     *      current request information from firebase
+     */
+    //TODO
     public Request retrieveCurrentRequestOnline(){
         return rider.getCurRequest();
     }
 
-    public void setRequest(){
+
+    /**
+     * Creates new request and save it to both locally and online.
+     */
+    public void setNewRequest(){
         Date dateTime = Calendar.getInstance().getTime();
         EstimateFare fare = new EstimateFare();
         Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
@@ -308,20 +342,32 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         switchFragment(R.layout.fragment_rider_waiting_driver);
     }
 
-    public void callNumber(String phoneNumber){
 
+    /**
+     * Starts phone calling.
+     * @param phoneNumber
+     *      the phone number to be called
+     */
+    public void callNumber(String phoneNumber){
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+phoneNumber));
 
         if (ActivityCompat.checkSelfPermission(RiderMapActivity.this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO PERMISSION DIALOG
             return;
         }
         startActivity(callIntent);
     }
 
-    public void emailDriver(String email){
 
+    /**
+     * Prompts email app selection and directs to email drafting page with auto0filled email address
+     * of the driver.
+     * @param email
+     *      the driver's email address
+     */
+    public void emailDriver(String email){
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/html");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
@@ -329,8 +375,15 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         startActivity(Intent.createChooser(intent, "Send Email"));
     }
 
-     public void setMapMarker(Marker m, LatLng latLng){
 
+    /**
+     * Sets marker on the map.
+     * @param m
+     *      marker object
+     * @param latLng
+     *      location information for where the given marker object is to be set on the map
+     */
+     public void setMapMarker(Marker m, LatLng latLng){
          if (m == null) {
              MarkerOptions opt = new MarkerOptions();
              opt.position(latLng);
@@ -343,11 +396,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 
      /**
-      * adjust focus of the map according to the markers
+      * Adjust focus of the map according to the markers.
       */
      public void adjustMapFocus(){
-
          LatLngBounds.Builder bound = new LatLngBounds.Builder();
+
          if ((pickUpLoc != null)&&(dropOffLoc != null)) {
              bound.include(pickUpLoc);
              bound.include(dropOffLoc);
@@ -359,29 +412,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
              return;
          }
 
+         //TODO CHANGE PADDING ACCORDING TO FRAGMents
 
          mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
-
-
      }
 
-
-    /**
-     * Called when profile retrieve successfully:
-     * @param rider
-     *      receives a user object containing all info about the current user.
-     */
-    @Override
-    public void onRiderProfileRetrieveSuccess(Rider rider) {
-        this.rider = rider;
-    }
-
-
-    /**
-     * Called when profile retrieve failed:
-     */
-    @Override
-    public void onRiderProfileRetrieveFailure() {}
 
     /**
      * Shows driver information and contact means on a dialog
@@ -435,4 +470,23 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
+
+
+    /**
+     * Called when profile retrieve successfully:
+     * @param rider
+     *      receives a user object containing all info about the current user.
+     */
+    @Override
+    public void onRiderProfileRetrieveSuccess(Rider rider) {
+        this.rider = rider;
+    }
+
+
+    /**
+     * Called when profile retrieve failed:
+     */
+    @Override
+    public void onRiderProfileRetrieveFailure() {}
+
 }

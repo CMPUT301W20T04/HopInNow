@@ -125,30 +125,34 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="78dp"
             android:layout_marginBottom="60dp"
+            android:background="@color/ColorOrange"
             android:gravity="center"
             android:shadowColor="#F44336"
             android:text="Cancel The Request"
-            android:background="@color/ColorOrange"
             android:textColor="@color/ColorWhite"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.529"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/joke_button" />
+            app:layout_constraintTop_toBottomOf="@+id/joke_button"
+            app:layout_constraintVertical_bias="0.404" />
 
         <Button
             android:id="@+id/rider_waiting_driver_next"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginBottom="30dp"
-            android:textSize="20sp"
+            android:background="@drawable/orange_all_round_corner"
             android:text=">"
             android:textColor="@color/ColorOrange"
-            android:background="@drawable/orange_all_round_corner"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.466"
             app:layout_constraintStart_toEndOf="@+id/cancel_button"
-            app:layout_constraintTop_toBottomOf="@+id/joke_button"/>
+            app:layout_constraintTop_toBottomOf="@+id/joke_button"
+            app:layout_constraintVertical_bias="0.127" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

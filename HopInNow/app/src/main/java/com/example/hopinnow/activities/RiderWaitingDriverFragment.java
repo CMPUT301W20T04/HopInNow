@@ -80,15 +80,24 @@ public class RiderWaitingDriverFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Get/Backup current title
+
+    }
+
     private void addFare(){
         estimate_fare += 1;
         fare_amount.setText(df2.format(estimate_fare));
+        //TODO UPDATE FIREBASE
     }
 
     private void reduceFare(){
         if(Double.parseDouble(df2.format(estimate_fare)) - 1 >= lowest_price) {
             estimate_fare -= 1;
             fare_amount.setText(df2.format(estimate_fare));
+            //TODO UPDATE FIREBASE
         }
     }
 

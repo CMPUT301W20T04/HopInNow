@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,9 @@ import java.util.Objects;
  * This class is triggered by rider accepting driver's offer.
  */
 public class RiderWaitingPickupFragment extends Fragment {
+    private Driver driver;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -32,8 +35,13 @@ public class RiderWaitingPickupFragment extends Fragment {
                 false);
 
         // set local variables
-        Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
-        Driver driver = curRequest.getDriver();
+        Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                .retrieveCurrentRequestLocal();
+        //driver = curRequest.getDriver();
+        Car car = new Car("Auburn","Speedster","Cream","111111");
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                "12345678", true, 10.0,  null, car,
+                null, null);
 
         if (view != null) {
 
@@ -64,7 +72,8 @@ public class RiderWaitingPickupFragment extends Fragment {
             callBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RiderMapActivity) getActivity()).callNumber(driver.getPhoneNumber());
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                            .callNumber(driver.getPhoneNumber());
                 }
             });
 
@@ -73,7 +82,8 @@ public class RiderWaitingPickupFragment extends Fragment {
             emailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RiderMapActivity) getActivity()).emailDriver(driver.getEmail());
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                            .emailDriver(driver.getEmail());
                 }
             });
 
@@ -84,7 +94,7 @@ public class RiderWaitingPickupFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //change fragment
-                    ((RiderMapActivity) getActivity()).cancelRequest();
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
                 }
             });
 

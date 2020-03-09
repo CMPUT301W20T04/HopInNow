@@ -30,8 +30,13 @@ public class RiderPickedUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rider_pickedup, container, false);
 
-        Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
-        Driver driver = curRequest.getDriver();
+        Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                .retrieveCurrentRequestLocal();
+        //Driver driver = curRequest.getDriver();
+        Car car = new Car("Auburn","Speedster","Cream","111111");
+        Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                "12345678", true, 10.0,  null, car,
+                null, null);
 
         if (view != null) {
 

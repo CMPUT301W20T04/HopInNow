@@ -114,6 +114,8 @@ public class RiderDriverOfferFragment extends Fragment {
                 public void onClick(View v) {
                     //TODO set rider.curRequest to have Boolean accept = true in firebase
                     ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                            .saveCurrentRequestLocal(curRequest);
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                             .switchFragment(R.layout.fragment_rider_waiting_pickup);
                 }
             });
@@ -125,7 +127,7 @@ public class RiderDriverOfferFragment extends Fragment {
                 public void onClick(View v) {
                     //TODO POPBACKSTACK?
                     ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                            .switchFragment(R.layout.fragment_rider_waiting_driver);
+                            .switchFragment(-1);
                 }
             });
         }

@@ -93,5 +93,5 @@ public abstract class Ride {
         return driver;
     }
 
-    public abstract Request getCurRequest();
+    //public abstract Request getCurRequest();
 }
