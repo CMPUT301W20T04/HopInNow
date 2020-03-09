@@ -12,21 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4585bf0c-ecf3-4e25-aac8-aa4c9a311b7f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/RiderMapActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/RiderMapActivity.java" afterDir="false" />
-    <list default="true" id="817ba353-98ee-4a6d-b74e-16c7b602f82f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/RequestListFrament.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/RequestListFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/entities/RequestListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/entities/RequestListAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/CarInfoActivity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/ProfileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/ProfileActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/activities/RegisterActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/database/RequestDatabaseAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/database/RequestDatabaseAccessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/statuslisteners/AvailRequestListListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/statuslisteners/AvailRequestListListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_car_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_car_info.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/database/UserDatabaseAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/hopinnow/database/UserDatabaseAccessor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,13 +21,6 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_5X_API_29_x86" />
-  <component name="ExecutionTargetManager" SELECTED_TARGET="A7QDU18531001232" />
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_5X_API_29_x86" />
-  <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_XL_API_29" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -65,16 +44,10 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="RiderMainAct_Viola" />
+        <entry key="$PROJECT_DIR$/.." value="Peter-DriverMenu" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="524" />
-    <option name="y" value="251" />
-    <option name="width" value="1092" />
-    <option name="height" value="744" />
   </component>
   <component name="ProjectId" id="1YjapSAQmu2qONDTUkIQSGNkZ6m" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -104,10 +77,69 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="Android App.Desktop-HopInNow-HopInNow-app">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+<<<<<<< HEAD
+    <configuration name="hopinnow in app" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="TEST_OBJECT" value="directory" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <dir value="$PROJECT_DIR$/app/src/test/java/com/example/hopinnow" />
+=======
+    <configuration name="Desktop-HopInNow-HopInNow-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="Desktop-HopInNow-HopInNow-app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+>>>>>>> baee8b49ecc181ef532f77bc2c8c8b6a6499973b
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
@@ -214,7 +246,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -265,6 +297,21 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Android App.HopInNow-app" />
+      <item itemvalue="Android App.HopInNow-HopInNow-app" />
+<<<<<<< HEAD
+      <item itemvalue="Android JUnit.hopinnow in app" />
+=======
+      <item itemvalue="Android App.Desktop-HopInNow-HopInNow-app" />
+>>>>>>> baee8b49ecc181ef532f77bc2c8c8b6a6499973b
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android JUnit.hopinnow in app" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -333,7 +380,28 @@
       <option name="project" value="LOCAL" />
       <updated>1583692567885</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="driver menu">
+      <created>1583696265412</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1583696265412</updated>
+    </task>
+    <task id="LOCAL-00010" summary="driver menu">
+      <created>1583696486031</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1583696486031</updated>
+    </task>
+    <task id="LOCAL-00011" summary="driver menu">
+      <created>1583699985076</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1583699985076</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -368,6 +436,8 @@
     <MESSAGE value="get new" />
     <MESSAGE value="driver updated" />
     <MESSAGE value="user constructor update with deposit" />
-    <option name="LAST_COMMIT_MESSAGE" value="user constructor update with deposit" />
+    <MESSAGE value="driver menu" />
+    <MESSAGE value="riderupdate" />
+    <option name="LAST_COMMIT_MESSAGE" value="riderupdate" />
   </component>
 </project>

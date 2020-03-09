@@ -19,27 +19,24 @@ import com.example.hopinnow.entities.Request;
 
 import java.util.Objects;
 
-public class RiderConfirmDropoffFragment extends Fragment {
-    Request curRequest;
-    Driver driver;
+//TODO CALLED AFTER DRIVER CLICK COMPLETE TRIP
+
+/**
+ * Author: Tianyu Bai
+ * This class defines the fragment that prompts rider on confirming his/her arrival at the
+ * specified drop off location.
+ */
+public class RiderConfirmDropOffFragment extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rider_confirm_dropoff, container, false);
-
-        //TODO assign driver
-        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0, null, car, null, null);
-        //TODO set current Request
-        curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
-
-        // Get Fragment belonged Activity
-        final FragmentActivity fragmentActivity = getActivity();
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_rider_confirm_dropoff, container,
+                false);
 
         if (view != null) {
 
-            // Click this button to call driver
+            // rider confirms, starts payment activity
             Button completeBtn = view.findViewById(R.id.rider_confirm_yes_button);
             completeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -49,27 +46,27 @@ public class RiderConfirmDropoffFragment extends Fragment {
                 }
             });
 
-            // Click this button to email driver
+            // rider does not confirm, go back to the last picked up ragment and notifies driver
             Button incompleteBtn = view.findViewById(R.id.rider_confirm_no_button);
             incompleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //TODO TOAST MESSAGE FOR DRIVER, DRIVER SIDE FRAGMENT GOES BACK TO PREVIOUS
 
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(R.layout.fragment_rider_pickedup);
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                            .switchFragment(R.layout.fragment_rider_pickedup);
                 }
             });
 
-            // Click this button to call 911
+            // click this button to call 911
             Button emergencyCallBtn = view.findViewById(R.id.rider_confirm_emergency_button);
             emergencyCallBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //change fragment
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).callNumber("911");
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                            .callNumber("911");
                 }
             });
-
         }
 
         return view;
