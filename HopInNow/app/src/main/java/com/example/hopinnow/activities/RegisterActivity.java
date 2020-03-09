@@ -48,11 +48,12 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         // init the userDatabaseAccessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
         // if user already logged in, go to the profile activity
+        /*
         if (this.userDatabaseAccessor.isLoggedin()) {
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(intent);
             finish();
-        }
+        }*/
         // link components
         this.name = findViewById(R.id.regNameEditText);
         this.email = findViewById(R.id.regEmailEditText);

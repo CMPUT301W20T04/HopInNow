@@ -65,7 +65,7 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
                 String plateNumberData = plateNumber.getText().toString();
                 Car car = new Car(makeData, modelData, colorData, plateNumberData);
                 driver.setCar(car);
-                userDatabaseAccessor.registerUser(driver, RegisterVehicleInfoActivity.this);
+                userDatabaseAccessor.registerUser((User)driver, RegisterVehicleInfoActivity.this);
             }
         });
     }

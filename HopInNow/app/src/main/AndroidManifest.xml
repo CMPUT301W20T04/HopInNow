@@ -32,6 +32,8 @@
         <activity android:name=".activities.RiderMapActivity"/>
         <activity android:name=".activities.RiderMenuActivity"/>
         <activity android:name=".activities.RiderPaymentActivity"/>
+        <activity android:name=".activities.RegisterVehicleInfoActivity"/>
+        <activity android:name=".activities.DriverMenuActivity"/>
 
 
 
