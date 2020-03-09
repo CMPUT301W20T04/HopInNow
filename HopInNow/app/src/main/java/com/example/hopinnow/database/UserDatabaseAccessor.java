@@ -1,4 +1,4 @@
-package com.example.hopinnow.database;
+package com.example.hopinnow.Database;
 
 import android.util.Log;
 
@@ -28,7 +28,7 @@ import java.util.Objects;
  * UserDatabaseAccessor class extends all access interfaces. Provides all user related access
  * methods.
  */
-public class UserDatabaseAccessor extends DatabaseAccessor {
+public class UserDatabaseAccessor extends com.example.hopinnow.Database.DatabaseAccessor {
     public static final String TAG = "UserDatabaseAccessor";
     private final String referenceName = "Users";
 
