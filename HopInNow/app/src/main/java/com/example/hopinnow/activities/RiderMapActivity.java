@@ -82,6 +82,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
         }
 
+        // assign logged in rider to local variable
+        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
+        userDatabaseAccessor.getRiderProfile(this);
+
         // sets map
         setContentView(R.layout.activity_rider_map);
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
@@ -119,9 +123,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
-        // assign logged in rider to local variable
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
-        userDatabaseAccessor.getRiderProfile(this);
 
         //TODO listener on rider curRequest,
         // save waiting driver offer status, calls switch fragment
