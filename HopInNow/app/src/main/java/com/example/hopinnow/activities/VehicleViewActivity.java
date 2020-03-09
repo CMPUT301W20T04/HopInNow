@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,6 +59,22 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
             this.vehiclePlateEditText.setText(currentDriver.getCar().getPlateNumber());
             this.progressbarDialog.dismissDialog();
         }
+
+        this.updateBtn = findViewById(R.id.vehicleUpdateBtn);
+        this.updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("abcde");
+
+                // access database:
+                currentDriver.getCar().setMake(vehicleMakeEditText.getText().toString());
+                currentDriver.getCar().setModel(vehicleModelEditText.getText().toString());
+                currentDriver.getCar().setColor(vehicleColorEditText.getText().toString());
+                currentDriver.getCar().setPlateNumber(vehiclePlateEditText.getText().toString());
+                driverDatabaseAccessor.updateDriverProfile(currentDriver, VehicleViewActivity.this);
+            }
+        });
+
     }
 
     @Override

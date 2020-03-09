@@ -77,4 +77,14 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
     public void onDriverProfileRetrieveFailure() {
 
     }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+
+    }
 }
