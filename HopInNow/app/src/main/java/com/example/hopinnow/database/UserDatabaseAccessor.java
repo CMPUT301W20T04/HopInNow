@@ -28,7 +28,7 @@ import java.util.Objects;
  * UserDatabaseAccessor class extends all access interfaces. Provides all user related access
  * methods.
  */
-public class UserDatabaseAccessor extends com.example.hopinnow.Database.DatabaseAccessor {
+public class UserDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "UserDatabaseAccessor";
     protected final String referenceName = "Users";
 
@@ -190,6 +190,41 @@ public class UserDatabaseAccessor extends com.example.hopinnow.Database.Database
                         }
                     });
         } else {    // the user is not logged in
+            Log.v(TAG, "User is not logged in!");
+        }
+    }
+    /**
+     * Get the whole set of user information from the collection "Users". Password is null due to
+     * security measures.
+     * @param listener
+     *      if the user info is retrieved successfully, call the onSuccess method,
+     *      otherwise, onFailure.
+     */
+    public void getUserProfile(final UserProfileStatusListener listener) {
+        this.currentUser = firebaseAuth.getCurrentUser();
+        // check if logged in:
+        if (this.currentUser != null) {
+            Objects.requireNonNull(this.firestore
+                    .collection(this.referenceName)
+                    .document(this.currentUser.getUid())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Log.v(TAG, "Get User Successfully!");
+                            if (documentSnapshot.exists()) {
+                                listener.onProfileRetrieveSuccess(documentSnapshot
+                                        .toObject(User.class));
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.v(TAG, "Get User Failed!");
+                            listener.onProfileRetrieveFailure();
+                        }
+                    }));
+        } else {    // the driver is not logged in
             Log.v(TAG, "User is not logged in!");
         }
     }

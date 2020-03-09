@@ -19,7 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
@@ -83,8 +83,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         // assign logged in rider to local variable
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
-        userDatabaseAccessor.getRiderProfile(this);
+        RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
+        riderDatabaseAccessor.getRiderProfile(this);
 
         // sets map
         setContentView(R.layout.activity_rider_map);

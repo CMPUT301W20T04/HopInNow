@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
@@ -126,8 +126,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         });
 
         // get current rider
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
-        userDatabaseAccessor.getRiderProfile(this);
+        RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
+        riderDatabaseAccessor.getRiderProfile(this);
     }
 
 

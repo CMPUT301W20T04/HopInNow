@@ -33,7 +33,7 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
         // should not let any one see the password!
         driver.setPassword(null);
         // check if logged in:
-        this.currentUser = firebaseAuth.getCurrentUser();
+        super.currentUser = super.firebaseAuth.getCurrentUser();
         if (this.currentUser != null) {
             // the driver is logged in successfully
             Log.v(TAG, "User is logged in!");
