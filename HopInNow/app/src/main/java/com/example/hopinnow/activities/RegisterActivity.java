@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                 if (isDriver) { // the user is a driver
                     user = new Driver(emailData, passwordData, nameData, phoneNumberData,
                             true, 0, null, null,
-                            null, null);
+                             null);
                     Intent intent = new Intent(getApplicationContext(), RegisterVehicleInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("DriverObject", user);
@@ -168,6 +168,21 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Registration Failed, try again later.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onWeakPassword() {
+
+    }
+
+    @Override
+    public void onInvalidEmail() {
+
+    }
+
+    @Override
+    public void onUserAlreadyExist() {
+
     }
 
     @Override
