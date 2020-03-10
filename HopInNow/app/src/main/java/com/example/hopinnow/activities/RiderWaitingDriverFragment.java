@@ -1,6 +1,7 @@
 package com.example.hopinnow.activities;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class RiderWaitingDriverFragment extends Fragment {
     private Double estimate_fare = 2.68;
     private Double lowest_price = estimate_fare;
     private TextView fare_amount;
+    private long savedTime = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -72,6 +74,7 @@ public class RiderWaitingDriverFragment extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                chronometer.stop();
                 ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_driver_offer);
             }
         });
@@ -83,8 +86,7 @@ public class RiderWaitingDriverFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Get/Backup current title
-
+        startChronometer();
     }
 
     private void addFare(){
@@ -103,6 +105,9 @@ public class RiderWaitingDriverFragment extends Fragment {
 
     private void startChronometer(){
         if(!running){
+            if (savedTime!=0){
+                chronometer.setBase(savedTime);
+            }
             chronometer.start();
             running = true;
         }
@@ -110,6 +115,7 @@ public class RiderWaitingDriverFragment extends Fragment {
 
     private void endChronometer(){
         if(running){
+            savedTime = chronometer.getBase();
             chronometer.stop();
             running = false;
         }
