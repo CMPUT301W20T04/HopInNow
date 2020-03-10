@@ -149,4 +149,9 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     public void onProfileUpdateFailure() {
 
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
