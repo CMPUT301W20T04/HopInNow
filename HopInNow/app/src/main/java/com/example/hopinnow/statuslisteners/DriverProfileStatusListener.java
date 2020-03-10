@@ -19,4 +19,13 @@ public interface DriverProfileStatusListener {
      * Called when profile retreive failed:
      */
     void onDriverProfileRetrieveFailure();
+    /**
+     * Called when profile update successfully:
+     */
+    void onDriverProfileUpdateSuccess(Driver driver);
+
+    /**
+     * Called when profile update failed:
+     */
+    void onDriverProfileUpdateFailure();
 }

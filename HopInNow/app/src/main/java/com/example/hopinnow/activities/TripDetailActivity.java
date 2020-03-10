@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -22,6 +23,8 @@ public class TripDetailActivity extends AppCompatActivity {
     private LatLng pickUpLoc;
     private LatLng dropOffLoc;
     private int position;
+    private TextView rating;
+    private TextView cost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +34,30 @@ public class TripDetailActivity extends AppCompatActivity {
         riderName = findViewById(R.id.riderName);
         pickUpLocation = findViewById(R.id.pickupLoc);
         dropOffLocation = findViewById(R.id.dropoffLocation);
+        rating = findViewById(R.id.rating);
+        cost = findViewById(R.id.cost);
+        //get the key
+        Intent intent = getIntent();
+        //String search_key = intent.getExtras().getString("key");
 
 
-        //Intent intent = ;
-        //trip = (Trip)intent.getSerializableExtra("trip");
+        //function that get the certain trip from the database
 
-        //driver = (Driver)intent.getSerializableExtra("driver");
-        //position = intent.getIntExtra("trip_index",0);
-        //rider = (Rider) intent.getSerializableExtra("rider");
-       // driverName.setText(driver.getName());
-        //riderName.setText(rider.getName());
-        //pickUpLocation.setText(trip.getPickUpLocName());
-       // dropOffLocation.setText(trip.getDropOffLocName());
+        //now set the view
+        driverName.setText(trip.getDriver().getName());
+        riderName.setText(trip.getRider().getName());
+        pickUpLocation.setText(trip.getPickUpLoc().toString());
+        dropOffLocation.setText(trip.getDropOffLoc().toString());
+        rating.setText(trip.getRating().toString());
+        cost.setText(trip.getCost().toString());
+
+
+
+
+
+
+
+
 
 
     }

@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
@@ -21,7 +24,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
     private EditText vehicleModelEditText;
     private EditText vehicleColorEditText;
     private EditText vehiclePlateEditText;
-    private UserDatabaseAccessor userDatabaseAccessor;
+    private DriverDatabaseAccessor driverDatabaseAccessor;
     private ProgressbarDialog progressbarDialog;
     private Driver currentDriver;
 
@@ -30,7 +33,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_view);
 
-        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.vehicleMakeEditText = findViewById(R.id.vehicleMakeEditText);
         this.vehicleModelEditText = findViewById(R.id.vehicleModelEditText);
         this.vehicleColorEditText = findViewById(R.id.vehicleColorEditText);
@@ -42,7 +45,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
         Intent intent = this.getIntent();
         this.currentDriver = (Driver) intent.getSerializableExtra("DriverObject");
         if (this.currentDriver == null) {
-            this.userDatabaseAccessor.getDriverProfile(this);
+            this.driverDatabaseAccessor.getDriverProfile(this);
         } else {
             // set all text fields according to the retreived user object:
             this.vehicleMakeEditText.setText(currentDriver.getCar().getMake());
@@ -51,6 +54,22 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
             this.vehiclePlateEditText.setText(currentDriver.getCar().getPlateNumber());
             this.progressbarDialog.dismissDialog();
         }
+
+        this.updateBtn = findViewById(R.id.vehicleUpdateBtn);
+        this.updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("abcde");
+
+                // access database:
+                currentDriver.getCar().setMake(vehicleMakeEditText.getText().toString());
+                currentDriver.getCar().setModel(vehicleModelEditText.getText().toString());
+                currentDriver.getCar().setColor(vehicleColorEditText.getText().toString());
+                currentDriver.getCar().setPlateNumber(vehiclePlateEditText.getText().toString());
+                driverDatabaseAccessor.updateDriverProfile(currentDriver, VehicleViewActivity.this);
+            }
+        });
+
     }
 
     @Override
@@ -65,6 +84,18 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
 
     @Override
     public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+        this.progressbarDialog.dismissDialog();
+        Toast.makeText(getApplicationContext(),
+                "Your info is updated!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
 
     }
 }

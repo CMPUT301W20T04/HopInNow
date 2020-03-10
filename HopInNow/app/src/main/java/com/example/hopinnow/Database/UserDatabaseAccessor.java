@@ -1,4 +1,4 @@
-package com.example.hopinnow.Database;
+package com.example.hopinnow.database;
 
 import android.util.Log;
 
@@ -17,6 +17,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
@@ -26,9 +31,9 @@ import java.util.Objects;
  * UserDatabaseAccessor class extends all access interfaces. Provides all user related access
  * methods.
  */
-public class UserDatabaseAccessor extends com.example.hopinnow.Database.DatabaseAccessor {
+public class UserDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "UserDatabaseAccessor";
-    private final String referenceName = "Users";
+    protected final String referenceName = "Users";
 
     /**
      * Constructor, default setting, call super().
@@ -65,17 +70,31 @@ public class UserDatabaseAccessor extends com.example.hopinnow.Database.Database
         if (this.isLoggedin()) {    // if the user is logged in, logout first
             this.logoutUser();
         }
-        // create a rider first
+        // create a user.
         this.firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
                             Log.v(TAG, "registered successfully!");
                             listener.onRegisterSuccess();
                         } else {
-                            Log.v(TAG, "register failed!");
-                            listener.onRegisterFailure();
+                            try {
+                                throw Objects.requireNonNull(task.getException());
+                            } catch (FirebaseAuthWeakPasswordException weakPassword) {
+                                Log.v(TAG, "onComplete: weak_password");
+                                listener.onWeakPassword();
+                            } catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
+                                Log.v(TAG, "onComplete: malformed_email");
+                                listener.onInvalidEmail();
+                            } catch (FirebaseAuthUserCollisionException existEmail) {
+                                Log.v(TAG, "onComplete: exist_email");
+                                listener.onUserAlreadyExist();
+                            } catch (Exception e) {
+                                Log.v(TAG, "onComplete: " + e.getMessage());
+                                listener.onRegisterFailure();
+                            }
                         }
                     }
                 });
@@ -191,7 +210,6 @@ public class UserDatabaseAccessor extends com.example.hopinnow.Database.Database
             Log.v(TAG, "User is not logged in!");
         }
     }
-
     /**
      * Get the whole set of user information from the collection "Users". Password is null due to
      * security measures.
@@ -204,7 +222,7 @@ public class UserDatabaseAccessor extends com.example.hopinnow.Database.Database
         // check if logged in:
         if (this.currentUser != null) {
             Objects.requireNonNull(this.firestore
-                    .collection(referenceName)
+                    .collection(this.referenceName)
                     .document(this.currentUser.getUid())
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -223,79 +241,7 @@ public class UserDatabaseAccessor extends com.example.hopinnow.Database.Database
                             listener.onProfileRetrieveFailure();
                         }
                     }));
-        } else {    // the user is not logged in
-            Log.v(TAG, "User is not logged in!");
-        }
-    }
-
-    /**
-     * Get the whole set of rider information from the collection "Users". Password is null due to
-     * security measures.
-     * @param listener
-     *      if the rider info is retrieved successfully, call the onSuccess method,
-     *      otherwise, onFailure.
-     */
-    public void getRiderProfile(final RiderProfileStatusListener listener) {
-        this.currentUser = firebaseAuth.getCurrentUser();
-        // check if logged in:
-        if (this.currentUser != null) {
-            Objects.requireNonNull(this.firestore
-                    .collection(referenceName)
-                    .document(this.currentUser.getUid())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Log.v(TAG, "Get User Successfully!");
-                        if (documentSnapshot.exists()) {
-                            listener.onRiderProfileRetrieveSuccess(documentSnapshot
-                                    .toObject(Rider.class));
-                        }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        Log.v(TAG, "Get User Failed!");
-                        listener.onRiderProfileRetrieveFailure();
-                        }
-                    }));
-        } else {    // the user is not logged in
-            Log.v(TAG, "User is not logged in!");
-        }
-    }
-
-    /**
-     * Get the whole set of driver information from the collection "Users". Password is null due to
-     * security measures.
-     * @param listener
-     *      if the driver info is retrieved successfully, call the onSuccess method,
-     *      otherwise, onFailure.
-     */
-    public void getDriverProfile(final DriverProfileStatusListener listener) {
-        this.currentUser = firebaseAuth.getCurrentUser();
-        // check if logged in:
-        if (this.currentUser != null) {
-            Objects.requireNonNull(this.firestore
-                    .collection(referenceName)
-                    .document(this.currentUser.getUid())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Log.v(TAG, "Get User Successfully!");
-                            if (documentSnapshot.exists()) {
-                                listener.onDriverProfileRetrieveSuccess(documentSnapshot
-                                        .toObject(Driver.class));
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "Get User Failed!");
-                            listener.onDriverProfileRetrieveFailure();
-                        }
-                    }));
-        } else {    // the user is not logged in
+        } else {    // the driver is not logged in
             Log.v(TAG, "User is not logged in!");
         }
     }

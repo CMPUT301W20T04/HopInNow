@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
@@ -65,8 +65,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         // temporary
         Car car = new Car("Auburn","Speedster","Cream","111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,  null, car,
-                null, null);
+                "12345678", true, 10.0,  null, car, null);
         rider = new Rider(null,null,null,null,false,10.00,null,null);
 
 
@@ -124,8 +123,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         });
 
         // get current rider
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
-        userDatabaseAccessor.getRiderProfile(this);
+        RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
+        riderDatabaseAccessor.getRiderProfile(this);
     }
 
 
@@ -192,7 +191,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         // change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
-        intent.putExtra("Current_Request_To_Null", true);
+        intent.putExtra("Current_Request_To_Null", "cancel");
         startActivity(intent);
     }
 
@@ -301,6 +300,15 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderProfileRetrieveFailure() {}
 
+    @Override
+    public void onRiderProfileUpdateSuccess(Rider rider) {
+
+    }
+
+    @Override
+    public void onRiderProfileUpdateFailure() {
+
+    }
 
 
 }

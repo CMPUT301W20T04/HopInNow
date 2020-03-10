@@ -3,16 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <TextView
         android:id="@+id/single_request_from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginEnd="-1dp"
         android:layout_toStartOf="@+id/accept_btn"
         android:paddingLeft="8dp"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/single_request_to"/>
 
     <TextView
         android:id="@+id/single_request_to"
@@ -20,6 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_toStartOf="@id/accept_btn"
+        app:layout_constraintTop_toBottomOf="@+id/single_request_from"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_toStartOf="@+id/accept_btn"
         android:paddingLeft="8dp"
         android:textSize="18sp"
         android:textStyle="bold"

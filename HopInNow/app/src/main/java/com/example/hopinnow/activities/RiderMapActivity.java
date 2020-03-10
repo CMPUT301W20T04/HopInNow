@@ -19,7 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.hopinnow.Database.UserDatabaseAccessor;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
@@ -83,8 +83,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         // assign logged in rider to local variable
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
-        userDatabaseAccessor.getRiderProfile(this);
+        RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
+        riderDatabaseAccessor.getRiderProfile(this);
 
         // sets map
         setContentView(R.layout.activity_rider_map);
@@ -215,13 +215,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onStart(){
         super.onStart();
-        searchInPlace = false;
-        Bundle b = getIntent().getExtras();
+        String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
 
-        if(b!=null) {
-            if (Boolean.parseBoolean(Objects.requireNonNull(b.get("Current_Request_To_Null")).toString())){
-                cancelRequestLocal();
-            }
+        if (caseCancel =="cancel") {
+            cancelRequestLocal();
         }
 
         if (curRequest!=null) {
@@ -229,6 +226,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             curRequest = retrieveCurrentRequestLocal();
             searchFragment.setVisibility(View.GONE);
             searchInPlace = false;
+        } else {
+            searchInPlace = true;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (curRequest != null) {
+            //mMap.clear();
+            curRequest = retrieveCurrentRequestLocal();
         }
     }
 
@@ -511,5 +519,15 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     @Override
     public void onRiderProfileRetrieveFailure() {}
+
+    @Override
+    public void onRiderProfileUpdateSuccess(Rider rider) {
+
+    }
+
+    @Override
+    public void onRiderProfileUpdateFailure() {
+
+    }
 
 }
