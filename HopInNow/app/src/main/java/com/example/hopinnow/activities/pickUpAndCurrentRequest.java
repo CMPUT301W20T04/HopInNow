@@ -13,23 +13,26 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
-public class pickUpAndCurrentRequest extends Fragment implements UserProfileStatusListener{
+public class pickUpAndCurrentRequest extends Fragment {
     private Driver driver;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
+        DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
+        //UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         int display_mode;
         //here get the driver from database
-        userDatabaseAccessor.getUserProfile(this);
+        //userDatabaseAccessor.getUserProfile(this);
+        driverDatabaseAccessor.getDriverProfile((DriverProfileStatusListener) this);
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container,false);
 
         if(view!=null)
@@ -88,6 +91,8 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
         //return super.onCreateView(inflater, container, savedInstanceState);
 
     }
+
+    /*
     @Override
     public void onProfileStoreSuccess() {
 
@@ -117,5 +122,5 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
     @Override
     public void onProfileUpdateFailure() {
 
-    }
+    }*/
 }

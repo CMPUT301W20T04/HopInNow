@@ -172,9 +172,16 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         adjustMapFocus();
     }
 
+    public void setPickUpLoc(LatLng pickUpLoc) {
+        this.pickUpLoc = pickUpLoc;
+    }
+    public void setDropOffLoc(LatLng dropOffLoc){
+        this.dropOffLoc = dropOffLoc;
+    }
     /**
      * adjust focus of the map according to the markers
      */
+
     public void adjustMapFocus(){
 
         LatLng center = myPosition;
@@ -186,6 +193,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             center = dropOffLoc;
         }
         CameraUpdate newFocus = CameraUpdateFactory.newLatLngZoom(center, 10);
-        mMap.animateCamera(newFocus);
+        //mMap.animateCamera(newFocus);
     }
 }

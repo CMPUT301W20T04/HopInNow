@@ -24,14 +24,21 @@ import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener {
-    Integer prePosition;
+    private Integer prePosition = -1;
     //private Driver driver;
-    ArrayList<Request> requestList;
+    private ArrayList<Request> requestList;
+    private Request request1;
+    private LatLng Loc1 = new LatLng(53.651611, -113.323975);
+    private LatLng Loc2 = new LatLng(53.591611, -113.323975);
+    private LatLng pickUp;
+    private LatLng dropOff;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RequestDatabaseAccessor requestDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -41,15 +48,21 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
 
         requestList = new ArrayList<Request>();
-        //public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date dateTime, Car car, Double estimatedFare){}
-
+        //String driver, String rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName, String dropOffLocName,  Date pickUpDateTime,
+        //                    Car car, Double estimatedFare
         //read request from database
+
         driverDatabaseAccessor = new DriverDatabaseAccessor();
         driverDatabaseAccessor.getDriverProfile(this);
-
-
+        //requestDatabaseAccessor = new RequestDatabaseAccessor();
+        //requestDatabaseAccessor.getAllRequest(this);
+        request1 = new Request(null,"fulangji@gmail.com",Loc1,Loc2,"123","345",null,null,1.6);
+        requestList.add(request1);
+        requestList.add(request1);
+        requestList.add(request1);
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity)getActivity()).setButtonInvisible();
+
         //RequestListAdapter adapter = new RequestListAdapter(requestList, this.getContext());
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
         final ListView requestListView = (ListView)view.findViewById(R.id.requestList);
@@ -61,10 +74,14 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 Button acceptBtn = itemView.findViewById(R.id.accept_btn);
                 acceptBtn.setVisibility(View.VISIBLE);
 
-                ((DriverMapActivity)getActivity()).setMapMarker(null, requestList.get(position).getPickUpLoc());
-                ((DriverMapActivity)getActivity()).setMapMarker(null, requestList.get(position).getDropOffLoc());
+                pickUp = requestList.get(position).getPickUpLoc();
+                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp);
+                dropOff = requestList.get(position).getDropOffLoc();
+                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff);
 
-                if (prePosition != null){
+                if (prePosition != -1){
                     Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
                     preAcceptBtn.setVisibility(View.INVISIBLE);
                 }
@@ -146,7 +163,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        this.requestList = requests;
+        this.requestList = (ArrayList<Request>)requests;
     }
 
     @Override
