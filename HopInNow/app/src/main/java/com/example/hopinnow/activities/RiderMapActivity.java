@@ -231,6 +231,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
+    /**
+     * On resume.
+     */
     @Override
     protected void onResume() {
         super.onResume();
