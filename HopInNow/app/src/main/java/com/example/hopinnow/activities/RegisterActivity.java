@@ -102,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                 String phoneNumberData = phoneNumber.getText().toString();
                 boolean isDriver = driverSwitch.isChecked();
                 // save user information in the database:
+
                 if (isDriver) { // the user is a driver
                     user = new Driver(emailData, passwordData, nameData, phoneNumberData,
                             true, 0, null, null,
