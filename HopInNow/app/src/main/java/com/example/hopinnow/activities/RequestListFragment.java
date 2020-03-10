@@ -41,9 +41,10 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
         //read request from database
         driverDatabaseAccessor.getDriverProfile(this);
+        // FIXME
+        /*
         for(int i=0;i<driver.getAvailableRequests().size();i++)
-            requestList.add(driver.getAvailableRequests().get(i));
-
+            requestList.add(driver.getAvailableRequests().get(i));*/
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity)getActivity()).setButtonInvisible();
         //RequestListAdapter adapter = new RequestListAdapter(requestList, this.getContext());

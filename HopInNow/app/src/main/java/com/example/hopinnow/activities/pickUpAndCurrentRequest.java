@@ -57,10 +57,12 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
                 emergencyCallButton.setVisibility(View.VISIBLE);
                 ((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
             }
+            // FIXME
+            /*
             requestFromText.setText("From: "+driver.getAvailableRequests().get(0).getPickUpLocName());
             requestToText.setText("To: "+driver.getAvailableRequests().get(0).getDropOffLocName());
             requestTimeText.setText("Time: "+driver.getAvailableRequests().get(0).getPickUpDateTime());
-            requestCostText.setText("Estimate Fare: "+driver.getAvailableRequests().get(0).getEstimatedFare());
+            requestCostText.setText("Estimate Fare: "+driver.getAvailableRequests().get(0).getEstimatedFare());*/
             if(display_mode == 0){
                 pickUpButton.setOnClickListener(new View.OnClickListener() {
                     @Override
