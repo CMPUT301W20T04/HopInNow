@@ -16,35 +16,38 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
+import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.RequestListAdapter;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
 import java.util.ArrayList;
 
 
-public class RequestListFragment extends Fragment implements DriverProfileStatusListener {
+public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener {
     Integer prePosition;
-    private Driver driver;
+    //private Driver driver;
+    ArrayList<Request> requestList;
     private DriverDatabaseAccessor driverDatabaseAccessor;
+    private RequestDatabaseAccessor requestDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
 
 
         View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
 
-        final ArrayList<Request> requestList = new ArrayList<Request>();
+        requestList = new ArrayList<Request>();
         //public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc, Date dateTime, Car car, Double estimatedFare){}
 
         //read request from database
+        driverDatabaseAccessor = new DriverDatabaseAccessor();
         driverDatabaseAccessor.getDriverProfile(this);
-        // FIXME
-        /*
-        for(int i=0;i<driver.getAvailableRequests().size();i++)
-            requestList.add(driver.getAvailableRequests().get(i));*/
+
+
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity)getActivity()).setButtonInvisible();
         //RequestListAdapter adapter = new RequestListAdapter(requestList, this.getContext());
@@ -103,6 +106,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
 
+
     }
 
     @Override
@@ -117,6 +121,36 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverProfileUpdateFailure() {
+
+    }
+
+    @Override
+    public void onRequestAddedSuccess() {
+
+    }
+
+    @Override
+    public void onRequestAddedFailure() {
+
+    }
+
+    @Override
+    public void onRequestDeleteSuccess() {
+
+    }
+
+    @Override
+    public void onRequestDeleteFailure() {
+
+    }
+
+    @Override
+    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
+        this.requestList = requests;
+    }
+
+    @Override
+    public void onGetRequiredRequestsFailure() {
 
     }
 }
