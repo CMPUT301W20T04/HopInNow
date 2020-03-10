@@ -14,7 +14,7 @@ public class Request extends Ride {
     // constructor
     public Request(){}
 
-    public Request (Driver driver, Rider rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName, String dropOffLocName,  Date pickUpDateTime,
+    public Request (String driver, String rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName, String dropOffLocName,  Date pickUpDateTime,
                     Car car, Double estimatedFare){
         super(driver,rider,pickUpLoc,dropOffLoc,pickUpLocName, dropOffLocName,pickUpDateTime,car);
         this.estimatedFare = estimatedFare;

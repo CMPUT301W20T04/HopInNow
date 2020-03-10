@@ -112,6 +112,21 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
     }
 
     @Override
+    public void onWeakPassword() {
+
+    }
+
+    @Override
+    public void onInvalidEmail() {
+
+    }
+
+    @Override
+    public void onUserAlreadyExist() {
+
+    }
+
+    @Override
     public void onProfileStoreSuccess() {
         // after the profile is stored should the driver be logged in:
         this.userDatabaseAccessor.loginUser(this.driver, this);

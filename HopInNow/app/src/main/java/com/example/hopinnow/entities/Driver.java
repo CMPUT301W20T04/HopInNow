@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Driver extends User {
     private Request curRequest;
     private Car car;
-    private ArrayList<Request> availableRequests;
     private ArrayList<Trip> driverTripList;
     private Double rating;
     private int ratingCounts;
@@ -13,12 +12,10 @@ public class Driver extends User {
     //constructor
     public Driver(){}
     public Driver(String email, String password, String name, String phoneNumber, boolean userType,
-                  double deposit, Request curRequest, Car car, ArrayList<Request> availableRequest,
-                  ArrayList<Trip> driverTripList) {
+                  double deposit, Request curRequest, Car car, ArrayList<Trip> driverTripList) {
         super(email, password, name, phoneNumber, userType, deposit);
         this.curRequest = curRequest;
         this.car = car;
-        this.availableRequests = availableRequest;
         this.driverTripList = driverTripList;
         //first time
         this.rating = 0.00;
@@ -39,14 +36,6 @@ public class Driver extends User {
 
     public void setCar(Car car) {
         this.car = car;
-    }
-
-    public ArrayList<Request> getAvailableRequests() {
-        return availableRequests;
-    }
-
-    public void setAvailableRequests(ArrayList<Request> availableRequests) {
-        this.availableRequests = availableRequests;
     }
 
     public ArrayList<Trip> getDriverTripList() {
