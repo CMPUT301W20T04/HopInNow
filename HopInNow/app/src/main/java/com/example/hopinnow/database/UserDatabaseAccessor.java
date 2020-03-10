@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Transaction;
@@ -67,17 +71,34 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
         if (this.isLoggedin()) {    // if the user is logged in, logout first
             this.logoutUser();
         }
-        // create a rider first
+        // create a user.
         this.firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
                             Log.v(TAG, "registered successfully!");
                             listener.onRegisterSuccess();
                         } else {
-                            Log.v(TAG, "register failed!");
-                            listener.onRegisterFailure();
+                            try {
+                                throw Objects.requireNonNull(task.getException());
+                            } catch (FirebaseAuthWeakPasswordException weakPassword) {
+                                Log.v(TAG, "onComplete: weak_password");
+                                listener.onWeakPassword();
+                                // TODO: Take your action
+                            } catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
+                                Log.v(TAG, "onComplete: malformed_email");
+                                listener.onInvalidEmail();
+                                // TODO: Take your action
+                            } catch (FirebaseAuthUserCollisionException existEmail) {
+                                Log.v(TAG, "onComplete: exist_email");
+                                listener.onUserAlreadyExist();
+                                // TODO: Take your action
+                            } catch (Exception e) {
+                                Log.v(TAG, "onComplete: " + e.getMessage());
+                                listener.onRegisterFailure();
+                            }
                         }
                     }
                 });
