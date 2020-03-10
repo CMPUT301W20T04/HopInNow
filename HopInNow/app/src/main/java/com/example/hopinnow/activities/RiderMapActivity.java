@@ -244,6 +244,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
+
     /**
      * Switch to appropriate fragment for rider's view.
      * @param caseId
