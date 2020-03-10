@@ -44,8 +44,9 @@ public class TripDetailActivity extends AppCompatActivity {
         //function that get the certain trip from the database
 
         //now set the view
-        driverName.setText(trip.getDriver().getName());
-        riderName.setText(trip.getRider().getName());
+        // FIXME
+        //driverName.setText(trip.getDriverEmail().getName());
+        //riderName.setText(trip.getRiderEmail().getName());
         pickUpLocation.setText(trip.getPickUpLoc().toString());
         dropOffLocation.setText(trip.getDropOffLoc().toString());
         rating.setText(trip.getRating().toString());
