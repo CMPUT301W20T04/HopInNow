@@ -19,4 +19,13 @@ public interface RiderProfileStatusListener {
      * Called when profile retrieve failed:
      */
     void onRiderProfileRetrieveFailure();
+    /**
+     * Called when profile update successfully:
+     */
+    void onRiderProfileUpdateSuccess(Rider rider);
+
+    /**
+     * Called when profile update failed:
+     */
+    void onRiderProfileUpdateFailure();
 }

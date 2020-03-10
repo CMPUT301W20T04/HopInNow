@@ -302,6 +302,15 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderProfileRetrieveFailure() {}
 
+    @Override
+    public void onRiderProfileUpdateSuccess(Rider rider) {
+
+    }
+
+    @Override
+    public void onRiderProfileUpdateFailure() {
+
+    }
 
 
 }

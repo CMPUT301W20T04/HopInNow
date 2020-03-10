@@ -47,12 +47,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         setContentView(R.layout.activity_register);
         // init the userDatabaseAccessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
-        // if user already logged in, go to the profile activity
-        if (this.userDatabaseAccessor.isLoggedin()) {
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
-            finish();
-        }
         // link components
         this.name = findViewById(R.id.regNameEditText);
         this.email = findViewById(R.id.regEmailEditText);
@@ -69,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         // initialize the user object to store:
         final String password = this.password.getText().toString();
         String password2 = this.password2.getText().toString();
+        String email = this.email.getText().toString();
         // the length of the password must be greater than 6!
         if (password.length() <= 6 || password2.length() <= 6) {
             Toast.makeText(getApplicationContext(),
@@ -166,6 +161,21 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Registration Failed, try again later.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onWeakPassword() {
+
+    }
+
+    @Override
+    public void onInvalidEmail() {
+
+    }
+
+    @Override
+    public void onUserAlreadyExist() {
+
     }
 
     @Override

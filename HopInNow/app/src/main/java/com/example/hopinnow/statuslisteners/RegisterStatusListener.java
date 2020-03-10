@@ -14,4 +14,10 @@ public interface RegisterStatusListener {
      * Called when the signup fails:
      */
     void onRegisterFailure();
+
+    void onWeakPassword();
+
+    void onInvalidEmail();
+
+    void onUserAlreadyExist();
 }

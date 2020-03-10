@@ -28,7 +28,7 @@ public class RiderDatabaseAccessor extends UserDatabaseAccessor {
      * @param listener
      *      if the rider is updated successfully, call the onSuccess method, otherwise, onFailure.
      */
-    public void updateRiderProfile(final Rider rider, final UserProfileStatusListener listener) {
+    public void updateRiderProfile(final Rider rider, final RiderProfileStatusListener listener) {
         Log.v(TAG, "Ready to create rider profile.");
         // should not let any one see the password!
         rider.setPassword(null);
@@ -46,14 +46,14 @@ public class RiderDatabaseAccessor extends UserDatabaseAccessor {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.v(TAG, "User info updated!");
-                            listener.onProfileUpdateSuccess(rider);
+                            listener.onRiderProfileUpdateSuccess(rider);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.v(TAG, "User info did not update successfully!");
-                            listener.onProfileUpdateFailure();
+                            listener.onRiderProfileUpdateFailure();
                         }
                     });
         } else {    // the rider is not logged in

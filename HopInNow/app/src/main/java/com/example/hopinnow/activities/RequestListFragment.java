@@ -108,4 +108,14 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onDriverProfileRetrieveFailure() {
 
     }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+
+    }
 }

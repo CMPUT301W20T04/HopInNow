@@ -28,7 +28,7 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
      * @param listener
      *      if the driver is updated successfully, call the onSuccess method, otherwise, onFailure.
      */
-    public void updateDriverProfile(final Driver driver, final UserProfileStatusListener listener) {
+    public void updateDriverProfile(final Driver driver, final DriverProfileStatusListener listener) {
         Log.v(TAG, "Ready to create driver profile.");
         // should not let any one see the password!
         driver.setPassword(null);
@@ -46,14 +46,14 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.v(TAG, "User info updated!");
-                            listener.onProfileUpdateSuccess(driver);
+                            listener.onDriverProfileUpdateSuccess(driver);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.v(TAG, "User info did not update successfully!");
-                            listener.onProfileUpdateFailure();
+                            listener.onDriverProfileUpdateFailure();
                         }
                     });
         } else {    // the driver is not logged in
