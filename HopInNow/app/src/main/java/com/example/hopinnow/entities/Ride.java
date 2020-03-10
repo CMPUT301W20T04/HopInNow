@@ -5,8 +5,8 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
 public abstract class Ride {
-    private Driver driver;
-    private Rider rider;
+    private String driverEmail;
+    private String riderEmail;
     private LatLng pickUpLoc;
     private LatLng dropOffLoc;
     private String pickUpLocName;
@@ -16,9 +16,10 @@ public abstract class Ride {
 
     public Ride(){}
 
-    public Ride (Driver driver, Rider rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime, Car car){
-        this.driver = driver;
-        this.rider = rider;
+    public Ride (String driverEmail, String riderEmail, LatLng pickUpLoc, LatLng dropOffLoc,
+                 String pickUpLocName, String dropOffLocName, Date pickUpDateTime, Car car){
+        this.driverEmail = driverEmail;
+        this.riderEmail = riderEmail;
         this.pickUpLoc = pickUpLoc;
         this.dropOffLoc = dropOffLoc;
         this.pickUpLocName = pickUpLocName;
@@ -28,13 +29,6 @@ public abstract class Ride {
     }
 
     //setters for all attributes
-    public void setDriver(Driver driver){
-        this.driver = driver;
-    }
-
-    public void setRider(Rider rider){
-        this.rider = rider;
-    }
 
     public void setPickUpLoc(LatLng pickUpLoc){
         this.pickUpLoc = pickUpLoc;
@@ -85,13 +79,20 @@ public abstract class Ride {
         return dropOffLocName;
     }
 
-    public Rider getRider() {
-        return rider;
+    public String getDriverEmail() {
+        return driverEmail;
     }
 
-    public Driver getDriver() {
-        return driver;
+    public void setDriverEmail(String driverEmail) {
+        this.driverEmail = driverEmail;
     }
 
-    //public abstract Request getCurRequest();
+    public String getRiderEmail() {
+        return riderEmail;
+    }
+
+    public void setRiderEmail(String riderEmail) {
+        this.riderEmail = riderEmail;
+    }
+//public abstract Request getCurRequest();
 }
