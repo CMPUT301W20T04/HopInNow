@@ -24,12 +24,13 @@ public class RiderMenuActivity extends AppCompatActivity {
         riderChatBtn = (Button) findViewById(R.id.riderChat);
         riderMyTripsBtn = (Button) findViewById(R.id.riderMyTrips);
 
+
         riderMyProfileBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
-
+                finish();
             }
         });
         riderMyTripsBtn.setOnClickListener(new View.OnClickListener(){
@@ -40,6 +41,7 @@ public class RiderMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
     }
 }
