@@ -86,15 +86,12 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                             } catch (FirebaseAuthWeakPasswordException weakPassword) {
                                 Log.v(TAG, "onComplete: weak_password");
                                 listener.onWeakPassword();
-                                // TODO: Take your action
                             } catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                                 Log.v(TAG, "onComplete: malformed_email");
                                 listener.onInvalidEmail();
-                                // TODO: Take your action
                             } catch (FirebaseAuthUserCollisionException existEmail) {
                                 Log.v(TAG, "onComplete: exist_email");
                                 listener.onUserAlreadyExist();
-                                // TODO: Take your action
                             } catch (Exception e) {
                                 Log.v(TAG, "onComplete: " + e.getMessage());
                                 listener.onRegisterFailure();
