@@ -27,6 +27,7 @@ import org.junit.runner.RunWith;
 import static androidx.test.InstrumentationRegistry.getTargetContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -54,7 +55,7 @@ public class RiderMapActivityTest{
      */
     @Before
     public void setUp() throws Exception{
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(),
+        solo = new Solo(getInstrumentation(),
                 riderMapActivityRule.getActivity());
     }
 
@@ -97,20 +98,103 @@ public class RiderMapActivityTest{
      */
     @Test
     public void waitingDriverOfferFragment(){
+        solo.enterText((EditText) solo.getView(R.id.pick_up_auto_complete), "Hub Edmonton");
+        solo.enterText((EditText) solo.getView(R.id.drop_off_auto_complete), "Cab Edmonton");
+
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
         solo.clickOnButton("HOP IN NOW!");
         assertTrue(solo.waitForText("Time Elapsed", 1, 2000));
-        String fare = String.valueOf((EditText) solo.getView(R.id.fare_amount));
+        Double fare = Double.valueOf(String.valueOf(solo.getView(R.id.fare_amount)));
 
         solo.clickOnButton("+1$");
-        solo.waitForText("Edmonton", 1, 2000);
+        String newFare = Double.toString(fare+1);
+        assertTrue(solo.waitForText(newFare, 1, 2000));
 
-        // Get MainActivity to access its variables and methods.
-        MainActivity activity = (MainActivity) solo.getCurrentActivity();
-        final ListView cityList = activity.cityList; // Get the listview
-        String city = (String) cityList.getItemAtPosition(0); // Get item from first position
-        assertEquals("Edmonton", city);
+        solo.clickOnButton("-1$");
+        assertTrue(solo.waitForText(Double.toString(fare), 1, 2000));
+
+        solo.clickOnButton("Cancel The Request");
+        assertTrue(solo.waitForText("HOP IN NOW!", 1, 2000));
+
+        solo.enterText((EditText) solo.getView(R.id.pick_up_auto_complete), "Hub Edmonton");
+        solo.enterText((EditText) solo.getView(R.id.drop_off_auto_complete), "Cab Edmonton");
+        solo.clickOnButton("HOP IN NOW!");
+
+
     }
+
+    /**
+     *
+     */
+    @Test
+    public void driverOfferFragment(){
+        solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
+        solo.clickOnButton(">");
+        assertTrue(solo.waitForText("Would you like to accept this offer?", 1, 2000));
+
+        //solo.clickOnEditText(R.id.rider_driver_offer_name);
+        //assertFalse(solo.waitForText("Accept", 1, 2000));
+        //click elsewhere to close alert dialog
+
+        solo.clickOnButton("DECLINE");
+        assertTrue(solo.waitForText("Time Elapsed", 1, 2000));
+
+        solo.clickOnButton(">");
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void waitingPickUpFragment(){
+        solo.clickOnButton("ACCEPT");
+        assertTrue(solo.waitForText("Driver's on the way! Just a moment ...", 1, 2000));
+
+        //TODO solo.clickOnEditText(R.id.rider_driver_offer_name);
+        //TODO assertFalse(solo.waitForText("Accept", 1, 2000));
+        //TODO click elsewhere to close alert dialog
+
+        solo.clickOnButton("CANCEL REQUEST");
+        assertTrue(solo.waitForText("HOP IN NOW!", 1, 2000));
+
+        // TODO test phone
+
+
+        // TODO test email
+
+        waitingDriverOfferFragment();
+        driverOfferFragment();
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void pickedUpFragment(){
+        solo.clickOnButton(">");
+        assertTrue(solo.waitForText("Now, we are heading to ...", 1, 2000));
+
+        // TODO emergency call
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void confirmDropOffFragment(){
+        solo.clickOnButton(">");
+        assertTrue(solo.waitForText("Is this ride complete?", 1, 2000));
+
+        solo.clickOnButton("NO");
+        assertTrue(solo.waitForText("Now, we are heading to ...", 1, 2000));
+
+        solo.clickOnButton("YES");
+        assertTrue(solo.waitForText("Payment", 1, 2000));
+
+        // TODO emergency call
+    }
+
+
 
 
     /**
