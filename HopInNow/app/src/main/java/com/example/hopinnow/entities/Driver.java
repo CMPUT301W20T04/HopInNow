@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Driver extends User {
     private Request curRequest;
     private Car car;
-    private ArrayList<Request> availableRequests;
     private ArrayList<Trip> driverTripList;
     private Double rating;
     private int ratingCounts;
