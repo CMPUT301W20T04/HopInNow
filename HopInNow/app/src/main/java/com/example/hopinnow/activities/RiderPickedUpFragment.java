@@ -35,8 +35,7 @@ public class RiderPickedUpFragment extends Fragment {
         //Driver driver = curRequest.getDriver();
         Car car = new Car("Auburn","Speedster","Cream","111111");
         Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,  null, car,
-                null, null);
+                "12345678", true, 10.0,  null, car, null);
 
         if (view != null) {
 
