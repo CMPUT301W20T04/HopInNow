@@ -164,6 +164,21 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
     }
 
     @Override
+    public void onWeakPassword() {
+
+    }
+
+    @Override
+    public void onInvalidEmail() {
+
+    }
+
+    @Override
+    public void onUserAlreadyExist() {
+
+    }
+
+    @Override
     public void onProfileStoreSuccess() {
         this.userDatabaseAccessor.loginUser(this.user, this);
     }
