@@ -76,7 +76,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        rider = (Rider) getIntent().getSerializableExtra("RiderObject");
         // initialize places
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
@@ -361,7 +361,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         //TODO set current Request
         // FIXME, changed driver to driver.email() and rider to rider.email() here:
-        curRequest = new Request(driver.getEmail(), rider.getEmail(), pickUpLoc, dropOffLoc, pickUpLocName,
+        curRequest = new Request(null, rider.getEmail(), pickUpLoc, dropOffLoc, pickUpLocName,
                 dropOffLocName, dateTime,null, estimatedFare);
 
         saveCurrentRequestLocal(curRequest);

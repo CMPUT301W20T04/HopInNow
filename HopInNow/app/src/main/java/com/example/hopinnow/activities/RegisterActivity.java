@@ -121,7 +121,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     progressbarDialog.startProgressbarDialog();
                     // create user in the database:
                     userDatabaseAccessor.registerUser(user, RegisterActivity.this);
-
                 }
             }
         });

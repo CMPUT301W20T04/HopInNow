@@ -4,90 +4,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorDark">
+    android:background="@color/ColorWhite">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorDark"
+        android:background="@color/ColorWhite"
         tools:context=".activities.LoginActivity">
 
         <TextView
             android:id="@+id/loginText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="136dp"
             android:text="@string/app_name"
             android:textColor="@color/ColorOrange"
             android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/loginEmailEditText"
-            android:layout_width="280dp"
+            android:layout_width="300dp"
             android:layout_height="48dp"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="40dp"
             android:ems="10"
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
-            android:textColor="@color/ColorWhite"
+            android:textColor="@color/ColorBlack"
             android:theme="@style/EditTextHint"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginText" />
 
         <EditText
             android:id="@+id/loginPassword"
-            android:layout_width="280dp"
+            android:layout_width="300dp"
             android:layout_height="48dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="28dp"
             android:ems="10"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
-            android:textColor="@color/ColorWhite"
+            android:textColor="@color/ColorBlack"
             android:theme="@style/EditTextHint"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginEmailEditText" />
 
+
         <Button
             android:id="@+id/loginButton"
-            android:layout_width="240dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="32dp"
-            android:background="@color/quantum_googyellow"
+            android:layout_width="135dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/orange_all_round_corner_login"
             android:onClick="login"
             android:text="@string/prompt_login"
-            android:textColor="@color/colorDark"
-            android:textSize="32sp"
+            android:textColor="@color/ColorOrange"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginWarning" />
 
-        <TextView
+        <Button
             android:id="@+id/linkToRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="144dp"
-            android:layout_marginTop="48dp"
+            android:layout_width="135dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/orange_all_round_corner_login"
             android:onClick="toRegister"
             android:text="@string/prompt_register"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+            android:textColor="@color/ColorOrange"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/loginButton"
+            app:layout_constraintTop_toBottomOf="@+id/loginWarning" />
 
         <TextView
             android:id="@+id/loginWarning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="96dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="48dp"
             android:text="@string/login_warning"
             android:textColor="@color/design_default_color_error"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 
