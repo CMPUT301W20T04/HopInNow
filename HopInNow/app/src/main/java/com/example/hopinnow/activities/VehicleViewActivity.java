@@ -7,18 +7,12 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
-import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
-
-import java.util.Locale;
-import java.util.Objects;
 
 public class VehicleViewActivity extends AppCompatActivity implements DriverProfileStatusListener {
 

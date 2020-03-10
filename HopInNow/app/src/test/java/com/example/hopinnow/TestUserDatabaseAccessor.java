@@ -2,22 +2,19 @@ package com.example.hopinnow;
 
 import androidx.annotation.NonNull;
 
-import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
-import com.google.android.datatransport.runtime.scheduling.Scheduler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;

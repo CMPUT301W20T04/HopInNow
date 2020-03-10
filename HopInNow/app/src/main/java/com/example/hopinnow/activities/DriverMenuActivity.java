@@ -11,9 +11,7 @@ import android.widget.TextView;
 import com.example.hopinnow.R;
 import com.example.hopinnow.Database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
-import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
