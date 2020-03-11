@@ -193,7 +193,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="40dp"
         android:background="@drawable/orange_full_all_round_corner"
-        android:text="Confirm"
+        android:text="CONFIRM"
         android:textColor="@color/ColorWhite"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

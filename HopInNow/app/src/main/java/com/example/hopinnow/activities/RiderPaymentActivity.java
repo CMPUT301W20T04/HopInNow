@@ -148,11 +148,15 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setNewDriverRating(ratingBar);
-                Toast.makeText(RiderPaymentActivity.this, "Your have rated "
-                        + driver.getName() + " with " + myRating + " stars!", Toast.LENGTH_SHORT)
-                        .show();
-                completeRequest();
+                if (myRating!=null){
+                    setNewDriverRating(ratingBar);
+                    completeRequest();
+                } else {
+                    Toast.makeText(RiderPaymentActivity.this, "Please select your " +
+                            "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
+                            .show();
+                }
+
             }
         });
 

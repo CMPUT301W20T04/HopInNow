@@ -108,19 +108,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         setupAutoCompleteFragment();
 
         //MOCK FOR INTENT TESTING
-        EditText pickUpMock = findViewById(R.id.mock_pickUp);
-        EditText dropOffMock = findViewById(R.id.mock_dropOff);
-        if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
-            pickUpLocName = pickUpMock.getText().toString();
-            pickUpLoc = new LatLng(53.5258, 113.5207);
-            dropOffLocName = dropOffMock.getText().toString();
-            dropOffLoc = new LatLng(53.5224, 113.5305);
-        }
+        final EditText pickUpMock = findViewById(R.id.mock_pickUp);
+        final EditText dropOffMock = findViewById(R.id.mock_dropOff);
 
         // sets button for adding new request
         Button addRequest = findViewById(R.id.add_request_button);
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                //mock
+                if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
+                    pickUpLocName = pickUpMock.getText().toString();
+                    pickUpLoc = new LatLng(53.5258, 113.5207);
+                    dropOffLocName = dropOffMock.getText().toString();
+                    dropOffLoc = new LatLng(53.5224, 113.5305);
+                }
                 //TODO [BUG]
                 // if both locations eneterd, then one cleared, validation below would not work
                 // maybe gettext in autocompletefragment for validation
@@ -245,6 +246,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             View searchFragment = findViewById(R.id.search_layout);
             curRequest = retrieveCurrentRequestLocal();
             searchFragment.setVisibility(View.GONE);
+            //MOCK
+            findViewById(R.id.mock).setVisibility(View.GONE);
             searchInPlace = false;
         } else {
             searchInPlace = true;
@@ -384,7 +387,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
 
         //TODO set current Request
-        // FIXME, changed driver to driver.email() and rider to rider.email() here:
+        // FIXME, changed driver to driver.email():
         curRequest = new Request(null, rider.getEmail(), pickUpLoc, dropOffLoc, pickUpLocName,
                 dropOffLocName, dateTime,null, estimatedFare);
 
@@ -395,6 +398,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
+
+        //Mock
+        findViewById(R.id.mock).setVisibility(View.GONE);
+
         searchInPlace = true;
         switchFragment(R.layout.fragment_rider_waiting_driver);
     }
@@ -492,7 +499,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //set driver rating
         TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
         String rating;
-        if (d.getRating()==-1){
+        if (d.getRating()==0){
             rating = "not yet rated";
         } else {
             rating = Double.toString(d.getRating());

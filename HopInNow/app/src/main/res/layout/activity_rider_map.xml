@@ -29,11 +29,13 @@
         android:layout_above="@id/search_layout"/>
 
     <RelativeLayout
+        android:id="@+id/mock"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
         android:layout_marginTop="60dp">
 
         <EditText
@@ -79,7 +81,7 @@
             android:textColor="@color/ColorWhite"
             android:ems="10"
             android:gravity="center"
-            android:text="Hop in now!"
+            android:text="HOP IN NOW!"
             android:textSize="20dp" />
 
     </LinearLayout>
