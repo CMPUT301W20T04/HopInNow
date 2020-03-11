@@ -3,13 +3,8 @@ package com.example.hopinnow.database;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-
-import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.Rider;
-import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
-import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,15 +12,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.Transaction;
-
 import java.util.Objects;
 
 /**
