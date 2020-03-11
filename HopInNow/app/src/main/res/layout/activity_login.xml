@@ -63,7 +63,7 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/orange_all_round_corner_login"
             android:onClick="login"
-            android:text="@string/prompt_login"
+            android:text="LOGIN"
             android:textColor="@color/ColorOrange"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"

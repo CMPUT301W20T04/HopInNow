@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author: Viola Bai
+ * Author: Tianyu Bai
  */
 public class QRCodeHelper {
     private static QRCodeHelper qrCodeHelper = null;
@@ -24,6 +24,7 @@ public class QRCodeHelper {
     private String mContent;
     private int mWidth, mHeight;
 
+    //TODO CHECKING BITMAP QR?
 
     /**
      * Constructor class for QRCodeHelper.

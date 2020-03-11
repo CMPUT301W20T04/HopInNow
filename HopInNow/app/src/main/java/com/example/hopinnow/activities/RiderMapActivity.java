@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -71,12 +73,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LatLng pickUpLoc = new LatLng(53.631611, -113.323975);
     private LatLng dropOffLoc;
     private String pickUpLocName, dropOffLocName;
+    //TODO DRAG MARKER TO PIN LOCATION, onMarkerDragListener
     private Marker pickUpMarker, dropOffMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rider = (Rider) getIntent().getSerializableExtra("RiderObject");
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         // initialize places
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
@@ -256,7 +264,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // caseID defined by id of the next fragment to show
         switch(caseId){
             case R.layout.fragment_rider_waiting_driver:
-                t.beginTransaction().add(R.id.fragment_place, new RiderWaitingDriverFragment())
+                t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingDriverFragment())
                         .commit();
                 break;
             case R.layout.fragment_rider_driver_offer:
@@ -386,6 +394,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      the phone number to be called
      */
     public void callNumber(String phoneNumber){
+        //TODO HANGING UP DIALING PAGE, SET END DIALING ON SOLO.GOBACK()?
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+phoneNumber));
 
@@ -458,40 +467,41 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**
      * Shows driver information and contact means on a dialog
      */
-    public void showDriverInfo(){
-
+    public void showDriverInfo(Driver myDriver){
+        //TODO make into a helper class for payment rating dialog, name on click
+        final Driver d = myDriver;
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
 
         //set driver name
         TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
-        driverName.setText(driver.getName());
+        driverName.setText(d.getName());
 
         //set driver rating
         TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
         String rating;
-        if (driver.getRating()==-1){
+        if (d.getRating()==-1){
             rating = "not yet rated";
         } else {
-            rating = Double.toString(driver.getRating());
+            rating = Double.toString(d.getRating());
         }
         driverRating.setText(rating);
 
         //set driver car
         TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
-        String carInfo = driver.getCar().getColor() + " " + driver.getCar().getMake() + " " + driver.getCar().getModel();
+        String carInfo = d.getCar().getColor() + " " + d.getCar().getMake() + " " + d.getCar().getModel();
         driverCar.setText(carInfo);
 
         //set driver license
         TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
-        driverLicense.setText(driver.getCar().getPlateNumber());
+        driverLicense.setText(d.getCar().getPlateNumber());
 
         //call driver
         Button callBtn= dialog.findViewById(R.id.dialog_call_button);
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callNumber(driver.getPhoneNumber());
+                callNumber(d.getPhoneNumber());
             }
         });
 
@@ -500,7 +510,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         emailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emailDriver(driver.getEmail());
+                emailDriver(d.getEmail());
             }
         });
 
@@ -533,6 +543,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderProfileUpdateFailure() {
+
+    }
+
+    /**
+     * Avoid accidental press on the back bu
+     */
+    @Override
+    public void onBackPressed() {
 
     }
 

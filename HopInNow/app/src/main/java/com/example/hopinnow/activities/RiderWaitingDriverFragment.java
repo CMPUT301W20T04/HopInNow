@@ -43,7 +43,7 @@ public class RiderWaitingDriverFragment extends Fragment {
 
         startChronometer();
 
-        Button add_money= view.findViewById(R.id.add_money);
+        Button add_money = view.findViewById(R.id.add_money);
         add_money.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +51,7 @@ public class RiderWaitingDriverFragment extends Fragment {
             }
         });
 
-        Button reduce_money= view.findViewById(R.id.reduce_money);
+        Button reduce_money = view.findViewById(R.id.reduce_money);
         reduce_money.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +59,7 @@ public class RiderWaitingDriverFragment extends Fragment {
             }
         });
 
-        Button cancel_request= view.findViewById(R.id.cancel_button);
+        Button cancel_request = view.findViewById(R.id.cancel_button);
         cancel_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,8 +74,9 @@ public class RiderWaitingDriverFragment extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chronometer.stop();
+                //chronometer.stop();
                 ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_driver_offer);
+                endChronometer();
             }
         });
 
@@ -88,6 +89,7 @@ public class RiderWaitingDriverFragment extends Fragment {
         super.onResume();
         startChronometer();
     }
+
 
     private void addFare(){
         estimate_fare += 1;
