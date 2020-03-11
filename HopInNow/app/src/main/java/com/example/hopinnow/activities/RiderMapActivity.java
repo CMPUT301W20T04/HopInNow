@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,6 +107,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // sets location search bars
         setupAutoCompleteFragment();
 
+        //MOCK FOR INTENT TESTING
+        EditText pickUpMock = findViewById(R.id.mock_pickUp);
+        EditText dropOffMock = findViewById(R.id.mock_dropOff);
+        if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
+            pickUpLocName = pickUpMock.getText().toString();
+            pickUpLoc = new LatLng(53.5258, 113.5207);
+            dropOffLocName = dropOffMock.getText().toString();
+            dropOffLoc = new LatLng(53.5224, 113.5305);
+        }
+
         // sets button for adding new request
         Button addRequest = findViewById(R.id.add_request_button);
         addRequest.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +146,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO listener on rider curRequest,
         // save waiting driver offer status, calls switch fragment
         // update curRequest by retrieveCurrentRequestOnline
+
     }
 
 
