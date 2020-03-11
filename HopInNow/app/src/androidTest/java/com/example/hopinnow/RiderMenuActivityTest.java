@@ -26,7 +26,7 @@ import static junit.framework.TestCase.assertTrue;
 
 /**
  * Author: Tianyu Bai
- * UI tests on register activities. Robotium test framework is used.
+ * UI tests on rider menu activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
 public class RiderMenuActivityTest {
@@ -51,7 +51,6 @@ public class RiderMenuActivityTest {
 
     /**
      * Gets the Activity
-     *
      * @throws Exception
      */
     @Test
@@ -59,8 +58,9 @@ public class RiderMenuActivityTest {
         Activity activity = rule.getActivity();
     }
 
+
     /**
-     *
+     * Check menu button, my trip list view and updating user information in my profile
       * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
@@ -72,8 +72,9 @@ public class RiderMenuActivityTest {
         solo.assertCurrentActivity("Wrong Activity", TripListActivity.class);
 
         //test first item in list view, check each item in later updates
-        solo.clickInList(1);
-        solo.assertCurrentActivity("Wrong Activity", RiderMenuActivity.class);
+        //solo.clickInList(1);
+        //solo.assertCurrentActivity("Wrong Activity", RiderMenuActivity.class);
+        solo.goBack();
 
         //test my profile
         solo.clickOnButton("My Profile");
@@ -95,6 +96,7 @@ public class RiderMenuActivityTest {
         solo.clickOnView(solo.getView(R.id.proUpdateBtn));
         assertTrue(solo.waitForText("updated!",1,2000));
 
+        // log out
         solo.clickOnView(solo.getView(R.id.proLogoutBtn));
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
     }
