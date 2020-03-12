@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hopinnow">
 
+    <uses-permission android:name="android.permission.INJECT_EVENTS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -34,7 +37,6 @@
         <activity android:name=".activities.RiderPaymentActivity"/>
         <activity android:name=".activities.RegisterVehicleInfoActivity"/>
         <activity android:name=".activities.DriverMenuActivity"/>
-        <activity android:name=".activities.RegisterVehicleInfoActivity"/>
 
 
         <activity android:name=".activities.LoginActivity" >
