@@ -52,8 +52,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         //                    Car car, Double estimatedFare
         //read request from database
 
-        driverDatabaseAccessor = new DriverDatabaseAccessor();
-        driverDatabaseAccessor.getDriverProfile(this);
+        //driverDatabaseAccessor = new DriverDatabaseAccessor();
+        //driverDatabaseAccessor.getDriverProfile(this);
         //requestDatabaseAccessor = new RequestDatabaseAccessor();
         //requestDatabaseAccessor.getAllRequest(this);
         request1 = new Request(null,"fulangji@gmail.com",Loc1,Loc2,"123","345",null,null,1.6);

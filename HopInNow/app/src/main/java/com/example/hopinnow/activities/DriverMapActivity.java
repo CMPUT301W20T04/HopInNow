@@ -182,17 +182,20 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
      * adjust focus of the map according to the markers
      */
 
-    public void adjustMapFocus(){
 
-        LatLng center = myPosition;
-        if ((pickUpMarker != null)&&(dropOffMarker != null)) {
-            center = LatLngBounds.builder().include(pickUpLoc).include(dropOffLoc).build().getCenter();
-        } else if (pickUpMarker != null) {
-            center = pickUpLoc;
-        } else if (dropOffMarker != null) {
-            center = dropOffLoc;
+    public void adjustMapFocus(){
+        LatLngBounds.Builder bound = new LatLngBounds.Builder();
+
+        if ((pickUpLoc != null)&&(dropOffLoc != null)) {
+            bound.include(pickUpLoc);
+            bound.include(dropOffLoc);
+        } else if (pickUpLoc != null) {
+            bound.include(pickUpLoc);
+        } else if (dropOffLoc != null) {
+            bound.include(dropOffLoc);
+        } else {
+            return;
         }
-        CameraUpdate newFocus = CameraUpdateFactory.newLatLngZoom(center, 10);
-        //mMap.animateCamera(newFocus);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
     }
 }

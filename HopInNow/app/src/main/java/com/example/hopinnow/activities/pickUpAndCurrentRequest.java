@@ -21,7 +21,7 @@ import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
-public class pickUpAndCurrentRequest extends Fragment {
+public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener {
     private Driver driver;
 
     @Nullable
@@ -32,7 +32,8 @@ public class pickUpAndCurrentRequest extends Fragment {
         int display_mode;
         //here get the driver from database
         //userDatabaseAccessor.getUserProfile(this);
-        driverDatabaseAccessor.getDriverProfile((DriverProfileStatusListener) this);
+        //driverDatabaseAccessor.driverAcceptRequest();
+        driverDatabaseAccessor.getDriverProfile(this);
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container,false);
 
         if(view!=null)
@@ -49,6 +50,10 @@ public class pickUpAndCurrentRequest extends Fragment {
             Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
+            requestFromText.setText("123");
+            requestToText.setText("345");
+            requestTimeText.setText("12:28");
+            requestCostText.setText("12");
             if(display_mode == 0){
                 pickUpButton.setVisibility(View.VISIBLE);
                 dropOffButton.setVisibility(View.INVISIBLE);
@@ -89,6 +94,26 @@ public class pickUpAndCurrentRequest extends Fragment {
         }
         return view;
         //return super.onCreateView(inflater, container, savedInstanceState);
+
+    }
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
 
     }
 
