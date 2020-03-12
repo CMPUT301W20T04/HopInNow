@@ -5,6 +5,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +34,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.common.api.Status;
 
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -122,10 +126,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     dropOffLocName = dropOffMock.getText().toString();
                     dropOffLoc = new LatLng(53.5224, 113.5305);
                 }
-                //TODO [BUG]
+                //FIXME
                 // if both locations eneterd, then one cleared, validation below would not work
                 // maybe gettext in autocompletefragment for validation
                 if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
+                    switchMarkerDraggable();
                     setNewRequest();
                 } else {
                     String msg = "Please enter both your pick up and drop off locations.";
@@ -147,7 +152,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO listener on rider curRequest,
         // save waiting driver offer status, calls switch fragment
         // update curRequest by retrieveCurrentRequestOnline
-
     }
 
 
@@ -160,11 +164,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        //TODO CURRENT LOCATION
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pickUpLoc, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(pickUpLoc)
                 .title("My Current Location")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                .icon(toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_pick_up)))
+                .draggable(true));
     }
 
 
@@ -185,7 +191,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             public void onPlaceSelected(@NonNull Place place) {
                 pickUpLocName = place.getAddress();
                 pickUpLoc = place.getLatLng();
-                setMapMarker(pickUpMarker,pickUpLoc);
+                setMapMarker(pickUpMarker,pickUpLoc,true);
             }
             @Override
             public void onError(@NonNull Status status) {
@@ -204,7 +210,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             public void onPlaceSelected(@NonNull Place place) {
                 dropOffLocName = place.getAddress();
                 dropOffLoc = place.getLatLng();
-                setMapMarker(dropOffMarker,dropOffLoc);
+                setMapMarker(dropOffMarker,dropOffLoc,false);
             }
             @Override
             public void onError(@NonNull Status status) {
@@ -214,24 +220,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-
-
     /**
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed  here it is 2
-        if(requestCode==2)
-        {
-            //TODO curReqest to firebase trip list
-            cancelRequestLocal();
-        }
-    }*/
-
-
-    /**
-     * Displays appropriate content.
+     * Displays appropriate content according to the presence of current request.
      */
     @Override
     protected void onStart(){
@@ -252,6 +242,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         } else {
             searchInPlace = true;
         }
+
+        switchMarkerDraggable();
     }
 
     /**
@@ -261,7 +253,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     protected void onResume() {
         super.onResume();
         if (curRequest != null) {
-            //mMap.clear();
             curRequest = retrieveCurrentRequestLocal();
         }
     }
@@ -413,7 +404,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      the phone number to be called
      */
     public void callNumber(String phoneNumber){
-        //TODO HANGING UP DIALING PAGE, SET END DIALING ON SOLO.GOBACK()?
+        //TODO HANGING UP DIALING PAGE
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+phoneNumber));
 
@@ -433,6 +424,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      the driver's email address
      */
     public void emailDriver(String email){
+        //Stackoverflow post by Dira
+        //https://stackoverflow.com/questions/8701634/send-email-intent
+        //Answer by Dira (code from the question itself)
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/html");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
@@ -448,16 +442,42 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * @param latLng
      *      location information for where the given marker object is to be set on the map
      */
-     public void setMapMarker(Marker m, LatLng latLng){
+     public void setMapMarker(Marker m, LatLng latLng, Boolean pickUp){
+         BitmapDescriptor mIcon;
+         if (pickUp){
+             mIcon = toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_pick_up));
+         } else {
+             mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+         }
+
          if (m == null) {
              MarkerOptions opt = new MarkerOptions();
-             opt.position(latLng);
+             opt.position(latLng)
+                .icon(mIcon)
+                .draggable(true);
              mMap.addMarker(opt);
          } else {
              m.setPosition(latLng);
          }
          adjustMapFocus();
      }
+
+
+    /**
+     * Sets appropraite draggable state on map markers.
+     */
+    private void switchMarkerDraggable(){
+        if (pickUpMarker.isDraggable()){
+            pickUpMarker.setDraggable(false);
+        } else {
+            pickUpMarker.setDraggable(true);
+        }
+        if (dropOffMarker.isDraggable()){
+            dropOffMarker.setDraggable(false);
+        } else {
+            dropOffMarker.setDraggable(true);
+        }
+    }
 
 
      /**
@@ -537,6 +557,28 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         dialog.show();
     }
 
+    /**
+     * Transforms drawable into a bitmap drawable.
+     * @param drawable
+     *      information of the drawable to be turned into bitmap
+     * @return
+     *      Bitmap image for marker icon
+     */
+    private BitmapDescriptor toBitmapMarkerIcon(Drawable drawable) {
+        //Stackoverflow post by Mohammed Haidar
+        //https://stackoverflow.com/questions/35718103/
+        //      how-to-specify-the-size-of-the-icon-on-the-marker-in-google-maps-v2-android
+        //Answered by Rohit Bansal
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()
+                , drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
 
     /**
      * Called when profile retrieve successfully:
@@ -550,27 +592,27 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 
     /**
-     * Called when profile retrieve failed:
+     * Called when profile retrieve failed.
      */
     @Override
     public void onRiderProfileRetrieveFailure() {}
 
-    @Override
-    public void onRiderProfileUpdateSuccess(Rider rider) {
-
-    }
-
-    @Override
-    public void onRiderProfileUpdateFailure() {
-
-    }
-
     /**
-     * Avoid accidental press on the back bu
+     * Called when profile retrieve successful.
      */
     @Override
-    public void onBackPressed() {
+    public void onRiderProfileUpdateSuccess(Rider rider) {}
 
-    }
+    /**
+     * Called to update profile.
+     */
+    @Override
+    public void onRiderProfileUpdateFailure() {}
+
+    /**
+     * Disable the back button.
+     */
+    @Override
+    public void onBackPressed() {}
 
 }

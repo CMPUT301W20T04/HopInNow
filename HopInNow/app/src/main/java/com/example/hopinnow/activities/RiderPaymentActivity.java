@@ -81,7 +81,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         totalPaymentTextView = findViewById(R.id.rider_payment_total);
         totalPaymentTextView.setText(Double.toString(baseFare));
 
-
         //show total payment calculation
         Button showTotalBtn = findViewById(R.id.rider_payment_calculate);
         showTotalBtn.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +112,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                     Bitmap bitmap = QRCodeHelper
                             .newInstance(RiderPaymentActivity.this)
                             .setContent(serializePay)
-                            .setMargin(2)
+                            .setMargin(1)
                             .generateQR();
                     qrImage.setImageBitmap(bitmap);
                     confirmPaymentBtn.setVisibility(View.GONE);
@@ -134,7 +133,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * Shows dialog that prompts rider to rate the driver of corresponding trip.
      */
     public void showRatingDialog(){
-
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_rider_rating);
 
@@ -148,8 +146,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myRating!=null){
-                    setNewDriverRating(ratingBar);
+                myRating = (double) ratingBar.getRating();
+
+                if (myRating!=0){
+                    setNewDriverRating(myRating);
                     completeRequest();
                 } else {
                     Toast.makeText(RiderPaymentActivity.this, "Please select your " +
@@ -175,14 +175,13 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     /**
      * Calculates new average rating for driver.
-     * @param rb
-     *      rating bar that contains new rating
+     * @param r
+     *      the new rating
      */
-    private void setNewDriverRating(RatingBar rb){
+    private void setNewDriverRating(double r){
         Double prevRating = driver.getRating();
         int counts = driver.getRatingCounts();
-        myRating = (double) rb.getRating();
-        Double newRating = (prevRating + rb.getRating())/(counts+1);
+        Double newRating = (prevRating + r)/(counts+1);
         driver.setRatingCounts(counts+1);
         driver.setRating(newRating);
     }
@@ -309,15 +308,19 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderProfileRetrieveFailure() {}
 
+
+    /**
+     * Called when profile update successes.
+     */
     @Override
-    public void onRiderProfileUpdateSuccess(Rider rider) {
+    public void onRiderProfileUpdateSuccess(Rider rider) {}
 
-    }
 
+    /**
+     * Called when profile update failed:
+     */
     @Override
-    public void onRiderProfileUpdateFailure() {
-
-    }
+    public void onRiderProfileUpdateFailure() {}
 
 
 }
