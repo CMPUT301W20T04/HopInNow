@@ -34,7 +34,7 @@ public class RiderPickedUpFragment extends Fragment {
                 .retrieveCurrentRequestLocal();
         //Driver driver = curRequest.getDriver();
         Car car = new Car("Auburn","Speedster","Cream","111111");
-        Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+        final Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, 10.0,  null, car, null);
 
         if (view != null) {
@@ -45,7 +45,7 @@ public class RiderPickedUpFragment extends Fragment {
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo();
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo(driver);
                 }
             });
 

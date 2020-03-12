@@ -79,7 +79,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         //set initial total payment
         totalPaymentTextView = findViewById(R.id.rider_payment_total);
-        totalPaymentTextView.setText("$ "+ baseFare);
+        totalPaymentTextView.setText(Double.toString(baseFare));
 
 
         //show total payment calculation
@@ -89,7 +89,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             public void onClick(View v) {
                 setMyTip();
                 totalPayment = formatTotalPayment();
-                totalPaymentTextView.setText("$ "+ totalPayment);
+                totalPaymentTextView.setText(Double.toString(totalPayment));
             }
         });
 
@@ -139,7 +139,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         dialog.setContentView(R.layout.dialog_rider_rating);
 
         // set driver name
-        TextView driverName= dialog.findViewById(R.id.dialog_rider_rating_driver);
+        final TextView driverName= dialog.findViewById(R.id.dialog_rider_rating_driver);
         driverName.setText(driver.getName());
 
         //submit rating and complete request
@@ -148,8 +148,15 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setNewDriverRating(ratingBar);
-                completeRequest();
+                if (myRating!=null){
+                    setNewDriverRating(ratingBar);
+                    completeRequest();
+                } else {
+                    Toast.makeText(RiderPaymentActivity.this, "Please select your " +
+                            "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
+                            .show();
+                }
+
             }
         });
 

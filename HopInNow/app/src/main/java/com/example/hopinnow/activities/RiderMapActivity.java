@@ -9,7 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,12 +74,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LatLng pickUpLoc = new LatLng(53.631611, -113.323975);
     private LatLng dropOffLoc;
     private String pickUpLocName, dropOffLocName;
+    //TODO DRAG MARKER TO PIN LOCATION, onMarkerDragListener
     private Marker pickUpMarker, dropOffMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rider = (Rider) getIntent().getSerializableExtra("RiderObject");
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         // initialize places
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
@@ -98,10 +107,21 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // sets location search bars
         setupAutoCompleteFragment();
 
+        //MOCK FOR INTENT TESTING
+        final EditText pickUpMock = findViewById(R.id.mock_pickUp);
+        final EditText dropOffMock = findViewById(R.id.mock_dropOff);
+
         // sets button for adding new request
         Button addRequest = findViewById(R.id.add_request_button);
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                //mock
+                if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
+                    pickUpLocName = pickUpMock.getText().toString();
+                    pickUpLoc = new LatLng(53.5258, 113.5207);
+                    dropOffLocName = dropOffMock.getText().toString();
+                    dropOffLoc = new LatLng(53.5224, 113.5305);
+                }
                 //TODO [BUG]
                 // if both locations eneterd, then one cleared, validation below would not work
                 // maybe gettext in autocompletefragment for validation
@@ -127,6 +147,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO listener on rider curRequest,
         // save waiting driver offer status, calls switch fragment
         // update curRequest by retrieveCurrentRequestOnline
+
     }
 
 
@@ -225,12 +246,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             View searchFragment = findViewById(R.id.search_layout);
             curRequest = retrieveCurrentRequestLocal();
             searchFragment.setVisibility(View.GONE);
+            //MOCK
+            findViewById(R.id.mock).setVisibility(View.GONE);
             searchInPlace = false;
         } else {
             searchInPlace = true;
         }
     }
 
+    /**
+     * On resume.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -239,6 +265,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             curRequest = retrieveCurrentRequestLocal();
         }
     }
+
 
 
     /**
@@ -252,7 +279,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // caseID defined by id of the next fragment to show
         switch(caseId){
             case R.layout.fragment_rider_waiting_driver:
-                t.beginTransaction().add(R.id.fragment_place, new RiderWaitingDriverFragment())
+                t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingDriverFragment())
                         .commit();
                 break;
             case R.layout.fragment_rider_driver_offer:
@@ -360,7 +387,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
 
         //TODO set current Request
-        // FIXME, changed driver to driver.email() and rider to rider.email() here:
+        // FIXME, changed driver to driver.email():
         curRequest = new Request(null, rider.getEmail(), pickUpLoc, dropOffLoc, pickUpLocName,
                 dropOffLocName, dateTime,null, estimatedFare);
 
@@ -371,6 +398,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
+
+        //Mock
+        findViewById(R.id.mock).setVisibility(View.GONE);
+
         searchInPlace = true;
         switchFragment(R.layout.fragment_rider_waiting_driver);
     }
@@ -382,6 +413,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      the phone number to be called
      */
     public void callNumber(String phoneNumber){
+        //TODO HANGING UP DIALING PAGE, SET END DIALING ON SOLO.GOBACK()?
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+phoneNumber));
 
@@ -454,40 +486,41 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**
      * Shows driver information and contact means on a dialog
      */
-    public void showDriverInfo(){
-
+    public void showDriverInfo(Driver myDriver){
+        //TODO make into a helper class for payment rating dialog, name on click
+        final Driver d = myDriver;
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
 
         //set driver name
         TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
-        driverName.setText(driver.getName());
+        driverName.setText(d.getName());
 
         //set driver rating
         TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
         String rating;
-        if (driver.getRating()==-1){
+        if (d.getRating()==0){
             rating = "not yet rated";
         } else {
-            rating = Double.toString(driver.getRating());
+            rating = Double.toString(d.getRating());
         }
         driverRating.setText(rating);
 
         //set driver car
         TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
-        String carInfo = driver.getCar().getColor() + " " + driver.getCar().getMake() + " " + driver.getCar().getModel();
+        String carInfo = d.getCar().getColor() + " " + d.getCar().getMake() + " " + d.getCar().getModel();
         driverCar.setText(carInfo);
 
         //set driver license
         TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
-        driverLicense.setText(driver.getCar().getPlateNumber());
+        driverLicense.setText(d.getCar().getPlateNumber());
 
         //call driver
         Button callBtn= dialog.findViewById(R.id.dialog_call_button);
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callNumber(driver.getPhoneNumber());
+                callNumber(d.getPhoneNumber());
             }
         });
 
@@ -496,7 +529,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         emailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emailDriver(driver.getEmail());
+                emailDriver(d.getEmail());
             }
         });
 
@@ -529,6 +562,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderProfileUpdateFailure() {
+
+    }
+
+    /**
+     * Avoid accidental press on the back bu
+     */
+    @Override
+    public void onBackPressed() {
 
     }
 
