@@ -244,6 +244,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         switchMarkerDraggable();
+
     }
 
     /**
@@ -467,16 +468,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * Sets appropraite draggable state on map markers.
      */
     private void switchMarkerDraggable(){
-        if (pickUpMarker.isDraggable()){
-            pickUpMarker.setDraggable(false);
-        } else {
-            pickUpMarker.setDraggable(true);
+        if ((pickUpMarker!=null)&&(dropOffMarker!=null)){
+            if (pickUpMarker.isDraggable()){
+                pickUpMarker.setDraggable(false);
+            } else {
+                pickUpMarker.setDraggable(true);
+            }
+            if (dropOffMarker.isDraggable()){
+                dropOffMarker.setDraggable(false);
+            } else {
+                dropOffMarker.setDraggable(true);
+            }
         }
-        if (dropOffMarker.isDraggable()){
-            dropOffMarker.setDraggable(false);
-        } else {
-            dropOffMarker.setDraggable(true);
-        }
+
     }
 
 

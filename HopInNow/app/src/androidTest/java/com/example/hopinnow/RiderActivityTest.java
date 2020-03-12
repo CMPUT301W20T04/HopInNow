@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.hopinnow.activities.LoginActivity;
 import com.example.hopinnow.activities.RiderMapActivity;
 
+import com.google.android.gms.maps.model.Marker;
 import com.robotium.solo.Solo;
 import org.junit.After;
 import org.junit.Before;
