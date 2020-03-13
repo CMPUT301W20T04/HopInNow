@@ -124,8 +124,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 break;
         }
     }
-
-    /**
+   /**
      * call number phoneNumber on the phone
      * @param phoneNumber
      */

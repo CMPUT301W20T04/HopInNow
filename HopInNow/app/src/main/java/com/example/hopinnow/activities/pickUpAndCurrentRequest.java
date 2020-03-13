@@ -32,11 +32,9 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
-        //UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         int display_mode;
         //here get the driver from database
-        //userDatabaseAccessor.getUserProfile(this);
-        //driverDatabaseAccessor.driverAcceptRequest();
+
         driverDatabaseAccessor.getDriverProfile(this);
 
 
@@ -56,17 +54,14 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
-            /*
-            requestFromText.setText("123");
-            requestToText.setText("345");
-            requestTimeText.setText("12:28");
-            requestCostText.setText("12");*/
             if(display_mode == 0){
+                // the fragment that display the pickup button and request information
                 pickUpButton.setVisibility(View.VISIBLE);
                 dropOffButton.setVisibility(View.INVISIBLE);
                 emergencyCallButton.setVisibility(View.INVISIBLE);
                 ((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(1);
             }else{
+                // the fragment that display the drop off button and request information
                 pickUpButton.setVisibility(View.INVISIBLE);
                 dropOffButton.setVisibility(View.VISIBLE);
                 emergencyCallButton.setVisibility(View.VISIBLE);
@@ -79,29 +74,32 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             requestTimeText.setText("Time: "+);
             requestCostText.setText("Estimate Fare: "+);*/
             if(display_mode == 0){
+                //set pick up button on click listener
                 pickUpButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // switch to a fragment that display the request information and pick up button.
                         ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up); }
                 });}
             else{
+                // switch to a fragment that display the request information and drop off button.
                 dropOffButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                     }
                 });
+                // set emergency button on click listener
                 emergencyCallButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // call call number method to make a phone call
                         ((DriverMapActivity)getActivity()).callNumber("7806041057");//shway number
                     }
                 });}
 
         }
         return view;
-        //return super.onCreateView(inflater, container, savedInstanceState);
-
     }
 
     @Override
@@ -124,36 +122,4 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     }
 
-
-    /*
-    @Override
-    public void onProfileStoreSuccess() {
-
-    }
-
-    @Override
-    public void onProfileStoreFailure() {
-
-    }
-
-    @Override
-    public void onProfileRetrieveSuccess(User user) {
-        this.driver = (Driver)user;
-
-    }
-
-    @Override
-    public void onProfileRetrieveFailure() {
-
-    }
-
-    @Override
-    public void onProfileUpdateSuccess(User user) {
-
-    }
-
-    @Override
-    public void onProfileUpdateFailure() {
-
-    }*/
 }

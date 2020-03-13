@@ -62,8 +62,16 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
         });
 
     }
+
+    /**
+     * when retrieve the driver profile successful,
+     * open vehicle view activity to display the car information
+     * @param driver
+     */
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
+        // when retrieve the driver profile successful,
+        // open vehicle view activity to display the car information
         Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("DriverObject", driver);
