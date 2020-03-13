@@ -40,6 +40,7 @@ import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
+import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
 import com.google.android.gms.common.api.Status;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -73,7 +74,7 @@ import java.util.Objects;
  * This activity defines all methods for main activities of rider.
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        RiderProfileStatusListener {
+        RiderProfileStatusListener, RiderRequestAcceptedListener {
 
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
@@ -631,5 +632,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public void onRiderRequestAccept() {
+        FragmentManager t = getSupportFragmentManager();
+        t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingDriverFragment())
+                .commit();
+    }
+
+    @Override
+    public void onRiderRequestTimeoutOrFail() {
+        FragmentManager t = getSupportFragmentManager();
+        t.popBackStack();
     }
 }
