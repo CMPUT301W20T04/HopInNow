@@ -19,48 +19,93 @@ public abstract class Ride {
 
     public Ride (String driverEmail, String riderEmail, LatLong pickUpLoc, LatLong dropOffLoc,
                  String pickUpLocName, String dropOffLocName, Date pickUpDateTime, Car car){
-        this.driverEmail = driverEmail;
-        this.riderEmail = riderEmail;
-        this.pickUpLoc = pickUpLoc;
-        this.dropOffLoc = dropOffLoc;
-        this.pickUpLocName = pickUpLocName;
-        this.dropOffLocName = dropOffLocName;
-        this.pickUpDateTime = pickUpDateTime;
-        this.car = car;
+        try{
+            this.driverEmail = driverEmail;
+            this.riderEmail = riderEmail;
+            this.pickUpLoc = pickUpLoc;
+            this.dropOffLoc = dropOffLoc;
+            this.pickUpLocName = pickUpLocName;
+            this.dropOffLocName = dropOffLocName;
+            this.pickUpDateTime = pickUpDateTime;
+            this.car = car;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     //setters for all attributes
 
     public void setPickUpLoc(LatLong pickUpLoc){
-        this.pickUpLoc = pickUpLoc;
+        try{
+            this.pickUpLoc = pickUpLoc;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setDropOffLoc(LatLong dropOffLoc){
-        this.dropOffLoc = dropOffLoc;
+        try{
+            this.dropOffLoc = dropOffLoc;
+        }
+        catch(Exception e){
+            throw e;
+        }
     }
 
     public void setPickUpDateTime(Date dateTime) {
-        this.pickUpDateTime = dateTime;
+        try{
+            this.pickUpDateTime = dateTime;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setCar(Car car) {
-        this.car = car;
+        try{
+            this.car = car;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setDropOffLocName(String dropOffLocName) {
-        this.dropOffLocName = dropOffLocName;
+        try{
+            this.dropOffLocName = dropOffLocName;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setPickUpLocName(String pickUpLocName) {
-        this.pickUpLocName = pickUpLocName;
+        try{
+            this.pickUpLocName = pickUpLocName;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setDriverEmail(String driverEmail) {
-        this.driverEmail = driverEmail;
+        try{
+            this.driverEmail = driverEmail;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setRiderEmail(String riderEmail) {
-        this.riderEmail = riderEmail;
+        try{
+            this.riderEmail = riderEmail;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     //getters
