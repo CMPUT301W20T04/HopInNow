@@ -75,7 +75,12 @@ public class Driver extends User {
      * @return
      */
     public Car getCar() {
-        return car;
+        if (car == null){
+            throw new NullPointerException();
+        }
+        else{
+            return car;
+        }
     }
 
     /**

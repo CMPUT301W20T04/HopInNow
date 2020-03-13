@@ -51,8 +51,11 @@ public class RiderDriverOfferFragment extends Fragment {
         //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 //.retrieveCurrentRequest();
 
-        driver =  ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
-        Car car = driver.getCar();
+        //driver =  ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
+
+        Car car = new Car("Auburn","Speedster","Cream","111111");
+        final Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                "12345678", true, 10.0,  null, car, null);
 
 
 
@@ -124,15 +127,14 @@ public class RiderDriverOfferFragment extends Fragment {
             });
 
             // click this button to accept request
-            /*Button declineBtn = view.findViewById(R.id.rider_driver_offer_decline_button);
+            Button declineBtn = view.findViewById(R.id.rider_driver_offer_decline_button);
             declineBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO POPBACKSTACK?
                     ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                             .switchFragment(-1);
                 }
-            });*/
+            });
         }
 
         return view;

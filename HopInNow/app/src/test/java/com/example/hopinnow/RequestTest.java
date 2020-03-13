@@ -40,9 +40,6 @@ public class RequestTest {
     public void testEmpty(){
         Request mockRequest = new Request();
         assertThrows(NullPointerException.class, () -> {
-            mockRequest.getCar();
-        });
-        assertThrows(NullPointerException.class, () -> {
             mockRequest.getEstimatedFare();
         });
         assertThrows(NullPointerException.class, () -> {
