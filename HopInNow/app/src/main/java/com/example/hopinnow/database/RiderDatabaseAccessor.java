@@ -113,11 +113,11 @@ public class RiderDatabaseAccessor extends UserDatabaseAccessor {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document :
                                     Objects.requireNonNull(task.getResult())) {
-                                Log.d(TAG, "Driver got!");
+                                Log.d(TAG, "Rider got!");
                                 listener.onRiderObjRetrieveSuccess(document.toObject(Rider.class));
                             }
                         } else {
-                            Log.d(TAG, "Driver did not get!");
+                            Log.d(TAG, "Rider did not get!");
                             listener.onRiderObjRetrieveFailure();
                         }
                     }
