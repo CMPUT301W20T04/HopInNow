@@ -14,12 +14,17 @@ public class User implements Serializable {
 
     public User(){}
     public User(String email, String password, String name, String phoneNumber, boolean userType,double deposit){
-        this.email = email; //unique
-        this.password = password;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.userType = userType;
-        this.deposit = deposit;
+        try{
+            this.email = email; //unique
+            this.password = password;
+            this.name = name;
+            this.phoneNumber = phoneNumber;
+            this.userType = userType;
+            this.deposit = deposit;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
     // getters and setters
     public String getEmail() {
@@ -27,7 +32,12 @@ public class User implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        try{
+            this.email = email;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public String getPassword() {
@@ -35,7 +45,12 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        try{
+            this.password = password;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public String getName() {
@@ -43,7 +58,12 @@ public class User implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name;
+        try{
+            this.name = name;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public String getPhoneNumber() {
@@ -51,7 +71,12 @@ public class User implements Serializable {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        try{
+            this.phoneNumber = phoneNumber;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public double getDeposit() {
@@ -59,7 +84,12 @@ public class User implements Serializable {
     }
 
     public void setDeposit(double deposit) {
-        this.deposit = deposit;
+        try{
+            this.deposit = deposit;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public boolean isUserType() {
@@ -67,6 +97,11 @@ public class User implements Serializable {
     }
 
     public void setUserType(boolean userType) {
-        this.userType = userType;
+        try{
+            this.userType = userType;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 }

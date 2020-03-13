@@ -14,8 +14,13 @@ public class Rider extends User {
                  boolean userType,double deposit,
                  Request curRequest, ArrayList<Trip> riderTripList) {
         super(email, password, name, phoneNumber, userType, deposit);
-        this.curRequest = curRequest;
-        this.riderTripList = riderTripList;
+        try{
+            this.curRequest = curRequest;
+            this.riderTripList = riderTripList;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
     // setters and getters
     public Request getCurRequest() {
@@ -23,7 +28,12 @@ public class Rider extends User {
     }
 
     public void setCurRequest(Request curRequest) {
-        this.curRequest = curRequest;
+        try{
+            this.curRequest = curRequest;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public ArrayList<Trip> getRiderTripList() {
@@ -31,6 +41,11 @@ public class Rider extends User {
     }
 
     public void setRiderTripList(ArrayList<Trip> riderTripList) {
-        this.riderTripList = riderTripList;
+        try{
+            this.riderTripList = riderTripList;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 }
