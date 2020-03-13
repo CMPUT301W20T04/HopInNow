@@ -73,7 +73,9 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .collection(referenceName)
                 .document(requestID)
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    if (documentSnapshot == null) {
+                    assert documentSnapshot != null;
+                    Request request1 = documentSnapshot.toObject(Request.class);
+                    if (request1 == null || request1.getRiderEmail() == null) {
                         Log.v(TAG, "The request is canceled by" +
                                 "the rider before the driver arrives");
                         listener.onRequestCanceledByRider();
