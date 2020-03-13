@@ -30,6 +30,7 @@ import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.RiderRequestDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.EstimateFare;
@@ -78,7 +79,7 @@ import java.util.Objects;
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestAcceptedListener, DriverObjectRetreieveListener,
-        AvailRequestListListener{
+        AvailRequestListListener {
 
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
@@ -99,6 +100,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private DriverDatabaseAccessor dDA;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private RequestDatabaseAccessor rDA;
+    private RiderRequestDatabaseAccessor rRDA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +122,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         dDA = new DriverDatabaseAccessor();
         rDA = new RequestDatabaseAccessor();
+        rRDA = new RiderRequestDatabaseAccessor();
 
         // sets map
         setContentView(R.layout.activity_rider_map);
@@ -427,10 +430,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //Mock
         findViewById(R.id.mock).setVisibility(View.GONE);
 
-        rDA.riderWaitForRequestAcceptance(this);
+        rRDA.riderWaitForRequestAcceptance(this);
 
-        //searchInPlace = true;
-        //switchFragment(R.layout.fragment_rider_waiting_driver);
     }
 
 
