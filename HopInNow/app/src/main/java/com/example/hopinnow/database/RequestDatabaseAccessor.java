@@ -127,7 +127,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
     public void driverAcceptRequest(Request request, final DriverRequestAcceptListener listener) {
         this.firestore
                 .collection(referenceName)
-                .document(this.currentUser.getUid())
+                .document(request.getRequestID())
                 .set(request)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
