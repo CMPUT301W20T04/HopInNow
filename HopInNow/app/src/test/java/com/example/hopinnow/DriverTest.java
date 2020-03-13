@@ -39,8 +39,8 @@ public class DriverTest {
                 10, mockCar, 1.1, 2.1);
         ArrayList<Trip> mockTripList = new ArrayList<Trip>();
         mockTripList.add(mockTrip);
-
-        Driver mockDriver = new Driver("driver@gmail.com", "driverPasswd", "driver", "7801230000", true, 0.0,
+        Driver mockDriver = new Driver("driver@gmail.com", "abc123456",
+                "driver", "7801230000", true, 0.0,
                 mockRequest, mockCar, mockTripList);
         return mockDriver;
     }
@@ -55,7 +55,7 @@ public class DriverTest {
     public void testCheck() {
         Driver driver = mockDriver();
         assertEquals("driver@gmail.com", driver.getEmail());
-        assertEquals("driverPasswd", driver.getPassword());
+        assertEquals("abc123456", driver.getPassword());
         assertEquals("driver", driver.getName());
         assertEquals("7801230000", driver.getPhoneNumber());
         assertEquals(true, driver.isUserType());
