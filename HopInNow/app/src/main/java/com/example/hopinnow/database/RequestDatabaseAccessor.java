@@ -27,7 +27,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Author: Shway Wang.
- * Version: 1.0.1
+ * Version: 1.0.2
  * This class is the database accessor providing all methods relating to ride requests.
  */
 public class RequestDatabaseAccessor extends DatabaseAccessor {
