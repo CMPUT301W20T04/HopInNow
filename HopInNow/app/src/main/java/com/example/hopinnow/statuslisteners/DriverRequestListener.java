@@ -26,11 +26,23 @@ public interface DriverRequestListener {
      */
     void onRequestCanceledByRider();
 
+    /**
+     * Called when the driver picks up the rider
+     */
     void onDriverPickupSuccess();
 
+    /**
+     * Called when the pickup fails for some reason
+     */
     void onDriverPickupFail();
 
-    void onDriverRequestDeleteSuccess();
+    /**
+     * Called when the driver completes the request
+     */
+    void onDriverRequestCompleteSuccess();
 
-    void onDriverRequestDeleteFailure();
+    /**
+     * Called when the driver fails to complete the request
+     */
+    void onDriverRequestCompleteFailure();
 }

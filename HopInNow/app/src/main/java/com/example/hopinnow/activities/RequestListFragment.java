@@ -212,4 +212,14 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onDriverPickupFail() {
 
     }
+
+    @Override
+    public void onDriverRequestCompleteSuccess() {
+
+    }
+
+    @Override
+    public void onDriverRequestCompleteFailure() {
+
+    }
 }
