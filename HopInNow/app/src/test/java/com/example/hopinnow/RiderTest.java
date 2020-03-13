@@ -1,7 +1,7 @@
 package com.example.hopinnow;
 
 import com.example.hopinnow.entities.Car;
-import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Trip;
@@ -18,11 +18,22 @@ public class RiderTest {
     private Rider mockRider() throws ParseException {
         Car mockCar = new Car("Nissan", "Altima", "Black",
                 "AAA-0001");
-        Request riderRequest = new Request();
-        ArrayList<Trip> driverTripList = new ArrayList<Trip>();
+        LatLong pickUpLoc = new LatLong(10, 20);
+        LatLong dropOffLoc = new LatLong(5, 10);
+        Date pickUpTime = new Date();
+        Date dropOffTime = new Date();
+        Request mockRequest = new Request("rider", "rider", pickUpLoc, dropOffLoc,
+                "pickUp",
+                "dropOff", pickUpTime, mockCar, 0.0);
+        ArrayList<Trip> riderTripList = new ArrayList<Trip>();
+        Trip mockTrip = new Trip("rider", "rider", pickUpLoc, dropOffLoc,
+                "pickUp",  "dropOff", pickUpTime, dropOffTime,
+                10, mockCar, 1.1, 2.1);
+        ArrayList<Trip> mockTripList = new ArrayList<Trip>();
+        mockTripList.add(mockTrip);
         return new Rider("rider@gmail.com", "abc123456",
                 "rider", "7801230000", false,
-                0.0, riderRequest, driverTripList);
+                0.0, mockRequest, mockTripList);
     }
     // test on checking entity elements
     @Test
@@ -33,18 +44,20 @@ public class RiderTest {
         assertEquals("rider", rider.getName());
         assertEquals("7801230000", rider.getPhoneNumber());
         assertFalse(rider.isUserType());
-        assertEquals(0.0, rider.getDeposit());
-        assertEquals("53.631611", rider.getCurRequest().getPickUpLoc().getLat());
-        assertEquals("-113.323975", rider.getCurRequest().getPickUpLoc().getLng());
+        assertEquals(0.0, rider.getDeposit(), 0);
+        assertEquals(10.0, rider.getCurRequest().getPickUpLoc().getLat(), 0);
+        assertEquals(20.0, rider.getCurRequest().getPickUpLoc().getLng(), 0);
         assertEquals("pickUp", rider.getCurRequest().getPickUpLocName());
         assertEquals("dropOff", rider.getCurRequest().getDropOffLocName());
         assertEquals("Nissan", rider.getCurRequest().getCar().getMake());
         assertEquals("Altima", rider.getCurRequest().getCar().getModel());
         assertEquals("Black", rider.getCurRequest().getCar().getColor());
         assertEquals("AAA-0001", rider.getCurRequest().getCar().getPlateNumber());
-        assertEquals(0.0, (double)rider.getCurRequest().getEstimatedFare());
-        assertEquals("53.631611", rider.getRiderTripList().get(0).getPickUpLoc());
-        assertEquals("-113.323975", rider.getRiderTripList().get(0).getDropOffLoc());
+        assertEquals(0.0, (double)rider.getCurRequest().getEstimatedFare(), 0);
+        assertEquals(10, rider.getRiderTripList().get(0).getPickUpLoc().getLat(), 0);
+        assertEquals(20, rider.getRiderTripList().get(0).getPickUpLoc().getLng(), 0);
+        assertEquals(5, rider.getRiderTripList().get(0).getDropOffLoc().getLat(), 0);
+        assertEquals(10, rider.getRiderTripList().get(0).getDropOffLoc().getLng(), 0);
         assertEquals("pickUp", rider.getRiderTripList().get(0).getPickUpLocName());
         assertEquals("dropOff", rider.getRiderTripList().get(0).getDropOffLocName());
         assertEquals(10, rider.getRiderTripList().get(0).getDuration());
@@ -52,8 +65,8 @@ public class RiderTest {
         assertEquals("Altima", rider.getRiderTripList().get(0).getCar().getModel());
         assertEquals("Black", rider.getRiderTripList().get(0).getCar().getColor());
         assertEquals("AAA-0001", rider.getRiderTripList().get(0).getCar().getPlateNumber());
-        assertEquals(1.1, (double)rider.getRiderTripList().get(0).getCost());
-        assertEquals(2.1, (double)rider.getRiderTripList().get(0).getRating());
+        assertEquals(1.1, (double)rider.getRiderTripList().get(0).getCost(), 0);
+        assertEquals(2.1, (double)rider.getRiderTripList().get(0).getRating(), 0);
     }
     // test on modifying entity elements
     @Test
