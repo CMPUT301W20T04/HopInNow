@@ -18,24 +18,29 @@ import static org.junit.Assert.assertTrue;
 public class DriverTest {
     // set up test entity
     private Driver mockDriver(){
-        Car mockCar = new Car("Nissan", "Altima", "Black", "AAA-0001");
+        Car mockCar = new Car("Nissan", "Altima", "Black",
+                "AAA-0001");
         Request riderRequest = new Request();
         ArrayList<Trip> driverTripList = new ArrayList<Trip>();
-        Rider mockRider = new Rider("rider@gmail.com", "riderPasswd", "rider", "7801230000", false,
+        Rider mockRider = new Rider("rider@gmail.com", "riderPasswd",
+                "rider", "7801230000", false,
                 0.0, riderRequest, driverTripList);
         Driver requestDriver = new Driver();
         LatLong pickUpLoc = new LatLong(53.631611, -113.323975);
         LatLong dropOffLoc = new LatLong(53.631611, -113.323975);
         Date pickUpTime = new Date();
         Date dropOffTime = new Date();
-        Request mockRequest = new Request("driver", "rider", pickUpLoc, dropOffLoc, "pickUp",
+        Request mockRequest = new Request("driver", "rider", pickUpLoc, dropOffLoc,
+                "pickUp",
                 "dropOff", pickUpTime, mockCar, 0.0);
         ArrayList<Request> mockRequestList = new ArrayList<Request>();
         Trip mockTrip = new Trip("driver", "rider", pickUpLoc, dropOffLoc,
-                "pickUp",  "dropOff", pickUpTime, dropOffTime, 10, mockCar, 1.1, 2.1);
+                "pickUp",  "dropOff", pickUpTime, dropOffTime,
+                10, mockCar, 1.1, 2.1);
         ArrayList<Trip> mockTripList = new ArrayList<Trip>();
         mockTripList.add(mockTrip);
-        Driver mockDriver = new Driver("driver@gmail.com", "driverPasswd", "drier", "7801230000", true, 0.0,
+        Driver mockDriver = new Driver("driver@gmail.com", "driverPasswd",
+                "drier", "7801230000", true, 0.0,
                 mockRequest, mockCar, mockTripList);
         return mockDriver;
     }

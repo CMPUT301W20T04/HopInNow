@@ -9,8 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class CarTest {
     // set up test entity
     private Car mockCar(){
-        Car mockCar = new Car("Nissan", "Altima", "Black", "AAA-0001");
-        return mockCar;
+        return new Car("Nissan", "Altima", "Black", "AAA-0001");
     }
     // test on creating new entity
     @Test
