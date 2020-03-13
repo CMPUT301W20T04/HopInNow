@@ -419,7 +419,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         rDA.addRequest(curRequest,this);
 
         switchFragment(R.layout.fragment_rider_waiting_driver);
-        rDA.riderWaitForRequestAcceptance(this);
 
         //TODO change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
@@ -427,6 +426,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         //Mock
         findViewById(R.id.mock).setVisibility(View.GONE);
+
+        rDA.riderWaitForRequestAcceptance(this);
 
         //searchInPlace = true;
         //switchFragment(R.layout.fragment_rider_waiting_driver);
