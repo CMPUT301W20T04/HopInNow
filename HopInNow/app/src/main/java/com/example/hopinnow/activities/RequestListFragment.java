@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
+import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
@@ -36,7 +37,8 @@ import java.util.Objects;
  * Version: 1.0.0
  * show the current available request for driver to choose to take
  */
-public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener, DriverRequestAcceptListener {
+public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
+        AvailRequestListListener, DriverRequestAcceptListener {
     private Integer prePosition = -1;
     //private Driver driver;
     private ListView requestListView;
@@ -48,7 +50,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private LatLong dropOff;
     private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
-    private RequestDatabaseAccessor requestDatabaseAccessor;
+    private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
 
@@ -60,8 +62,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
         driverDatabaseAccessor = new DriverDatabaseAccessor();
         driverDatabaseAccessor.getDriverProfile(this);
-        requestDatabaseAccessor = new RequestDatabaseAccessor();
-        requestDatabaseAccessor.getAllRequest(this);
+        driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+        driverRequestDatabaseAccessor.getAllRequest(this);
 
 
 
@@ -168,7 +170,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                     public void onClick(View v) {
                         chooseRequest.setDriverEmail(current_driver.getEmail());
                         chooseRequest.setCar(current_driver.getCar());
-                        requestDatabaseAccessor.driverAcceptRequest(chooseRequest,RequestListFragment.this);
+                        driverRequestDatabaseAccessor.driverAcceptRequest(chooseRequest,
+                                RequestListFragment.this);
                         //requestDatabaseAccessor.deleteRequest(RequestListFragment.this);
                         //means confirm request
 
@@ -194,6 +197,16 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverRequestTimeoutOrFail() {
+
+    }
+
+    @Override
+    public void onRequestAlreadyTaken() {
+
+    }
+
+    @Override
+    public void onRequestCanceledByRider() {
 
     }
 }

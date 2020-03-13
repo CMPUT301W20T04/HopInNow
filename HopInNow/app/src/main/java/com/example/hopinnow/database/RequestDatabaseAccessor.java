@@ -32,13 +32,14 @@ import static java.util.Objects.requireNonNull;
  */
 public class RequestDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
-    private final String referenceName = "availableRequests";
+    protected final String referenceName = "availableRequests";
 
     /**
      * Default constructor, calls super();
      */
     public RequestDatabaseAccessor() {
         super();
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     /**
@@ -136,81 +137,6 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                             listener.onGetRequiredRequestsSuccess(requests);
                         } else {
                             listener.onGetRequiredRequestsFailure();
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Set the driver attribute of the request to the current driver user.
-     * @param request
-     *      the request the driver wants to accept
-     * @param listener
-     *      called when success or fail.
-     */
-    public void driverAcceptRequest(Request request, final DriverRequestAcceptListener listener) {
-        String requestID = request.getRequestID();
-        // get the request object to inspect
-        this.firestore
-                .collection(referenceName)
-                .document(requestID)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Request request1 =
-                                requireNonNull(task.getResult()).toObject(Request.class);
-                        assert request1 != null;
-                        // check the driverEmail of the request see if it already exists:
-                        if (request1.getDriverEmail() != null) {
-                            Log.v(TAG, "Request is already taken!");
-                            // if it is, invoke the appropriate listener and return:
-                            listener.onRequestAlreadyTaken();
-                            return;
-                        }
-                        // if driverEmail does not exist, put in the current driver email:
-                        firestore
-                                .collection(referenceName)
-                                .document(requestID)
-                                .set(request)
-                                .addOnSuccessListener(aVoid -> {
-                                    Log.v(TAG, "Request added!");
-                                    listener.onDriverRequestAccept();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Log.v(TAG, "Request did not save successfully!");
-                                    listener.onDriverRequestTimeoutOrFail();
-                                });
-                    } else {
-                        Log.v(TAG, "Request did not save successfully!");
-                        listener.onDriverRequestTimeoutOrFail();
-                    }
-                });
-    }
-
-    /**
-     * invoke the listener when request is accepted by a driver
-     * @param listener
-     *      listener called when success or fail or timeout
-     */
-    public void riderWaitForRequestAcceptance(final RiderRequestAcceptedListener listener) {
-        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        this.firestore
-                .collection(this.referenceName)
-                .document(this.currentUser.getUid())
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.v(TAG, "Listen failed.", e);
-                            listener.onRiderRequestTimeoutOrFail();
-                        }
-                        if (snapshot != null && snapshot.exists()) {
-                            Log.v(TAG, "Got data: ");
-                            listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
-                        } else {
-                            Log.v(TAG, "Current data: null");
-                            listener.onRiderRequestTimeoutOrFail();
                         }
                     }
                 });
