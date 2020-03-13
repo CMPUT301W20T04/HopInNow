@@ -6,11 +6,16 @@ import androidx.annotation.NonNull;
 
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Objects;
 
@@ -94,5 +99,26 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
         } else {    // the driver is not logged in
             Log.v(TAG, "User is not logged in!");
         }
+    }
+    public void getDriverObject(String email, final DriverObjectRetreieveListener listener) {
+        this.firestore
+                .collection(referenceName)
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document :
+                                    Objects.requireNonNull(task.getResult())) {
+                                Log.d(TAG, "Driver got!");
+                                listener.onDriverObjRetrieveSuccess(document.toObject(Driver.class));
+                            }
+                        } else {
+                            Log.d(TAG, "Driver did not get!");
+                            listener.onDriverObjRetrieveFailure();
+                        }
+                    }
+                });
     }
 }
