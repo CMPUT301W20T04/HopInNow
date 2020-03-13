@@ -1,4 +1,4 @@
-package com.example.hopinnow.helperclasses;
+package com.example.hopinnow.entities;
 
 import java.io.Serializable;
 

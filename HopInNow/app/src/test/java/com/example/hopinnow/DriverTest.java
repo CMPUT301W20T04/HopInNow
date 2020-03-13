@@ -5,7 +5,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
-import com.example.hopinnow.helperclasses.LatLong;
+import com.example.hopinnow.entities.LatLong;
 
 import org.junit.Test;
 
