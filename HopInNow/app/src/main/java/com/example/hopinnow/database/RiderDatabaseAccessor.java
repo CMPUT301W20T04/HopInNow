@@ -4,13 +4,20 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
+import com.example.hopinnow.statuslisteners.RiderObjectRetrieveListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Objects;
 
@@ -94,5 +101,26 @@ public class RiderDatabaseAccessor extends UserDatabaseAccessor {
         } else {    // the rider is not logged in
             Log.v(TAG, "User is not logged in!");
         }
+    }
+    public void getRiderObject(String email, final RiderObjectRetrieveListener listener) {
+        this.firestore
+                .collection(referenceName)
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document :
+                                    Objects.requireNonNull(task.getResult())) {
+                                Log.d(TAG, "Driver got!");
+                                listener.onRiderObjRetrieveSuccess(document.toObject(Rider.class));
+                            }
+                        } else {
+                            Log.d(TAG, "Driver did not get!");
+                            listener.onRiderObjRetrieveFailure();
+                        }
+                    }
+                });
     }
 }
