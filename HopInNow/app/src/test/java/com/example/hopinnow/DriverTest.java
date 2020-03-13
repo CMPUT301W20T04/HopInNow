@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThrows;
 
 public class DriverTest {
     // set up test entity
@@ -48,6 +48,39 @@ public class DriverTest {
     @Test
     public void testEmpty(){
         Driver driver = new Driver();
+        assertThrows(NullPointerException.class, () -> {
+            driver.getDriverTripList();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getCurRequest();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getCar();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getRating();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getRatingCounts();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getDeposit();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getEmail();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getName();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getPassword();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getPassword();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getPhoneNumber();
+        });
     }
 
     // test on checking entity elements

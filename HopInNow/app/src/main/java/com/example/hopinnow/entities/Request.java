@@ -26,7 +26,12 @@ public class Request extends Ride {
 
     //getter
     public Double getEstimatedFare() {
-        return estimatedFare;
+        if (estimatedFare == null){
+            throw new NullPointerException();
+        }
+        else{
+            return estimatedFare;
+        }
     }
 
     //setter

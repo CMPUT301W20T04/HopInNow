@@ -41,7 +41,12 @@ public class User implements Serializable {
     }
 
     public String getPassword() {
-        return password;
+        if (password == null){
+            throw new NullPointerException();
+        }
+        else{
+            return password;
+        }
     }
 
     public void setPassword(String password) {
@@ -67,7 +72,12 @@ public class User implements Serializable {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        if (phoneNumber == null){
+            throw new NullPointerException();
+        }
+        else{
+            return phoneNumber;
+        }
     }
 
     public void setPhoneNumber(String phoneNumber) {

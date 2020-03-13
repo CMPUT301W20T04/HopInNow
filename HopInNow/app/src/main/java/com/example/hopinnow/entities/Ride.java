@@ -135,7 +135,12 @@ public abstract class Ride {
      * @return car
      */
     public Car getCar() {
-        return car;
+        if (car == null){
+            throw new NullPointerException();
+        }
+        else{
+            return car;
+        }
     }
 
     /**
@@ -143,7 +148,12 @@ public abstract class Ride {
      * @return pickUpDateTime
      */
     public Date getPickUpDateTime() {
-        return pickUpDateTime;
+        if (pickUpDateTime == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpDateTime;
+        }
     }
 
     /**
@@ -151,7 +161,12 @@ public abstract class Ride {
      * @return dropOffLoc
      */
     public LatLong getDropOffLoc() {
-        return dropOffLoc;
+        if (dropOffLoc == null){
+            throw new NullPointerException();
+        }
+        else{
+            return dropOffLoc;
+        }
     }
 
     /**
@@ -159,7 +174,12 @@ public abstract class Ride {
      * @return pickUpLoc
      */
     public LatLong getPickUpLoc() {
-        return pickUpLoc;
+        if (pickUpLoc == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpLoc;
+        }
     }
 
     /**
@@ -167,7 +187,12 @@ public abstract class Ride {
      * @return pickUpLocName
      */
     public String getPickUpLocName() {
-        return pickUpLocName;
+        if (pickUpLocName == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpLocName;
+        }
     }
 
     /**
@@ -175,7 +200,12 @@ public abstract class Ride {
      * @return dropOffLocName
      */
     public String getDropOffLocName() {
-        return dropOffLocName;
+        if (dropOffLocName == null){
+            throw new NullPointerException();
+        }
+        else{
+            return dropOffLocName;
+        }
     }
 
     /**
@@ -183,7 +213,12 @@ public abstract class Ride {
      * @return driverEmail
      */
     public String getDriverEmail() {
-        return driverEmail;
+        if (driverEmail == null){
+            throw new NullPointerException();
+        }
+        else{
+            return driverEmail;
+        }
     }
 
     /**
@@ -191,7 +226,12 @@ public abstract class Ride {
      * @return riderEmail
      */
     public String getRiderEmail() {
-        return riderEmail;
+        if (riderEmail == null){
+            throw new NullPointerException();
+        }
+        else{
+            return riderEmail;
+        }
     }
 
 //public abstract Request getCurRequest();
