@@ -75,9 +75,6 @@ public class DriverTest {
             driver.getDeposit();
         });
         assertThrows(NullPointerException.class, () -> {
-            driver.getEmail();
-        });
-        assertThrows(NullPointerException.class, () -> {
             driver.getName();
         });
         assertThrows(NullPointerException.class, () -> {
