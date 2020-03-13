@@ -24,6 +24,7 @@ import java.util.Objects;
 
 /**
  * Author: Shway Wang.
+ * Version: 1.0.1
  * This class is the database accessor providing all methods relating to ride requests.
  */
 public class RequestDatabaseAccessor extends UserDatabaseAccessor {
@@ -124,6 +125,13 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
                 });
     }
 
+    /**
+     * Set the driver attribute of the request to the current driver user.
+     * @param request
+     *      the request the driver wants to accept
+     * @param listener
+     *      called when success or fail.
+     */
     public void driverAcceptRequest(Request request, final DriverRequestAcceptListener listener) {
         this.firestore
                 .collection(referenceName)
@@ -145,6 +153,11 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
                 });
     }
 
+    /**
+     * invoke the listener when request is accepted by a driver
+     * @param listener
+     *      listener called when success or fail or timeout
+     */
     public void riderWaitForRequestAcceptance(final RiderRequestAcceptedListener listener) {
         this.firestore
                 .collection(this.referenceName)

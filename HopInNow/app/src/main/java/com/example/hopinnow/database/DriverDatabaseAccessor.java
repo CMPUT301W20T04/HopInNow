@@ -21,6 +21,7 @@ import java.util.Objects;
 
 /**
  * Author: Shway Wang.
+ * Version: 1.0.2
  * UserDatabaseAccessor class extends all access interfaces. Provides all driver related access
  * methods.
  */
@@ -100,6 +101,14 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
             Log.v(TAG, "User is not logged in!");
         }
     }
+
+    /**
+     * Get the driver object according to the email
+     * @param email
+     *      email of the driver
+     * @param listener
+     *      listener called when success or fail.
+     */
     public void getDriverObject(String email, final DriverObjectRetreieveListener listener) {
         this.firestore
                 .collection(referenceName)

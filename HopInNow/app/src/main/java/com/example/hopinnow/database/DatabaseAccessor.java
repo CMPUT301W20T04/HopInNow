@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * Author: Shway Wang
+ * Version: 1.0.0
  * Ancestor DatabaseAccessor class, initialized the access interfaces
  */
 public class DatabaseAccessor {
