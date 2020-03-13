@@ -70,8 +70,9 @@ public class  RiderWaitingDriverFragment extends Fragment {
         });
 
         //TODO on rider's current request firebase listener, switch fragment
+
         //temporary for linking fragments
-        Button next = view.findViewById(R.id.rider_waiting_driver_next);
+        /*Button next = view.findViewById(R.id.rider_waiting_driver_next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +80,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
                 ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_driver_offer);
                 endChronometer();
             }
-        });
+        });*/
 
 
         return view;
