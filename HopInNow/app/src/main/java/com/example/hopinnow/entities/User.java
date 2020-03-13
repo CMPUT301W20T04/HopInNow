@@ -13,7 +13,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private String phoneNumber;
-    private double deposit;
+    private Double deposit;
     private boolean userType;
 
     /**
@@ -49,7 +49,12 @@ public class User implements Serializable {
      * @return
      */
     public String getEmail() {
-        return email;
+        if (email == null){
+            throw new NullPointerException();
+        }
+        else{
+            return email;
+        }
     }
 
     /**
@@ -67,15 +72,11 @@ public class User implements Serializable {
 
     /**
      * get user password
+     * can be null for security reason
      * @return
      */
     public String getPassword() {
-        if (password == null){
-            throw new NullPointerException();
-        }
-        else{
-            return password;
-        }
+        return password;
     }
 
     /**
@@ -96,7 +97,12 @@ public class User implements Serializable {
      * @return
      */
     public String getName() {
-        return name;
+        if (name == null){
+            throw new NullPointerException();
+        }
+        else{
+            return name;
+        }
     }
 
     /**
@@ -143,7 +149,12 @@ public class User implements Serializable {
      * @return
      */
     public double getDeposit() {
-        return deposit;
+        if (deposit == null){
+            throw new NullPointerException();
+        }
+        else{
+            return deposit;
+        }
     }
 
     /**

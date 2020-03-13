@@ -12,7 +12,7 @@ public class Driver extends User {
     private Car car;
     private ArrayList<Trip> driverTripList;
     private Double rating;
-    private int ratingCounts;
+    private Integer ratingCounts;
 
     /**
      * Empty constructor
@@ -155,7 +155,14 @@ public class Driver extends User {
      * get number of ratings
      * @return
      */
-    public int getRatingCounts(){ return ratingCounts;}
+    public int getRatingCounts(){
+        if (ratingCounts == null){
+            throw new NullPointerException();
+        }
+        else{
+            return ratingCounts;
+        }
+    }
 
     /**
      * set the number of ratings
