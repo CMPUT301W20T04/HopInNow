@@ -40,17 +40,10 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
         int display_mode;
         //here get the driver from database
-
         driverDatabaseAccessor.getDriverProfile(this);
-
-
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container,false);
-
         if(view!=null)
         {
-            //Driver driver, Rider rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName,
-            // String dropOffLocName,  Date pickUpDateTime,
-            //                    Car car, Double estimatedFare
             requestTitleText = view.findViewById(R.id.RequestInfoText);
             requestFromText = view.findViewById(R.id.requestFromText);
             requestToText = view.findViewById(R.id.requestToText);
@@ -73,8 +66,6 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 emergencyCallButton.setVisibility(View.VISIBLE);
                 ((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
             }
-
-
             if(display_mode == 0){
                 //set pick up button on click listener
                 pickUpButton.setOnClickListener(new View.OnClickListener() {
