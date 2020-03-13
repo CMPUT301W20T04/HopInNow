@@ -213,12 +213,7 @@ public abstract class Ride {
      * @return driverEmail
      */
     public String getDriverEmail() {
-        if (driverEmail == null){
-            throw new NullPointerException();
-        }
-        else{
-            return driverEmail;
-        }
+        return driverEmail;
     }
 
     /**
