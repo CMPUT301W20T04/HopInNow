@@ -64,7 +64,7 @@ public class Test3_RiderMenuActivityTest {
       * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case1_checkMenu() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
