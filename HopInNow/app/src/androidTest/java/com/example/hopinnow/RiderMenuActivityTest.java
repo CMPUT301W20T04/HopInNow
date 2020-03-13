@@ -83,12 +83,15 @@ public class RiderMenuActivityTest {
         //test profile editing after pressing "EDIT PROFILE"
         solo.clickOnView(solo.getView(R.id.editProfileBtn));
         Thread.sleep(2000);
-        solo.clearEditText(solo.getEditText(R.id.proNameET));
-        solo.enterText(solo.getEditText(R.id.proNameET),"folanqi");
-        assertTrue(solo.waitForText("folanqi",1,2000));
+
         solo.clearEditText(solo.getEditText(R.id.proPhoneET));
         solo.enterText(solo.getEditText(R.id.proPhoneET),"1111111");
         assertTrue(solo.waitForText("1111111",1,2000));
+
+        solo.clearEditText(solo.getEditText(R.id.proNameET));
+        solo.enterText(solo.getEditText(R.id.proNameET),"folanqi");
+        assertTrue(solo.waitForText("folanqi",1,2000));
+
         solo.clickOnView(solo.getView(R.id.proUpdateBtn));
         assertTrue(solo.waitForText("updated!",1,2000));
 
