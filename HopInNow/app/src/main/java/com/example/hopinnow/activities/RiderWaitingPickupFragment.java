@@ -22,7 +22,7 @@ import java.util.Objects;
 /**
  * Authoer: Tianyu Bai
  * This class defines the fargment while rider is waiting for driver pickup.
- * This class is triggered by rider accepting driver's offer.
+ * TODO: This class is triggered by rider accepting driver's offer, acceptance not connected to fire base yet.
  */
 public class RiderWaitingPickupFragment extends Fragment {
     private Driver driver;
@@ -38,9 +38,12 @@ public class RiderWaitingPickupFragment extends Fragment {
         Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequestLocal();
         driver = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
-        //driver = curRequest.getDriver();
-        //Car car = new Car("Auburn","Speedster","Cream","111111");
-        //driver = new Driver("111@gmail.com", "12345678", "Lupin the Third","12345678", true, 10.0,  null, car, null);
+        if ((curRequest==null)||(driver==null)){
+            Car car = new Car("Auburn","Speedster","Cream","111111");
+            driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                    "12345678", true, 10.0,  null, car, null);
+        }
+
 
         if (view != null) {
 
