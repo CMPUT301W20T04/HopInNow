@@ -14,12 +14,17 @@ public class Driver extends User {
     public Driver(String email, String password, String name, String phoneNumber, boolean userType,
                   double deposit, Request curRequest, Car car, ArrayList<Trip> driverTripList) {
         super(email, password, name, phoneNumber, userType, deposit);
-        this.curRequest = curRequest;
-        this.car = car;
-        this.driverTripList = driverTripList;
-        //first time
-        this.rating = 0.00;
-        this.ratingCounts = 0;
+        try{
+            this.curRequest = curRequest;
+            this.car = car;
+            this.driverTripList = driverTripList;
+            //first time
+            this.rating = 0.00;
+            this.ratingCounts = 0;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
     // setters and getters
     public Request getCurRequest() {
@@ -27,7 +32,12 @@ public class Driver extends User {
     }
 
     public void setCurRequest(Request curRequest) {
-        this.curRequest = curRequest;
+        try{
+            this.curRequest = curRequest;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public Car getCar() {
@@ -35,7 +45,12 @@ public class Driver extends User {
     }
 
     public void setCar(Car car) {
-        this.car = car;
+        try{
+            this.car = car;
+        }
+        catch(Exception e){
+            throw e;
+        }
     }
 
     public ArrayList<Trip> getDriverTripList() {
@@ -43,7 +58,12 @@ public class Driver extends User {
     }
 
     public void setDriverTripList(ArrayList<Trip> driverTripList) {
-        this.driverTripList = driverTripList;
+        try{
+            this.driverTripList = driverTripList;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public Double getRating() {
@@ -51,11 +71,23 @@ public class Driver extends User {
     }
 
     public void setRating(Double rating) {
-        this.rating = rating;
+        try{
+            this.rating = rating;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public int getRatingCounts(){ return ratingCounts;}
 
-    public void setRatingCounts(int ratingCounts){this.ratingCounts = ratingCounts;}
+    public void setRatingCounts(int ratingCounts){
+        try{
+            this.ratingCounts = ratingCounts;
+        }
+        catch(Exception e){
+            throw e;
+        }
+    }
 
 }

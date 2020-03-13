@@ -12,10 +12,15 @@ public class Car implements Parcelable {
     //constructor
     public Car(){}
     public Car(String make, String model, String color, String plateNumber) {
-        this.make = make;
-        this.model = model;
-        this.color = color;
-        this.plateNumber = plateNumber;
+        try {
+            this.make = make;
+            this.model = model;
+            this.color = color;
+            this.plateNumber = plateNumber;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     protected Car(Parcel in) {
@@ -65,15 +70,30 @@ public class Car implements Parcelable {
     }
 
     public void setModel(String model) {
-        this.model = model;
+        try{
+            this.model = model;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setMake(String make) {
-        this.make = make;
+        try{
+            this.make = make;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setColor(String color) {
-        this.color = color;
+        try{
+            this.color = color;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     @Override

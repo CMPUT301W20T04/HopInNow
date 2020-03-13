@@ -20,7 +20,12 @@ public class Request extends Ride {
                     String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     Car car, Double estimatedFare){
         super(driver,rider,pickUpLoc,dropOffLoc,pickUpLocName, dropOffLocName,pickUpDateTime,car);
-        this.estimatedFare = estimatedFare;
+        try{
+            this.estimatedFare = estimatedFare;
+        }
+        catch(Exception e){
+            throw e;
+        }
     }
 
     //getter
@@ -30,7 +35,12 @@ public class Request extends Ride {
 
     //setter
     public void setEstimatedFare(Double estimatedFare) {
-        this.estimatedFare = estimatedFare;
+        try{
+            this.estimatedFare = estimatedFare;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
 }

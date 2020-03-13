@@ -16,10 +16,15 @@ public class Trip extends Ride {
     public Trip(String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                 Date dropOffTime, int duration, Car car, Double cost, Double rating) {
         super(driver, rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, pickUpDateTime, car);
-        this.cost = cost;
-        this.rating = rating;
-        this.dropOffDateTime = dropOffTime;
-        this.duration = duration;
+        try{
+            this.cost = cost;
+            this.rating = rating;
+            this.dropOffDateTime = dropOffTime;
+            this.duration = duration;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public Double getCost() {
@@ -27,15 +32,30 @@ public class Trip extends Ride {
     }
 
     public void setCost(Double cost) {
-        this.cost = cost;
+        try{
+            this.cost = cost;
+        }
+        catch(Exception e){
+            throw e;
+        }
     }
 
     public void setDropOffTime(Date dropOffTime) {
-        this.dropOffDateTime = dropOffTime;
+        try{
+            this.dropOffDateTime = dropOffTime;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setDuration(int duration) {
-        this.duration = duration;
+        try{
+            this.duration = duration;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public int getDuration() {
@@ -51,6 +71,11 @@ public class Trip extends Ride {
     }
 
     public void setRating(Double rating) {
-        this.rating = rating;
+        try{
+            this.rating = rating;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 }
