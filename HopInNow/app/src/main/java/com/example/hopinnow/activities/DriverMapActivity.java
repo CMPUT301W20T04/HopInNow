@@ -33,18 +33,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
-    MapFragment mapFragment;
+    MapFragment mapFragment; // the map fragment
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
-    private FloatingActionButton goOnline;
-
-    private Rider rider;
-    private Driver driver;
+    private FloatingActionButton goOnline; //the go online button
+    private Marker pickUpMarker;
     private LatLng pickUpLoc,dropOffLoc;
-    private String pickUpLocName, dropOffLocName;
-    private Marker pickUpMarker, dropOffMarker;
-    private FloatingActionButton driverMenuBtn;
-    private LatLng myPosition;
-    private int currentRequestPageCounter = 0;
+    private FloatingActionButton driverMenuBtn;//the driver menu button
+    private int currentRequestPageCounter = 0;//switch the two pages of pickUp and DropOff fragment
     /**
      * set the visibility of goOnline button into invisible
      */
@@ -61,6 +56,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public int getCurrentRequestPageCounter(){
         return this.currentRequestPageCounter;
     }
+
+    /**
+     * set new value for the current request and pickup/drop off page switcher
+     * @param value
+     */
     public void setCurrentRequestPageCounter(int value){
         this.currentRequestPageCounter = value;
     }
@@ -71,15 +71,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(DriverMapActivity.this);
 
-        //TODO set rider, driver, car properly
-        rider = new Rider();
-        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678",
-                true,12.0, null, car, null);
-
         goOnline = findViewById(R.id.onlineBtn);
+        // set the go online button listener
         goOnline.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // switch the fragment to driver request when click on the button.
                 switchFragment(R.layout.fragment_driver_requests);
             }
         });
@@ -88,6 +84,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         driverMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // start the menu activity when click on driverMenuButton
                 Intent startIntent = new Intent(getApplicationContext(), DriverMenuActivity.class);
                 startActivity(startIntent);
             }
@@ -104,12 +101,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
     }
 
-    public void showAvailableRequest(){
-
-    }
-    public void pickUpRider(){
-
-    }
 
     /**
      * we have a frame layout in the rider and driver activity
@@ -131,18 +122,17 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new RequestListFragment()).commit();
                 break;
-
         }
-
-
-
-
     }
-    public void callNumber(String phoneNumber){
 
+    /**
+     * call number phoneNumber on the phone
+     * @param phoneNumber
+     */
+    public void callNumber(String phoneNumber){
+        // call number phoneNumber on the phone
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+phoneNumber));
-
         if (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -150,18 +140,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         startActivity(callIntent);
     }
 
-
-
-
-        //t.addToBackStack(null);
-        //t.commit();
-
-
     /**
      * set marker to map
      */
     public void setMapMarker(Marker m, LatLng latLng){
-
         if (m == null) {
             MarkerOptions opt = new MarkerOptions();
             opt.position(latLng);
@@ -172,20 +154,26 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         adjustMapFocus();
     }
 
+    /**
+     * set the pick up location to new value
+     * @param pickUpLoc
+     */
     public void setPickUpLoc(LatLng pickUpLoc) {
         this.pickUpLoc = pickUpLoc;
     }
+
+    /**
+     * set the drop off location to new value
+     * @param dropOffLoc
+     */
     public void setDropOffLoc(LatLng dropOffLoc){
         this.dropOffLoc = dropOffLoc;
     }
     /**
      * adjust focus of the map according to the markers
      */
-
-
     public void adjustMapFocus(){
         LatLngBounds.Builder bound = new LatLngBounds.Builder();
-
         if ((pickUpLoc != null)&&(dropOffLoc != null)) {
             bound.include(pickUpLoc);
             bound.include(dropOffLoc);

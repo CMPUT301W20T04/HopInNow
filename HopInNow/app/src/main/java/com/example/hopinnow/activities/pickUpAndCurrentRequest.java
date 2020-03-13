@@ -17,13 +17,17 @@ import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
+import java.util.ArrayList;
+
 public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener {
     private Driver driver;
-
+    private Request request;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,6 +38,8 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         //userDatabaseAccessor.getUserProfile(this);
         //driverDatabaseAccessor.driverAcceptRequest();
         driverDatabaseAccessor.getDriverProfile(this);
+
+
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container,false);
 
         if(view!=null)
@@ -50,10 +56,11 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
+            /*
             requestFromText.setText("123");
             requestToText.setText("345");
             requestTimeText.setText("12:28");
-            requestCostText.setText("12");
+            requestCostText.setText("12");*/
             if(display_mode == 0){
                 pickUpButton.setVisibility(View.VISIBLE);
                 dropOffButton.setVisibility(View.INVISIBLE);
@@ -65,12 +72,12 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 emergencyCallButton.setVisibility(View.VISIBLE);
                 ((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
             }
-            // FIXME
+
             /*
-            requestFromText.setText("From: "+driver.getAvailableRequests().get(0).getPickUpLocName());
-            requestToText.setText("To: "+driver.getAvailableRequests().get(0).getDropOffLocName());
-            requestTimeText.setText("Time: "+driver.getAvailableRequests().get(0).getPickUpDateTime());
-            requestCostText.setText("Estimate Fare: "+driver.getAvailableRequests().get(0).getEstimatedFare());*/
+            requestFromText.setText("From: "+);
+            requestToText.setText("To: "+);
+            requestTimeText.setText("Time: "+);
+            requestCostText.setText("Estimate Fare: "+);*/
             if(display_mode == 0){
                 pickUpButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -116,6 +123,7 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     public void onDriverProfileUpdateFailure() {
 
     }
+
 
     /*
     @Override
