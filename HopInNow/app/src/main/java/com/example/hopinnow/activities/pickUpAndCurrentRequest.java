@@ -90,7 +90,7 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                         request.setPickedUp(true);
                         driverRequestDatabaseAccessor.driverRequestPickup(request,pickUpAndCurrentRequest.this);
-
+                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
                     }
                 });}
@@ -183,7 +183,7 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
         this.requestList = requests;
-        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
+
     }
 
     @Override
