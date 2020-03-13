@@ -1,8 +1,9 @@
 package com.example.hopinnow.entities;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Car implements Serializable {
+public class Car implements Parcelable {
     private String make;
     private String model;
     private String color;
@@ -16,6 +17,25 @@ public class Car implements Serializable {
         this.color = color;
         this.plateNumber = plateNumber;
     }
+
+    protected Car(Parcel in) {
+        make = in.readString();
+        model = in.readString();
+        color = in.readString();
+        plateNumber = in.readString();
+    }
+
+    public static final Creator<Car> CREATOR = new Creator<Car>() {
+        @Override
+        public Car createFromParcel(Parcel in) {
+            return new Car(in);
+        }
+
+        @Override
+        public Car[] newArray(int size) {
+            return new Car[size];
+        }
+    };
 
     //getter
     public String getColor() {
@@ -54,5 +74,18 @@ public class Car implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(make);
+        parcel.writeString(model);
+        parcel.writeString(color);
+        parcel.writeString(plateNumber);
     }
 }
