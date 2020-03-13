@@ -34,7 +34,6 @@ import java.util.ArrayList;
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, DriverRequestListener {
     private Integer prePosition = -1;
-    //private Driver driver;
     private ListView requestListView;
     private ArrayList<Request> requestList;
     private Request chooseRequest;
@@ -56,8 +55,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
         driverDatabaseAccessor = new DriverDatabaseAccessor();
         driverDatabaseAccessor.getDriverProfile(this);
-        driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-        driverRequestDatabaseAccessor.getAllRequest(this);
+
 
 
 
@@ -86,6 +84,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.current_driver = driver;
+        driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+        driverRequestDatabaseAccessor.getAllRequest(this);
 
     }
 
@@ -128,7 +128,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
         this.requestList = requests;
-
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity)getActivity()).setButtonInvisible();
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
@@ -166,8 +165,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                         chooseRequest.setCar(current_driver.getCar());
                         driverRequestDatabaseAccessor.driverAcceptRequest(chooseRequest,
                                 RequestListFragment.this);
-                        //requestDatabaseAccessor.deleteRequest(RequestListFragment.this);
-                        //means confirm request
 
                     }
                 });
@@ -184,8 +181,10 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverRequestAccept() {
+
         current_driver.setCurRequest(chooseRequest);
         driverDatabaseAccessor.updateDriverProfile(current_driver, RequestListFragment.this);
+
 
     }
 
