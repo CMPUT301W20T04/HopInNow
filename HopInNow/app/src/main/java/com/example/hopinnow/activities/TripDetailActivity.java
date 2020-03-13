@@ -62,9 +62,6 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
             riderDatabaseAccessor.getRiderProfile(this);
         }
 
-
-
-
         //now set the view
         // FIXME
         driverEmail.setText("Driver Email: "+trip.getDriverEmail());
@@ -73,16 +70,6 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         dropOffLocation.setText("Drop Off Location: "+trip.getDropOffLoc().toString());
         rating.setText("Rating: "+trip.getRating().toString());
         cost.setText("Cost: "+trip.getCost().toString());
-
-
-
-
-
-
-
-
-
-
     }
 
     @Override
