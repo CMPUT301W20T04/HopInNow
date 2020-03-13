@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
 import java.util.Objects;
 
 /**
- * Author:
+ * Author: Franky He
  * This class defines the fragment while rider is waiting for driver offer.
  * This class is triggered by by rider creating a new current request.
  */
