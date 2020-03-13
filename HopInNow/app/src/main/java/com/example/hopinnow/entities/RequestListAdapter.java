@@ -21,8 +21,13 @@ public class RequestListAdapter extends BaseAdapter implements ListAdapter {
 
 
     public RequestListAdapter(ArrayList<Request> list, Context context) {
-        this.list = list;
-        this.context = context;
+        try{
+            this.list = list;
+            this.context = context;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     @Override

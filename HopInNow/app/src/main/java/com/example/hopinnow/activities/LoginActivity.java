@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,20 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.database.RequestDatabaseAccessor;
-import com.example.hopinnow.entities.Car;
-import com.example.hopinnow.entities.Request;
-import com.example.hopinnow.helperclasses.LatLong;
-import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
         UserProfileStatusListener {
@@ -42,18 +32,21 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     private TextView register;
     // alert progress dialog:
     private ProgressbarDialog progressbarDialog;
+    ViewGroup viewGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        viewGroup = findViewById(R.id.activity_login);
         // initialize the userDatabaseAccessor to use the login function within it:
-        this.userDatabaseAccessor = new RequestDatabaseAccessor();
+        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        progressbarDialog = new ProgressbarDialog(LoginActivity.this, viewGroup);
         // if user already logged in, go to the profile activity
-//        if (this.userDatabaseAccessor.isLoggedin()) {
-//            Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        if (this.userDatabaseAccessor.isLoggedin()) {
+            progressbarDialog.startProgressbarDialog();
+            userDatabaseAccessor.getUserProfile(this);
+
+        }
         // here, the database accessor is already initialized
         this.email = findViewById(R.id.loginEmailEditText);
         this.password = findViewById(R.id.loginPassword);
@@ -78,8 +71,8 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
                     loginWarn.setVisibility(View.INVISIBLE);
                 }
                 // alert progress dialog:
-                ViewGroup viewGroup = findViewById(R.id.activity_login);
-                progressbarDialog = new ProgressbarDialog(LoginActivity.this, viewGroup);
+
+
                 progressbarDialog.startProgressbarDialog();
                 // access database:
                 String emailData = email.getText().toString();
