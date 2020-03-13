@@ -142,13 +142,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Button addRequestBtn = findViewById(R.id.add_request_button);
         addRequestBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //mock
-                /*if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
+                //mock, for UI test
+                if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
                     pickUpLocName = pickUpMock.getText().toString();
                     pickUpLoc = new LatLng(53.5258, 113.5207);
                     dropOffLocName = dropOffMock.getText().toString();
                     dropOffLoc = new LatLng(53.5224, 113.5305);
-                }*/
+                }
+
                 //FIXME
                 // if both locations eneterd, then one cleared, validation below would not work
                 // maybe gettext in autocompletefragment for validation

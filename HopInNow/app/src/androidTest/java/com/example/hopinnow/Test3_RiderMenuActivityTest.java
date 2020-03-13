@@ -33,8 +33,8 @@ public class Test3_RiderMenuActivityTest {
     private Solo solo;
 
     @Rule
-    public ActivityTestRule<RiderMenuActivity> rule =
-            new ActivityTestRule<>(RiderMenuActivity.class, true, true);
+    public ActivityTestRule<LoginActivity> rule =
+            new ActivityTestRule<>(LoginActivity.class, true, true);
 
 
     /**
@@ -64,9 +64,19 @@ public class Test3_RiderMenuActivityTest {
       * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case1_checkMenu() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", RiderMenuActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+
+        String userEmail = "folanqi123@ualberta.ca";
+        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
+        String userPassword = "12345678";
+        solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
+        solo.clickOnView(solo.getView(R.id.loginButton));
+
+        solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+
 
         solo.clickOnView(solo.getView(R.id.riderMyTrips));
         solo.assertCurrentActivity("Wrong Activity", TripListActivity.class);
@@ -77,9 +87,9 @@ public class Test3_RiderMenuActivityTest {
         solo.goBack();
 
         //test my profile
-        solo.clickOnView(solo.getView(R.id.riderMyProfile));
+        solo.clickOnButton("My Profile");
         Thread.sleep(2000);
-        /*solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 
         //test profile editing after pressing "EDIT PROFILE"
         solo.clickOnView(solo.getView(R.id.editProfileBtn));
@@ -100,7 +110,7 @@ public class Test3_RiderMenuActivityTest {
 
         // log out
         solo.clickOnView(solo.getView(R.id.proLogoutBtn));
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);*/
+        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
     }
 
 

@@ -25,7 +25,7 @@ import java.util.Objects;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 
 /**
- * Author: Tianyu Bai
+ * Author: Tianyu Baix
  * This class defines the fragment that prompts rider's decision on the driver offer.
  *
  * todo: This class is to be triggered by driver sending an offer on rider's current request.
