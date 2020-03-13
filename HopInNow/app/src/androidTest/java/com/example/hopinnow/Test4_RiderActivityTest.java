@@ -2,17 +2,25 @@ package com.example.hopinnow;
 
 import android.app.Activity;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.hopinnow.activities.LoginActivity;
+import com.example.hopinnow.activities.RiderConfirmDropOffFragment;
+import com.example.hopinnow.activities.RiderDriverOfferFragment;
 import com.example.hopinnow.activities.RiderMapActivity;
 
+import com.example.hopinnow.activities.RiderPickedUpFragment;
+import com.example.hopinnow.activities.RiderWaitingDriverFragment;
+import com.example.hopinnow.activities.RiderWaitingPickupFragment;
 import com.google.android.gms.maps.model.Marker;
 import com.robotium.solo.Solo;
 import org.junit.After;
@@ -43,6 +51,7 @@ public class Test4_RiderActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> rule =
             new ActivityTestRule<>(LoginActivity.class, true, true);
+
 
     /**
      * Runs before all tests and creates solo instance.
@@ -153,7 +162,7 @@ public class Test4_RiderActivityTest {
      *
      *      todo: autocompletefragment cannot be entered with text
      */
-    //@Test
+    @Test
     public void Case1() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         loginUser();
@@ -191,7 +200,7 @@ public class Test4_RiderActivityTest {
      * @throws NumberFormatException
      *      throws exception if string is converted to a number
      */
-    //@Test
+    @Test
     public void Case2() throws InterruptedException, NumberFormatException {
         loginUser();
         addNewRequest();
@@ -220,9 +229,8 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case3() throws InterruptedException {
-        logoutUser();
         loginUser();
         addNewRequest();
         solo.clickOnButton(">");
@@ -235,16 +243,17 @@ public class Test4_RiderActivityTest {
         assertTrue(solo.waitForText("Car:",1,2000));
         solo.goBack();
 
+
+        //since we are skipping this page for the sake of demo
         //Declining driver offer
         //solo.clickOnButton("DECLINE");
         //assertTrue(solo.waitForText("Time Elapsed:",1,2000));
-        solo.clickOnButton(">");
+        //solo.clickOnButton(">");
 
         //Accepting driver offer then cancelling request
-        solo.clickOnButton("ACCEPT");
-        solo.clickOnButton("CANCEL REQUEST");
-        assertTrue(solo.waitForText("HOP IN NOW!",
-                1,2000));
+        //solo.clickOnButton("ACCEPT");
+        //solo.clickOnButton("CANCEL REQUEST");
+        //assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
 
         logoutUser();
 
@@ -257,7 +266,7 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *       throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case4() throws InterruptedException {
         loginUser();
         addNewRequest();
@@ -312,7 +321,7 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case5() throws InterruptedException {
         loginUser();
         addNewRequest();
