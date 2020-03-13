@@ -38,6 +38,7 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
     ArrayList<Trip> tripDataList = new ArrayList<>();
     //remember to change the uml
     private Driver driver;
+    private Rider rider2;
     private boolean usertype;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
@@ -54,17 +55,12 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
         userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getUserProfile(this);
 
-
-
     }
 
 
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.tripDataList = driver.getDriverTripList();
-
-
-
         tripAdapter = new CustomTripList(this,tripDataList);
         tripList.setAdapter(tripAdapter);
         tripAdapter.notifyDataSetChanged();
@@ -136,7 +132,20 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
 
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
-
+        this.rider2 = rider;
+        this.tripDataList = rider2.getRiderTripList();
+        tripAdapter = new CustomTripList(this,tripDataList);
+        tripList.setAdapter(tripAdapter);
+        tripAdapter.notifyDataSetChanged();
+        tripList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(),TripDetailActivity.class);
+                //pass in a key
+                intent.putExtra("pos_key", position);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

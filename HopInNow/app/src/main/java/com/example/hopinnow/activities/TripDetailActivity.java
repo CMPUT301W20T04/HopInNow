@@ -136,10 +136,11 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         trip = rider.getRiderTripList().get(search_key);
         driverEmail.setText("Driver Email: "+trip.getDriverEmail());
         riderEmail.setText("Rider Email: "+trip.getRiderEmail());
-        pickUpLocation.setText("Pick Up Location: "+trip.getPickUpLoc().toString());
-        dropOffLocation.setText("Drop Off Location: "+trip.getDropOffLoc().toString());
+        pickUpLocation.setText(String.format("Pick Up Location: (%f, %f)",trip.getPickUpLoc().getLat(),trip.getPickUpLoc().getLng()));
+        dropOffLocation.setText(String.format("Drop Off Location: (%f, %f)",trip.getDropOffLoc().getLat(),trip.getDropOffLoc().getLng()));
         rating.setText("Rating: "+trip.getRating().toString());
         cost.setText("Cost: "+trip.getCost().toString());
+
     }
 
     @Override
