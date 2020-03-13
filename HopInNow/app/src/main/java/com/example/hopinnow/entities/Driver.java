@@ -28,7 +28,12 @@ public class Driver extends User {
     }
     // setters and getters
     public Request getCurRequest() {
-        return curRequest;
+        if (curRequest == null){
+            throw new NullPointerException();
+        }
+        else{
+            return curRequest;
+        }
     }
 
     public void setCurRequest(Request curRequest) {
@@ -41,7 +46,12 @@ public class Driver extends User {
     }
 
     public Car getCar() {
-        return car;
+        if (car == null){
+            throw new NullPointerException();
+        }
+        else{
+            return car;
+        }
     }
 
     public void setCar(Car car) {
@@ -54,7 +64,12 @@ public class Driver extends User {
     }
 
     public ArrayList<Trip> getDriverTripList() {
-        return driverTripList;
+        if (driverTripList == null){
+            throw new NullPointerException();
+        }
+        else{
+            return driverTripList;
+        }
     }
 
     public void setDriverTripList(ArrayList<Trip> driverTripList) {
@@ -67,7 +82,12 @@ public class Driver extends User {
     }
 
     public Double getRating() {
-        return rating;
+        if (rating == null){
+            throw new NullPointerException();
+        }
+        else{
+            return rating;
+        }
     }
 
     public void setRating(Double rating) {

@@ -44,19 +44,39 @@ public class Car implements Parcelable {
 
     //getter
     public String getColor() {
-        return color;
+        if (color == null){
+            throw new NullPointerException();
+        }
+        else{
+            return color;
+        }
     }
 
     public String getMake() {
-        return make;
+        if (make == null){
+            throw new NullPointerException();
+        }
+        else{
+            return make;
+        }
     }
 
     public String getModel() {
-        return model;
+        if (model == null){
+            throw new NullPointerException();
+        }
+        else{
+            return model;
+        }
     }
 
     public String getPlateNumber() {
-        return plateNumber;
+        if (plateNumber == null){
+            throw new NullPointerException();
+        }
+        else{
+            return plateNumber;
+        }
     }
 
     //setter
