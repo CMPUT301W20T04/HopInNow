@@ -63,9 +63,6 @@ public class DriverTest {
             driver.getDriverTripList();
         });
         assertThrows(NullPointerException.class, () -> {
-            driver.getCurRequest();
-        });
-        assertThrows(NullPointerException.class, () -> {
             driver.getCar();
         });
         assertThrows(NullPointerException.class, () -> {
@@ -76,9 +73,6 @@ public class DriverTest {
         });
         assertThrows(NullPointerException.class, () -> {
             driver.getDeposit();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            driver.getEmail();
         });
         assertThrows(NullPointerException.class, () -> {
             driver.getName();

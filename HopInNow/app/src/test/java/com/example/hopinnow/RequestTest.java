@@ -40,13 +40,7 @@ public class RequestTest {
     public void testEmpty(){
         Request mockRequest = new Request();
         assertThrows(NullPointerException.class, () -> {
-            mockRequest.getCar();
-        });
-        assertThrows(NullPointerException.class, () -> {
             mockRequest.getEstimatedFare();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getDriverEmail();
         });
         assertThrows(NullPointerException.class, () -> {
             mockRequest.getDropOffLoc();
@@ -62,9 +56,6 @@ public class RequestTest {
         });
         assertThrows(NullPointerException.class, () -> {
             mockRequest.getRiderEmail();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getRequestID();
         });
     }
 

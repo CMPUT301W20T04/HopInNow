@@ -11,8 +11,8 @@ public class Driver extends User {
     private Request curRequest;
     private Car car;
     private ArrayList<Trip> driverTripList;
-    private Double rating;
-    private Integer ratingCounts;
+    private Double rating = 0.0;
+    private Integer ratingCounts = 0;
 
     /**
      * Empty constructor
@@ -49,15 +49,11 @@ public class Driver extends User {
 
     /**
      * get current request
+     * can be null as database set needs to perform get
      * @return
      */
     public Request getCurRequest() {
-        if (curRequest == null){
-            throw new NullPointerException();
-        }
-        else{
-            return curRequest;
-        }
+        return curRequest;
     }
 
     /**
@@ -75,6 +71,7 @@ public class Driver extends User {
 
     /**
      * get car information
+     * can be null for request initialization
      * @return
      */
     public Car getCar() {
@@ -156,12 +153,9 @@ public class Driver extends User {
      * @return
      */
     public int getRatingCounts(){
-        if (ratingCounts == null){
-            throw new NullPointerException();
-        }
-        else{
-            return ratingCounts;
-        }
+
+        return ratingCounts;
+
     }
 
     /**

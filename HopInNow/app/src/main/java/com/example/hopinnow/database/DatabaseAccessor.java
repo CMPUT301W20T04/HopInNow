@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * Author: Shway Wang
+ * Version: 1.0.0
  * Ancestor DatabaseAccessor class, initialized the access interfaces
  */
 public class DatabaseAccessor {
@@ -17,11 +18,19 @@ public class DatabaseAccessor {
     FirebaseAuth firebaseAuth;    // register, login
     FirebaseUser currentUser; // logged in current user
 
+    public static DatabaseAccessor databaseAccessor = null;
+
     /**
      * Constructor method, objectify the declarations
      */
-    DatabaseAccessor() {
+    protected DatabaseAccessor() {
         this.firestore = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
+    }
+    public static DatabaseAccessor getInstance() {
+        if (databaseAccessor == null) {
+            databaseAccessor = new DatabaseAccessor();
+        }
+        return databaseAccessor;
     }
 }

@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -21,10 +22,14 @@ import java.util.Objects;
 
 /**
  * Author: Shway Wang.
+ * Version: 1.0.2
  * UserDatabaseAccessor class extends all access interfaces. Provides all driver related access
  * methods.
  */
 public class DriverDatabaseAccessor extends UserDatabaseAccessor {
+    public DriverDatabaseAccessor() {
+        super();
+    }
     /**
      * Update the driver profile according to the User object past in. The key used is the Uid
      * assigned by firestore automatically
@@ -73,7 +78,7 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
      *      otherwise, onFailure.
      */
     public void getDriverProfile(final DriverProfileStatusListener listener) {
-        this.currentUser = firebaseAuth.getCurrentUser();
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         // check if logged in:
         if (this.currentUser != null) {
             Objects.requireNonNull(this.firestore
@@ -100,6 +105,14 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
             Log.v(TAG, "User is not logged in!");
         }
     }
+
+    /**
+     * Get the driver object according to the email
+     * @param email
+     *      email of the driver
+     * @param listener
+     *      listener called when success or fail.
+     */
     public void getDriverObject(String email, final DriverObjectRetreieveListener listener) {
         this.firestore
                 .collection(referenceName)

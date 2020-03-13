@@ -71,15 +71,11 @@ public class Request extends Ride {
 
     /**
      * get the reqeust ID
+     * can be null
      * @return
      */
     public String getRequestID() {
-        if (requestID == null){
-            throw new NullPointerException();
-        }
-        else{
-            return requestID;
-        }
+        return requestID;
     }
 
     /**

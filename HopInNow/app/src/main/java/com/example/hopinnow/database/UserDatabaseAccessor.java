@@ -20,6 +20,7 @@ import java.util.Objects;
 
 /**
  * Author: Shway Wang.
+ * Version: 1.0.1
  * UserDatabaseAccessor class extends all access interfaces. Provides all user related access
  * methods.
  */

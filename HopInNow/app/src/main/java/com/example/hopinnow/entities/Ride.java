@@ -135,12 +135,8 @@ public abstract class Ride {
      * @return car
      */
     public Car getCar() {
-        if (car == null){
-            throw new NullPointerException();
-        }
-        else{
-            return car;
-        }
+        return car;
+
     }
 
     /**
@@ -210,15 +206,11 @@ public abstract class Ride {
 
     /**
      * return driver email
+     * can be null for request initialization
      * @return driverEmail
      */
     public String getDriverEmail() {
-        if (driverEmail == null){
-            throw new NullPointerException();
-        }
-        else{
-            return driverEmail;
-        }
+        return driverEmail;
     }
 
     /**

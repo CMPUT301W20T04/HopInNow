@@ -28,7 +28,7 @@ import static junit.framework.TestCase.assertTrue;
  * UI tests on login activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
-public class LoginActivityTest {
+public class Test2_LoginActivityTest {
     private Solo solo;
 
     @Rule
@@ -77,7 +77,7 @@ public class LoginActivityTest {
         assertTrue(solo.waitForText("1", 1, 2000));
 
         solo.clickOnButton("LOGIN");
-        //TODO assert that the account is invalid after page is fixed
+        //assertTrue(solo.waitForText("
 
         Thread.sleep(2000);
     }
@@ -103,6 +103,9 @@ public class LoginActivityTest {
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
 
         Thread.sleep(2000);
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnView(solo.getView(R.id.riderMyProfile));
+        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
     }
 
 

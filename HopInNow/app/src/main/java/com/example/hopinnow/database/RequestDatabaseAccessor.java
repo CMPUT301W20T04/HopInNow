@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -24,6 +25,7 @@ import java.util.Objects;
 
 /**
  * Author: Shway Wang.
+ * Version: 1.0.1
  * This class is the database accessor providing all methods relating to ride requests.
  */
 public class RequestDatabaseAccessor extends UserDatabaseAccessor {
@@ -44,6 +46,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
      *      if the request is added successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void addRequest(Request request, final AvailRequestListListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (this.currentUser == null) {
             Log.v(TAG, "user is not logged in!!!");
             return;
@@ -51,6 +54,8 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
             Log.v(TAG, "user is logged in!!!");
             Log.v(TAG, Objects.requireNonNull(this.currentUser.getEmail()));
         }
+        String myUid = this.currentUser.getUid();
+        request.setRequestID(myUid);
         this.firestore
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
@@ -77,6 +82,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
      *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void deleteRequest(final AvailRequestListListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         this.firestore
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
@@ -124,6 +130,13 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
                 });
     }
 
+    /**
+     * Set the driver attribute of the request to the current driver user.
+     * @param request
+     *      the request the driver wants to accept
+     * @param listener
+     *      called when success or fail.
+     */
     public void driverAcceptRequest(Request request, final DriverRequestAcceptListener listener) {
         this.firestore
                 .collection(referenceName)
@@ -145,7 +158,13 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
                 });
     }
 
+    /**
+     * invoke the listener when request is accepted by a driver
+     * @param listener
+     *      listener called when success or fail or timeout
+     */
     public void riderWaitForRequestAcceptance(final RiderRequestAcceptedListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         this.firestore
                 .collection(this.referenceName)
                 .document(this.currentUser.getUid())

@@ -198,6 +198,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                     @Override
                     public void onClick(View v) {
                         chooseRequest.setDriverEmail(current_driver.getEmail());
+                        chooseRequest.setCar(current_driver.getCar());
                         requestDatabaseAccessor.driverAcceptRequest(chooseRequest,RequestListFragment.this);
                         //means confirm request
 

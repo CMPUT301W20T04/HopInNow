@@ -23,10 +23,15 @@ import java.util.Objects;
 
 /**
  * Author: Shway Wang.
+ * Version: 1.0.2
  * UserDatabaseAccessor class extends all access interfaces. Provides all rider related access
  * methods.
  */
 public class RiderDatabaseAccessor extends UserDatabaseAccessor {
+
+    public RiderDatabaseAccessor() {
+        super();
+    }
     /**
      * Update the rider profile according to the User object past in. The key used is the Uid
      * assigned by firestore automatically
@@ -102,6 +107,14 @@ public class RiderDatabaseAccessor extends UserDatabaseAccessor {
             Log.v(TAG, "User is not logged in!");
         }
     }
+
+    /**
+     * Get the rider object according to the email
+     * @param email
+     *      email of the rider
+     * @param listener
+     *      listener called when rider got successfully, or fails.
+     */
     public void getRiderObject(String email, final RiderObjectRetrieveListener listener) {
         this.firestore
                 .collection(referenceName)
