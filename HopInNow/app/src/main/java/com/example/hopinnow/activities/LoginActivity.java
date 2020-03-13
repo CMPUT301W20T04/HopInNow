@@ -29,12 +29,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
-        UserProfileStatusListener, AvailRequestListListener {
+        UserProfileStatusListener {
     // establish the TAG of this activity:
     public static final String TAG = "LoginActivity";
     // initialize Database helper:
-    // FIXME
-    private RequestDatabaseAccessor userDatabaseAccessor;
+    private UserDatabaseAccessor userDatabaseAccessor;
     // UI components:
     private EditText email;
     private EditText password;
@@ -90,17 +89,6 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
                 user.setPassword(passwordData);
                 // log in the user
                 userDatabaseAccessor.loginUser(user, LoginActivity.this);
-                // FIXME
-                Request request = new Request();
-                request.setEstimatedFare(3.0);
-                request.setCar(new Car("QQ", "V10", "red", "dosj39"));
-                request.setRiderEmail("test@email.com");
-                request.setPickUpLoc(new LatLong(30, 30));
-                request.setPickUpLocName("Test Pickup");
-                request.setDropOffLoc(new LatLong(90, 90));
-                request.setDropOffLocName("Test dropoff");
-                request.setPickUpDateTime(new Date());
-                userDatabaseAccessor.addRequest(request, LoginActivity.this);
             }
         });
         this.register.setOnClickListener(new View.OnClickListener() {
@@ -175,39 +163,5 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     @Override
     public void onBackPressed() {
 
-    }
-
-    @Override
-    public void onRequestAddedSuccess() {
-        Toast.makeText(getApplicationContext(), "Request added successfully!", Toast.LENGTH_LONG).show();
-        this.userDatabaseAccessor.getAllRequest(this);
-    }
-
-    @Override
-    public void onRequestAddedFailure() {
-
-    }
-
-    @Override
-    public void onRequestDeleteSuccess() {
-
-    }
-
-    @Override
-    public void onRequestDeleteFailure() {
-
-    }
-
-    @Override
-    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        Log.v(TAG, "Request get successfully!!!!");
-        for (Request r : requests) {
-            Log.v(TAG, r.getDriverEmail() + " " + r.getRiderEmail() + " " + r.getEstimatedFare());
-        }
-    }
-
-    @Override
-    public void onGetRequiredRequestsFailure() {
-        Log.v(TAG, "Requests get failure!!!!!!!");
     }
 }
