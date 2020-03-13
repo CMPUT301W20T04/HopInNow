@@ -13,10 +13,18 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThrows;
 
+/**
+ * driver entity test
+ * Author: Hongru Qi
+ * Version: 1.0.0
+ */
 public class DriverTest {
-    // set up test entity
+    /**
+     * set up test entity
+     * @return
+     */
     private Driver mockDriver(){
         Car mockCar = new Car("Nissan", "Altima", "Black",
                 "AAA-0001");
@@ -44,13 +52,42 @@ public class DriverTest {
                 mockRequest, mockCar, mockTripList);
         return mockDriver;
     }
-    // test on empty driver
+
+    /**
+     * test on empty driver
+     */
     @Test
     public void testEmpty(){
         Driver driver = new Driver();
+        assertThrows(NullPointerException.class, () -> {
+            driver.getDriverTripList();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getCar();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getRating();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getRatingCounts();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getDeposit();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getEmail();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getName();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            driver.getPhoneNumber();
+        });
     }
 
-    // test on checking entity elements
+    /**
+     * test on checking entity elements
+     */
     @Test
     public void testCheck() {
         Driver driver = mockDriver();
@@ -89,7 +126,10 @@ public class DriverTest {
         assertEquals(1.1, (double)driver.getDriverTripList().get(0).getCost(), 0);
         assertEquals(2.1, (double)driver.getDriverTripList().get(0).getRating(), 0);
     }
-    // test on modifying entity elements
+
+    /**
+     * test on modifying entity elements
+     */
     @Test
     public void testEdit() {
         Driver mockDriver = mockDriver();

@@ -5,13 +5,44 @@ import com.example.hopinnow.entities.Car;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
+/**
+ * car entity test
+ * Author: Hongru Qi
+ * Version: 1.0.0
+ */
 public class CarTest {
-    // set up test entity
+    /**
+     * set up test entity
+      */
     private Car mockCar(){
         return new Car("Nissan", "Altima", "Black", "AAA-0001");
     }
-    // test on creating new entity
+
+    /**
+     * test on empty class
+     */
+    @Test
+    public void testEmpty() {
+        Car car = new Car();
+        assertThrows(NullPointerException.class, () -> {
+            car.getMake();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            car.getColor();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            car.getModel();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            car.getPlateNumber();
+        });
+    }
+
+    /**
+     * test on creating new entity
+     */
     @Test
     public void testNew() {
         Car newCar = new Car("make", "model", "color", "plate");
@@ -20,7 +51,10 @@ public class CarTest {
         assertEquals("color", newCar.getColor());
         assertEquals("plate", newCar.getPlateNumber());
     }
-    // test on checking entity elements
+
+    /**
+     * test on checking entity elements
+     */
     @Test
     public void testCheck(){
         Car newCar = mockCar();
@@ -29,7 +63,10 @@ public class CarTest {
         assertEquals("Black", newCar.getColor());
         assertEquals("AAA-0001", newCar.getPlateNumber());
     }
-    // test on modifying entity elements
+
+    /**
+     * test on modifying entity elements
+     */
     @Test
     public void testEdit() {
         Car car = mockCar();

@@ -1,14 +1,25 @@
 package com.example.hopinnow.entities;
 
+/**
+ * emergency call class which stores the emergency call number
+ * Author: Shuwei Wang
+ * Version: 1.0.0
+ */
 public class EmergencyCall {
     private String dialogNumber;
 
 
-    //Constructor
+    /**
+     * empty constructor
+     */
     public EmergencyCall() {
         this.dialogNumber = "911";
     }
 
+    /**
+     * emergency call constructor
+     * @param dialogNumber
+     */
     public EmergencyCall(String dialogNumber) {
         try{
             this.dialogNumber = dialogNumber;
@@ -18,12 +29,18 @@ public class EmergencyCall {
         }
     }
 
-    //getter
+    /**
+     * get dialog number
+     * @return
+     */
     public String getDialogNumber() {
         return dialogNumber;
     }
 
-    //setter
+    /**
+     * set dialog number
+     * @param dialogNumber
+     */
     public void setDialogNumber(String dialogNumber) {
         try{
             this.dialogNumber = dialogNumber;
