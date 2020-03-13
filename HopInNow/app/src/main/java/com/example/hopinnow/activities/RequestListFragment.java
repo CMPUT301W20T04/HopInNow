@@ -5,9 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -17,20 +15,16 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
-import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.RequestListAdapter;
-import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
-import com.example.hopinnow.statuslisteners.DriverRequestAcceptListener;
-import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
+import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Author: Qianxi Li
@@ -38,7 +32,7 @@ import java.util.Objects;
  * show the current available request for driver to choose to take
  */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener, DriverRequestAcceptListener {
+        AvailRequestListListener, DriverRequestListener {
     private Integer prePosition = -1;
     //private Driver driver;
     private ListView requestListView;
@@ -207,6 +201,16 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onRequestCanceledByRider() {
+
+    }
+
+    @Override
+    public void onDriverPickupSuccess() {
+
+    }
+
+    @Override
+    public void onDriverPickupFail() {
 
     }
 }

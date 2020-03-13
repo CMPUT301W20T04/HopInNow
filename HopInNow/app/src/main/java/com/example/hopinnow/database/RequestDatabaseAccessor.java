@@ -2,26 +2,12 @@ package com.example.hopinnow.database;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
-import com.example.hopinnow.statuslisteners.DriverRequestAcceptListener;
-import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 

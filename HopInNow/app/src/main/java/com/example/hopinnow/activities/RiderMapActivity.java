@@ -17,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,20 +29,15 @@ import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
-import com.example.hopinnow.database.UserDatabaseAccessor;
-import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
-import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
-import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
-import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
+import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.android.gms.common.api.Status;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -77,7 +71,7 @@ import java.util.Objects;
  * This activity defines all methods for main activities of rider.
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        RiderProfileStatusListener, RiderRequestAcceptedListener, DriverObjectRetreieveListener,
+        RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
         AvailRequestListListener{
 
     public static final String TAG = "RiderMapActivity";
@@ -673,7 +667,15 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         t.popBackStack();
     }
 
+    @Override
+    public void onRiderPickedupSuccess(Request request) {
 
+    }
+
+    @Override
+    public void onRiderPickedupTimeoutOrFail() {
+
+    }
 
 
     @Override
