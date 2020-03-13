@@ -31,7 +31,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
     // Database methods:
     private UserDatabaseAccessor userDatabaseAccessor;
     // UI components:
-    private boolean isDriver;
     private EditText name;
     private EditText email;
     private EditText phoneNumber;
@@ -69,7 +68,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     private boolean verifyFields() {
         // initialize the user object to store:
-
         final String password = this.password.getText().toString();
         String password2 = this.password2.getText().toString();
         // the length of the password must be greater than 6!
@@ -102,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                 String nameData = name.getText().toString();
                 String emailData = email.getText().toString();
                 String phoneNumberData = phoneNumber.getText().toString();
-                isDriver = driverSwitch.isChecked();
+                boolean isDriver = driverSwitch.isChecked();
                 // save user information in the database:
 
                 if (isDriver) { // the user is a driver
@@ -114,7 +112,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     bundle.putSerializable("DriverObject", user);
                     intent.putExtras(bundle);
                     startActivity(intent);
-                    finish();
                 } else {    // the user is a rider
                     user = new Rider(emailData, passwordData, nameData, phoneNumberData,
                             false, 0, null, null);
@@ -124,12 +121,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     progressbarDialog.startProgressbarDialog();
                     // create user in the database:
                     userDatabaseAccessor.registerUser(user, RegisterActivity.this);
-                    Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("RiderObject", user);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
                 }
             }
         });
@@ -137,36 +128,19 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onLoginSuccess() {
-
-        if (isDriver) {
-            // first dismiss the progress bar:
-            this.progressbarDialog.dismissDialog();
-            // initialize intent to go to the ProfileActivity:
-            Intent intent = new Intent(getApplicationContext(), DriverMapActivity.class);
-            Bundle bundle = new Bundle();
-            // put the driver object into the bundle, Profile activity can access directly:
-            bundle.putSerializable("DriverObject", this.user);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
-            // show success message here:
-            Toast.makeText(getApplicationContext(),
-                    "Driver logged in successfully!", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            this.progressbarDialog.dismissDialog();
-            // initialize intent to go to the ProfileActivity:
-            Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
-            Bundle bundle = new Bundle();
-            // put the driver object into the bundle, Profile activity can access directly:
-            bundle.putSerializable("RiderObject", this.user);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
-            // show success message here:
-            Toast.makeText(getApplicationContext(),
-                    "Rider logged in successfully!", Toast.LENGTH_SHORT).show();
-        }
+        // first dismiss the progress bar:
+        this.progressbarDialog.dismissDialog();
+        // initialize intent to go to the ProfileActivity:
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        Bundle bundle = new Bundle();
+        // put the driver object into the bundle, Profile activity can access directly:
+        bundle.putSerializable("UserObject", this.user);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+        // show success message here:
+        Toast.makeText(getApplicationContext(),
+                "Rider logged in successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

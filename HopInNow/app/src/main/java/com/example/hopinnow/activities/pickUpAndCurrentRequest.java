@@ -13,23 +13,27 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
-public class pickUpAndCurrentRequest extends Fragment implements UserProfileStatusListener{
+public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener {
     private Driver driver;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
+        DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
+        //UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         int display_mode;
         //here get the driver from database
-        userDatabaseAccessor.getUserProfile(this);
+        //userDatabaseAccessor.getUserProfile(this);
+        //driverDatabaseAccessor.driverAcceptRequest();
+        driverDatabaseAccessor.getDriverProfile(this);
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container,false);
 
         if(view!=null)
@@ -46,6 +50,10 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
             Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
+            requestFromText.setText("123");
+            requestToText.setText("345");
+            requestTimeText.setText("12:28");
+            requestCostText.setText("12");
             if(display_mode == 0){
                 pickUpButton.setVisibility(View.VISIBLE);
                 dropOffButton.setVisibility(View.INVISIBLE);
@@ -88,6 +96,28 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
         //return super.onCreateView(inflater, container, savedInstanceState);
 
     }
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+
+    }
+
+    /*
     @Override
     public void onProfileStoreSuccess() {
 
@@ -117,5 +147,5 @@ public class pickUpAndCurrentRequest extends Fragment implements UserProfileStat
     @Override
     public void onProfileUpdateFailure() {
 
-    }
+    }*/
 }

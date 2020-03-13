@@ -51,6 +51,7 @@ public class TripListActivity extends AppCompatActivity {
         // Request curRequest, ArrayList<Trip> riderTripList
         tripAdapter = new CustomTripList(this,tripDataList);
         tripList.setAdapter(tripAdapter);
+
         for(int i=0;i<10;i++){
             tripDataList.add(new Trip(driver1.getEmail(),rider1.getEmail(),
                     edmonton,edmonton,"12","21", d1,
