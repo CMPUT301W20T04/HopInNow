@@ -1,19 +1,14 @@
 package com.example.hopinnow;
 
 import com.example.hopinnow.entities.Car;
-import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.Request;
-import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.helperclasses.LatLong;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Author: Hongru Qi
@@ -79,19 +74,19 @@ public class TripTest {
     @Test
     public void testCheck() {
         Trip mockTrip = mockTrip();
-        assertEquals(10, mockTrip.getPickUpLoc().getLat(), 0);
-        assertEquals(20, mockTrip.getPickUpLoc().getLng(), 0);
-        assertEquals(5, mockTrip.getDropOffLoc().getLat(), 0);
-        assertEquals(10, mockTrip.getDropOffLoc().getLng(), 0);
+        assertEquals(11, mockTrip.getPickUpLoc().getLat(), 1);
+        assertEquals(21, mockTrip.getPickUpLoc().getLng(), 1);
+        assertEquals(6, mockTrip.getDropOffLoc().getLat(), 1);
+        assertEquals(11, mockTrip.getDropOffLoc().getLng(), 1);
         assertEquals("pickUp", mockTrip.getPickUpLocName());
         assertEquals("dropOff", mockTrip.getDropOffLocName());
-        assertEquals(10, mockTrip.getDuration(), 0);
+        assertEquals(11, mockTrip.getDuration(), 1);
         assertEquals("Nissan", mockTrip.getCar().getMake());
         assertEquals("Altima", mockTrip.getCar().getModel());
         assertEquals("Black", mockTrip.getCar().getColor());
         assertEquals("AAA-0001", mockTrip.getCar().getPlateNumber());
-        assertEquals(1.1, mockTrip.getCost(), 0);
-        assertEquals(2.1, mockTrip.getRating(), 0);
+        assertEquals(2.1, mockTrip.getCost(), 1);
+        assertEquals(3.1, mockTrip.getRating(), 1);
     }
 
     /**
@@ -116,18 +111,18 @@ public class TripTest {
         mockTrip.setPickUpDateTime(newPickUpTime);
         mockTrip.setPickUpLocName("newPickUp");
         mockTrip.setDropOffLocName("newDropOff");
-        assertEquals(50, mockTrip.getPickUpLoc().getLat(), 0);
-        assertEquals(110, mockTrip.getPickUpLoc().getLng(), 0);
-        assertEquals(3, mockTrip.getDropOffLoc().getLat(), 0);
-        assertEquals(13, mockTrip.getDropOffLoc().getLng(), 0);
+        assertEquals(51, mockTrip.getPickUpLoc().getLat(), 1);
+        assertEquals(111, mockTrip.getPickUpLoc().getLng(), 1);
+        assertEquals(4, mockTrip.getDropOffLoc().getLat(), 1);
+        assertEquals(14, mockTrip.getDropOffLoc().getLng(), 1);
         assertEquals("newPickUp", mockTrip.getPickUpLocName());
         assertEquals("newDropOff", mockTrip.getDropOffLocName());
-        assertEquals(10, mockTrip.getDuration(), 0);
+        assertEquals(11, mockTrip.getDuration(), 1);
         assertEquals("newMake", mockTrip.getCar().getMake());
         assertEquals("newModel", mockTrip.getCar().getModel());
         assertEquals("newColor", mockTrip.getCar().getColor());
         assertEquals("newPlate", mockTrip.getCar().getPlateNumber());
-        assertEquals(2.0, mockTrip.getCost(), 0);
-        assertEquals(3.0, mockTrip.getRating(), 0);
+        assertEquals(3.0, mockTrip.getCost(), 1);
+        assertEquals(4.0, mockTrip.getRating(), 1);
     }
 }
