@@ -660,7 +660,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * We are skipping the step of rider accepting/declining the offer right now.
      */
     @Override
-    public void onRiderRequestAccept(Request mRequest) {
+    public void onRiderRequestAcceptedNotify(Request mRequest) {
         curRequest = mRequest;
         FragmentManager t = getSupportFragmentManager();
         t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingPickupFragment())

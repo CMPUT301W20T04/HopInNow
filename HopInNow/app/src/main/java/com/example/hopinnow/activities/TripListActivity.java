@@ -32,7 +32,8 @@ import java.util.Date;
  * Version: 1.0.0
  * display the historical trips of the user inside my trip in menu
  */
-public class TripListActivity extends AppCompatActivity implements DriverProfileStatusListener, UserProfileStatusListener, RiderProfileStatusListener {
+public class TripListActivity extends AppCompatActivity implements DriverProfileStatusListener,
+        UserProfileStatusListener, RiderProfileStatusListener {
     ListView tripList;
     ArrayAdapter<Trip> tripAdapter;;
     ArrayList<Trip> tripDataList = new ArrayList<>();
