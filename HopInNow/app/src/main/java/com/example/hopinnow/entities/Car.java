@@ -3,12 +3,14 @@ package com.example.hopinnow.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * The class that saves car information
  * Author: Shuway Wang
  * Version: 1.0.0
  */
-public class Car implements Parcelable {
+public class Car implements Serializable {
     private String make;
     private String model;
     private String color;
@@ -48,21 +50,6 @@ public class Car implements Parcelable {
         color = in.readString();
         plateNumber = in.readString();
     }
-
-    /**
-     * car creator required by parcelable
-     */
-    public static final Creator<Car> CREATOR = new Creator<Car>() {
-        @Override
-        public Car createFromParcel(Parcel in) {
-            return new Car(in);
-        }
-
-        @Override
-        public Car[] newArray(int size) {
-            return new Car[size];
-        }
-    };
 
     /**
      * get car color
@@ -166,27 +153,5 @@ public class Car implements Parcelable {
         catch (Exception e){
             throw e;
         }
-    }
-
-    /**
-     * required by parcel
-     * @return
-     */
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    /**
-     * write to parcel required by parcel
-     * @param parcel
-     * @param i
-     */
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(make);
-        parcel.writeString(model);
-        parcel.writeString(color);
-        parcel.writeString(plateNumber);
     }
 }
