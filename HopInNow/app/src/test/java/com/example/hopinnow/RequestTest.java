@@ -12,8 +12,16 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
+/**
+ * request entity test
+ * Author: Hongru Qi
+ * Version: 1.0.0
+ */
 public class RequestTest {
-    // set up test entity
+    /**
+     * set up test entity
+     * @return
+     */
     private Request mockRequest(){
         Car mockCar = new Car("Nissan", "Altima", "Black", "AAA-0001");
         LatLong pickUpLoc = new LatLong(10, 20);
@@ -24,7 +32,10 @@ public class RequestTest {
                 "pickUp",  "dropOff", pickUpTime, mockCar, 10.0);
         return mockRequest;
     }
-    // test on empty driver
+
+    /**
+     * test on empty driver
+     */
     @Test
     public void testEmpty(){
         Request mockRequest = new Request();
@@ -52,9 +63,15 @@ public class RequestTest {
         assertThrows(NullPointerException.class, () -> {
             mockRequest.getRiderEmail();
         });
+        assertThrows(NullPointerException.class, () -> {
+            mockRequest.getRequestID();
+        });
     }
 
-    // test on checking entity elements
+
+    /**
+     * test on checking entity elements
+     */
     @Test
     public void testCheck() {
         Request mockRequest = mockRequest();
@@ -70,7 +87,10 @@ public class RequestTest {
         assertEquals("AAA-0001", mockRequest.getCar().getPlateNumber());
         assertEquals(10.0, mockRequest.getEstimatedFare(), 0);
     }
-    // test on modifying entity elements
+
+    /**
+     * test on modifying entity elements
+     */
     @Test
     public void testEdit() {
         Request mockRequest = mockRequest();
@@ -87,6 +107,7 @@ public class RequestTest {
         mockRequest.setPickUpDateTime(newPickUpTime);
         mockRequest.setPickUpLocName("newPickUp");
         mockRequest.setDropOffLocName("newDropOff");
+        mockRequest.setRequestID("001");
         assertEquals(50, mockRequest.getPickUpLoc().getLat(), 0);
         assertEquals(110, mockRequest.getPickUpLoc().getLng(), 0);
         assertEquals(3, mockRequest.getDropOffLoc().getLat(), 0);
@@ -98,5 +119,6 @@ public class RequestTest {
         assertEquals("newColor", mockRequest.getCar().getColor());
         assertEquals("newPlate", mockRequest.getCar().getPlateNumber());
         assertEquals(5.0, mockRequest.getEstimatedFare(), 0);
+        assertEquals("001", mockRequest.getRequestID());
     }
 }

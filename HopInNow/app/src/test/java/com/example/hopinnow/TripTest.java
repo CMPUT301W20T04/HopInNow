@@ -15,8 +15,14 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
+/**
+ * trip entity test
+ */
 public class TripTest {
-    // set up test entity
+    /**
+     * set up test entity
+     * @return
+     */
     private Trip mockTrip(){
         Car mockCar = new Car("Nissan", "Altima", "Black", "AAA-0001");
         LatLong pickUpLoc = new LatLong(10, 20);
@@ -27,9 +33,11 @@ public class TripTest {
                 "pickUp",  "dropOff", pickUpTime, dropOffTime, 10, mockCar, 1.1, 2.1);
         return mockTrip;
     }
-    // test on empty driver
+    /**
+     * test on empty driver
+     */
     @Test
-    public void testEmpty(){
+    public void testEmpty() {
         Trip trip = new Trip();
         assertThrows(NullPointerException.class, () -> {
             trip.getRating();
@@ -69,7 +77,9 @@ public class TripTest {
         });
     }
 
-    // test on checking entity elements
+    /**
+     * test on checking entity elements
+     */
     @Test
     public void testCheck() {
         Trip mockTrip = mockTrip();
@@ -87,7 +97,10 @@ public class TripTest {
         assertEquals(1.1, mockTrip.getCost(), 0);
         assertEquals(2.1, mockTrip.getRating(), 0);
     }
-    // test on modifying entity elements
+
+    /**
+     * test on modifying entity elements
+     */
     @Test
     public void testEdit() {
         Trip mockTrip = mockTrip();
