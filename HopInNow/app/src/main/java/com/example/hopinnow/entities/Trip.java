@@ -5,14 +5,37 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
+/**
+ * Author: Shway Wang
+ * Version: 1.0.0
+ * Trip class extends Ride
+ */
 public class Trip extends Ride {
     private Double cost;
     private Double rating;
     private Date dropOffDateTime;
     private Integer duration;
 
+    /**
+     * Empty constructor to support database storage
+     */
     public Trip(){}
 
+    /**
+     * Constructor supporting dependency injection
+     * @param driver
+     * @param rider
+     * @param pickUpLoc
+     * @param dropOffLoc
+     * @param pickUpLocName
+     * @param dropOffLocName
+     * @param pickUpDateTime
+     * @param dropOffTime
+     * @param duration
+     * @param car
+     * @param cost
+     * @param rating
+     */
     public Trip(String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                 Date dropOffTime, int duration, Car car, Double cost, Double rating) {
         super(driver, rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, pickUpDateTime, car);

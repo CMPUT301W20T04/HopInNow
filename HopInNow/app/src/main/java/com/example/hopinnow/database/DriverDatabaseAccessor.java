@@ -27,6 +27,7 @@ import java.util.Objects;
  * methods.
  */
 public class DriverDatabaseAccessor extends UserDatabaseAccessor {
+    public static final String TAG = "DriverDatabaseAccessor";
     public DriverDatabaseAccessor() {
         super();
     }

@@ -2,14 +2,32 @@ package com.example.hopinnow.entities;
 
 import java.util.ArrayList;
 
+/**
+ * Author: Shway Wang
+ * Version: 1.0.0
+ * Rider class extends User class
+ */
 public class Rider extends User {
     private Request curRequest;
     private ArrayList<Trip> riderTripList;
 
 
-    //constructor
+    /**
+     * Empty constructor support database storage
+     */
     public Rider() {}
-    //constructor
+
+    /**
+     * Constructor supporting dependency injection
+     * @param email
+     * @param password
+     * @param name
+     * @param phoneNumber
+     * @param userType
+     * @param deposit
+     * @param curRequest
+     * @param riderTripList
+     */
     public Rider(String email, String password, String name, String phoneNumber,
                  boolean userType,double deposit,
                  Request curRequest, ArrayList<Trip> riderTripList) {
