@@ -135,12 +135,7 @@ public abstract class Ride {
      * @return car
      */
     public Car getCar() {
-        if (car == null){
-            throw new NullPointerException();
-        }
-        else{
-            return car;
-        }
+        return car;
     }
 
     /**
