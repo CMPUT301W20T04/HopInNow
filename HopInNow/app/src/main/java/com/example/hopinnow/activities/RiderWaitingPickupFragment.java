@@ -50,7 +50,7 @@ public class RiderWaitingPickupFragment extends Fragment {
             driverName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo();
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo(driver);
                 }
             });
 

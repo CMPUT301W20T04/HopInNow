@@ -106,7 +106,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                             ArrayList<Request> requests = new ArrayList<>();
                             for (QueryDocumentSnapshot document :
                                     Objects.requireNonNull(task.getResult())) {
-                                requests.add((Request)document.getData());
+                                requests.add(document.toObject(Request.class));
                             }
                             listener.onGetRequiredRequestsSuccess(requests);
                         } else {

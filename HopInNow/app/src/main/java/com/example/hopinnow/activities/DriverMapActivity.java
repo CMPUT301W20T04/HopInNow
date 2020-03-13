@@ -74,7 +74,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         //TODO set rider, driver, car properly
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678", true,12.0, null, car, null, null);
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678",
+                true,12.0, null, car, null);
 
         goOnline = findViewById(R.id.onlineBtn);
         goOnline.setOnClickListener(new View.OnClickListener() {
@@ -171,20 +172,30 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         adjustMapFocus();
     }
 
+    public void setPickUpLoc(LatLng pickUpLoc) {
+        this.pickUpLoc = pickUpLoc;
+    }
+    public void setDropOffLoc(LatLng dropOffLoc){
+        this.dropOffLoc = dropOffLoc;
+    }
     /**
      * adjust focus of the map according to the markers
      */
-    public void adjustMapFocus(){
 
-        LatLng center = myPosition;
-        if ((pickUpMarker != null)&&(dropOffMarker != null)) {
-            center = LatLngBounds.builder().include(pickUpLoc).include(dropOffLoc).build().getCenter();
-        } else if (pickUpMarker != null) {
-            center = pickUpLoc;
-        } else if (dropOffMarker != null) {
-            center = dropOffLoc;
+
+    public void adjustMapFocus(){
+        LatLngBounds.Builder bound = new LatLngBounds.Builder();
+
+        if ((pickUpLoc != null)&&(dropOffLoc != null)) {
+            bound.include(pickUpLoc);
+            bound.include(dropOffLoc);
+        } else if (pickUpLoc != null) {
+            bound.include(pickUpLoc);
+        } else if (dropOffLoc != null) {
+            bound.include(dropOffLoc);
+        } else {
+            return;
         }
-        CameraUpdate newFocus = CameraUpdateFactory.newLatLngZoom(center, 10);
-        mMap.animateCamera(newFocus);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
     }
 }

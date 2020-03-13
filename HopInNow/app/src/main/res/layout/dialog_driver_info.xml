@@ -83,7 +83,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rating_layout"
-        android:layout_marginLeft="20dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -110,12 +112,13 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/car_layout"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="30dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="License plate:  "
+            android:text="License Plate:  "
             android:textSize="20sp"
             android:textColor="@color/quantum_black_100"/>
 
@@ -123,6 +126,7 @@
             android:id="@+id/dialog_driver_plate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:textSize="20sp"
             android:textColor="@color/quantum_black_100"
             android:text="plate number"/>

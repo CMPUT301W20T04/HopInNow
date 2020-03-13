@@ -59,7 +59,7 @@ public class RiderDriverOfferFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //shows driver information
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo();
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo(driver);
                 }
             });
 
