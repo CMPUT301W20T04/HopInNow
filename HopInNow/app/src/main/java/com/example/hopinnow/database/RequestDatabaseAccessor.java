@@ -82,6 +82,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
      *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void deleteRequest(final AvailRequestListListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         this.firestore
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
@@ -163,6 +164,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
      *      listener called when success or fail or timeout
      */
     public void riderWaitForRequestAcceptance(final RiderRequestAcceptedListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         this.firestore
                 .collection(this.referenceName)
                 .document(this.currentUser.getUid())
