@@ -80,6 +80,7 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
         // put the driver object into the bundle, Profile activity can access directly:
         bundle.putSerializable("UserObject", this.driver);
         intent.putExtras(bundle);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
         // show success message here:

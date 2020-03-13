@@ -8,9 +8,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 /**
- * car entity test
  * Author: Hongru Qi
  * Version: 1.0.0
+ * car entity test
  */
 public class CarTest {
     /**

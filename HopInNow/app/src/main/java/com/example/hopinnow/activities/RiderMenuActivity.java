@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.hopinnow.R;
+
 /**
  * Author: Peter Zhou
+ * Version: 1.0.0
  * This class helps show the rider's menu when clicking the menu button on the top left cornor
  */
 public class RiderMenuActivity extends AppCompatActivity {

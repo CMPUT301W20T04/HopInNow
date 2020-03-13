@@ -28,6 +28,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Author: Qianxi Li
+ * Version: 1.0.0
+ * show the current request that driver has accepted
+ */
 public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener {
     private Driver driver;
     private Request request;
