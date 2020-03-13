@@ -22,6 +22,11 @@ import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * Authoer: Peter Zhou
+ * This class is to show the vehicle info and user can update it
+ */
+
 public class VehicleViewActivity extends AppCompatActivity implements DriverProfileStatusListener {
 
     private Button updateBtn;
