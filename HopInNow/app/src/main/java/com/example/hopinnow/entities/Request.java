@@ -11,7 +11,9 @@ import java.util.Date;
 public class Request extends Ride {
     private Double estimatedFare;
     private String requestID;
-    //public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc,
+    private boolean isPickedUp;
+
+//public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc,
     // Date dateTime, Car car, Double estimatedFare){}
 
     /**
@@ -37,6 +39,7 @@ public class Request extends Ride {
         super(driver,rider,pickUpLoc,dropOffLoc,pickUpLocName, dropOffLocName,pickUpDateTime,car);
         try{
             this.estimatedFare = estimatedFare;
+            this.isPickedUp = false;
         }
         catch(Exception e){
             throw e;
@@ -84,5 +87,12 @@ public class Request extends Ride {
      */
     public void setRequestID(String requestID) {
         this.requestID = requestID;
+    }
+    public boolean isPickedUp() {
+        return isPickedUp;
+    }
+
+    public void setPickedUp(boolean pickedUp) {
+        isPickedUp = pickedUp;
     }
 }
