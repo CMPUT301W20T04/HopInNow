@@ -97,8 +97,8 @@
             android:id="@+id/accept_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_centerVertical="false"
+            android:background="@color/ColorOrange"
+            android:textColor="@color/ColorWhite"
             android:layout_marginRight="5dp"
             android:layoutDirection="inherit"
             android:text="Accept"
