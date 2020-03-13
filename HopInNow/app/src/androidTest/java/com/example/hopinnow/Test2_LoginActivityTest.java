@@ -77,7 +77,7 @@ public class Test2_LoginActivityTest {
         assertTrue(solo.waitForText("1", 1, 2000));
 
         solo.clickOnButton("LOGIN");
-        //TODO assert that the account is invalid after page is fixed
+        //assertTrue(solo.waitForText("
 
         Thread.sleep(2000);
     }

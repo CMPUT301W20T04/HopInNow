@@ -47,12 +47,11 @@ public class RiderDriverOfferFragment extends Fragment {
 
         //TODO get curRequest from firebase, acceptance boolean is false
         //curRequest
-        Car car = new Car("Auburn","Speedster","Cream","111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,  null, car,
-                null);
-        curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                .retrieveCurrentRequestLocal();
+        //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                //.retrieveCurrentRequest();
+
+        driver =  ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
+        Car car = driver.getCar();
 
 
 

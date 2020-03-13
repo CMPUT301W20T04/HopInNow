@@ -38,6 +38,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
@@ -74,7 +75,7 @@ import java.util.Objects;
  * This activity defines all methods for main activities of rider.
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        RiderProfileStatusListener, RiderRequestAcceptedListener {
+        RiderProfileStatusListener, RiderRequestAcceptedListener, DriverProfileStatusListener {
 
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
@@ -375,9 +376,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * @return
      *      current request information from firebase
      */
-    //TODO
-    public Request retrieveCurrentRequestOnline(){
-        return rider.getCurRequest();
+    public Request retrieveCurrentRequest(){
+        return curRequest;
+    }
+
+    public Driver retrieveOfferedDriver(){
+        String emailDriver = curRequest.getDriverEmail();
+        driver =  ???;
     }
 
 
@@ -635,7 +640,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onRiderRequestAccept() {
+    public void onRiderRequestAccept(Request mRequest) {
+        curRequest = mRequest;
         FragmentManager t = getSupportFragmentManager();
         t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingDriverFragment())
                 .commit();
@@ -645,5 +651,25 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderRequestTimeoutOrFail() {
         FragmentManager t = getSupportFragmentManager();
         t.popBackStack();
+    }
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+
     }
 }
