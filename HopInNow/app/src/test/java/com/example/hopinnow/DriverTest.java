@@ -39,7 +39,7 @@ public class DriverTest {
                 10, mockCar, 1.1, 2.1);
         ArrayList<Trip> mockTripList = new ArrayList<Trip>();
         mockTripList.add(mockTrip);
-        Driver mockDriver = new Driver("driver@gmail.com", "driverPasswd",
+        Driver mockDriver = new Driver("driver@gmail.com", "abc123456",
                 "drier", "7801230000", true, 0.0,
                 mockRequest, mockCar, mockTripList);
         return mockDriver;
