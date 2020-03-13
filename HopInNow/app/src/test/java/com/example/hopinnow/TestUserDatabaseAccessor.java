@@ -87,4 +87,19 @@ public class TestUserDatabaseAccessor implements RegisterStatusListener{
     public void onRegisterFailure() {
 
     }
+
+    @Override
+    public void onWeakPassword() {
+
+    }
+
+    @Override
+    public void onInvalidEmail() {
+
+    }
+
+    @Override
+    public void onUserAlreadyExist() {
+
+    }
 }

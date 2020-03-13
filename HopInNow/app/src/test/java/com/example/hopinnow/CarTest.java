@@ -5,12 +5,30 @@ import com.example.hopinnow.entities.Car;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 public class CarTest {
     // set up test entity
     private Car mockCar(){
         Car mockCar = new Car("Nissan", "Altima", "Black", "AAA-0001");
         return mockCar;
+    }
+    // test on empty class
+    @Test
+    public void testEmpty() {
+        Car car = new Car();
+        assertThrows(NullPointerException.class, () -> {
+            car.getMake();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            car.getColor();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            car.getModel();
+        });
+        assertThrows(NullPointerException.class, () -> {
+            car.getPlateNumber();
+        });
     }
     // test on creating new entity
     @Test

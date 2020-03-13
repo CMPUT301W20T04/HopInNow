@@ -110,35 +110,75 @@ public abstract class Ride {
 
     //getters
     public Car getCar() {
-        return car;
+        if (car == null){
+            throw new NullPointerException();
+        }
+        else{
+            return car;
+        }
     }
 
     public Date getPickUpDateTime() {
-        return pickUpDateTime;
+        if (pickUpDateTime == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpDateTime;
+        }
     }
 
     public LatLong getDropOffLoc() {
-        return dropOffLoc;
+        if (dropOffLoc == null){
+            throw new NullPointerException();
+        }
+        else{
+            return dropOffLoc;
+        }
     }
 
     public LatLong getPickUpLoc() {
-        return pickUpLoc;
+        if (pickUpLoc == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpLoc;
+        }
     }
 
     public String getPickUpLocName() {
-        return pickUpLocName;
+        if (pickUpLocName == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpLocName;
+        }
     }
 
     public String getDropOffLocName() {
-        return dropOffLocName;
+        if (dropOffLocName == null){
+            throw new NullPointerException();
+        }
+        else{
+            return dropOffLocName;
+        }
     }
 
     public String getDriverEmail() {
-        return driverEmail;
+        if (driverEmail == null){
+            throw new NullPointerException();
+        }
+        else{
+            return driverEmail;
+        }
     }
 
     public String getRiderEmail() {
-        return riderEmail;
+        if (riderEmail == null){
+            throw new NullPointerException();
+        }
+        else{
+            return riderEmail;
+        }
     }
 
 //public abstract Request getCurRequest();
