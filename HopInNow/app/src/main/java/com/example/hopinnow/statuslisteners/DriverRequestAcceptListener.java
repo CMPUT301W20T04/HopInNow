@@ -20,4 +20,9 @@ public interface DriverRequestAcceptListener {
      * Called when the request is already taken by some other drivers
      */
     void onRequestAlreadyTaken();
+
+    /**
+     * Called when the request is cancel by the rider before the driver arrives.
+     */
+    void onRequestCanceledByRider();
 }

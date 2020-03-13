@@ -24,7 +24,8 @@ import com.google.type.LatLng;
  * Version: 1.0.0
  * Show the detail information of historical trip after clicking on one row in trip history
  */
-public class TripDetailActivity extends AppCompatActivity implements DriverProfileStatusListener, UserProfileStatusListener, RiderProfileStatusListener {
+public class TripDetailActivity extends AppCompatActivity implements DriverProfileStatusListener,
+        UserProfileStatusListener, RiderProfileStatusListener {
     private TextView driverEmail;
     private TextView riderEmail;
     public TextView pickUpLocation;
