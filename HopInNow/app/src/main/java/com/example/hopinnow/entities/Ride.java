@@ -54,6 +54,14 @@ public abstract class Ride {
         this.pickUpLocName = pickUpLocName;
     }
 
+    public void setDriverEmail(String driverEmail) {
+        this.driverEmail = driverEmail;
+    }
+
+    public void setRiderEmail(String riderEmail) {
+        this.riderEmail = riderEmail;
+    }
+
     //getters
     public Car getCar() {
         return car;
@@ -83,16 +91,9 @@ public abstract class Ride {
         return driverEmail;
     }
 
-    public void setDriverEmail(String driverEmail) {
-        this.driverEmail = driverEmail;
-    }
-
     public String getRiderEmail() {
         return riderEmail;
     }
 
-    public void setRiderEmail(String riderEmail) {
-        this.riderEmail = riderEmail;
-    }
 //public abstract Request getCurRequest();
 }
