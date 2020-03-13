@@ -36,7 +36,12 @@ public class Car implements Serializable {
 
     //setter
     public void setPlateNumber(String plateNumber) {
-        this.plateNumber = plateNumber;
+        try{
+            this.plateNumber = plateNumber;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     public void setModel(String model) {
