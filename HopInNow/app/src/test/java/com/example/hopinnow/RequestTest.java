@@ -46,9 +46,6 @@ public class RequestTest {
             mockRequest.getEstimatedFare();
         });
         assertThrows(NullPointerException.class, () -> {
-            mockRequest.getDriverEmail();
-        });
-        assertThrows(NullPointerException.class, () -> {
             mockRequest.getDropOffLoc();
         });
         assertThrows(NullPointerException.class, () -> {
