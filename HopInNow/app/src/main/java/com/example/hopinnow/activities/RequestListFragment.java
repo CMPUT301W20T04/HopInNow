@@ -48,8 +48,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
 
         requestList = new ArrayList<Request>();
-        //String driver, String rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName, String dropOffLocName,  Date pickUpDateTime,
-        //                    Car car, Double estimatedFare
         //read request from database
 
         //driverDatabaseAccessor = new DriverDatabaseAccessor();
@@ -59,8 +57,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity)getActivity()).setButtonInvisible();
-
-        //RequestListAdapter adapter = new RequestListAdapter(requestList, this.getContext());
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
         final ListView requestListView = (ListView)view.findViewById(R.id.requestList);
         requestListView.setAdapter(adapter);

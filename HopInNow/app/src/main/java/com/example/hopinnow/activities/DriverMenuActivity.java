@@ -24,7 +24,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_menu);
-
+        //initialize buttons
         Button driverMyProfileBtn = (Button) findViewById(R.id.driverMyProfileBtn);
         Button driverMyTripsBtn = (Button) findViewById(R.id.driverMyTripsBtn);
         Button vehicleInfoBtn = (Button) findViewById(R.id.vehicleInfoBtn);
@@ -34,6 +34,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
         driverMyProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // set driver check my profile button listener
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
             }
@@ -42,6 +43,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
         driverMyTripsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //set driver check trip button listener
                 Intent intent = new Intent(getApplicationContext(), TripListActivity.class);
                 startActivity(intent);
             }
