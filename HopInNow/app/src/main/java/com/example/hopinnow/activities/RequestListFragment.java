@@ -165,6 +165,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                         chooseRequest.setDriverEmail(current_driver.getEmail());
                         chooseRequest.setCar(current_driver.getCar());
                         requestDatabaseAccessor.driverAcceptRequest(chooseRequest,RequestListFragment.this);
+                        //requestDatabaseAccessor.deleteRequest(RequestListFragment.this);
                         //means confirm request
 
                     }
