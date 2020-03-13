@@ -103,6 +103,9 @@ public class Test2_LoginActivityTest {
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
 
         Thread.sleep(2000);
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnView(solo.getView(R.id.riderMyProfile));
+        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
     }
 
 

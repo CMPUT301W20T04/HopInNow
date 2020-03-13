@@ -136,7 +136,7 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      *
-     *      FIXME: autocompletefragment cannot be entered with text
+     *      todo: autocompletefragment cannot be entered with text
      */
     @Test
     public void Case1() throws InterruptedException {
