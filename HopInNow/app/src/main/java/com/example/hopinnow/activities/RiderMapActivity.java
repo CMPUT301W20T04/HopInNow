@@ -677,6 +677,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
+    @Override
+    public void onRiderRequestComplete() {
+
+    }
+
+    @Override
+    public void onRiderRequestCompletionError() {
+
+    }
+
 
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
