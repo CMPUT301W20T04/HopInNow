@@ -10,10 +10,9 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
         //RegisterActivityTest.class,
-        //LoginActivityTest.class,
-        //RiderMenuActivityTest,
-        RiderActivityTest.class
-
+        LoginActivityTest.class
+        //RiderMenuActivityTest.class,
+        //RiderActivityTest.class
 })
 
 public class TestSuits {}
