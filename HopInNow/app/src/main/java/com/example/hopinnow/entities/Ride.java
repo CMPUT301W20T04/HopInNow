@@ -1,5 +1,6 @@
 package com.example.hopinnow.entities;
 
+import com.example.hopinnow.helperclasses.LatLong;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
@@ -7,8 +8,8 @@ import java.util.Date;
 public abstract class Ride {
     private String driverEmail;
     private String riderEmail;
-    private LatLng pickUpLoc;
-    private LatLng dropOffLoc;
+    private LatLong pickUpLoc;
+    private LatLong dropOffLoc;
     private String pickUpLocName;
     private String dropOffLocName;
     private Date pickUpDateTime;
@@ -16,7 +17,7 @@ public abstract class Ride {
 
     public Ride(){}
 
-    public Ride (String driverEmail, String riderEmail, LatLng pickUpLoc, LatLng dropOffLoc,
+    public Ride (String driverEmail, String riderEmail, LatLong pickUpLoc, LatLong dropOffLoc,
                  String pickUpLocName, String dropOffLocName, Date pickUpDateTime, Car car){
         this.driverEmail = driverEmail;
         this.riderEmail = riderEmail;
@@ -30,11 +31,11 @@ public abstract class Ride {
 
     //setters for all attributes
 
-    public void setPickUpLoc(LatLng pickUpLoc){
+    public void setPickUpLoc(LatLong pickUpLoc){
         this.pickUpLoc = pickUpLoc;
     }
 
-    public void setDropOffLoc(LatLng dropOffLoc){
+    public void setDropOffLoc(LatLong dropOffLoc){
         this.dropOffLoc = dropOffLoc;
     }
 
@@ -63,11 +64,11 @@ public abstract class Ride {
         return pickUpDateTime;
     }
 
-    public LatLng getDropOffLoc() {
+    public LatLong getDropOffLoc() {
         return dropOffLoc;
     }
 
-    public LatLng getPickUpLoc() {
+    public LatLong getPickUpLoc() {
         return pickUpLoc;
     }
 

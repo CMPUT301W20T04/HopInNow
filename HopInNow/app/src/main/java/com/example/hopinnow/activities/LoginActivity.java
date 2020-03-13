@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,18 +13,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.RequestDatabaseAccessor;
+import com.example.hopinnow.entities.Car;
+import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.helperclasses.LatLong;
+import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
-        UserProfileStatusListener {
+        UserProfileStatusListener, AvailRequestListListener {
     // establish the TAG of this activity:
     public static final String TAG = "LoginActivity";
     // initialize Database helper:
-    private UserDatabaseAccessor userDatabaseAccessor;
+    // FIXME
+    private RequestDatabaseAccessor userDatabaseAccessor;
     // UI components:
     private EditText email;
     private EditText password;
@@ -37,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // initialize the userDatabaseAccessor to use the login function within it:
-        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        this.userDatabaseAccessor = new RequestDatabaseAccessor();
         // if user already logged in, go to the profile activity
 //        if (this.userDatabaseAccessor.isLoggedin()) {
 //            Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
@@ -79,6 +90,17 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
                 user.setPassword(passwordData);
                 // log in the user
                 userDatabaseAccessor.loginUser(user, LoginActivity.this);
+                // FIXME
+                Request request = new Request();
+                request.setEstimatedFare(3.0);
+                request.setCar(new Car("QQ", "V10", "red", "dosj39"));
+                request.setRiderEmail("test@email.com");
+                request.setPickUpLoc(new LatLong(30, 30));
+                request.setPickUpLocName("Test Pickup");
+                request.setDropOffLoc(new LatLong(90, 90));
+                request.setDropOffLocName("Test dropoff");
+                request.setPickUpDateTime(new Date());
+                userDatabaseAccessor.addRequest(request, LoginActivity.this);
             }
         });
         this.register.setOnClickListener(new View.OnClickListener() {
@@ -153,5 +175,39 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public void onRequestAddedSuccess() {
+        Toast.makeText(getApplicationContext(), "Request added successfully!", Toast.LENGTH_LONG).show();
+        this.userDatabaseAccessor.getAllRequest(this);
+    }
+
+    @Override
+    public void onRequestAddedFailure() {
+
+    }
+
+    @Override
+    public void onRequestDeleteSuccess() {
+
+    }
+
+    @Override
+    public void onRequestDeleteFailure() {
+
+    }
+
+    @Override
+    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
+        Log.v(TAG, "Request get successfully!!!!");
+        for (Request r : requests) {
+            Log.v(TAG, r.getDriverEmail() + " " + r.getRiderEmail() + " " + r.getEstimatedFare());
+        }
+    }
+
+    @Override
+    public void onGetRequiredRequestsFailure() {
+        Log.v(TAG, "Requests get failure!!!!!!!");
     }
 }
