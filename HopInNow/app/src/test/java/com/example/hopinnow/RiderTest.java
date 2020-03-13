@@ -13,8 +13,17 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+/**
+ * rider entity test
+ * Author: Hongru Qi
+ * Version: 1.0.0
+ */
 public class RiderTest {
-    // set up test entity
+    /**
+     * set up test entity
+     * @return
+     * @throws ParseException
+     */
     private Rider mockRider() throws ParseException {
         Car mockCar = new Car("Nissan", "Altima", "Black",
                 "AAA-0001");
@@ -35,7 +44,10 @@ public class RiderTest {
                 "rider", "7801230000", false,
                 0.0, mockRequest, mockTripList);
     }
-    // test on checking entity elements
+    /**
+     * test on checking entity elements
+     * @throws ParseException
+     */
     @Test
     public void testCheck() throws ParseException {
         Rider rider = mockRider();
@@ -68,7 +80,10 @@ public class RiderTest {
         assertEquals(1.1, (double)rider.getRiderTripList().get(0).getCost(), 0);
         assertEquals(2.1, (double)rider.getRiderTripList().get(0).getRating(), 0);
     }
-    // test on modifying entity elements
+
+    /**
+     * test on modifying entity elements
+     */
     @Test
     public void testEdit() {
         Car car = new Car("newMake", "newModel", "newColor", "newPlate");
