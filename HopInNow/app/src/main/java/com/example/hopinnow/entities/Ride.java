@@ -3,6 +3,7 @@ package com.example.hopinnow.entities;
 import com.example.hopinnow.helperclasses.LatLong;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  * Version: 1.0.0
  * Entity class for ride.
  */
-public abstract class Ride {
+public abstract class Ride implements Serializable {
     private String driverEmail;
     private String riderEmail;
     private LatLong pickUpLoc;

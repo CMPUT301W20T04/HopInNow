@@ -196,4 +196,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onDriverRequestTimeoutOrFail() {
 
     }
+
+    @Override
+    public void onRequestAlreadyTaken() {
+
+    }
 }

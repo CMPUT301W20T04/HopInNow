@@ -1,11 +1,13 @@
 package com.example.hopinnow.helperclasses;
 
+import java.io.Serializable;
+
 /**
  * Author: Shway Wang
  * Substitute for Google's LatLng class to be able to store into the firebase.
  * Needs to be cast to Google's LatLng manually.
  */
-public class LatLong {
+public class LatLong implements Serializable {
     private double lat;
     private double lng;
     public LatLong(){}
