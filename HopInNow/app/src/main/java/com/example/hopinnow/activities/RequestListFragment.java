@@ -34,6 +34,7 @@ import java.util.Objects;
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener {
     private Integer prePosition = -1;
     //private Driver driver;
+    private ListView requestListView;
     private ArrayList<Request> requestList;
     private Request request1;
     private LatLong Loc1 = new LatLong(53.651611, -113.323975);
@@ -47,15 +48,15 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
 
         View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
-
-        requestList = new ArrayList<Request>();
+        requestListView = (ListView)view.findViewById(R.id.requestList);
+        requestList = new ArrayList<>();
         //read request from database
 
         //driverDatabaseAccessor = new DriverDatabaseAccessor();
         //driverDatabaseAccessor.getDriverProfile(this);
         requestDatabaseAccessor = new RequestDatabaseAccessor();
         requestDatabaseAccessor.getAllRequest(this);
-
+/*
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity)getActivity()).setButtonInvisible();
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
@@ -69,11 +70,14 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 acceptBtn.setVisibility(View.VISIBLE);
 
                 pickUp = requestList.get(position).getPickUpLoc();
-                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp);
+                LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
+                LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
+                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
                 dropOff = requestList.get(position).getDropOffLoc();
-                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff);
+
+                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
 
                 if (prePosition != -1){
                     Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
@@ -90,7 +94,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 prePosition = position;
 
             }
-        });
+        });*/
 
 
         return view;
@@ -158,7 +162,46 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        this.requestList = (ArrayList<Request>)requests;
+        this.requestList = requests;
+
+        final FragmentActivity fragmentActivity = getActivity();
+        ((DriverMapActivity)getActivity()).setButtonInvisible();
+        RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
+
+        requestListView.setAdapter(adapter);
+        requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View itemView = getViewByPosition(position, requestListView);
+                Button acceptBtn = itemView.findViewById(R.id.accept_btn);
+                acceptBtn.setVisibility(View.VISIBLE);
+
+                pickUp = requestList.get(position).getPickUpLoc();
+                LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
+
+                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
+                dropOff = requestList.get(position).getDropOffLoc();
+                LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
+                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
+
+                if (prePosition != -1){
+                    Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
+                    preAcceptBtn.setVisibility(View.INVISIBLE);
+                }
+                acceptBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
+
+
+                    }
+                });
+                prePosition = position;
+
+            }
+        });
     }
 
     @Override
