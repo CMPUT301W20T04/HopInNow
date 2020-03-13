@@ -23,9 +23,9 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * Author: Zhiqi Zhou
+ * Authoer: Peter Zhou
  * Version: 1.0.0
- * car information page for driver in driver's menu where driver can check and update their car info
+ * This class is to show the vehicle info and user can update it
  */
 public class VehicleViewActivity extends AppCompatActivity implements DriverProfileStatusListener {
 

@@ -10,9 +10,9 @@ import android.widget.Button;
 import com.example.hopinnow.R;
 
 /**
- * Author: Zhiqi Zhou
+ * Author: Peter Zhou
  * Version: 1.0.0
- * menu for rider which contains user profile and historical trips
+ * This class helps show the rider's menu when clicking the menu button on the top left cornor
  */
 public class RiderMenuActivity extends AppCompatActivity {
 

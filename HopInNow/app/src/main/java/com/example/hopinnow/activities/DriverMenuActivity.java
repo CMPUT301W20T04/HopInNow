@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,12 +18,11 @@ import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
- * Author: Zhiqi Zhou
- * Version: 1.0.0
- * menu for driver, contains my profile, history trips and car information
+ * Author: Peter Zhou
+ * This class helps show the driver's menu when clicking the menu button on the top left cornor
  */
 public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
-
+    public static final String TAG = "DriverMenuActivity";
     private TextView driverMenuTextView;
     private DriverDatabaseAccessor userDatabaseAccessor;
 
@@ -62,6 +62,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
         vehicleInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Car info btn clicked!");
                 userDatabaseAccessor.getDriverProfile(DriverMenuActivity.this);
             }
         });
@@ -87,6 +88,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         // when retrieve the driver profile successful,
         // open vehicle view activity to display the car information
+        Log.v(TAG, "Driver info retrieved!");
         Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("DriverObject", driver);

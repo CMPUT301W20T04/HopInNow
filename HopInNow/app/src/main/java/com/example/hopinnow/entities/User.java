@@ -3,9 +3,9 @@ package com.example.hopinnow.entities;
 import java.io.Serializable;
 
 /**
- * user class which defines all the functionality and entities for rider and driver
  * Author: Shuwei Wang
  * Version: 1.0.0
+ * user class which defines all the functionality and entities for rider and driver
  */
 // TODO: eventually change to Parcelable
 public class User implements Serializable {
