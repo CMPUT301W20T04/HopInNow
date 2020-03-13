@@ -103,7 +103,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rider = (Rider) getIntent().getSerializableExtra("RiderObject");
+        //rider = (Rider) getIntent().getSerializableExtra("RiderObject");
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -139,22 +139,23 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         final EditText dropOffMock = findViewById(R.id.mock_dropOff);
 
         // sets button for adding new request
-        Button addRequest = findViewById(R.id.add_request_button);
-        addRequest.setOnClickListener(new View.OnClickListener() {
+        Button addRequestBtn = findViewById(R.id.add_request_button);
+        addRequestBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //mock
-                if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
+                /*if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
                     pickUpLocName = pickUpMock.getText().toString();
                     pickUpLoc = new LatLng(53.5258, 113.5207);
                     dropOffLocName = dropOffMock.getText().toString();
                     dropOffLoc = new LatLng(53.5224, 113.5305);
-                }
+                }*/
                 //FIXME
                 // if both locations eneterd, then one cleared, validation below would not work
                 // maybe gettext in autocompletefragment for validation
                 if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
                     switchMarkerDraggable();
                     setNewRequest();
+
                 } else {
                     String msg = "Please enter both your pick up and drop off locations.";
                     Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
@@ -418,6 +419,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO save cur Request to firebase
         rDA.addRequest(curRequest,this);
 
+        switchFragment(R.layout.fragment_rider_waiting_driver);
+
         //TODO change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
         searchFragment.setVisibility(View.GONE);
@@ -425,8 +428,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //Mock
         findViewById(R.id.mock).setVisibility(View.GONE);
 
-        searchInPlace = true;
-        switchFragment(R.layout.fragment_rider_waiting_driver);
+        //searchInPlace = true;
+        //switchFragment(R.layout.fragment_rider_waiting_driver);
     }
 
 
@@ -684,12 +687,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRequestAddedSuccess() {
-
+        searchInPlace = true;
+        //switchFragment(R.layout.fragment_rider_waiting_driver);
     }
 
     @Override
     public void onRequestAddedFailure() {
-
+        switchFragment(R.layout.fragment_rider_waiting_driver);
     }
 
     @Override

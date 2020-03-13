@@ -27,6 +27,10 @@ import java.util.Objects;
  * methods.
  */
 public class RiderDatabaseAccessor extends UserDatabaseAccessor {
+
+    public RiderDatabaseAccessor() {
+        super();
+    }
     /**
      * Update the rider profile according to the User object past in. The key used is the Uid
      * assigned by firestore automatically

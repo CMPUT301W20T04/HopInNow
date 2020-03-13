@@ -17,11 +17,19 @@ public class DatabaseAccessor {
     FirebaseAuth firebaseAuth;    // register, login
     FirebaseUser currentUser; // logged in current user
 
+    public static DatabaseAccessor databaseAccessor = null;
+
     /**
      * Constructor method, objectify the declarations
      */
-    DatabaseAccessor() {
+    protected DatabaseAccessor() {
         this.firestore = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
+    }
+    public static DatabaseAccessor getInstance() {
+        if (databaseAccessor == null) {
+            databaseAccessor = new DatabaseAccessor();
+        }
+        return databaseAccessor;
     }
 }
