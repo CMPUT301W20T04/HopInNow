@@ -159,7 +159,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
                         }
                         if (snapshot != null && snapshot.exists()) {
                             Log.v(TAG, "Got data: ");
-                            listener.onRiderRequestAccept();
+                            listener.onRiderRequestAccept(snapshot.toObject(Request.class));
                         } else {
                             Log.v(TAG, "Current data: null");
                             listener.onRiderRequestTimeoutOrFail();
