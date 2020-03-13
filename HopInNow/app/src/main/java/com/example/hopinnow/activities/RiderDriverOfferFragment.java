@@ -29,6 +29,7 @@ import com.example.hopinnow.database.UserDatabaseAccessor;
  * This class defines the fragment that prompts rider's decision on the driver offer.
  *
  * todo: This class is to be triggered by driver sending an offer on rider's current request.
+ * todo: accept and decline currently are disabled
  */
 public class RiderDriverOfferFragment extends Fragment {
     private Request curRequest;
@@ -40,8 +41,8 @@ public class RiderDriverOfferFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rider_driver_offer, container
                 ,false);
 
-        //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                //.retrieveCurrentRequestOnline();
+        curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                .retrieveCurrentRequest();
         //driver = curRequest.getDriver();
 
 
@@ -123,7 +124,7 @@ public class RiderDriverOfferFragment extends Fragment {
             });
 
             // click this button to accept request
-            Button declineBtn = view.findViewById(R.id.rider_driver_offer_decline_button);
+            /*Button declineBtn = view.findViewById(R.id.rider_driver_offer_decline_button);
             declineBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -131,7 +132,7 @@ public class RiderDriverOfferFragment extends Fragment {
                     ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                             .switchFragment(-1);
                 }
-            });
+            });*/
         }
 
         return view;

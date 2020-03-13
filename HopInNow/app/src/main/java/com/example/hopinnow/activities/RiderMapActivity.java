@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.hopinnow.database.RequestDatabaseAccessor;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.UserDatabaseAccessor;
@@ -38,6 +39,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
+import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
@@ -75,7 +77,8 @@ import java.util.Objects;
  * This activity defines all methods for main activities of rider.
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        RiderProfileStatusListener, RiderRequestAcceptedListener, DriverProfileStatusListener {
+        RiderProfileStatusListener, RiderRequestAcceptedListener, DriverObjectRetreieveListener,
+        AvailRequestListListener{
 
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
@@ -93,6 +96,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     //TODO DRAG MARKER TO PIN LOCATION, onMarkerDragListener
     private Marker pickUpMarker, dropOffMarker;
 
+    private DriverDatabaseAccessor dDA;
+    private RiderDatabaseAccessor riderDatabaseAccessor;
+    private RequestDatabaseAccessor rDA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,8 +115,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         // assign logged in rider to local variable
-        RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
+        riderDatabaseAccessor = new RiderDatabaseAccessor();
         riderDatabaseAccessor.getRiderProfile(this);
+
+        dDA = new DriverDatabaseAccessor();
+
+        rDA = new RequestDatabaseAccessor();
 
         // sets map
         setContentView(R.layout.activity_rider_map);
@@ -382,7 +393,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     public Driver retrieveOfferedDriver(){
         String emailDriver = curRequest.getDriverEmail();
-        driver =  ???;
+        dDA.getDriverObject(emailDriver,this);
+        return driver;
     }
 
 
@@ -404,6 +416,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         saveCurrentRequestLocal(curRequest);
 
         //TODO save cur Request to firebase
+        rDA.addRequest(curRequest,this);
 
         //TODO change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
@@ -656,23 +669,46 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         t.popBackStack();
     }
 
+
+
+
     @Override
-    public void onDriverProfileRetrieveSuccess(Driver driver) {
+    public void onDriverObjRetrieveSuccess(Driver driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public void onDriverObjRetrieveFailure() {
 
     }
 
     @Override
-    public void onDriverProfileRetrieveFailure() {
+    public void onRequestAddedSuccess() {
 
     }
 
     @Override
-    public void onDriverProfileUpdateSuccess(Driver driver) {
+    public void onRequestAddedFailure() {
 
     }
 
     @Override
-    public void onDriverProfileUpdateFailure() {
+    public void onRequestDeleteSuccess() {
+
+    }
+
+    @Override
+    public void onRequestDeleteFailure() {
+
+    }
+
+    @Override
+    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
+
+    }
+
+    @Override
+    public void onGetRequiredRequestsFailure() {
 
     }
 }
