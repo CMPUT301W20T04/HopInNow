@@ -58,45 +58,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         driverDatabaseAccessor.getDriverProfile(this);
         requestDatabaseAccessor = new RequestDatabaseAccessor();
         requestDatabaseAccessor.getAllRequest(this);
-/*
-        final FragmentActivity fragmentActivity = getActivity();
-        ((DriverMapActivity)getActivity()).setButtonInvisible();
-        RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
-        final ListView requestListView = (ListView)view.findViewById(R.id.requestList);
-        requestListView.setAdapter(adapter);
-        requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                View itemView = getViewByPosition(position, requestListView);
-                Button acceptBtn = itemView.findViewById(R.id.accept_btn);
-                acceptBtn.setVisibility(View.VISIBLE);
 
-                pickUp = requestList.get(position).getPickUpLoc();
-                LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
-                LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
-                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
-                dropOff = requestList.get(position).getDropOffLoc();
-
-                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
-
-                if (prePosition != -1){
-                    Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
-                    preAcceptBtn.setVisibility(View.INVISIBLE);
-                }
-                acceptBtn.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
-
-
-                    }
-                });
-                prePosition = position;
-
-            }
-        });*/
 
 
         return view;
@@ -175,7 +137,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                for(int i=0;i<requestList.size();i++){
+                    getViewByPosition(i, requestListView).findViewById(R.id.accept_btn).setVisibility(View.INVISIBLE);
+                }
                 View itemView = getViewByPosition(position, requestListView);
                 Button acceptBtn = itemView.findViewById(R.id.accept_btn);
                 acceptBtn.setVisibility(View.VISIBLE);
@@ -189,10 +153,11 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
                 ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
                 ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
+                /*
                 if (prePosition != -1){
                     Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
                     preAcceptBtn.setVisibility(View.INVISIBLE);
-                }
+                }*/
                 prePosition = position;
                 acceptBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
