@@ -196,11 +196,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 acceptBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
+                        chooseRequest.setDriverEmail(current_driver.getEmail());
                         requestDatabaseAccessor.driverAcceptRequest(chooseRequest,RequestListFragment.this);
                         //means confirm request
-
-
-
 
                     }
                 });
@@ -219,6 +217,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onDriverRequestAccept() {
         current_driver.setCurRequest(chooseRequest);
         driverDatabaseAccessor.updateDriverProfile(current_driver, RequestListFragment.this);
+
     }
 
     @Override
