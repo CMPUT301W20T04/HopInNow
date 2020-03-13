@@ -34,28 +34,21 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
         this.firestore
                 .collection(this.referenceName)
                 .document(this.currentUser.getUid())
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                     @Override
-                     public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                         @Nullable FirebaseFirestoreException e) {
-                         Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
-                         if (e != null) {
-                             Log.v(TAG, "Listen failed.", e);
-                             listener.onRiderRequestTimeoutOrFail();
-                         }
-                         if (snapshot.exists()) {
-                             if (Objects.requireNonNull(request).getDriverEmail() != null) {
-                                 Log.v(TAG, "Got data: ");
-                                 listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
-                             } /*else {
-                                 // continue waiting
-                                 riderWaitForRequestAcceptance(listener);
-                             }*/
-                         } else {
-                             Log.v(TAG, "Current data: null");
-                             listener.onRiderRequestTimeoutOrFail();
-                         }
-                     }
+                .addSnapshotListener((snapshot, e) -> {
+                    Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
+                    if (e != null) {
+                        Log.v(TAG, "Listen failed.", e);
+                        listener.onRiderRequestTimeoutOrFail();
+                    }
+                    if (snapshot.exists()) {
+                        if (Objects.requireNonNull(request).getDriverEmail() != null) {
+                            Log.v(TAG, "Got data: ");
+                            listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
+                        }
+                    } else {
+                        Log.v(TAG, "Current data: null");
+                        listener.onRiderRequestTimeoutOrFail();
+                    }
                 });
     }
 }

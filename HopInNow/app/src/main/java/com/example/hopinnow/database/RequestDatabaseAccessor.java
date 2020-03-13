@@ -66,19 +66,13 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
                 .set(request)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v(TAG, "Request added!");
-                        listener.onRequestAddedSuccess();
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    Log.v(TAG, "Request added!");
+                    listener.onRequestAddedSuccess();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.v(TAG, "Request did not save successfully!");
-                        listener.onRequestAddedFailure();
-                    }
+                .addOnFailureListener(e -> {
+                    Log.v(TAG, "Request did not save successfully!");
+                    listener.onRequestAddedFailure();
                 });
     }
 
@@ -96,19 +90,13 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
                 .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v(TAG, "Request deleted!");
-                        listener.onRequestDeleteSuccess();
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    Log.v(TAG, "Request deleted!");
+                    listener.onRequestDeleteSuccess();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.v(TAG, "Request did not delete successfully!");
-                        listener.onRequestDeleteFailure();
-                    }
+                .addOnFailureListener(e -> {
+                    Log.v(TAG, "Request did not delete successfully!");
+                    listener.onRequestDeleteFailure();
                 });
     }
 
@@ -122,22 +110,19 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
         this.firestore
                 .collection(referenceName)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            ArrayList<Request> requests = new ArrayList<>();
-                            for (QueryDocumentSnapshot document :
-                                    requireNonNull(task.getResult())) {
-                                Request request = document.toObject(Request.class);
-                                if (request.getDriverEmail() == null) {
-                                    requests.add(request);
-                                }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        ArrayList<Request> requests = new ArrayList<>();
+                        for (QueryDocumentSnapshot document :
+                                requireNonNull(task.getResult())) {
+                            Request request = document.toObject(Request.class);
+                            if (request.getDriverEmail() == null) {
+                                requests.add(request);
                             }
-                            listener.onGetRequiredRequestsSuccess(requests);
-                        } else {
-                            listener.onGetRequiredRequestsFailure();
                         }
+                        listener.onGetRequiredRequestsSuccess(requests);
+                    } else {
+                        listener.onGetRequiredRequestsFailure();
                     }
                 });
     }
