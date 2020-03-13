@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     startActivity(intent);
                 } else {    // the user is a rider
                     user = new Rider(emailData, passwordData, nameData, phoneNumberData,
-                            false, 0, null, tripList);
+                            false, 100, null, tripList);
                     // alert progress dialog:
                     ViewGroup viewGroup = findViewById(R.id.activity_register);
                     progressbarDialog = new ProgressbarDialog(RegisterActivity.this, viewGroup);
