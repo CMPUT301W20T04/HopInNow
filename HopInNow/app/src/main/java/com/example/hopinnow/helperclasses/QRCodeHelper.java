@@ -15,8 +15,11 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import java.util.HashMap;
 import java.util.Map;
 
+//CodingInfinite post by Ahsen Saeed
+//https://codinginfinite.com/qrcode-generator-and-reader-android-example/
 /**
- * Author: Tianyu Bai
+ * Edited by Tianyu Bai
+ * This class is responsible for creating QR codes that contain total payment of completed rides.
  */
 public class QRCodeHelper {
     private static QRCodeHelper qrCodeHelper = null;
@@ -25,6 +28,8 @@ public class QRCodeHelper {
     private int mWidth, mHeight;
 
     //TODO CHECKING BITMAP QR?
+
+    //
 
     /**
      * Constructor class for QRCodeHelper.
@@ -37,7 +42,6 @@ public class QRCodeHelper {
 
     /**
      * Sets a new instance of QRCodeHelper.
-     *
      * @return
      *      QR code instance
      */
@@ -51,7 +55,6 @@ public class QRCodeHelper {
 
     /**
      * Simply setting the encrypted to qrcode.
-     *
      * @param content
      *      encrypted content to be stored in the qr code
      * @return
@@ -65,7 +68,6 @@ public class QRCodeHelper {
 
     /**
      * Simply setting the margin for qrcode.
-     *
      * @param margin for qrcode spaces.
      * @return the instance of QrCode helper class for to use remaining function in class.
      */

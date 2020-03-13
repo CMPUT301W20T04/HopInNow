@@ -131,7 +131,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         // first dismiss the progress bar:
         this.progressbarDialog.dismissDialog();
         // initialize intent to go to the ProfileActivity:
-        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
         Bundle bundle = new Bundle();
         // put the driver object into the bundle, Profile activity can access directly:
         bundle.putSerializable("UserObject", this.user);

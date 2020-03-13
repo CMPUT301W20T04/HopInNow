@@ -61,17 +61,42 @@
         android:layout_marginTop="60dp"
         android:background="@color/ColorWhite">
 
-        <fragment
-            android:id="@+id/pick_up_auto_complete"
-            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="6dp"
+                android:layout_width="17dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/marker_pick_up" />
+
+            <fragment
+                android:id="@+id/pick_up_auto_complete"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/marker_drop_off" />
 
         <fragment
             android:id="@+id/drop_off_auto_complete"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+    </LinearLayout>
 
         <Button
             android:id="@+id/add_request_button"
