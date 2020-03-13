@@ -24,6 +24,7 @@ import java.util.Objects;
  * This class defines the fragment after rider is picked up by the driver.
  */
 public class RiderPickedUpFragment extends Fragment {
+    private Driver driver;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -32,10 +33,14 @@ public class RiderPickedUpFragment extends Fragment {
 
         Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequestLocal();
-        //Driver driver = curRequest.getDriver();
-        Car car = new Car("Auburn","Speedster","Cream","111111");
-        final Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,  null, car, null);
+        driver = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
+
+        //mock case for ui testing
+        if ((curRequest==null)||(driver==null)){
+            Car car = new Car("Auburn","Speedster","Cream","111111");
+            driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                    "12345678", true, 10.0,  null, car, null);
+        }
 
         if (view != null) {
 

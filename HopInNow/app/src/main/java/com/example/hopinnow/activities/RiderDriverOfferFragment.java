@@ -26,7 +26,6 @@ import java.util.Objects;
  */
 public class RiderDriverOfferFragment extends Fragment {
     private Request curRequest;
-    private Driver driver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -36,7 +35,6 @@ public class RiderDriverOfferFragment extends Fragment {
 
         curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequest();
-        //driver = curRequest.getDriver();
 
 
         //TODO get curRequest from firebase, acceptance boolean is false

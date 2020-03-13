@@ -29,6 +29,8 @@ import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
+
+import com.example.hopinnow.database.RiderRequestDatabaseAccessor;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
@@ -93,6 +95,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private DriverDatabaseAccessor dDA;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private RequestDatabaseAccessor rDA;
+    private RiderRequestDatabaseAccessor rRDA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +116,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         riderDatabaseAccessor.getRiderProfile(this);
 
         dDA = new DriverDatabaseAccessor();
-
         rDA = new RequestDatabaseAccessor();
+        rRDA = new RiderRequestDatabaseAccessor();
 
         // sets map
         setContentView(R.layout.activity_rider_map);
@@ -325,6 +328,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     public void cancelRequestLocal(){
         //clear all fragments
+        rDA.deleteRequest(this);
         FrameLayout fl = findViewById(R.id.fragment_place);
         fl.removeAllViews();
         mMap.clear();
@@ -388,8 +392,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public Driver retrieveOfferedDriver(){
-        String emailDriver = curRequest.getDriverEmail();
-        dDA.getDriverObject(emailDriver,this);
         return driver;
     }
 
@@ -423,8 +425,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //Mock
         findViewById(R.id.mock).setVisibility(View.GONE);
 
-        //searchInPlace = true;
-        //switchFragment(R.layout.fragment_rider_waiting_driver);
+        rRDA.riderWaitForRequestAcceptance(this);
+
     }
 
 
@@ -656,9 +658,15 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderRequestAcceptedNotify(Request mRequest) {
         curRequest = mRequest;
-        FragmentManager t = getSupportFragmentManager();
-        t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingPickupFragment())
-                .commit();
+        String dEmail = curRequest.getDriverEmail();
+        dDA.getDriverObject(dEmail,this);
+        switchFragment(R.layout.fragment_rider_waiting_pickup);
+
+        //FragmentManager t = getSupportFragmentManager();
+        //t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingPickupFragment())
+                //.commit();
+
+
     }
 
     @Override
@@ -677,10 +685,21 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
+    @Override
+    public void onRiderRequestComplete() {
+
+    }
+
+    @Override
+    public void onRiderRequestCompletionError() {
+
+    }
+
 
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.driver = driver;
+
     }
 
     @Override
@@ -696,12 +715,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRequestAddedFailure() {
-        switchFragment(R.layout.fragment_rider_waiting_driver);
     }
 
     @Override
     public void onRequestDeleteSuccess() {
-
+        Toast.makeText(this,"The request is cancelled succesfully!",Toast.LENGTH_SHORT);
     }
 
     @Override
