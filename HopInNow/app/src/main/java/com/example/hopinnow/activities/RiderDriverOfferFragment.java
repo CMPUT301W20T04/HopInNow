@@ -127,15 +127,14 @@ public class RiderDriverOfferFragment extends Fragment {
             });
 
             // click this button to accept request
-            /*Button declineBtn = view.findViewById(R.id.rider_driver_offer_decline_button);
+            Button declineBtn = view.findViewById(R.id.rider_driver_offer_decline_button);
             declineBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO POPBACKSTACK?
                     ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                             .switchFragment(-1);
                 }
-            });*/
+            });
         }
 
         return view;
