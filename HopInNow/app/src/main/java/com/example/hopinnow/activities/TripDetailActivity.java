@@ -7,12 +7,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.google.type.LatLng;
 
-public class TripDetailActivity extends AppCompatActivity {
+public class TripDetailActivity extends AppCompatActivity implements DriverProfileStatusListener {
     private TextView driverName;
     private TextView riderName;
     public TextView pickUpLocation;
@@ -25,7 +28,8 @@ public class TripDetailActivity extends AppCompatActivity {
     private int position;
     private TextView rating;
     private TextView cost;
-
+    private DriverDatabaseAccessor driverDatabaseAccessor;
+    private RiderDatabaseAccessor riderDatabaseAccessor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +42,13 @@ public class TripDetailActivity extends AppCompatActivity {
         cost = findViewById(R.id.cost);
         //get the key
         Intent intent = getIntent();
-        //String search_key = intent.getExtras().getString("key");
+        int search_key = intent.getIntExtra("pos_key",0);
 
+        trip = driver.getDriverTripList().get(search_key);
 
         //function that get the certain trip from the database
-
+        driverDatabaseAccessor = new DriverDatabaseAccessor();
+        driverDatabaseAccessor.getDriverProfile(this);
         //now set the view
         // FIXME
         //driverName.setText(trip.getDriverEmail().getName());
@@ -60,6 +66,26 @@ public class TripDetailActivity extends AppCompatActivity {
 
 
 
+
+    }
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
 
     }
 }
