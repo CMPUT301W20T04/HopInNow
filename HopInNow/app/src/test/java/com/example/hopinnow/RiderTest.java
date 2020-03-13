@@ -17,9 +17,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 
 /**
- * rider entity test
  * Author: Hongru Qi
  * Version: 1.0.0
+ * rider entity test
  */
 public class RiderTest {
     /**

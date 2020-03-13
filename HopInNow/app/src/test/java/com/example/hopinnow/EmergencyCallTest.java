@@ -13,9 +13,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 /**
- * emergency call entity test
  * Author: Hongru Qi
  * Version: 1.0.0
+ * emergency call entity test
  */
 public class EmergencyCallTest {
     /**

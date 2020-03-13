@@ -37,7 +37,7 @@
 
             android:layout_marginBottom="24dp"
             android:background="@drawable/orange_all_round_corner"
-            android:text="Pick Up Rider At"
+            android:text="Picked Up Rider"
             android:textColor="@color/ColorOrange"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
             android:layout_marginStart="28dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/orange_all_round_corner"
-            android:text="Drop Off Rider At"
+            android:text="Trip Finished"
             android:textColor="@color/ColorOrange"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"

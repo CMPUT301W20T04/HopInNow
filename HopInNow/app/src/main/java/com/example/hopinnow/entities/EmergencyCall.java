@@ -1,9 +1,9 @@
 package com.example.hopinnow.entities;
 
 /**
- * emergency call class which stores the emergency call number
  * Author: Shuwei Wang
  * Version: 1.0.0
+ * emergency call class which stores the emergency call number
  */
 public class EmergencyCall {
     private String dialogNumber;

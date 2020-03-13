@@ -5,10 +5,10 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
 /**
- * calculate the estimated fare
- * To be finished
  * Author: Tianyu Bai
  * Version: 1.0.0
+ * calculate the estimated fare
+ * To be finished
  */
 public class EstimateFare {
 

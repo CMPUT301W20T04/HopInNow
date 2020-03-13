@@ -16,6 +16,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 /**
+ * Author: Hongru Qi
+ * Version: 1.0.0
  * trip entity test
  */
 public class TripTest {
