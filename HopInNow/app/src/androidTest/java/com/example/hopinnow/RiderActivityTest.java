@@ -2,25 +2,18 @@ package com.example.hopinnow;
 
 import android.app.Activity;
 
-import androidx.fragment.app.Fragment;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import android.content.ComponentName;
-import android.util.Log;
+
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.hopinnow.activities.LoginActivity;
 import com.example.hopinnow.activities.RiderMapActivity;
 
-import com.example.hopinnow.activities.RiderMenuActivity;
-import com.example.hopinnow.activities.RiderWaitingDriverFragment;
+import com.google.android.gms.maps.model.Marker;
 import com.robotium.solo.Solo;
 import org.junit.After;
 import org.junit.Before;
@@ -28,22 +21,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static androidx.test.InstrumentationRegistry.getTargetContext;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.core.AllOf.allOf;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 
 /**
@@ -53,8 +33,6 @@ import androidx.fragment.app.FragmentActivity;
 @RunWith(AndroidJUnit4.class)
 public class RiderActivityTest{
     private Solo solo;
-    private String userEmail = "folanqi123@ualberta.ca";
-    private String userPassword = "12345678";
 
     //TODO fragment
     //TODO toast message check
@@ -79,6 +57,7 @@ public class RiderActivityTest{
     /**
      * Gets the Activity
      * @throws Exception
+     *      throws all exception
      */
     @Test
     public void start() throws Exception{
@@ -89,14 +68,18 @@ public class RiderActivityTest{
     /**
      * Logs in user.
      * @throws InterruptedException
+     *      throws exception if thread is interrupted
      */
     private void loginUser() throws InterruptedException {
         // Log in To Activity
         //TODO MDZZ FRAGMENT DOES NOT ACCEPT ENTERTEXT
+        String userEmail = "folanqi123@ualberta.ca";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
+        String userPassword = "12345678";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
         solo.goBack();
         solo.clickOnButton("LOGIN");
+
         Thread.sleep(2000);
     }
 
@@ -104,19 +87,21 @@ public class RiderActivityTest{
     /**
      * Add new request.
      * @throws InterruptedException
+     *      throws exception if thread is interrupted
      */
     private void addNewRequest() throws InterruptedException {
         solo.enterText((EditText) solo.getView(R.id.mock_pickUp), "Hub Edmonton");
         solo.enterText((EditText) solo.getView(R.id.mock_dropOff), "Lister Edmonton");
         Thread.sleep(2000);
         solo.clickOnButton("HOP IN NOW!");
-        //Thread.sleep(2000);
+        Thread.sleep(2000);
     }
 
 
     /**
      * Checks all tips option.
      * @throws InterruptedException
+     *      throws exception if thread is interrupted
      */
     private  void checkPayment() throws InterruptedException {
         solo.clickOnButton("10%");
@@ -131,9 +116,7 @@ public class RiderActivityTest{
         solo.clickOnView(solo.getView(R.id.rider_payment_calculate));
         assertTrue(solo.waitForText("2.95", 1, 2000));
 
-        Button other = (Button) solo.getView(R.id.rider_payment_else);
         solo.clickOnView(solo.getView(R.id.rider_payment_else));
-        solo.clickOnView(solo.getView(R.id.rider_payment_other_editText));
         solo.enterText((EditText)solo.getView(R.id.rider_payment_other_editText),"10");
         solo.clickOnView(solo.getView(R.id.rider_payment_calculate));
         assertTrue(solo.waitForText("2.71", 1, 3000));
@@ -142,12 +125,16 @@ public class RiderActivityTest{
         assertTrue(solo.waitForText("Rating", 1, 2000));
 
         //check qr image popping
+
+        Thread.sleep(2000);
     }
 
 
     /**
      * Checks menu button.
      * Auto complete fragment testing is currently in question and mocks are used.
+     * @throws InterruptedException
+     *      throws exception if thread is interrupted
      */
     @Test
     public void Case1() throws InterruptedException {
@@ -181,7 +168,9 @@ public class RiderActivityTest{
     /**
      * Tests request cancelling when user is waiting for driver offer.
      * @throws InterruptedException
+     *      throws exception if thread is interrupted
      * @throws NumberFormatException
+     *      throws exception if string is converted to a number
      */
     @Test
     public void Case2() throws InterruptedException, NumberFormatException {
@@ -206,6 +195,7 @@ public class RiderActivityTest{
     /**
      * Tests request cancelling when rider is waiting for driver pick up.
      * @throws InterruptedException
+     *      throws exception if thread is interrupted
      */
     @Test
     public void Case3() throws InterruptedException {
@@ -252,12 +242,15 @@ public class RiderActivityTest{
         solo.clickOnButton("CANCEL REQUEST");
         assertTrue(solo.waitForText("HOP IN NOW!",
                 1,2000));
+
+        Thread.sleep(2000);
     }
 
     /**
      * Test fragments of rider picked up, rider confirming arriving at drop off location, payment
      *      actions,and completing ride without rating
      * @throws InterruptedException
+     *       throws exception if thread is interrupted
      */
     @Test
     public void Case4() throws InterruptedException {
@@ -303,11 +296,14 @@ public class RiderActivityTest{
         solo.setProgressBar(0,8);
         solo.clickOnView(solo.getView(R.id.dialog_rating_cancel));
         assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
+
+        Thread.sleep(2000);
     }
 
     /**
      * Complete ride by submitting a rating.
      * @throws InterruptedException
+     *      throws exception if thread is interrupted
      */
     @Test
     public void Case5() throws InterruptedException {
@@ -326,12 +322,15 @@ public class RiderActivityTest{
         solo.setProgressBar(0,8);
         solo.clickOnView(solo.getView(R.id.dialog_rating_submit));
         assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
+
+        Thread.sleep(2000);
     }
 
 
     /**
      * Close activity after each test
      * @throws Exception
+     *      throws all exception
      */
     @After
     public void tearDown() throws Exception{
