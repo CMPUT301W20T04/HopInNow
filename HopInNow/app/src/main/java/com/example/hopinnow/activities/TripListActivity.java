@@ -27,6 +27,11 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Author: Qianxi Li
+ * Version: 1.0.0
+ * display the historical trips of the user inside my trip in menu
+ */
 public class TripListActivity extends AppCompatActivity implements DriverProfileStatusListener, UserProfileStatusListener, RiderProfileStatusListener {
     ListView tripList;
     ArrayAdapter<Trip> tripAdapter;;
