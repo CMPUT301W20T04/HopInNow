@@ -78,7 +78,7 @@ public class Test4_RiderActivityTest {
         String userPassword = "12345678";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
         solo.goBack();
-        solo.clickOnButton("LOGIN");
+        solo.clickOnView(solo.getView(R.id.loginButton));
 
         Thread.sleep(2000);
     }
