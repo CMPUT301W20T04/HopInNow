@@ -27,7 +27,8 @@ import com.example.hopinnow.database.UserDatabaseAccessor;
 /**
  * Author: Tianyu Bai
  * This class defines the fragment that prompts rider's decision on the driver offer.
- * This class is trigger by driver sending an offer on rider's current request.
+ *
+ * todo: This class is to be triggered by driver sending an offer on rider's current request.
  */
 public class RiderDriverOfferFragment extends Fragment {
     private Request curRequest;
