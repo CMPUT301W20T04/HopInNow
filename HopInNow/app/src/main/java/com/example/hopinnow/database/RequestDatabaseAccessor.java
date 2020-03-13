@@ -2,26 +2,12 @@ package com.example.hopinnow.database;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
-import com.example.hopinnow.statuslisteners.DriverRequestAcceptListener;
-import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -66,19 +52,13 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
                 .set(request)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v(TAG, "Request added!");
-                        listener.onRequestAddedSuccess();
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    Log.v(TAG, "Request added!");
+                    listener.onRequestAddedSuccess();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.v(TAG, "Request did not save successfully!");
-                        listener.onRequestAddedFailure();
-                    }
+                .addOnFailureListener(e -> {
+                    Log.v(TAG, "Request did not save successfully!");
+                    listener.onRequestAddedFailure();
                 });
     }
 
@@ -96,19 +76,13 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
                 .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v(TAG, "Request deleted!");
-                        listener.onRequestDeleteSuccess();
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    Log.v(TAG, "Request deleted!");
+                    listener.onRequestDeleteSuccess();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.v(TAG, "Request did not delete successfully!");
-                        listener.onRequestDeleteFailure();
-                    }
+                .addOnFailureListener(e -> {
+                    Log.v(TAG, "Request did not delete successfully!");
+                    listener.onRequestDeleteFailure();
                 });
     }
 
@@ -122,22 +96,19 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
         this.firestore
                 .collection(referenceName)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            ArrayList<Request> requests = new ArrayList<>();
-                            for (QueryDocumentSnapshot document :
-                                    requireNonNull(task.getResult())) {
-                                Request request = document.toObject(Request.class);
-                                if (request.getDriverEmail() == null) {
-                                    requests.add(request);
-                                }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        ArrayList<Request> requests = new ArrayList<>();
+                        for (QueryDocumentSnapshot document :
+                                requireNonNull(task.getResult())) {
+                            Request request = document.toObject(Request.class);
+                            if (request.getDriverEmail() == null) {
+                                requests.add(request);
                             }
-                            listener.onGetRequiredRequestsSuccess(requests);
-                        } else {
-                            listener.onGetRequiredRequestsFailure();
                         }
+                        listener.onGetRequiredRequestsSuccess(requests);
+                    } else {
+                        listener.onGetRequiredRequestsFailure();
                     }
                 });
     }

@@ -2,14 +2,9 @@ package com.example.hopinnow.database;
 
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.example.hopinnow.entities.Request;
-import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
+import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.Objects;
 
@@ -29,33 +24,77 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      * @param listener
      *      listener called when success or fail or timeout
      */
-    public void riderWaitForRequestAcceptance(final RiderRequestAcceptedListener listener) {
+    public void riderWaitForRequestAcceptance(final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         this.firestore
                 .collection(this.referenceName)
                 .document(this.currentUser.getUid())
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                     @Override
-                     public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                         @Nullable FirebaseFirestoreException e) {
-                         Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
-                         if (e != null) {
-                             Log.v(TAG, "Listen failed.", e);
-                             listener.onRiderRequestTimeoutOrFail();
-                         }
-                         if (snapshot.exists()) {
-                             if (Objects.requireNonNull(request).getDriverEmail() != null) {
-                                 Log.v(TAG, "Got data: ");
-                                 listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
-                             } /*else {
-                                 // continue waiting
-                                 riderWaitForRequestAcceptance(listener);
-                             }*/
-                         } else {
-                             Log.v(TAG, "Current data: null");
-                             listener.onRiderRequestTimeoutOrFail();
-                         }
-                     }
+                .addSnapshotListener((snapshot, e) -> {
+                    Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
+                    if (e != null) {
+                        Log.v(TAG, "Listen failed.", e);
+                        listener.onRiderRequestTimeoutOrFail();
+                    }
+                    if (snapshot.exists()) {
+                        if (Objects.requireNonNull(request).getDriverEmail() != null) {
+                            Log.v(TAG, "Got data: ");
+                            listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
+                        }
+                    } else {
+                        Log.v(TAG, "Current data: null");
+                        listener.onRiderRequestTimeoutOrFail();
+                    }
+                });
+    }
+
+    /**
+     * invoke the listener when rider is picked up
+     * @param listener
+     *      listener called when success or fail or timeout
+     */
+    public void riderWaitForPickup(final RiderRequestListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        this.firestore
+                .collection(this.referenceName)
+                .document(this.currentUser.getUid())
+                .addSnapshotListener((snapshot, e) -> {
+                    Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
+                    if (e != null) {
+                        Log.v(TAG, "Listen failed.", e);
+                        listener.onRiderPickedupTimeoutOrFail();
+                    }
+                    if (snapshot.exists()) {
+                        if (Objects.requireNonNull(request).isPickedUp()) {
+                            Log.v(TAG, "Got data: ");
+                            listener.onRiderPickedupSuccess(snapshot.toObject(Request.class));
+                        }
+                    } else {
+                        Log.v(TAG, "Current data: null");
+                        listener.onRiderPickedupTimeoutOrFail();
+                    }
+                });
+    }
+
+    /**
+     * Rider is pickedup, now to wait for the request to complete
+     * @param listener
+     *      invoke method when the rider is dropped off
+     */
+    public void riderWaitForRequestComplete(final RiderRequestListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        this.firestore
+                .collection(this.referenceName)
+                .document(this.currentUser.getUid())
+                .addSnapshotListener((snapshot, e) -> {
+                    Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
+                    if (e != null) {
+                        Log.v(TAG, "Listen failed.", e);
+                        listener.onRiderRequestCompletionError();
+                    }
+                    if (!snapshot.exists()) {
+                        Log.v(TAG, "Got data: ");
+                        listener.onRiderRequestComplete();
+                    }
                 });
     }
 }

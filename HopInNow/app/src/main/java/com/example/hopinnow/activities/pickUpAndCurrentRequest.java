@@ -33,7 +33,8 @@ import java.util.Date;
  * Version: 1.0.0
  * show the current request that driver has accepted
  */
-public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener, AvailRequestListListener {
+public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
+        AvailRequestListListener {
     private Driver driver;
     private Request request;
     private ArrayList<Request> requestList = new ArrayList<>();

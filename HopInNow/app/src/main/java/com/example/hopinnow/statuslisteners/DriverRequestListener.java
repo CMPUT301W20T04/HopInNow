@@ -5,7 +5,7 @@ package com.example.hopinnow.statuslisteners;
  * Version: 1.0.0
  * Handles the event when Driver accepts a request
  */
-public interface DriverRequestAcceptListener {
+public interface DriverRequestListener {
     /**
      * Called when the driver successfully accepts a request
      */
@@ -25,4 +25,24 @@ public interface DriverRequestAcceptListener {
      * Called when the request is cancel by the rider before the driver arrives.
      */
     void onRequestCanceledByRider();
+
+    /**
+     * Called when the driver picks up the rider
+     */
+    void onDriverPickupSuccess();
+
+    /**
+     * Called when the pickup fails for some reason
+     */
+    void onDriverPickupFail();
+
+    /**
+     * Called when the driver completes the request
+     */
+    void onDriverRequestCompleteSuccess();
+
+    /**
+     * Called when the driver fails to complete the request
+     */
+    void onDriverRequestCompleteFailure();
 }
