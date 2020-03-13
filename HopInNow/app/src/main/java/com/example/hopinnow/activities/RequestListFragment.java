@@ -21,6 +21,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.RequestListAdapter;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
@@ -35,10 +36,10 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     //private Driver driver;
     private ArrayList<Request> requestList;
     private Request request1;
-    private LatLng Loc1 = new LatLng(53.651611, -113.323975);
-    private LatLng Loc2 = new LatLng(53.591611, -113.323975);
-    private LatLng pickUp;
-    private LatLng dropOff;
+    private LatLong Loc1 = new LatLong(53.651611, -113.323975);
+    private LatLong Loc2 = new LatLong(53.591611, -113.323975);
+    private LatLong pickUp;
+    private LatLong dropOff;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RequestDatabaseAccessor requestDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){

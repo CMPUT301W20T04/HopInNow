@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,11 +13,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.RequestDatabaseAccessor;
+import com.example.hopinnow.entities.Car;
+import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.helperclasses.LatLong;
+import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
         UserProfileStatusListener {
@@ -37,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // initialize the userDatabaseAccessor to use the login function within it:
-        this.userDatabaseAccessor = new UserDatabaseAccessor();
+        this.userDatabaseAccessor = new RequestDatabaseAccessor();
         // if user already logged in, go to the profile activity
 //        if (this.userDatabaseAccessor.isLoggedin()) {
 //            Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
@@ -21,6 +22,8 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
+
+import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity implements LoginStatusListener,
         RegisterStatusListener, UserProfileStatusListener {
@@ -68,8 +71,32 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     private boolean verifyFields() {
         // initialize the user object to store:
+        String name = this.name.getText().toString();
+        String email = this.email.getText().toString();
         final String password = this.password.getText().toString();
         String password2 = this.password2.getText().toString();
+        String phoneNum = this.phoneNumber.getText().toString();
+
+        // check to be non-empty
+        if (name.length() == 0){
+            Toast.makeText(getApplicationContext(),
+                    "User name cannot be empty", Toast.LENGTH_LONG).show();
+            this.passdiffwarn.setVisibility(View.INVISIBLE);
+            return false;
+        }
+        if (email.length() == 0){
+            Toast.makeText(getApplicationContext(),
+                    "Email cannot be empty", Toast.LENGTH_LONG).show();
+            this.passdiffwarn.setVisibility(View.INVISIBLE);
+            return false;
+        }
+        if (phoneNum.length() == 0){
+            Toast.makeText(getApplicationContext(),
+                    "Phone number cannot be empty", Toast.LENGTH_LONG).show();
+            this.passdiffwarn.setVisibility(View.INVISIBLE);
+            return false;
+        }
+
         // the length of the password must be greater than 6!
         if (password.length() <= 6 || password2.length() <= 6) {
             Toast.makeText(getApplicationContext(),
@@ -77,6 +104,8 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
             this.passdiffwarn.setVisibility(View.INVISIBLE);
             return false;
         }
+        // phone number is not empty
+
         // the two password fields must be the same:
         if (password.compareTo(password2) != 0) {
             this.passdiffwarn.setVisibility(View.VISIBLE);
@@ -102,11 +131,11 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                 String phoneNumberData = phoneNumber.getText().toString();
                 boolean isDriver = driverSwitch.isChecked();
                 // save user information in the database:
-
+                ArrayList<Trip> tripList = new ArrayList<Trip>();
                 if (isDriver) { // the user is a driver
                     user = new Driver(emailData, passwordData, nameData, phoneNumberData,
                             true, 0, null, null,
-                             null);
+                            tripList);
                     Intent intent = new Intent(getApplicationContext(), RegisterVehicleInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("DriverObject", user);
@@ -114,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     startActivity(intent);
                 } else {    // the user is a rider
                     user = new Rider(emailData, passwordData, nameData, phoneNumberData,
-                            false, 0, null, null);
+                            false, 0, null, tripList);
                     // alert progress dialog:
                     ViewGroup viewGroup = findViewById(R.id.activity_register);
                     progressbarDialog = new ProgressbarDialog(RegisterActivity.this, viewGroup);
@@ -167,22 +196,31 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
         this.progressbarDialog.dismissDialog();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
-                "Registration Failed, try again later.", Toast.LENGTH_SHORT).show();
+                "Registration Failed, please try again.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onWeakPassword() {
-
+        this.progressbarDialog.dismissDialog();
+        // display the login failure massage:
+        Toast.makeText(getApplicationContext(),
+                "Password is too short, at least 7 digits.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onInvalidEmail() {
-
+        this.progressbarDialog.dismissDialog();
+        // display the login failure massage:
+        Toast.makeText(getApplicationContext(),
+                "Invalid email.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUserAlreadyExist() {
-
+        this.progressbarDialog.dismissDialog();
+        // display the login failure massage:
+        Toast.makeText(getApplicationContext(),
+                "Email is already used, please use another one.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
