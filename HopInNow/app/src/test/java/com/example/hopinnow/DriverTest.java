@@ -84,12 +84,6 @@ public class DriverTest {
             driver.getName();
         });
         assertThrows(NullPointerException.class, () -> {
-            driver.getPassword();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            driver.getPassword();
-        });
-        assertThrows(NullPointerException.class, () -> {
             driver.getPhoneNumber();
         });
     }
