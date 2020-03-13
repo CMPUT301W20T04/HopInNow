@@ -11,10 +11,15 @@ public class Car implements Serializable {
     //constructor
     public Car(){}
     public Car(String make, String model, String color, String plateNumber) {
-        this.make = make;
-        this.model = model;
-        this.color = color;
-        this.plateNumber = plateNumber;
+        try {
+            this.make = make;
+            this.model = model;
+            this.color = color;
+            this.plateNumber = plateNumber;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 
     //getter
