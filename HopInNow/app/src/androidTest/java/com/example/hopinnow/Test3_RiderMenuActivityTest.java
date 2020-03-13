@@ -29,7 +29,7 @@ import static junit.framework.TestCase.assertTrue;
  * UI tests on rider menu activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
-public class RiderMenuActivityTest {
+public class Test3_RiderMenuActivityTest {
     private Solo solo;
 
     @Rule
@@ -78,17 +78,18 @@ public class RiderMenuActivityTest {
 
         //test my profile
         solo.clickOnButton("My Profile");
+        Thread.sleep(2000);
         solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 
         //test profile editing after pressing "EDIT PROFILE"
         solo.clickOnView(solo.getView(R.id.editProfileBtn));
         Thread.sleep(2000);
 
-        solo.clearEditText(solo.getEditText(R.id.proPhoneET));
+        solo.clearEditText(R.id.proPhoneET);
         solo.enterText(solo.getEditText(R.id.proPhoneET),"1111111");
         assertTrue(solo.waitForText("1111111",1,2000));
 
-        solo.clearEditText(solo.getEditText(R.id.proNameET));
+        solo.clearEditText(R.id.proNameET);
         solo.enterText(solo.getEditText(R.id.proNameET),"folanqi");
         assertTrue(solo.waitForText("folanqi",1,2000));
 

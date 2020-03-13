@@ -28,7 +28,7 @@ import static junit.framework.TestCase.assertTrue;
  * UI tests on register activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
-public class RegisterActivityTest {
+public class Test1_RegisterActivityTest {
     private Solo solo;
 
     @Rule

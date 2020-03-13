@@ -31,7 +31,7 @@ import static org.junit.Assert.assertFalse;
  * UI tests on rider side activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
-public class RiderActivityTest{
+public class Test4_RiderActivityTest {
     private Solo solo;
 
     //TODO fragment
@@ -136,7 +136,7 @@ public class RiderActivityTest{
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case1() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         loginUser();
@@ -172,7 +172,7 @@ public class RiderActivityTest{
      * @throws NumberFormatException
      *      throws exception if string is converted to a number
      */
-    @Test
+    //@Test
     public void Case2() throws InterruptedException, NumberFormatException {
         loginUser();
         addNewRequest();
@@ -197,7 +197,7 @@ public class RiderActivityTest{
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case3() throws InterruptedException {
         loginUser();
         addNewRequest();
@@ -219,16 +219,6 @@ public class RiderActivityTest{
         TextView driverName = (TextView) solo.getView(R.id.rider_driver_offer_name);
         solo.clickOnView(driverName);
         assertTrue(solo.waitForText("Car:",1,2000));
-
-        /*Button emailBtn = (Button) solo.getView(R.id.rider_offer_email_button);
-        solo.clickOnView(emailBtn);
-        assertFalse(solo.waitForText("Would you like to accept this offer?",1,2000));
-        solo.goBack();
-        Button phoneDialogBtn = (Button) solo.getView(R.id.dialog_call_button);
-        solo.clickOnView(phoneDialogBtn);
-        //assertTrue(solo.waitForText("Keypad",1,2000));
-        solo.goBack();*/
-
         solo.goBack();
 
         //Declining driver offer
@@ -252,7 +242,7 @@ public class RiderActivityTest{
      * @throws InterruptedException
      *       throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case4() throws InterruptedException {
         loginUser();
         addNewRequest();
@@ -305,7 +295,7 @@ public class RiderActivityTest{
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case5() throws InterruptedException {
         loginUser();
         addNewRequest();
