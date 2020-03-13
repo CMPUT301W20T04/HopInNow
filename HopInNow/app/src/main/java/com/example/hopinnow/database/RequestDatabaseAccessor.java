@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -44,6 +45,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
      *      if the request is added successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void addRequest(Request request, final AvailRequestListListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (this.currentUser == null) {
             Log.v(TAG, "user is not logged in!!!");
             return;

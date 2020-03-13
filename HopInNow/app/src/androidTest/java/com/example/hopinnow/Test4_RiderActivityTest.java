@@ -31,7 +31,7 @@ import static org.junit.Assert.assertFalse;
  * UI tests on rider side activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
-public class RiderActivityTest{
+public class Test4_RiderActivityTest {
     private Solo solo;
 
     //TODO fragment
@@ -78,7 +78,7 @@ public class RiderActivityTest{
         String userPassword = "12345678";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
         solo.goBack();
-        solo.clickOnButton("LOGIN");
+        solo.clickOnView(solo.getView(R.id.loginButton));
 
         Thread.sleep(2000);
     }
@@ -135,6 +135,8 @@ public class RiderActivityTest{
      * Auto complete fragment testing is currently in question and mocks are used.
      * @throws InterruptedException
      *      throws exception if thread is interrupted
+     *
+     *      todo: autocompletefragment cannot be entered with text
      */
     @Test
     public void Case1() throws InterruptedException {
@@ -205,30 +207,10 @@ public class RiderActivityTest{
         assertTrue(solo.waitForText("Would you like to accept this offer?",
                 1, 2000));
 
-        //TODO emergency call works, not driver calling
-        //Tests calling and emailing driver
-        /*Button emailBtn = (Button) solo.getView(R.id.rider_offer_email_button);
-        solo.clickOnView(emailBtn);
-        solo.goBack();
-        Button phoneBtn = (Button) solo.getView(R.id.rider_offer_call_button);
-        solo.clickOnView(phoneBtn);
-        //assertTrue(solo.waitForText("Keypad",1,2000));
-        solo.goBack();*/
-
         //Tests Dialog
         TextView driverName = (TextView) solo.getView(R.id.rider_driver_offer_name);
         solo.clickOnView(driverName);
         assertTrue(solo.waitForText("Car:",1,2000));
-
-        /*Button emailBtn = (Button) solo.getView(R.id.rider_offer_email_button);
-        solo.clickOnView(emailBtn);
-        assertFalse(solo.waitForText("Would you like to accept this offer?",1,2000));
-        solo.goBack();
-        Button phoneDialogBtn = (Button) solo.getView(R.id.dialog_call_button);
-        solo.clickOnView(phoneDialogBtn);
-        //assertTrue(solo.waitForText("Keypad",1,2000));
-        solo.goBack();*/
-
         solo.goBack();
 
         //Declining driver offer
