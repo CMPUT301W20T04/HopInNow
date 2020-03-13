@@ -83,6 +83,20 @@ public class Test4_RiderActivityTest {
         Thread.sleep(2000);
     }
 
+    /**
+     * Logs out user.
+     * @throws InterruptedException
+     *      throws exception if thread is interrupted
+     */
+    private void logoutUser() throws InterruptedException {
+
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnView(solo.getView(R.id.riderMyProfile));
+        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
+
+        Thread.sleep(2000);
+    }
+
 
     /**
      * Add new request.
@@ -130,6 +144,8 @@ public class Test4_RiderActivityTest {
     }
 
 
+
+
     /**
      * Checks menu button.
      * Auto complete fragment testing is currently in question and mocks are used.
@@ -163,6 +179,8 @@ public class Test4_RiderActivityTest {
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
 
+        logoutUser();
+
         Thread.sleep(2000);
     }
 
@@ -178,6 +196,8 @@ public class Test4_RiderActivityTest {
     public void Case2() throws InterruptedException, NumberFormatException {
         loginUser();
         addNewRequest();
+
+
         assertTrue(solo.waitForText("Time Elapsed:", 1, 2000));
         //double fare = Double.parseDouble(String.valueOf(solo.getView(R.id.fare_amount)));
 
@@ -190,6 +210,8 @@ public class Test4_RiderActivityTest {
 
         solo.clickOnButton("CANCEL REQUEST");
         assertTrue(solo.waitForText("HOP IN NOW!", 1, 2000));
+
+        logoutUser();
 
         Thread.sleep(2000);
     }
@@ -224,6 +246,8 @@ public class Test4_RiderActivityTest {
         solo.clickOnButton("CANCEL REQUEST");
         assertTrue(solo.waitForText("HOP IN NOW!",
                 1,2000));
+
+        logoutUser();
 
         Thread.sleep(2000);
     }
@@ -278,6 +302,8 @@ public class Test4_RiderActivityTest {
         solo.setProgressBar(0,8);
         solo.clickOnView(solo.getView(R.id.dialog_rating_cancel));
         assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
+
+        logoutUser();
 
         Thread.sleep(2000);
     }
