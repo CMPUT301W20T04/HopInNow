@@ -3,9 +3,9 @@ package com.example.hopinnow.entities;
 import java.util.ArrayList;
 
 /**
- * driver entity stores driver information, car, request, and trips
  * Author: Shuwei Wang
  * Version: 1.0.0
+ * driver entity stores driver information, car, request, and trips
  */
 public class Driver extends User {
     private Request curRequest;

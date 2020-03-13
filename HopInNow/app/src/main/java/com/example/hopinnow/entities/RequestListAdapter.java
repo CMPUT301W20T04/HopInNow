@@ -15,17 +15,16 @@ import com.example.hopinnow.activities.RequestListFragment;
 import java.util.ArrayList;
 
 /**
- * request list adapter which helps to parse custom request view into list view
- * Author: Hongru Qi
- * Version: 1.0.0
- */
-
-/**
  * Citation:
  * Author: William Kinaan
  * Date: April 5, 2013
  * Title: Android custom Row Item for ListView
  * Website: https://stackoverflow.com/questions/15832335/android-custom-row-item-for-listview
+ */
+/**
+ * Author: Hongru Qi
+ * Version: 1.0.0
+ * request list adapter which helps to parse custom request view into list view
  */
 public class RequestListAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<Request> list = new ArrayList<Request>();

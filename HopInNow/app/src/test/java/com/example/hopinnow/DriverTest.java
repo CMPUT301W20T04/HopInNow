@@ -16,9 +16,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 /**
- * driver entity test
  * Author: Hongru Qi
  * Version: 1.0.0
+ * driver entity test
  */
 public class DriverTest {
     /**

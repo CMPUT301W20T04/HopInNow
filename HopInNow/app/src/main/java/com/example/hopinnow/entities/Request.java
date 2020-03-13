@@ -4,9 +4,9 @@ import com.example.hopinnow.helperclasses.LatLong;
 import java.util.Date;
 
 /**
- * request class which records the unfinished trip
  * Author: Shuwei Wang
  * Version: 1.0.0
+ * request class which records the unfinished trip
  */
 public class Request extends Ride {
     private Double estimatedFare;
