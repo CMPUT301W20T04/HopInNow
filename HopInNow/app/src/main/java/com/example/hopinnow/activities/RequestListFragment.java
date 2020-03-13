@@ -42,7 +42,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private LatLong Loc2 = new LatLong(53.591611, -113.323975);
     private LatLong pickUp;
     private LatLong dropOff;
-
+    private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RequestDatabaseAccessor requestDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -54,8 +54,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         requestList = new ArrayList<>();
         //read request from database
 
-        //driverDatabaseAccessor = new DriverDatabaseAccessor();
-        //driverDatabaseAccessor.getDriverProfile(this);
+        driverDatabaseAccessor = new DriverDatabaseAccessor();
+        driverDatabaseAccessor.getDriverProfile(this);
         requestDatabaseAccessor = new RequestDatabaseAccessor();
         requestDatabaseAccessor.getAllRequest(this);
 /*
@@ -123,7 +123,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
-
+        this.current_driver = driver;
 
     }
 
@@ -134,6 +134,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
+        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
     }
 
@@ -195,8 +196,10 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 acceptBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
                         requestDatabaseAccessor.driverAcceptRequest(chooseRequest,RequestListFragment.this);
+                        //means confirm request
+
+
 
 
                     }
@@ -214,7 +217,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverRequestAccept() {
-
+        current_driver.setCurRequest(chooseRequest);
+        driverDatabaseAccessor.updateDriverProfile(current_driver, RequestListFragment.this);
     }
 
     @Override

@@ -27,10 +27,18 @@ public class Trip extends Ride {
         }
     }
 
+    /**
+     * return the cost of the trip
+     * @return cost
+     */
     public Double getCost() {
         return cost;
     }
 
+    /**
+     * set the cost to a new value
+     * @param cost
+     */
     public void setCost(Double cost) {
         try{
             this.cost = cost;
@@ -40,6 +48,10 @@ public class Trip extends Ride {
         }
     }
 
+    /**
+     * set the drop off time to a new value
+     * @param dropOffTime
+     */
     public void setDropOffTime(Date dropOffTime) {
         try{
             this.dropOffDateTime = dropOffTime;
@@ -49,6 +61,10 @@ public class Trip extends Ride {
         }
     }
 
+    /**
+     * set the duration to a new value
+     * @param duration
+     */
     public void setDuration(int duration) {
         try{
             this.duration = duration;
@@ -58,18 +74,34 @@ public class Trip extends Ride {
         }
     }
 
+    /**
+     * get the duration of a trip
+     * @return duration
+     */
     public int getDuration() {
         return duration;
     }
 
+    /**
+     * get drop off time
+     * @return dropOffDateTime
+     */
     public Date getDropOffTime() {
         return dropOffDateTime;
     }
 
+    /**
+     * get the rating of the trip
+     * @return rating
+     */
     public Double getRating() {
         return rating;
     }
 
+    /**
+     * set the rating to a new value
+     * @param rating
+     */
     public void setRating(Double rating) {
         try{
             this.rating = rating;

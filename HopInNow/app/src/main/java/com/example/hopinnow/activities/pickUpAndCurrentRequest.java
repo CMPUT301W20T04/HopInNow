@@ -28,6 +28,12 @@ import java.util.ArrayList;
 public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener {
     private Driver driver;
     private Request request;
+    TextView requestTitleText;
+    TextView requestFromText;
+    TextView requestToText;
+    TextView requestTimeText;
+    TextView requestCostText;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,11 +51,11 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             //Driver driver, Rider rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName,
             // String dropOffLocName,  Date pickUpDateTime,
             //                    Car car, Double estimatedFare
-            TextView requestTitleText = view.findViewById(R.id.RequestInfoText);
-            TextView requestFromText = view.findViewById(R.id.requestFromText);
-            TextView requestToText = view.findViewById(R.id.requestToText);
-            TextView requestTimeText = view.findViewById(R.id.requestTimeText);
-            TextView requestCostText = view.findViewById(R.id.requestCostText);
+            requestTitleText = view.findViewById(R.id.RequestInfoText);
+            requestFromText = view.findViewById(R.id.requestFromText);
+            requestToText = view.findViewById(R.id.requestToText);
+            requestTimeText = view.findViewById(R.id.requestTimeText);
+            requestCostText = view.findViewById(R.id.requestCostText);
             Button pickUpButton = view.findViewById(R.id.PickUpRiderButton);
             Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
@@ -68,11 +74,7 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 ((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
             }
 
-            /*
-            requestFromText.setText("From: "+);
-            requestToText.setText("To: "+);
-            requestTimeText.setText("Time: "+);
-            requestCostText.setText("Estimate Fare: "+);*/
+
             if(display_mode == 0){
                 //set pick up button on click listener
                 pickUpButton.setOnClickListener(new View.OnClickListener() {
@@ -103,8 +105,14 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
-    public void onDriverProfileRetrieveSuccess(Driver driver) {
-
+    public void onDriverProfileRetrieveSuccess(Driver driver)
+    {
+        this.driver = driver;
+        Request request = driver.getCurRequest();
+        requestFromText.setText("From: " + request.getPickUpLocName());
+        requestToText.setText("To: "+ request.getDropOffLocName());
+        requestTimeText.setText("Time: "+ request.getPickUpDateTime());
+        requestCostText.setText("Estimate Fare: "+request.getEstimatedFare());
     }
 
     @Override
