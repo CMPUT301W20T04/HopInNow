@@ -24,6 +24,7 @@ import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
+import com.example.hopinnow.statuslisteners.DriverRequestAcceptListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -31,16 +32,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener {
+public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener, DriverRequestAcceptListener {
     private Integer prePosition = -1;
     //private Driver driver;
     private ListView requestListView;
     private ArrayList<Request> requestList;
-    private Request request1;
+    private Request chooseRequest;
     private LatLong Loc1 = new LatLong(53.651611, -113.323975);
     private LatLong Loc2 = new LatLong(53.591611, -113.323975);
     private LatLong pickUp;
     private LatLong dropOff;
+
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RequestDatabaseAccessor requestDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -175,12 +177,12 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 View itemView = getViewByPosition(position, requestListView);
                 Button acceptBtn = itemView.findViewById(R.id.accept_btn);
                 acceptBtn.setVisibility(View.VISIBLE);
-
-                pickUp = requestList.get(position).getPickUpLoc();
+                chooseRequest = requestList.get(position);
+                pickUp = chooseRequest.getPickUpLoc();
                 LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
 
                 ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
-                dropOff = requestList.get(position).getDropOffLoc();
+                dropOff = chooseRequest.getDropOffLoc();
                 LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
                 ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
                 ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
@@ -194,6 +196,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                     @Override
                     public void onClick(View v) {
                         ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
+                        requestDatabaseAccessor.driverAcceptRequest(chooseRequest,RequestListFragment.this);
 
 
                     }
@@ -206,6 +209,16 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onGetRequiredRequestsFailure() {
+
+    }
+
+    @Override
+    public void onDriverRequestAccept() {
+
+    }
+
+    @Override
+    public void onDriverRequestTimeoutOrFail() {
 
     }
 }
