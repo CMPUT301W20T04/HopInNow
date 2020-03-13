@@ -40,16 +40,6 @@ public class Car implements Serializable {
         }
     }
 
-    /**
-     * set car by input required by parcelable
-     * @param in
-     */
-    protected Car(Parcel in) {
-        make = in.readString();
-        model = in.readString();
-        color = in.readString();
-        plateNumber = in.readString();
-    }
 
     /**
      * get car color

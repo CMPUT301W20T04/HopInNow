@@ -24,7 +24,8 @@ import com.google.type.LatLng;
  * Version: 1.0.0
  * Show the detail information of historical trip after clicking on one row in trip history
  */
-public class TripDetailActivity extends AppCompatActivity implements DriverProfileStatusListener, UserProfileStatusListener, RiderProfileStatusListener {
+public class TripDetailActivity extends AppCompatActivity implements DriverProfileStatusListener,
+        UserProfileStatusListener, RiderProfileStatusListener {
     private TextView driverEmail;
     private TextView riderEmail;
     public TextView pickUpLocation;
@@ -100,7 +101,6 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         this.type = user.isUserType();
         if(type){
             //driver
-
             //function that get the certain trip from the database
             driverDatabaseAccessor = new DriverDatabaseAccessor();
             driverDatabaseAccessor.getDriverProfile(this);
@@ -133,7 +133,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
         this.rider = rider;
-        trip = rider.getRiderTripList().get(search_key);
+        trip = this.rider.getRiderTripList().get(search_key);
         driverEmail.setText("Driver Email: "+trip.getDriverEmail());
         riderEmail.setText("Rider Email: "+trip.getRiderEmail());
         pickUpLocation.setText(String.format("Pick Up Location: (%f, %f)",trip.getPickUpLoc().getLat(),trip.getPickUpLoc().getLng()));

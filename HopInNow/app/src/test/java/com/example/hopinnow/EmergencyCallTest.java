@@ -1,16 +1,9 @@
 package com.example.hopinnow;
 
-import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.EmergencyCall;
-import com.example.hopinnow.entities.Request;
-import com.example.hopinnow.helperclasses.LatLong;
-
 import org.junit.Test;
 
-import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Author: Hongru Qi
