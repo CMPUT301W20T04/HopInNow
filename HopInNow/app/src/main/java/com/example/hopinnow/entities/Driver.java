@@ -49,15 +49,11 @@ public class Driver extends User {
 
     /**
      * get current request
+     * can be null as database set needs to perform get
      * @return
      */
     public Request getCurRequest() {
-        if (curRequest == null){
-            throw new NullPointerException();
-        }
-        else{
-            return curRequest;
-        }
+        return curRequest;
     }
 
     /**
