@@ -16,10 +16,20 @@ import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+/**
+ * Author: Zhiqi Zhou
+ * Version: 1.0.0
+ * menu for driver, contains my profile, history trips and car information
+ */
 public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
 
     private TextView driverMenuTextView;
     private DriverDatabaseAccessor userDatabaseAccessor;
+
+    /**
+     * create the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

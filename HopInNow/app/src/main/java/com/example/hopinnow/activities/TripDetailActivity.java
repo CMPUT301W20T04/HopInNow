@@ -19,6 +19,11 @@ import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.type.LatLng;
 
+/**
+ * Author: Qianxi Li
+ * Version: 1.0.0
+ * Show the detail information of historical trip after clicking on one row in trip history
+ */
 public class TripDetailActivity extends AppCompatActivity implements DriverProfileStatusListener, UserProfileStatusListener, RiderProfileStatusListener {
     private TextView driverEmail;
     private TextView riderEmail;

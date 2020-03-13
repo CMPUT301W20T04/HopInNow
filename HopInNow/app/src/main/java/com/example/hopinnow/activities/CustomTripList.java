@@ -15,6 +15,11 @@ import com.example.hopinnow.entities.Trip;
 
 import java.util.ArrayList;
 
+/**
+ * Author: Qianxi Li
+ * Version: 1.0.0
+ * customize the trip history list
+ */
 public class CustomTripList extends ArrayAdapter<Trip> {
     private ArrayList<Trip> trips; // store all the trips in an array list
     private Context context;

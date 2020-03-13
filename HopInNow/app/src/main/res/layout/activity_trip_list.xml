@@ -10,12 +10,12 @@
         android:id="@+id/tripListTitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TripList:"
-        android:textColor="@color/ColorWhite"
         android:background="@color/colorDark"
-        android:textSize="30sp"
         android:gravity="center"
-        />
+        android:text="Trip History:"
+        android:textColor="@color/ColorWhite"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/trip_list"

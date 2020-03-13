@@ -25,6 +25,11 @@ import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
 import java.util.ArrayList;
 
+/**
+ * Author: Qianxi Li
+ * Version: 1.0.0
+ * show the current request that driver has accepted
+ */
 public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener {
     private Driver driver;
     private Request request;

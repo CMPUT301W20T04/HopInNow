@@ -6,6 +6,11 @@ import android.os.Bundle;
 
 import com.example.hopinnow.R;
 
+/**
+ * Author: Hongru Qi
+ * Version: 1.0.0
+ * show the history trips for driver
+ */
 public class DriverTripListActivity extends AppCompatActivity {
 
     @Override

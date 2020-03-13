@@ -19,6 +19,11 @@ import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * Author: Zhiqi Zhou
+ * Version: 1.0.0
+ * show and edit user profile for both rider and driver
+ */
 public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener {
     // establish the TAG of this activity:
     public static final String TAG = "ProfileActivity";

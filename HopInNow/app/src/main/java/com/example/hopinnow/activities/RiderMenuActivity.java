@@ -9,6 +9,11 @@ import android.widget.Button;
 
 import com.example.hopinnow.R;
 
+/**
+ * Author: Zhiqi Zhou
+ * Version: 1.0.0
+ * menu for rider which contains user profile and historical trips
+ */
 public class RiderMenuActivity extends AppCompatActivity {
 
 

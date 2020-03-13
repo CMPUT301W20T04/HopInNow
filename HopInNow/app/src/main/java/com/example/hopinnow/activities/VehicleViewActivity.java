@@ -22,6 +22,11 @@ import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * Author: Zhiqi Zhou
+ * Version: 1.0.0
+ * car information page for driver in driver's menu where driver can check and update their car info
+ */
 public class VehicleViewActivity extends AppCompatActivity implements DriverProfileStatusListener {
 
     private Button updateBtn;
