@@ -55,9 +55,6 @@ public class TripTest {
             trip.getCar();
         });
         assertThrows(NullPointerException.class, () -> {
-            trip.getDriverEmail();
-        });
-        assertThrows(NullPointerException.class, () -> {
             trip.getDropOffLoc();
         });
         assertThrows(NullPointerException.class, () -> {

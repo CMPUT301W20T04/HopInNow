@@ -206,6 +206,7 @@ public abstract class Ride {
 
     /**
      * return driver email
+     * can be null for request initialization
      * @return driverEmail
      */
     public String getDriverEmail() {

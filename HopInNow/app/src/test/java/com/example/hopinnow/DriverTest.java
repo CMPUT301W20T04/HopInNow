@@ -63,9 +63,6 @@ public class DriverTest {
             driver.getDriverTripList();
         });
         assertThrows(NullPointerException.class, () -> {
-            driver.getCar();
-        });
-        assertThrows(NullPointerException.class, () -> {
             driver.getRating();
         });
         assertThrows(NullPointerException.class, () -> {
