@@ -22,7 +22,8 @@ import java.util.Objects;
  * This class defines the fragment while rider is waiting for driver offer.
  * This class is triggered by by rider creating a new current request.
  */
-public class RiderWaitingDriverFragment extends Fragment {
+public class  RiderWaitingDriverFragment extends Fragment {
+
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private Chronometer chronometer;
     private boolean running;

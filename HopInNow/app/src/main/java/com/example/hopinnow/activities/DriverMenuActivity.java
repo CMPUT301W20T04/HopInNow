@@ -18,24 +18,23 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
 
-    private FloatingActionButton offlineBtn;
-    private Button driverMyProfileBtn, driverMyTripsBtn, vehicleInfoBtn;
     private TextView driverMenuTextView;
     private DriverDatabaseAccessor userDatabaseAccessor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_menu);
-
-        driverMyProfileBtn = (Button) findViewById(R.id.driverMyProfileBtn);
-        driverMyTripsBtn = (Button) findViewById(R.id.driverMyTripsBtn);
-        vehicleInfoBtn = (Button) findViewById(R.id.vehicleInfoBtn);
-        offlineBtn = (FloatingActionButton) findViewById(R.id.offlineBtn);
+        //initialize buttons
+        Button driverMyProfileBtn = (Button) findViewById(R.id.driverMyProfileBtn);
+        Button driverMyTripsBtn = (Button) findViewById(R.id.driverMyTripsBtn);
+        Button vehicleInfoBtn = (Button) findViewById(R.id.vehicleInfoBtn);
+        FloatingActionButton offlineBtn = (FloatingActionButton) findViewById(R.id.offlineBtn);
         this.userDatabaseAccessor = new DriverDatabaseAccessor();
 
         driverMyProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // set driver check my profile button listener
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
             }
@@ -44,18 +43,19 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
         driverMyTripsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //set driver check trip button listener
                 Intent intent = new Intent(getApplicationContext(), TripListActivity.class);
                 startActivity(intent);
             }
         });
-
+        //
         vehicleInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 userDatabaseAccessor.getDriverProfile(DriverMenuActivity.this);
             }
         });
-
+        // set driver offline when click on the offline button
         offlineBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,8 +64,16 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
         });
 
     }
+
+    /**
+     * when retrieve the driver profile successful,
+     * open vehicle view activity to display the car information
+     * @param driver
+     */
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
+        // when retrieve the driver profile successful,
+        // open vehicle view activity to display the car information
         Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("DriverObject", driver);

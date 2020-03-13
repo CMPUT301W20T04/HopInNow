@@ -14,12 +14,28 @@ import com.example.hopinnow.activities.RequestListFragment;
 
 import java.util.ArrayList;
 
+/**
+ * request list adapter which helps to parse custom request view into list view
+ * Author: Hongru Qi
+ * Version: 1.0.0
+ */
+
+/**
+ * Citation:
+ * Author: William Kinaan
+ * Date: April 5, 2013
+ * Title: Android custom Row Item for ListView
+ * Website: https://stackoverflow.com/questions/15832335/android-custom-row-item-for-listview
+ */
 public class RequestListAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<Request> list = new ArrayList<Request>();
     private Context context;
 
-
-
+    /**
+     * constructor
+     * @param list
+     * @param context
+     */
     public RequestListAdapter(ArrayList<Request> list, Context context) {
         try{
             this.list = list;
@@ -30,21 +46,42 @@ public class RequestListAdapter extends BaseAdapter implements ListAdapter {
         }
     }
 
+    /**
+     * get the size of request list
+     * @return
+     */
     @Override
     public int getCount() {
         return list.size();
     }
 
+    /**
+     * get the request item at specific position
+     * @param pos
+     * @return
+     */
     @Override
     public Object getItem(int pos) {
         return list.get(pos);
     }
 
+    /**
+     * get item id (not used)
+     * @param position
+     * @return
+     */
     @Override
     public long getItemId(int position) {
         return 0;
     }
 
+    /**
+     * get the view of one request row and add it to the listView
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;

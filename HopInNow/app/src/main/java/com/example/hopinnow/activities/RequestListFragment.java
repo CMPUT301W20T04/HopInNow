@@ -24,6 +24,7 @@ import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
+import com.example.hopinnow.statuslisteners.DriverRequestAcceptListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -31,15 +32,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener {
+public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener, DriverRequestAcceptListener {
     private Integer prePosition = -1;
     //private Driver driver;
+    private ListView requestListView;
     private ArrayList<Request> requestList;
-    private Request request1;
+    private Request chooseRequest;
     private LatLong Loc1 = new LatLong(53.651611, -113.323975);
     private LatLong Loc2 = new LatLong(53.591611, -113.323975);
     private LatLong pickUp;
     private LatLong dropOff;
+    private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RequestDatabaseAccessor requestDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -47,24 +50,17 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
 
         View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
-
-        requestList = new ArrayList<Request>();
-        //String driver, String rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName, String dropOffLocName,  Date pickUpDateTime,
-        //                    Car car, Double estimatedFare
+        requestListView = (ListView)view.findViewById(R.id.requestList);
+        requestList = new ArrayList<>();
         //read request from database
 
-        //driverDatabaseAccessor = new DriverDatabaseAccessor();
-        //driverDatabaseAccessor.getDriverProfile(this);
-        //requestDatabaseAccessor = new RequestDatabaseAccessor();
-        //requestDatabaseAccessor.getAllRequest(this);
-        request1 = new Request(null,"fulangji@gmail.com",Loc1,Loc2,"123","345",null,null,1.6);
-        requestList.add(request1);
-        requestList.add(request1);
-        requestList.add(request1);
+        driverDatabaseAccessor = new DriverDatabaseAccessor();
+        driverDatabaseAccessor.getDriverProfile(this);
+        requestDatabaseAccessor = new RequestDatabaseAccessor();
+        requestDatabaseAccessor.getAllRequest(this);
+/*
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity)getActivity()).setButtonInvisible();
-
-        //RequestListAdapter adapter = new RequestListAdapter(requestList, this.getContext());
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
         final ListView requestListView = (ListView)view.findViewById(R.id.requestList);
         requestListView.setAdapter(adapter);
@@ -76,11 +72,14 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 acceptBtn.setVisibility(View.VISIBLE);
 
                 pickUp = requestList.get(position).getPickUpLoc();
-                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp);
+                LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
+                LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
+                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
                 dropOff = requestList.get(position).getDropOffLoc();
-                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff);
+
+                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
 
                 if (prePosition != -1){
                     Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
@@ -91,12 +90,13 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                     public void onClick(View v) {
                         ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
+
                     }
                 });
                 prePosition = position;
 
             }
-        });
+        });*/
 
 
         return view;
@@ -123,7 +123,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
-
+        this.current_driver = driver;
 
     }
 
@@ -134,6 +134,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
+        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
     }
 
@@ -164,11 +165,63 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        this.requestList = (ArrayList<Request>)requests;
+        this.requestList = requests;
+
+        final FragmentActivity fragmentActivity = getActivity();
+        ((DriverMapActivity)getActivity()).setButtonInvisible();
+        RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
+
+        requestListView.setAdapter(adapter);
+        requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View itemView = getViewByPosition(position, requestListView);
+                Button acceptBtn = itemView.findViewById(R.id.accept_btn);
+                acceptBtn.setVisibility(View.VISIBLE);
+                chooseRequest = requestList.get(position);
+                pickUp = chooseRequest.getPickUpLoc();
+                LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
+
+                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
+                dropOff = chooseRequest.getDropOffLoc();
+                LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
+                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
+
+                if (prePosition != -1){
+                    Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
+                    preAcceptBtn.setVisibility(View.INVISIBLE);
+                }
+                acceptBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        chooseRequest.setDriverEmail(current_driver.getEmail());
+                        requestDatabaseAccessor.driverAcceptRequest(chooseRequest,RequestListFragment.this);
+                        //means confirm request
+
+                    }
+                });
+                prePosition = position;
+
+            }
+        });
     }
 
     @Override
     public void onGetRequiredRequestsFailure() {
+
+    }
+
+    @Override
+    public void onDriverRequestAccept() {
+        current_driver.setCurRequest(chooseRequest);
+        driverDatabaseAccessor.updateDriverProfile(current_driver, RequestListFragment.this);
+
+    }
+
+    @Override
+    public void onDriverRequestTimeoutOrFail() {
 
     }
 }

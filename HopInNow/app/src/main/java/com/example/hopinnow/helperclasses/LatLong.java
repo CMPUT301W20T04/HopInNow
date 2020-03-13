@@ -14,18 +14,34 @@ public class LatLong {
         this.lng = lng;
     }
 
+    /**
+     * return the latitude
+     * @return lat
+     */
     public double getLat() {
         return lat;
     }
 
+    /**
+     * set the longitude
+     * @param lat
+     */
     public void setLat(double lat) {
         this.lat = lat;
     }
 
+    /**
+     * get the longitude
+     * @return lng
+     */
     public double getLng() {
         return lng;
     }
 
+    /**
+     * set the longitude
+     * @param lng
+     */
     public void setLng(double lng) {
         this.lng = lng;
     }
