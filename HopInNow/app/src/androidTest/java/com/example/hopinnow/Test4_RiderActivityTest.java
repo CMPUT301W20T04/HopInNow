@@ -135,8 +135,10 @@ public class Test4_RiderActivityTest {
      * Auto complete fragment testing is currently in question and mocks are used.
      * @throws InterruptedException
      *      throws exception if thread is interrupted
+     *
+     *      FIXME: autocompletefragment cannot be entered with text
      */
-    //@Test
+    @Test
     public void Case1() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         loginUser();
@@ -172,7 +174,7 @@ public class Test4_RiderActivityTest {
      * @throws NumberFormatException
      *      throws exception if string is converted to a number
      */
-    //@Test
+    @Test
     public void Case2() throws InterruptedException, NumberFormatException {
         loginUser();
         addNewRequest();
@@ -197,23 +199,13 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case3() throws InterruptedException {
         loginUser();
         addNewRequest();
         solo.clickOnButton(">");
         assertTrue(solo.waitForText("Would you like to accept this offer?",
                 1, 2000));
-
-        //TODO emergency call works, not driver calling
-        //Tests calling and emailing driver
-        /*Button emailBtn = (Button) solo.getView(R.id.rider_offer_email_button);
-        solo.clickOnView(emailBtn);
-        solo.goBack();
-        Button phoneBtn = (Button) solo.getView(R.id.rider_offer_call_button);
-        solo.clickOnView(phoneBtn);
-        //assertTrue(solo.waitForText("Keypad",1,2000));
-        solo.goBack();*/
 
         //Tests Dialog
         TextView driverName = (TextView) solo.getView(R.id.rider_driver_offer_name);
@@ -242,7 +234,7 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *       throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case4() throws InterruptedException {
         loginUser();
         addNewRequest();
@@ -295,7 +287,7 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case5() throws InterruptedException {
         loginUser();
         addNewRequest();

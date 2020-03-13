@@ -77,7 +77,7 @@ public class Test3_RiderMenuActivityTest {
         solo.goBack();
 
         //test my profile
-        solo.clickOnButton("My Profile");
+        solo.clickOnView(solo.getView(R.id.riderMyProfile));
         Thread.sleep(2000);
         solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 

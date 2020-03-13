@@ -60,7 +60,7 @@ public class Test1_RegisterActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case1_registerDriver() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", RegisterActivity.class);
 
@@ -141,12 +141,11 @@ public class Test1_RegisterActivityTest {
         solo.enterText((EditText)solo.getView(R.id.reRegPassword2),"1111111");
 
 
+        // register would not work since email is already registered
         solo.clickOnButton("Register");
         Thread.sleep(2000);
-        solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", RegisterActivity.class);
 
-        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
-        solo.clickOnButton("My Profile");
         Thread.sleep(2000);
 
         //solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
