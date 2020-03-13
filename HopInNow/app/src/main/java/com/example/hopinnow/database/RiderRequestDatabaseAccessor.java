@@ -47,10 +47,10 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                              if (Objects.requireNonNull(request).getDriverEmail() != null) {
                                  Log.v(TAG, "Got data: ");
                                  listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
-                             } else {
+                             } /*else {
                                  // continue waiting
                                  riderWaitForRequestAcceptance(listener);
-                             }
+                             }*/
                          } else {
                              Log.v(TAG, "Current data: null");
                              listener.onRiderRequestTimeoutOrFail();
