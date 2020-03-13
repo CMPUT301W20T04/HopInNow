@@ -33,14 +33,16 @@ import java.util.Date;
  * Version: 1.0.0
  * show the current request that driver has accepted
  */
-public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener {
+public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener, AvailRequestListListener {
     private Driver driver;
     private Request request;
+    private ArrayList<Request> requestList = new ArrayList<>();
     TextView requestTitleText;
     TextView requestFromText;
     TextView requestToText;
     TextView requestTimeText;
     TextView requestCostText;
+    private RequestDatabaseAccessor requestDatabaseAccessor;
 
     @Nullable
     @Override
@@ -80,7 +82,14 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     @Override
                     public void onClick(View v) {
                         // switch to a fragment that display the request information and pick up button.
-                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up); }
+                        String rider_email = driver.getCurRequest().getRiderEmail();
+
+                        requestDatabaseAccessor = new RequestDatabaseAccessor();
+                        requestDatabaseAccessor.getAllRequest(pickUpAndCurrentRequest.this);
+
+
+
+                    }
                 });}
             else{
                 // switch to a fragment that display the request information and drop off button.
@@ -148,4 +157,42 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     }
 
+    @Override
+    public void onRequestAddedSuccess() {
+
+    }
+
+    @Override
+    public void onRequestAddedFailure() {
+
+    }
+
+    @Override
+    public void onRequestDeleteSuccess() {
+
+    }
+
+    @Override
+    public void onRequestDeleteFailure() {
+
+    }
+
+    @Override
+    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
+        this.requestList = requests;
+        for(int i=0;i<this.requestList.size();i++){
+            if(this.requestList.get(i).getRequestID() == driver.getCurRequest().getRequestID()){
+                this.request = this.requestList.get(i);
+            }
+        }
+
+        request.setPickedUp(true);
+
+        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
+    }
+
+    @Override
+    public void onGetRequiredRequestsFailure() {
+
+    }
 }
