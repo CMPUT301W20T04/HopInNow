@@ -132,11 +132,11 @@ public abstract class Ride {
 
     /**
      * return car object
-     * can be null for request initialization
      * @return car
      */
     public Car getCar() {
         return car;
+
     }
 
     /**

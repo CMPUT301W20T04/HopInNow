@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -77,7 +78,7 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
      *      otherwise, onFailure.
      */
     public void getDriverProfile(final DriverProfileStatusListener listener) {
-        this.currentUser = firebaseAuth.getCurrentUser();
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         // check if logged in:
         if (this.currentUser != null) {
             Objects.requireNonNull(this.firestore
