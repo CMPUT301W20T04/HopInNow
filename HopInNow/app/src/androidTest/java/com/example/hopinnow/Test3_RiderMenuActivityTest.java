@@ -85,12 +85,14 @@ public class Test3_RiderMenuActivityTest {
         solo.clickOnView(solo.getView(R.id.editProfileBtn));
         Thread.sleep(2000);
 
-        solo.clearEditText(R.id.proPhoneET);
-        solo.enterText(solo.getEditText(R.id.proPhoneET),"1111111");
+        EditText phoneET = (EditText) solo.getView(R.id.proPhoneET);
+        solo.clearEditText(phoneET);
+        solo.enterText(phoneET,"1111111");
         assertTrue(solo.waitForText("1111111",1,2000));
 
-        solo.clearEditText(R.id.proNameET);
-        solo.enterText(solo.getEditText(R.id.proNameET),"folanqi");
+        EditText nameET = (EditText) solo.getView(R.id.proNameET);
+        solo.clearEditText(nameET);
+        solo.enterText(nameET,"folanqi");
         assertTrue(solo.waitForText("folanqi",1,2000));
 
         solo.clickOnView(solo.getView(R.id.proUpdateBtn));
