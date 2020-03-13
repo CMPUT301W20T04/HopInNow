@@ -48,16 +48,15 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
         tripList = findViewById(R.id.trip_list);
         userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getUserProfile(this);
-        if(usertype){
-            //is a driver
-            driverDatabaseAccessor = new DriverDatabaseAccessor();
-            driverDatabaseAccessor.getDriverProfile(this);
-        }else{
-            //is a rider
-            riderDatabaseAccessor = new RiderDatabaseAccessor();
-            riderDatabaseAccessor.getRiderProfile(this);
 
-        }
+
+
+    }
+
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+        this.tripDataList = driver.getDriverTripList();
 
 
 
@@ -73,13 +72,6 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
                 startActivity(intent);
             }
         });
-
-    }
-
-
-    @Override
-    public void onDriverProfileRetrieveSuccess(Driver driver) {
-        this.tripDataList = driver.getDriverTripList();
     }
 
     @Override
@@ -110,6 +102,16 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
     @Override
     public void onProfileRetrieveSuccess(User user) {
         this.usertype = user.isUserType();
+        if(usertype){
+            //is a driver
+            driverDatabaseAccessor = new DriverDatabaseAccessor();
+            driverDatabaseAccessor.getDriverProfile(this);
+        }else{
+            //is a rider
+            riderDatabaseAccessor = new RiderDatabaseAccessor();
+            riderDatabaseAccessor.getRiderProfile(this);
+
+        }
     }
 
     @Override
