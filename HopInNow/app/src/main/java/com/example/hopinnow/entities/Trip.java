@@ -5,37 +5,14 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
-/**
- * trip class extends ride which stands for all finished trips
- * Author: Shuwei Wang
- * Version: 1.0.0
- */
 public class Trip extends Ride {
     private Double cost;
     private Double rating;
     private Date dropOffDateTime;
     private Integer duration;
 
-    /**
-     * empty constructor
-     */
     public Trip(){}
 
-    /**
-     * trip constructor
-     * @param driver
-     * @param rider
-     * @param pickUpLoc
-     * @param dropOffLoc
-     * @param pickUpLocName
-     * @param dropOffLocName
-     * @param pickUpDateTime
-     * @param dropOffTime
-     * @param duration
-     * @param car
-     * @param cost
-     * @param rating
-     */
     public Trip(String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                 Date dropOffTime, int duration, Car car, Double cost, Double rating) {
         super(driver, rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, pickUpDateTime, car);
@@ -51,8 +28,8 @@ public class Trip extends Ride {
     }
 
     /**
-     * get cost
-     * @return
+     * return the cost of the trip
+     * @return cost
      */
     public Double getCost() {
         if (cost == null){
@@ -64,7 +41,7 @@ public class Trip extends Ride {
     }
 
     /**
-     * set cost
+     * set the cost to a new value
      * @param cost
      */
     public void setCost(Double cost) {
@@ -77,7 +54,7 @@ public class Trip extends Ride {
     }
 
     /**
-     * set drop off time
+     * set the drop off time to a new value
      * @param dropOffTime
      */
     public void setDropOffTime(Date dropOffTime) {
@@ -90,7 +67,7 @@ public class Trip extends Ride {
     }
 
     /**
-     * set trip duration
+     * set the duration to a new value
      * @param duration
      */
     public void setDuration(int duration) {
@@ -103,8 +80,8 @@ public class Trip extends Ride {
     }
 
     /**
-     * get trip duration
-     * @return
+     * get the duration of a trip
+     * @return duration
      */
     public int getDuration() {
         if (duration == null){
@@ -117,7 +94,7 @@ public class Trip extends Ride {
 
     /**
      * get drop off time
-     * @return
+     * @return dropOffDateTime
      */
     public Date getDropOffTime() {
         if (dropOffDateTime == null){
@@ -129,8 +106,8 @@ public class Trip extends Ride {
     }
 
     /**
-     * get trip rating
-     * @return
+     * get the rating of the trip
+     * @return rating
      */
     public Double getRating() {
         if (rating == null){
@@ -142,7 +119,7 @@ public class Trip extends Ride {
     }
 
     /**
-     * set trip rating
+     * set the rating to a new value
      * @param rating
      */
     public void setRating(Double rating) {

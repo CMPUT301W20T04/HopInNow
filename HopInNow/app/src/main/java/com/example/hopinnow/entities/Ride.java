@@ -5,11 +5,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
-/**
- * ride class which defines all common functions of trips and requests
- * Author: Shuwei Wang
- * Version: 1.0.0
- */
 public abstract class Ride {
     private String driverEmail;
     private String riderEmail;
@@ -20,22 +15,8 @@ public abstract class Ride {
     private Date pickUpDateTime;
     private Car car;
 
-    /**
-     * empty constructor
-     */
     public Ride(){}
 
-    /**
-     * ride constructor
-     * @param driverEmail
-     * @param riderEmail
-     * @param pickUpLoc
-     * @param dropOffLoc
-     * @param pickUpLocName
-     * @param dropOffLocName
-     * @param pickUpDateTime
-     * @param car
-     */
     public Ride (String driverEmail, String riderEmail, LatLong pickUpLoc, LatLong dropOffLoc,
                  String pickUpLocName, String dropOffLocName, Date pickUpDateTime, Car car){
         try{
@@ -53,10 +34,8 @@ public abstract class Ride {
         }
     }
 
-    /**
-     * set pick up location
-     * @param pickUpLoc
-     */
+    //setters for all attributes
+
     public void setPickUpLoc(LatLong pickUpLoc){
         try{
             this.pickUpLoc = pickUpLoc;
@@ -66,10 +45,6 @@ public abstract class Ride {
         }
     }
 
-    /**
-     * set drop off location
-     * @param dropOffLoc
-     */
     public void setDropOffLoc(LatLong dropOffLoc){
         try{
             this.dropOffLoc = dropOffLoc;
@@ -79,10 +54,6 @@ public abstract class Ride {
         }
     }
 
-    /**
-     * set pick up time
-     * @param dateTime
-     */
     public void setPickUpDateTime(Date dateTime) {
         try{
             this.pickUpDateTime = dateTime;
@@ -93,7 +64,7 @@ public abstract class Ride {
     }
 
     /**
-     * set car information
+     * set car to new value
      * @param car
      */
     public void setCar(Car car) {
@@ -106,7 +77,7 @@ public abstract class Ride {
     }
 
     /**
-     * set drop off location name
+     * set drop off location name to a new value
      * @param dropOffLocName
      */
     public void setDropOffLocName(String dropOffLocName) {
@@ -119,7 +90,7 @@ public abstract class Ride {
     }
 
     /**
-     * set pick up location name
+     * set pick up location name to a new value
      * @param pickUpLocName
      */
     public void setPickUpLocName(String pickUpLocName) {
@@ -132,7 +103,7 @@ public abstract class Ride {
     }
 
     /**
-     * set driver email
+     * set driver email to a new value
      * @param driverEmail
      */
     public void setDriverEmail(String driverEmail) {
@@ -145,7 +116,7 @@ public abstract class Ride {
     }
 
     /**
-     * set rider email
+     * set rider email to a new value
      * @param riderEmail
      */
     public void setRiderEmail(String riderEmail) {
@@ -157,9 +128,11 @@ public abstract class Ride {
         }
     }
 
+    //getters
+
     /**
-     * get the car information
-     * @return
+     * return car object
+     * @return car
      */
     public Car getCar() {
         if (car == null){
@@ -171,8 +144,8 @@ public abstract class Ride {
     }
 
     /**
-     * get pick up time
-     * @return
+     * return pick up date time
+     * @return pickUpDateTime
      */
     public Date getPickUpDateTime() {
         if (pickUpDateTime == null){
@@ -184,8 +157,8 @@ public abstract class Ride {
     }
 
     /**
-     * get drop off location
-     * @return
+     * return drop off location
+     * @return dropOffLoc
      */
     public LatLong getDropOffLoc() {
         if (dropOffLoc == null){
@@ -197,8 +170,8 @@ public abstract class Ride {
     }
 
     /**
-     * get pick up location
-     * @return
+     * return pick up location
+     * @return pickUpLoc
      */
     public LatLong getPickUpLoc() {
         if (pickUpLoc == null){
@@ -210,8 +183,8 @@ public abstract class Ride {
     }
 
     /**
-     * get pick up location name
-     * @return
+     * return pick up location name
+     * @return pickUpLocName
      */
     public String getPickUpLocName() {
         if (pickUpLocName == null){
@@ -223,8 +196,8 @@ public abstract class Ride {
     }
 
     /**
-     * get drop off location name
-     * @return
+     * return drop off location name
+     * @return dropOffLocName
      */
     public String getDropOffLocName() {
         if (dropOffLocName == null){
@@ -236,8 +209,8 @@ public abstract class Ride {
     }
 
     /**
-     * get driver email
-     * @return
+     * return driver email
+     * @return driverEmail
      */
     public String getDriverEmail() {
         if (driverEmail == null){
@@ -249,8 +222,8 @@ public abstract class Ride {
     }
 
     /**
-     * get rider email
-     * @return
+     * return rider email
+     * @return riderEmail
      */
     public String getRiderEmail() {
         if (riderEmail == null){

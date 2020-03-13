@@ -16,8 +16,14 @@ import com.example.hopinnow.entities.Trip;
 import java.util.ArrayList;
 
 public class CustomTripList extends ArrayAdapter<Trip> {
-    private ArrayList<Trip> trips;
+    private ArrayList<Trip> trips; // store all the trips in an array list
     private Context context;
+
+    /**
+     * constructor for CustomTripList
+     * @param context
+     * @param trips
+     */
     public CustomTripList(Context context, ArrayList<Trip> trips){
         super(context,0,trips);
         this.trips = trips;
@@ -33,6 +39,7 @@ public class CustomTripList extends ArrayAdapter<Trip> {
             view = LayoutInflater.from(context).inflate(R.layout.activity_trip_list_each_record,parent,false);
 
         }
+        // get the single trip from the trip data list and set texts for single view.
         Trip trip = trips.get(position);
         TextView fromText = view.findViewById(R.id.fromText);
         TextView toText = view.findViewById(R.id.ToText);
