@@ -24,6 +24,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
+import com.example.hopinnow.helperclasses.LatLong;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -280,14 +281,16 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      */
     private Trip toTrip(){
         int duration = (int) (curRequest.getPickUpDateTime().getTime() - dropOffDateTime.getTime());
-        LatLng pickUpLoc = curRequest.getPickUpLoc();
-        LatLng dropOffLoc = curRequest.getPickUpLoc();
+        LatLong mpickUpLoc = curRequest.getPickUpLoc();
+        LatLng pickUpLoc = new LatLng(mpickUpLoc.getLat(), mpickUpLoc.getLng());
+        LatLong mdropOffLoc = curRequest.getDropOffLoc();
+        LatLng dropOffLoc = new LatLng(mdropOffLoc.getLat(), mdropOffLoc.getLng());
         String dropOffName = curRequest.getDropOffLocName();
         String pickUpName = curRequest.getPickUpLocName();
         Date pickUpTime = curRequest.getPickUpDateTime();
         Car car = driver.getCar();
-        return new Trip(driver.getEmail(),rider.getEmail(),pickUpLoc,dropOffLoc,pickUpName,dropOffName,pickUpTime,
-                dropOffDateTime, duration, car,totalPayment,myRating);
+        return new Trip(driver.getEmail(),rider.getEmail(),mpickUpLoc,mdropOffLoc,pickUpName,
+                dropOffName,pickUpTime, dropOffDateTime, duration, car,totalPayment,myRating);
     }
 
 

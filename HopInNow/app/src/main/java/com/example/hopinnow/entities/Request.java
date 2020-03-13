@@ -2,6 +2,7 @@ package com.example.hopinnow.entities;
 
 import android.location.Location;
 
+import com.example.hopinnow.helperclasses.LatLong;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
@@ -14,7 +15,7 @@ public class Request extends Ride {
     // constructor
     public Request(){}
 
-    public Request (String driver, String rider, LatLng pickUpLoc, LatLng dropOffLoc, String pickUpLocName, String dropOffLocName,  Date pickUpDateTime,
+    public Request (String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     Car car, Double estimatedFare){
         super(driver,rider,pickUpLoc,dropOffLoc,pickUpLocName, dropOffLocName,pickUpDateTime,car);
         this.estimatedFare = estimatedFare;

@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +26,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.User;
+import com.example.hopinnow.helperclasses.LatLong;
+import com.example.hopinnow.statuslisteners.AvailRequestListListener;
+import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.common.api.Status;
 
@@ -53,6 +61,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,6 +75,7 @@ import java.util.Objects;
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener {
 
+    public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
     private SharedPreferences mPrefs;
     private Boolean searchInPlace; //for map zoom
@@ -380,7 +390,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         //TODO set current Request
         // FIXME, changed driver to driver.email():
-        curRequest = new Request(null, rider.getEmail(), pickUpLoc, dropOffLoc, pickUpLocName,
+        LatLong latLongP = new LatLong(pickUpLoc.latitude, pickUpLoc.longitude);
+        LatLong latLongD = new LatLong(dropOffLoc.latitude, dropOffLoc.longitude);
+        curRequest = new Request(null, rider.getEmail(), latLongP, latLongD, pickUpLocName,
                 dropOffLocName, dateTime,null, estimatedFare);
 
         saveCurrentRequestLocal(curRequest);
@@ -617,6 +629,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * Disable the back button.
      */
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
 
+    }
 }
