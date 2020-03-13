@@ -35,7 +35,7 @@ import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.helperclasses.LatLong;
+import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;

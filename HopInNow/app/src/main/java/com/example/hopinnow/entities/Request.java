@@ -1,6 +1,5 @@
 package com.example.hopinnow.entities;
 
-import com.example.hopinnow.helperclasses.LatLong;
 import java.util.Date;
 
 /**
