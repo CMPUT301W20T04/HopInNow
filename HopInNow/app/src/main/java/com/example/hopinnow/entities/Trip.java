@@ -9,7 +9,7 @@ public class Trip extends Ride {
     private Double cost;
     private Double rating;
     private Date dropOffDateTime;
-    private int duration;
+    private Integer duration;
 
     public Trip(){}
 
@@ -28,7 +28,12 @@ public class Trip extends Ride {
     }
 
     public Double getCost() {
-        return cost;
+        if (cost == null){
+            throw new NullPointerException();
+        }
+        else{
+            return cost;
+        }
     }
 
     public void setCost(Double cost) {
@@ -59,15 +64,30 @@ public class Trip extends Ride {
     }
 
     public int getDuration() {
-        return duration;
+        if (duration == null){
+            throw new NullPointerException();
+        }
+        else{
+            return duration;
+        }
     }
 
     public Date getDropOffTime() {
-        return dropOffDateTime;
+        if (dropOffDateTime == null){
+            throw new NullPointerException();
+        }
+        else{
+            return dropOffDateTime;
+        }
     }
 
     public Double getRating() {
-        return rating;
+        if (rating == null){
+            throw new NullPointerException();
+        }
+        else{
+            return rating;
+        }
     }
 
     public void setRating(Double rating) {
