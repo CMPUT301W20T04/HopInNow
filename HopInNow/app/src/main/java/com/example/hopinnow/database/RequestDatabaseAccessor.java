@@ -53,6 +53,8 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
             Log.v(TAG, "user is logged in!!!");
             Log.v(TAG, Objects.requireNonNull(this.currentUser.getEmail()));
         }
+        String myUid = this.currentUser.getUid();
+        request.setRequestID(myUid);
         this.firestore
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
