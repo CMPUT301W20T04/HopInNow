@@ -7,6 +7,11 @@ import android.view.ViewGroup;
 
 import com.example.hopinnow.R;
 
+/**
+ * Author: Shway Wang
+ * Version: 1.0.0
+ * Sets a progress bar on the top of the screen
+ */
 public class ProgressbarDialog {
     private Activity activity;
     private AlertDialog alertDialog;
