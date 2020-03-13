@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * The class that saves car information
  * Author: Shuway Wang
  * Version: 1.0.0
+ * The class that saves car information
  */
 public class Car implements Serializable {
     private String make;
@@ -40,16 +40,6 @@ public class Car implements Serializable {
         }
     }
 
-    /**
-     * set car by input required by parcelable
-     * @param in
-     */
-    protected Car(Parcel in) {
-        make = in.readString();
-        model = in.readString();
-        color = in.readString();
-        plateNumber = in.readString();
-    }
 
     /**
      * get car color

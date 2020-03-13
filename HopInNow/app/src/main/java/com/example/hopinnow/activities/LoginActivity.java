@@ -18,6 +18,11 @@ import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
+/**
+ * Author: Shuwei Wang
+ * Version: 1.0.0
+ * the first page of the app, user can choose to log in an existing account or register a new account
+ */
 public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
         UserProfileStatusListener {
     // establish the TAG of this activity:

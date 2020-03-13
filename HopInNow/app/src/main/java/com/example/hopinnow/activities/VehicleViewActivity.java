@@ -24,9 +24,9 @@ import java.util.Objects;
 
 /**
  * Authoer: Peter Zhou
+ * Version: 1.0.0
  * This class is to show the vehicle info and user can update it
  */
-
 public class VehicleViewActivity extends AppCompatActivity implements DriverProfileStatusListener {
 
     private Button updateBtn;

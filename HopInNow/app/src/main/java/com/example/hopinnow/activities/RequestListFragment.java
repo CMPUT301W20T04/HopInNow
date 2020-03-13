@@ -31,7 +31,11 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+/**
+ * Author: Qianxi Li
+ * Version: 1.0.0
+ * show the current available request for driver to choose to take
+ */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener, AvailRequestListListener, DriverRequestAcceptListener {
     private Integer prePosition = -1;
     //private Driver driver;
@@ -190,6 +194,11 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverRequestTimeoutOrFail() {
+
+    }
+
+    @Override
+    public void onRequestAlreadyTaken() {
 
     }
 }

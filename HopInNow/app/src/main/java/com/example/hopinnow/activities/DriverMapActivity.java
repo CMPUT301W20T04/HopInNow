@@ -31,6 +31,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+/**
+ * Author: Hongru Qi
+ * Version: 1.0.0
+ * This is the main page for driver where is shows the map, online and menu button
+ */
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     MapFragment mapFragment;

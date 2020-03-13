@@ -23,12 +23,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Author: Shway Wang.
  * Version: 1.0.1
  * This class is the database accessor providing all methods relating to ride requests.
  */
-public class RequestDatabaseAccessor extends UserDatabaseAccessor {
+public class RequestDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
     private final String referenceName = "availableRequests";
 
@@ -38,8 +40,11 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
     public RequestDatabaseAccessor() {
         super();
     }
+
     /**
      * Add a new request to the availableRequests collection.
+     * Note: this method should only be called by the rider,
+     * if this method is called by the driver, the action is unspecified.
      * @param request
      *      information of the current request.
      * @param listener
@@ -52,7 +57,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
             return;
         } else {
             Log.v(TAG, "user is logged in!!!");
-            Log.v(TAG, Objects.requireNonNull(this.currentUser.getEmail()));
+            Log.v(TAG, requireNonNull(this.currentUser.getEmail()));
         }
         String myUid = this.currentUser.getUid();
         request.setRequestID(myUid);
@@ -78,6 +83,9 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
 
     /**
      * Delete a request from the availableRequests collection.
+     * Note: only the rider can create or delete a request.
+     * This method should be called only by the rider, if the driver invoke
+     * this method, the action is unspecified.
      * @param listener
      *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
      */
@@ -119,8 +127,11 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
                         if (task.isSuccessful()) {
                             ArrayList<Request> requests = new ArrayList<>();
                             for (QueryDocumentSnapshot document :
-                                    Objects.requireNonNull(task.getResult())) {
-                                requests.add(document.toObject(Request.class));
+                                    requireNonNull(task.getResult())) {
+                                Request request = document.toObject(Request.class);
+                                if (request.getDriverEmail() == null) {
+                                    requests.add(request);
+                                }
                             }
                             listener.onGetRequiredRequestsSuccess(requests);
                         } else {
@@ -138,20 +149,38 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
      *      called when success or fail.
      */
     public void driverAcceptRequest(Request request, final DriverRequestAcceptListener listener) {
+        String requestID = request.getRequestID();
+        // get the request object to inspect
         this.firestore
                 .collection(referenceName)
-                .document(request.getRequestID())
-                .set(request)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v(TAG, "Request added!");
-                        listener.onDriverRequestAccept();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                .document(requestID)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Request request1 =
+                                requireNonNull(task.getResult()).toObject(Request.class);
+                        assert request1 != null;
+                        // check the driverEmail of the request see if it already exists:
+                        if (request1.getDriverEmail() != null) {
+                            Log.v(TAG, "Request is already taken!");
+                            // if it is, invoke the appropriate listener and return:
+                            listener.onRequestAlreadyTaken();
+                            return;
+                        }
+                        // if driverEmail does not exist, put in the current driver email:
+                        firestore
+                                .collection(referenceName)
+                                .document(requestID)
+                                .set(request)
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.v(TAG, "Request added!");
+                                    listener.onDriverRequestAccept();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.v(TAG, "Request did not save successfully!");
+                                    listener.onDriverRequestTimeoutOrFail();
+                                });
+                    } else {
                         Log.v(TAG, "Request did not save successfully!");
                         listener.onDriverRequestTimeoutOrFail();
                     }
@@ -178,7 +207,7 @@ public class RequestDatabaseAccessor extends UserDatabaseAccessor {
                         }
                         if (snapshot != null && snapshot.exists()) {
                             Log.v(TAG, "Got data: ");
-                            listener.onRiderRequestAccept(snapshot.toObject(Request.class));
+                            listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
                         } else {
                             Log.v(TAG, "Current data: null");
                             listener.onRiderRequestTimeoutOrFail();

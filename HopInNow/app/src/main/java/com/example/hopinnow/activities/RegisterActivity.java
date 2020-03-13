@@ -25,6 +25,11 @@ import com.example.hopinnow.helperclasses.ProgressbarDialog;
 
 import java.util.ArrayList;
 
+/**
+ * Author: Shuwei Wang
+ * Version: 1.0.0
+ * to register a new account for a rider or driver
+ */
 public class RegisterActivity extends AppCompatActivity implements LoginStatusListener,
         RegisterStatusListener, UserProfileStatusListener {
     // establish the TAG of this activity:
@@ -143,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     startActivity(intent);
                 } else {    // the user is a rider
                     user = new Rider(emailData, passwordData, nameData, phoneNumberData,
-                            false, 0, null, tripList);
+                            false, 100, null, tripList);
                     // alert progress dialog:
                     ViewGroup viewGroup = findViewById(R.id.activity_register);
                     progressbarDialog = new ProgressbarDialog(RegisterActivity.this, viewGroup);

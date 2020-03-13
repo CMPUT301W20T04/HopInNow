@@ -16,15 +16,20 @@ import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 /**
  * Author: Peter Zhou
  * This class helps show the driver's menu when clicking the menu button on the top left cornor
- * This class 
  */
 public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
     public static final String TAG = "DriverMenuActivity";
     private TextView driverMenuTextView;
     private DriverDatabaseAccessor userDatabaseAccessor;
+
+    /**
+     * create the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

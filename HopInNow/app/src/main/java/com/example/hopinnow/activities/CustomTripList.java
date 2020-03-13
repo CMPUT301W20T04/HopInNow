@@ -15,6 +15,11 @@ import com.example.hopinnow.entities.Trip;
 
 import java.util.ArrayList;
 
+/**
+ * Author: Qianxi Li
+ * Version: 1.0.0
+ * customize the trip history list
+ */
 public class CustomTripList extends ArrayAdapter<Trip> {
     private ArrayList<Trip> trips; // store all the trips in an array list
     private Context context;
@@ -44,8 +49,8 @@ public class CustomTripList extends ArrayAdapter<Trip> {
         TextView fromText = view.findViewById(R.id.fromText);
         TextView toText = view.findViewById(R.id.ToText);
         TextView dateText = view.findViewById(R.id.DateText);
-        fromText.setText("from: "+trip.getPickUpLoc().toString());
-        toText.setText("to: "+trip.getDropOffLoc().toString());
+        fromText.setText(String.format("From: (%f, %f)",trip.getPickUpLoc().getLat(),trip.getPickUpLoc().getLng()));
+        toText.setText(String.format("To: (%f, %f)",trip.getDropOffLoc().getLat(),trip.getDropOffLoc().getLng()));
         dateText.setText("date: "+trip.getPickUpDateTime().toString());
         return view;
     }

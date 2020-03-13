@@ -5,6 +5,7 @@ import com.example.hopinnow.entities.User;
 
 /**
  * Author: Shway Wang
+ * Version: 1.0.0
  * Listener interface listener on rider profile related database activities.
  */
 public interface RiderProfileStatusListener {

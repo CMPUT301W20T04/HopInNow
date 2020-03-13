@@ -16,15 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         >
-        <ImageView
-            android:id="@+id/maptest"
 
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:src="@drawable/maptest"
-            ></ImageView>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"

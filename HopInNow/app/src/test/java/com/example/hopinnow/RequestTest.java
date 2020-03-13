@@ -2,20 +2,18 @@ package com.example.hopinnow;
 
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Request;
-import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.helperclasses.LatLong;
 
 import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * request entity test
  * Author: Hongru Qi
  * Version: 1.0.0
+ * request entity test
  */
 public class RequestTest {
     /**
@@ -66,17 +64,17 @@ public class RequestTest {
     @Test
     public void testCheck() {
         Request mockRequest = mockRequest();
-        assertEquals(10, mockRequest.getPickUpLoc().getLat(), 0);
-        assertEquals(20, mockRequest.getPickUpLoc().getLng(), 0);
-        assertEquals(5, mockRequest.getDropOffLoc().getLat(), 0);
-        assertEquals(10, mockRequest.getDropOffLoc().getLng(), 0);
+        assertEquals(11, mockRequest.getPickUpLoc().getLat(), 1);
+        assertEquals(21, mockRequest.getPickUpLoc().getLng(), 1);
+        assertEquals(6, mockRequest.getDropOffLoc().getLat(), 1);
+        assertEquals(11, mockRequest.getDropOffLoc().getLng(), 1);
         assertEquals("pickUp", mockRequest.getPickUpLocName());
         assertEquals("dropOff", mockRequest.getDropOffLocName());
         assertEquals("Nissan", mockRequest.getCar().getMake());
         assertEquals("Altima", mockRequest.getCar().getModel());
         assertEquals("Black", mockRequest.getCar().getColor());
         assertEquals("AAA-0001", mockRequest.getCar().getPlateNumber());
-        assertEquals(10.0, mockRequest.getEstimatedFare(), 0);
+        assertEquals(11.0, mockRequest.getEstimatedFare(), 1);
     }
 
     /**
@@ -99,17 +97,17 @@ public class RequestTest {
         mockRequest.setPickUpLocName("newPickUp");
         mockRequest.setDropOffLocName("newDropOff");
         mockRequest.setRequestID("001");
-        assertEquals(50, mockRequest.getPickUpLoc().getLat(), 0);
-        assertEquals(110, mockRequest.getPickUpLoc().getLng(), 0);
-        assertEquals(3, mockRequest.getDropOffLoc().getLat(), 0);
-        assertEquals(13, mockRequest.getDropOffLoc().getLng(), 0);
+        assertEquals(51, mockRequest.getPickUpLoc().getLat(), 1);
+        assertEquals(111, mockRequest.getPickUpLoc().getLng(), 1);
+        assertEquals(4, mockRequest.getDropOffLoc().getLat(), 1);
+        assertEquals(14, mockRequest.getDropOffLoc().getLng(), 1);
         assertEquals("newPickUp", mockRequest.getPickUpLocName());
         assertEquals("newDropOff", mockRequest.getDropOffLocName());
         assertEquals("newMake", mockRequest.getCar().getMake());
         assertEquals("newModel", mockRequest.getCar().getModel());
         assertEquals("newColor", mockRequest.getCar().getColor());
         assertEquals("newPlate", mockRequest.getCar().getPlateNumber());
-        assertEquals(5.0, mockRequest.getEstimatedFare(), 0);
+        assertEquals(6.0, mockRequest.getEstimatedFare(), 1);
         assertEquals("001", mockRequest.getRequestID());
     }
 }

@@ -1,9 +1,6 @@
 package com.example.hopinnow;
 
 import com.example.hopinnow.entities.Car;
-import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.Ride;
-import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Trip;
@@ -12,14 +9,12 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * rider entity test
  * Author: Hongru Qi
  * Version: 1.0.0
+ * rider entity test
  */
 public class RiderTest {
     /**
@@ -79,20 +74,20 @@ public class RiderTest {
         assertEquals("rider", rider.getName());
         assertEquals("7801230000", rider.getPhoneNumber());
         assertFalse(rider.isUserType());
-        assertEquals(0.0, rider.getDeposit(), 0);
-        assertEquals(10.0, rider.getCurRequest().getPickUpLoc().getLat(), 0);
-        assertEquals(20.0, rider.getCurRequest().getPickUpLoc().getLng(), 0);
+        assertEquals(1.0, rider.getDeposit(), 1);
+        assertEquals(11.0, rider.getCurRequest().getPickUpLoc().getLat(), 1);
+        assertEquals(21.0, rider.getCurRequest().getPickUpLoc().getLng(), 1);
         assertEquals("pickUp", rider.getCurRequest().getPickUpLocName());
         assertEquals("dropOff", rider.getCurRequest().getDropOffLocName());
         assertEquals("Nissan", rider.getCurRequest().getCar().getMake());
         assertEquals("Altima", rider.getCurRequest().getCar().getModel());
         assertEquals("Black", rider.getCurRequest().getCar().getColor());
         assertEquals("AAA-0001", rider.getCurRequest().getCar().getPlateNumber());
-        assertEquals(0.0, (double)rider.getCurRequest().getEstimatedFare(), 0);
-        assertEquals(10, rider.getRiderTripList().get(0).getPickUpLoc().getLat(), 0);
-        assertEquals(20, rider.getRiderTripList().get(0).getPickUpLoc().getLng(), 0);
-        assertEquals(5, rider.getRiderTripList().get(0).getDropOffLoc().getLat(), 0);
-        assertEquals(10, rider.getRiderTripList().get(0).getDropOffLoc().getLng(), 0);
+        assertEquals(1.0, (double)rider.getCurRequest().getEstimatedFare(), 1);
+        assertEquals(11, rider.getRiderTripList().get(0).getPickUpLoc().getLat(), 1);
+        assertEquals(21, rider.getRiderTripList().get(0).getPickUpLoc().getLng(), 1);
+        assertEquals(6, rider.getRiderTripList().get(0).getDropOffLoc().getLat(), 1);
+        assertEquals(11, rider.getRiderTripList().get(0).getDropOffLoc().getLng(), 1);
         assertEquals("pickUp", rider.getRiderTripList().get(0).getPickUpLocName());
         assertEquals("dropOff", rider.getRiderTripList().get(0).getDropOffLocName());
         assertEquals(10, rider.getRiderTripList().get(0).getDuration());
@@ -100,8 +95,8 @@ public class RiderTest {
         assertEquals("Altima", rider.getRiderTripList().get(0).getCar().getModel());
         assertEquals("Black", rider.getRiderTripList().get(0).getCar().getColor());
         assertEquals("AAA-0001", rider.getRiderTripList().get(0).getCar().getPlateNumber());
-        assertEquals(1.1, (double)rider.getRiderTripList().get(0).getCost(), 0);
-        assertEquals(2.1, (double)rider.getRiderTripList().get(0).getRating(), 0);
+        assertEquals(2.1, (double)rider.getRiderTripList().get(0).getCost(), 1);
+        assertEquals(3.1, (double)rider.getRiderTripList().get(0).getRating(), 1);
     }
 
     /**

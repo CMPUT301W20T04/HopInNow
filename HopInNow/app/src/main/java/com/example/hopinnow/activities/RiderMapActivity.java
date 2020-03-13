@@ -659,7 +659,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * We are skipping the step of rider accepting/declining the offer right now.
      */
     @Override
-    public void onRiderRequestAccept(Request mRequest) {
+    public void onRiderRequestAcceptedNotify(Request mRequest) {
         curRequest = mRequest;
         String dEmail = curRequest.getDriverEmail();
         dDA.getDriverObject(dEmail,this);
