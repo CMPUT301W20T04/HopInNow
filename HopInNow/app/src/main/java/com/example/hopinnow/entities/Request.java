@@ -1,15 +1,11 @@
 package com.example.hopinnow.entities;
 
-import android.location.Location;
-
 import com.example.hopinnow.helperclasses.LatLong;
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.Date;
 
 public class Request extends Ride {
     private Double estimatedFare;
-
+    private String requestID;
     //public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc,
     // Date dateTime, Car car, Double estimatedFare){}
 
@@ -42,5 +38,11 @@ public class Request extends Ride {
             throw e;
         }
     }
+    public String getRequestID() {
+        return requestID;
+    }
 
+    public void setRequestID(String requestID) {
+        this.requestID = requestID;
+    }
 }

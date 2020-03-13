@@ -8,6 +8,7 @@ import com.example.hopinnow.helperclasses.LatLong;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class RiderTest {
@@ -21,10 +22,9 @@ public class RiderTest {
                 new LatLong(30.25, 30.25), new LatLong(55.55, 55.55),
                 "testPickupName", "testDropOffName", date,
                 car, 5.67);
-        Trip trip = new Trip();
-        trip.setCost(13.23);
+        ArrayList<Trip> tripList = new ArrayList<>();
         return new Rider("test@ualberta.ca", "testpassword", "tester", "1234567",
         false, 123.25,
-        mockRequest, ArrayList<Trip > riderTripList);
+        mockRequest, tripList);
     }
 }
