@@ -27,7 +27,9 @@ import com.example.hopinnow.database.UserDatabaseAccessor;
 /**
  * Author: Tianyu Bai
  * This class defines the fragment that prompts rider's decision on the driver offer.
- * This class is trigger by driver sending an offer on rider's current request.
+ *
+ * todo: This class is to be triggered by driver sending an offer on rider's current request.
+ * todo: accept and decline currently are disabled
  */
 public class RiderDriverOfferFragment extends Fragment {
     private Request curRequest;
@@ -39,19 +41,21 @@ public class RiderDriverOfferFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rider_driver_offer, container
                 ,false);
 
-        //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                //.retrieveCurrentRequestOnline();
+        curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                .retrieveCurrentRequest();
         //driver = curRequest.getDriver();
 
 
         //TODO get curRequest from firebase, acceptance boolean is false
         //curRequest
+        //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                //.retrieveCurrentRequest();
+
+        //driver =  ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
+
         Car car = new Car("Auburn","Speedster","Cream","111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,  null, car,
-                null);
-        curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                .retrieveCurrentRequestLocal();
+        final Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                "12345678", true, 10.0,  null, car, null);
 
 
 
@@ -127,7 +131,6 @@ public class RiderDriverOfferFragment extends Fragment {
             declineBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO POPBACKSTACK?
                     ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                             .switchFragment(-1);
                 }

@@ -22,7 +22,8 @@ import java.util.Objects;
  * This class defines the fragment while rider is waiting for driver offer.
  * This class is triggered by by rider creating a new current request.
  */
-public class RiderWaitingDriverFragment extends Fragment {
+public class  RiderWaitingDriverFragment extends Fragment {
+
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private Chronometer chronometer;
     private boolean running;
@@ -69,6 +70,7 @@ public class RiderWaitingDriverFragment extends Fragment {
         });
 
         //TODO on rider's current request firebase listener, switch fragment
+
         //temporary for linking fragments
         Button next = view.findViewById(R.id.rider_waiting_driver_next);
         next.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,6 @@ public class RiderWaitingDriverFragment extends Fragment {
                 endChronometer();
             }
         });
-
 
         return view;
     }

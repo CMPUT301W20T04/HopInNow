@@ -63,6 +63,10 @@ public abstract class Ride {
         }
     }
 
+    /**
+     * set car to new value
+     * @param car
+     */
     public void setCar(Car car) {
         try{
             this.car = car;
@@ -72,6 +76,10 @@ public abstract class Ride {
         }
     }
 
+    /**
+     * set drop off location name to a new value
+     * @param dropOffLocName
+     */
     public void setDropOffLocName(String dropOffLocName) {
         try{
             this.dropOffLocName = dropOffLocName;
@@ -81,6 +89,10 @@ public abstract class Ride {
         }
     }
 
+    /**
+     * set pick up location name to a new value
+     * @param pickUpLocName
+     */
     public void setPickUpLocName(String pickUpLocName) {
         try{
             this.pickUpLocName = pickUpLocName;
@@ -90,6 +102,10 @@ public abstract class Ride {
         }
     }
 
+    /**
+     * set driver email to a new value
+     * @param driverEmail
+     */
     public void setDriverEmail(String driverEmail) {
         try{
             this.driverEmail = driverEmail;
@@ -99,6 +115,10 @@ public abstract class Ride {
         }
     }
 
+    /**
+     * set rider email to a new value
+     * @param riderEmail
+     */
     public void setRiderEmail(String riderEmail) {
         try{
             this.riderEmail = riderEmail;
@@ -109,36 +129,101 @@ public abstract class Ride {
     }
 
     //getters
+
+    /**
+     * return car object
+     * can be null for request initialization
+     * @return car
+     */
     public Car getCar() {
         return car;
     }
 
+    /**
+     * return pick up date time
+     * @return pickUpDateTime
+     */
     public Date getPickUpDateTime() {
-        return pickUpDateTime;
+        if (pickUpDateTime == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpDateTime;
+        }
     }
 
+    /**
+     * return drop off location
+     * @return dropOffLoc
+     */
     public LatLong getDropOffLoc() {
-        return dropOffLoc;
+        if (dropOffLoc == null){
+            throw new NullPointerException();
+        }
+        else{
+            return dropOffLoc;
+        }
     }
 
+    /**
+     * return pick up location
+     * @return pickUpLoc
+     */
     public LatLong getPickUpLoc() {
-        return pickUpLoc;
+        if (pickUpLoc == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpLoc;
+        }
     }
 
+    /**
+     * return pick up location name
+     * @return pickUpLocName
+     */
     public String getPickUpLocName() {
-        return pickUpLocName;
+        if (pickUpLocName == null){
+            throw new NullPointerException();
+        }
+        else{
+            return pickUpLocName;
+        }
     }
 
+    /**
+     * return drop off location name
+     * @return dropOffLocName
+     */
     public String getDropOffLocName() {
-        return dropOffLocName;
+        if (dropOffLocName == null){
+            throw new NullPointerException();
+        }
+        else{
+            return dropOffLocName;
+        }
     }
 
+    /**
+     * return driver email
+     * can be null for request initialization
+     * @return driverEmail
+     */
     public String getDriverEmail() {
         return driverEmail;
     }
 
+    /**
+     * return rider email
+     * @return riderEmail
+     */
     public String getRiderEmail() {
-        return riderEmail;
+        if (riderEmail == null){
+            throw new NullPointerException();
+        }
+        else{
+            return riderEmail;
+        }
     }
 
 //public abstract Request getCurRequest();

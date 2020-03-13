@@ -26,6 +26,9 @@ import java.util.Objects;
  * methods.
  */
 public class DriverDatabaseAccessor extends UserDatabaseAccessor {
+    public DriverDatabaseAccessor() {
+        super();
+    }
     /**
      * Update the driver profile according to the User object past in. The key used is the Uid
      * assigned by firestore automatically

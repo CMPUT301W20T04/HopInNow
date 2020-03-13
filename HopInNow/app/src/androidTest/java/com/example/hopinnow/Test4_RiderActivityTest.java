@@ -31,7 +31,7 @@ import static org.junit.Assert.assertFalse;
  * UI tests on rider side activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
-public class RiderActivityTest{
+public class Test4_RiderActivityTest {
     private Solo solo;
 
     //TODO fragment
@@ -78,7 +78,21 @@ public class RiderActivityTest{
         String userPassword = "12345678";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
         solo.goBack();
-        solo.clickOnButton("LOGIN");
+        solo.clickOnView(solo.getView(R.id.loginButton));
+
+        Thread.sleep(2000);
+    }
+
+    /**
+     * Logs out user.
+     * @throws InterruptedException
+     *      throws exception if thread is interrupted
+     */
+    private void logoutUser() throws InterruptedException {
+
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnView(solo.getView(R.id.riderMyProfile));
+        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
 
         Thread.sleep(2000);
     }
@@ -130,11 +144,15 @@ public class RiderActivityTest{
     }
 
 
+
+
     /**
      * Checks menu button.
      * Auto complete fragment testing is currently in question and mocks are used.
      * @throws InterruptedException
      *      throws exception if thread is interrupted
+     *
+     *      todo: autocompletefragment cannot be entered with text
      */
     @Test
     public void Case1() throws InterruptedException {
@@ -161,6 +179,8 @@ public class RiderActivityTest{
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
 
+        logoutUser();
+
         Thread.sleep(2000);
     }
 
@@ -176,6 +196,8 @@ public class RiderActivityTest{
     public void Case2() throws InterruptedException, NumberFormatException {
         loginUser();
         addNewRequest();
+
+
         assertTrue(solo.waitForText("Time Elapsed:", 1, 2000));
         //double fare = Double.parseDouble(String.valueOf(solo.getView(R.id.fare_amount)));
 
@@ -188,6 +210,8 @@ public class RiderActivityTest{
 
         solo.clickOnButton("CANCEL REQUEST");
         assertTrue(solo.waitForText("HOP IN NOW!", 1, 2000));
+
+        logoutUser();
 
         Thread.sleep(2000);
     }
@@ -205,30 +229,10 @@ public class RiderActivityTest{
         assertTrue(solo.waitForText("Would you like to accept this offer?",
                 1, 2000));
 
-        //TODO emergency call works, not driver calling
-        //Tests calling and emailing driver
-        /*Button emailBtn = (Button) solo.getView(R.id.rider_offer_email_button);
-        solo.clickOnView(emailBtn);
-        solo.goBack();
-        Button phoneBtn = (Button) solo.getView(R.id.rider_offer_call_button);
-        solo.clickOnView(phoneBtn);
-        //assertTrue(solo.waitForText("Keypad",1,2000));
-        solo.goBack();*/
-
         //Tests Dialog
         TextView driverName = (TextView) solo.getView(R.id.rider_driver_offer_name);
         solo.clickOnView(driverName);
         assertTrue(solo.waitForText("Car:",1,2000));
-
-        /*Button emailBtn = (Button) solo.getView(R.id.rider_offer_email_button);
-        solo.clickOnView(emailBtn);
-        assertFalse(solo.waitForText("Would you like to accept this offer?",1,2000));
-        solo.goBack();
-        Button phoneDialogBtn = (Button) solo.getView(R.id.dialog_call_button);
-        solo.clickOnView(phoneDialogBtn);
-        //assertTrue(solo.waitForText("Keypad",1,2000));
-        solo.goBack();*/
-
         solo.goBack();
 
         //Declining driver offer
@@ -242,6 +246,8 @@ public class RiderActivityTest{
         solo.clickOnButton("CANCEL REQUEST");
         assertTrue(solo.waitForText("HOP IN NOW!",
                 1,2000));
+
+        logoutUser();
 
         Thread.sleep(2000);
     }
@@ -296,6 +302,8 @@ public class RiderActivityTest{
         solo.setProgressBar(0,8);
         solo.clickOnView(solo.getView(R.id.dialog_rating_cancel));
         assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
+
+        logoutUser();
 
         Thread.sleep(2000);
     }

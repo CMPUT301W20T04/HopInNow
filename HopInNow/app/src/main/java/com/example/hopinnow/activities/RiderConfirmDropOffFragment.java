@@ -25,6 +25,8 @@ import java.util.Objects;
  * Author: Tianyu Bai
  * This class defines the fragment that prompts rider on confirming his/her arrival at the
  * specified drop off location.
+ *
+ * todo : This event is to be triggered by driver confirming completion of the ride.
  */
 public class RiderConfirmDropOffFragment extends Fragment {
 

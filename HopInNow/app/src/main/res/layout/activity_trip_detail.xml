@@ -27,30 +27,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/DriverName"
+        android:id="@+id/DriverEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="165dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="165dp"
-        android:text="DriverName: "
+        android:text="DriverEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TripTitle" />
 
     <TextView
-        android:id="@+id/riderName"
+        android:id="@+id/riderEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="172dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="172dp"
-        android:text="riderName"
+        android:text="riderEmail:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DriverName" />
+        app:layout_constraintTop_toBottomOf="@+id/DriverEmail" />
 
     <TextView
         android:id="@+id/pickupLoc"
@@ -63,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/riderName" />
+        app:layout_constraintTop_toBottomOf="@+id/riderEmail" />
 
     <TextView
         android:id="@+id/dropoffLocation"
