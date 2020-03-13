@@ -32,10 +32,10 @@ public class RiderPickedUpFragment extends Fragment {
 
         Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequestLocal();
+        Driver driver = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
         //Driver driver = curRequest.getDriver();
-        Car car = new Car("Auburn","Speedster","Cream","111111");
-        final Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,  null, car, null);
+        //Car car = new Car("Auburn","Speedster","Cream","111111");
+        //final Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third","12345678", true, 10.0,  null, car, null);
 
         if (view != null) {
 
