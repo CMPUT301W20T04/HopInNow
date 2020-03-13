@@ -72,7 +72,6 @@ public class Test4_RiderActivityTest {
      */
     private void loginUser() throws InterruptedException {
         // Log in To Activity
-        //TODO MDZZ FRAGMENT DOES NOT ACCEPT ENTERTEXT
         String userEmail = "folanqi123@ualberta.ca";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "12345678";
@@ -83,19 +82,7 @@ public class Test4_RiderActivityTest {
         Thread.sleep(2000);
     }
 
-    /**
-     * Logs out user.
-     * @throws InterruptedException
-     *      throws exception if thread is interrupted
-     */
-    private void logoutUser() throws InterruptedException {
 
-        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
-        solo.clickOnView(solo.getView(R.id.riderMyProfile));
-        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
-
-        Thread.sleep(2000);
-    }
 
 
     /**
@@ -179,7 +166,6 @@ public class Test4_RiderActivityTest {
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
 
-        logoutUser();
 
         Thread.sleep(2000);
     }
@@ -210,8 +196,6 @@ public class Test4_RiderActivityTest {
 
         solo.clickOnButton("CANCEL REQUEST");
         assertTrue(solo.waitForText("HOP IN NOW!", 1, 2000));
-
-        logoutUser();
 
         Thread.sleep(2000);
     }
@@ -247,7 +231,6 @@ public class Test4_RiderActivityTest {
         assertTrue(solo.waitForText("HOP IN NOW!",
                 1,2000));
 
-        logoutUser();
 
         Thread.sleep(2000);
     }
@@ -302,8 +285,6 @@ public class Test4_RiderActivityTest {
         solo.setProgressBar(0,8);
         solo.clickOnView(solo.getView(R.id.dialog_rating_cancel));
         assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
-
-        logoutUser();
 
         Thread.sleep(2000);
     }

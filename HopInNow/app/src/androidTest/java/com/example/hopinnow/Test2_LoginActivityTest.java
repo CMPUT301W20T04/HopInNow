@@ -50,7 +50,7 @@ public class Test2_LoginActivityTest {
      * Gets the Activity
      * @throws Exception
      */
-    //@Test
+    @Test
     public void start() throws Exception{
         Activity activity = rule.getActivity();
     }
