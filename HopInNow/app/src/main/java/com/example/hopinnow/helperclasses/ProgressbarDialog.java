@@ -27,6 +27,9 @@ public class ProgressbarDialog {
     }
 
     public void dismissDialog() {
-        alertDialog.dismiss();
+        if ((!this.activity.isFinishing())&&(alertDialog!=null)){
+            alertDialog.dismiss();
+        }
+
     }
 }

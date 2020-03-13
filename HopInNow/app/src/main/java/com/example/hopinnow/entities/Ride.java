@@ -5,6 +5,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
+/**
+ * Author: Shway Wang
+ * Version: 1.0.0
+ * Entity class for ride.
+ */
 public abstract class Ride {
     private String driverEmail;
     private String riderEmail;
@@ -15,8 +20,22 @@ public abstract class Ride {
     private Date pickUpDateTime;
     private Car car;
 
+    /**
+     * Empty constructor to support database storage
+     */
     public Ride(){}
 
+    /**
+     * Constructor with all attributes as parameters to support dependency injection
+     * @param driverEmail
+     * @param riderEmail
+     * @param pickUpLoc
+     * @param dropOffLoc
+     * @param pickUpLocName
+     * @param dropOffLocName
+     * @param pickUpDateTime
+     * @param car
+     */
     public Ride (String driverEmail, String riderEmail, LatLong pickUpLoc, LatLong dropOffLoc,
                  String pickUpLocName, String dropOffLocName, Date pickUpDateTime, Car car){
         try{
@@ -132,11 +151,11 @@ public abstract class Ride {
 
     /**
      * return car object
-     * can be null for request initialization
      * @return car
      */
     public Car getCar() {
         return car;
+
     }
 
     /**
