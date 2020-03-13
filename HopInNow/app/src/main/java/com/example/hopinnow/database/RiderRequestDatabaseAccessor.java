@@ -6,6 +6,11 @@ import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Author: Shway Wang
+ * Version: 1.0.0
+ * Handles all rider side database accesses
+ */
 public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public static final String TAG = "RiderRequestDA";
     public RiderRequestDatabaseAccessor() {
