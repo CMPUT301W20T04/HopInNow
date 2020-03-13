@@ -68,8 +68,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.updateBtn.setVisibility(View.INVISIBLE);
         this.logoutButton = findViewById(R.id.proLogoutBtn);
         // alert progress dialog:
-        ViewGroup viewGroup = findViewById(R.id.activity_profile);
-        progressbarDialog = new ProgressbarDialog(ProfileActivity.this, viewGroup);
+        progressbarDialog = new ProgressbarDialog(ProfileActivity.this);
         progressbarDialog.startProgressbarDialog();
         // retrieve the current user information
         Intent intent = this.getIntent();
@@ -117,8 +116,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                     return;
                 }
                 // alert progress dialog:
-                ViewGroup viewGroup = findViewById(R.id.activity_profile);
-                progressbarDialog = new ProgressbarDialog(ProfileActivity.this, viewGroup);
+                progressbarDialog = new ProgressbarDialog(ProfileActivity.this);
                 progressbarDialog.startProgressbarDialog();
                 // access database:
                 currentUser.setName(name.getText().toString());
