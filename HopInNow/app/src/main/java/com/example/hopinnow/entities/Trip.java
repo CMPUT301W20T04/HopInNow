@@ -1,8 +1,5 @@
 package com.example.hopinnow.entities;
 
-import com.example.hopinnow.helperclasses.LatLong;
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.Date;
 
 /**
