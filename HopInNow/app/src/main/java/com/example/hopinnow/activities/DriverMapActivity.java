@@ -19,6 +19,7 @@ import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
+import com.example.hopinnow.helperclasses.LatLong;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,7 +40,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private Rider rider;
     private Driver driver;
-    private LatLng pickUpLoc,dropOffLoc;
+    private LatLng pickUpLoc;
+    private LatLng dropOffLoc;
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private FloatingActionButton driverMenuBtn;
@@ -160,23 +162,23 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     /**
      * set marker to map
      */
-    public void setMapMarker(Marker m, LatLng latLng){
+    public void setMapMarker(Marker m, LatLong latLong){
 
-        if (m == null) {
+        /*if (m == null) {
             MarkerOptions opt = new MarkerOptions();
-            opt.position(latLng);
+            opt.position(latLong);
             m = mMap.addMarker(opt);
         } else {
-            m.setPosition(latLng);
+            m.setPosition(latLong);
         }
-        adjustMapFocus();
+        adjustMapFocus();*/
     }
 
-    public void setPickUpLoc(LatLng pickUpLoc) {
-        this.pickUpLoc = pickUpLoc;
+    public void setPickUpLoc(LatLong pickUpLoc) {
+        this.pickUpLoc = new LatLng(pickUpLoc.getLat(), pickUpLoc.getLng());
     }
-    public void setDropOffLoc(LatLng dropOffLoc){
-        this.dropOffLoc = dropOffLoc;
+    public void setDropOffLoc(LatLong dropOffLoc){
+        this.dropOffLoc = new LatLng(dropOffLoc.getLat(), dropOffLoc.getLng());
     }
     /**
      * adjust focus of the map according to the markers
