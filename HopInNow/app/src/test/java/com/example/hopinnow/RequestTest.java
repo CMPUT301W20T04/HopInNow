@@ -63,9 +63,6 @@ public class RequestTest {
         assertThrows(NullPointerException.class, () -> {
             mockRequest.getRiderEmail();
         });
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getRequestID();
-        });
     }
 
 

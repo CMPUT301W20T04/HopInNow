@@ -46,15 +46,11 @@ public class User implements Serializable {
 
     /**
      * get user email
+     * can be null for rider to send request
      * @return
      */
     public String getEmail() {
-        if (email == null){
-            throw new NullPointerException();
-        }
-        else{
-            return email;
-        }
+        return email;
     }
 
     /**
