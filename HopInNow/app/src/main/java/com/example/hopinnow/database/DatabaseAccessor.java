@@ -11,15 +11,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
  */
 public class DatabaseAccessor {
     public static final String TAG = "DatabaseAccessor";
+    //private static final DatabaseAccessor instance = new DatabaseAccessor();
     // Access a Cloud Firestore instance from your Activity
-    protected FirebaseFirestore firestore;  // cloud database
-    protected FirebaseAuth firebaseAuth;    // register, login
-    protected FirebaseUser currentUser; // logged in current user
+    FirebaseFirestore firestore;  // cloud database
+    FirebaseAuth firebaseAuth;    // register, login
+    FirebaseUser currentUser; // logged in current user
 
     /**
      * Constructor method, objectify the declarations
      */
-    public DatabaseAccessor() {
+    DatabaseAccessor() {
         this.firestore = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
     }

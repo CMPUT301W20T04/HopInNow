@@ -32,18 +32,21 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     private TextView register;
     // alert progress dialog:
     private ProgressbarDialog progressbarDialog;
+    ViewGroup viewGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        viewGroup = findViewById(R.id.activity_login);
         // initialize the userDatabaseAccessor to use the login function within it:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
+        progressbarDialog = new ProgressbarDialog(LoginActivity.this, viewGroup);
         // if user already logged in, go to the profile activity
-//        if (this.userDatabaseAccessor.isLoggedin()) {
-//            Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        if (this.userDatabaseAccessor.isLoggedin()) {
+            progressbarDialog.startProgressbarDialog();
+            userDatabaseAccessor.getUserProfile(this);
+
+        }
         // here, the database accessor is already initialized
         this.email = findViewById(R.id.loginEmailEditText);
         this.password = findViewById(R.id.loginPassword);
@@ -68,8 +71,8 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
                     loginWarn.setVisibility(View.INVISIBLE);
                 }
                 // alert progress dialog:
-                ViewGroup viewGroup = findViewById(R.id.activity_login);
-                progressbarDialog = new ProgressbarDialog(LoginActivity.this, viewGroup);
+
+
                 progressbarDialog.startProgressbarDialog();
                 // access database:
                 String emailData = email.getText().toString();

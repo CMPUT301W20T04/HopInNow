@@ -10,7 +10,12 @@ public class EmergencyCall {
     }
 
     public EmergencyCall(String dialogNumber) {
-        this.dialogNumber = dialogNumber;
+        try{
+            this.dialogNumber = dialogNumber;
+        }
+        catch(Exception e){
+            throw e;
+        }
     }
 
     //getter
@@ -20,7 +25,12 @@ public class EmergencyCall {
 
     //setter
     public void setDialogNumber(String dialogNumber) {
-        this.dialogNumber = dialogNumber;
+        try{
+            this.dialogNumber = dialogNumber;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 }
 

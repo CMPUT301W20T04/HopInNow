@@ -26,7 +26,7 @@ import java.util.Objects;
  * Author: Shway Wang.
  * This class is the database accessor providing all methods relating to ride requests.
  */
-public class RequestDatabaseAccessor extends DatabaseAccessor {
+public class RequestDatabaseAccessor extends UserDatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
     private final String referenceName = "availableRequests";
 
@@ -44,6 +44,13 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      *      if the request is added successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void addRequest(Request request, final AvailRequestListListener listener) {
+        if (this.currentUser == null) {
+            Log.v(TAG, "user is not logged in!!!");
+            return;
+        } else {
+            Log.v(TAG, "user is logged in!!!");
+            Log.v(TAG, Objects.requireNonNull(this.currentUser.getEmail()));
+        }
         this.firestore
                 .collection(referenceName)
                 .document(this.currentUser.getUid())
@@ -120,7 +127,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
     public void driverAcceptRequest(Request request, final DriverRequestAcceptListener listener) {
         this.firestore
                 .collection(referenceName)
-                .document(this.currentUser.getUid())
+                .document(request.getRequestID())
                 .set(request)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

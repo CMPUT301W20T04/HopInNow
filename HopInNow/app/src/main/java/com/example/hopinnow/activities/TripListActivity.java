@@ -15,6 +15,7 @@ import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
+import com.example.hopinnow.helperclasses.LatLong;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class TripListActivity extends AppCompatActivity {
     ArrayAdapter<Trip> tripAdapter;;
     ArrayList<Trip> tripDataList = new ArrayList<>();
     //remember to change the uml
-    private LatLng edmonton = new LatLng(53.631611,-113.323975);
+    private LatLong edmonton = new LatLong(53.631611,-113.323975);
     private Driver driver1 = new Driver("123@qq.com","asdf","leon",
             "123",true,10.0,null,null,
             null);
