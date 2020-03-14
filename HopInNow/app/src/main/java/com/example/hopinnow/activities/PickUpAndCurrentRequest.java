@@ -78,19 +78,16 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             }
             if(display_mode == 0){
                 //set pick up button on click listener
-                pickUpButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // switch to a fragment that display the request information and pick up button.
-                        String rider_email = driver.getCurRequest().getRiderEmail();
+                pickUpButton.setOnClickListener(v -> {
+                    // switch to a fragment that display the request information and pick up button.
+                    String rider_email = driver.getCurRequest().getRiderEmail();
 
-                        driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-                        request.setPickedUp(true);
-                        driverRequestDatabaseAccessor.driverRequestPickup(request,
-                                PickUpAndCurrentRequest.this);
-                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
+                    driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+                    request.setPickedUp(true);
+                    driverRequestDatabaseAccessor.driverRequestPickup(request,
+                            PickUpAndCurrentRequest.this);
+                    ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
-                    }
                 });}
             else{
                 // switch to a fragment that display the request information and drop off button.
@@ -106,24 +103,26 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
                     Request request2 = driver.getCurRequest();
                     Date current_time = new Date();
-                    ArrayList<Trip> driver_trip_list = driver.getDriverTripList();
-                    if(driver_trip_list == null){
-                        driver_trip_list = new ArrayList<>();
+                    ArrayList<Trip> driverTripList = driver.getDriverTripList();
+                    if(driverTripList == null){
+                        driverTripList = new ArrayList<>();
 
                     }
-                    driver_trip_list.add(new Trip(request2.getDriverEmail(),request2.getRiderEmail(), request2.getPickUpLoc(),request2.getDropOffLoc(),request2.getPickUpLocName(),request2.getDropOffLocName(),(Date)request2.getPickUpDateTime(),  (Date)current_time, (int)Math.abs(current_time.getTime()-request2.getPickUpDateTime().getTime()),request2.getCar(),request2.getEstimatedFare(),5.0));
-                    driver.setDriverTripList(driver_trip_list);
-                    driver.setCurRequest(null);
+                    driverTripList.add(new Trip(request2.getDriverEmail(),request2.getRiderEmail(),
+                            request2.getPickUpLoc(),request2.getDropOffLoc(),
+                            request2.getPickUpLocName(),request2.getDropOffLocName(),
+                            (Date)request2.getPickUpDateTime(),  (Date)current_time,
+                            (int)Math.abs(current_time.getTime() -
+                                    request2.getPickUpDateTime().getTime()),
+                            request2.getCar(),request2.getEstimatedFare(),5.0));
+                    driver.setDriverTripList(driverTripList);
                     driverRequestDatabaseAccessor.driverCompleteRequest(request2,
                             PickUpAndCurrentRequest.this);
                 });
                 // set emergency button on click listener
-                emergencyCallButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // call call number method to make a phone call
-                        ((DriverMapActivity)getActivity()).callNumber("7806041057");//shway number
-                    }
+                emergencyCallButton.setOnClickListener(v -> {
+                    // call call number method to make a phone call
+                    ((DriverMapActivity)getActivity()).callNumber("7806041057");//shway number
                 });}
 
         }
@@ -148,7 +147,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-        
+
     }
 
     @Override
@@ -219,7 +218,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverRequestCompleteSuccess() {
-
+        driver.setCurRequest(null);
     }
 
     @Override
