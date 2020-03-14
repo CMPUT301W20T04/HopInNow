@@ -338,7 +338,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     public void cancelRequestLocal(){
         //clear all fragments
-        requestDatabaseAccessor.deleteRequest(this);
         FrameLayout fl = findViewById(R.id.fragment_place);
         fl.removeAllViews();
         mMap.clear();
