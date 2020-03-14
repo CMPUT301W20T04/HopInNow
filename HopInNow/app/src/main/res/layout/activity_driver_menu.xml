@@ -14,9 +14,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="41dp"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="56dp"
+        android:textColor="@color/ColorOrange"
         android:text="Menu"
         android:textSize="50dp" />
 
@@ -28,6 +28,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/orange_all_round_corner_login"
+        android:textSize="16dp"
         android:layout_marginStart="82dp"
         android:layout_marginLeft="82dp"
         android:layout_marginTop="200dp"
@@ -35,6 +37,8 @@
 
     <Button
         android:id="@+id/vehicleInfoBtn"
+        android:background="@drawable/orange_all_round_corner_login"
+        android:textSize="16dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/driverMyTripsBtn"
@@ -48,6 +52,8 @@
 
     <Button
         android:id="@+id/driverMyTripsBtn"
+        android:background="@drawable/orange_all_round_corner_login"
+        android:textSize="16dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/driverMyProfileBtn"

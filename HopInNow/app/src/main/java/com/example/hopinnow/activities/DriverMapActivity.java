@@ -195,4 +195,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         }
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

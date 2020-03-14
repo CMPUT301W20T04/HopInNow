@@ -35,7 +35,6 @@ public class RiderMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
         riderMyTripsBtn.setOnClickListener(new View.OnClickListener(){

@@ -133,8 +133,8 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                 Toast.makeText(getApplicationContext(),
                         "You are Logged out!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
             }
         });

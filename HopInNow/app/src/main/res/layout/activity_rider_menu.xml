@@ -13,14 +13,16 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="41dp"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="56dp"
+        android:textColor="@color/ColorOrange"
         android:text="Menu"
         android:textSize="50dp" />
 
     <Button
         android:id="@+id/riderMyProfile"
+        android:background="@drawable/orange_all_round_corner_login"
+        android:textSize="16dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -34,6 +36,8 @@
 
     <Button
         android:id="@+id/riderChat"
+        android:background="@drawable/orange_all_round_corner_login"
+        android:textSize="16dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/riderMyTrips"
@@ -48,6 +52,8 @@
     <Button
         android:id="@+id/riderMyTrips"
         android:layout_width="250dp"
+        android:background="@drawable/orange_all_round_corner_login"
+        android:textSize="16dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/riderMyProfile"
         android:layout_alignParentStart="true"
