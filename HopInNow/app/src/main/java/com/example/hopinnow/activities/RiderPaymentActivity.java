@@ -200,6 +200,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", "cancel");
         startActivity(intent);
+        finish();
     }
 
 
