@@ -118,10 +118,11 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void driverCompleteRequest(Request request, final DriverRequestListener listener) {
+        request.setDriverEmail(null);
         this.firestore
                 .collection(referenceName)
                 .document(request.getRequestID())
-                .delete()
+                .set(request)
                 .addOnSuccessListener(aVoid -> {
                     Log.v(TAG, "Request deleted!");
                     listener.onDriverRequestCompleteSuccess();
