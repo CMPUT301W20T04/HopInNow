@@ -152,11 +152,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
                 ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
                 ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
-                /*
-                if (prePosition != -1){
-                    Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
-                    preAcceptBtn.setVisibility(View.INVISIBLE);
-                }*/
                 prePosition = position;
                 acceptBtn.setOnClickListener(new View.OnClickListener(){
                     @Override

@@ -75,7 +75,7 @@ import java.util.Objects;
  * Author: Tianyu Bai
  * This activity defines all methods for main activities of rider.
  */
-public class RiderMapActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
         AvailRequestListListener {
 
@@ -658,6 +658,7 @@ public class RiderMapActivity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     public void onRiderRequestComplete() {
+        Toast.makeText(getApplicationContext(), "the ride is completed!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
         startActivity(intent);
         finish();

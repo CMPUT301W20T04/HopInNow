@@ -2,15 +2,11 @@ package com.example.hopinnow.activities;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,9 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -37,7 +31,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  * Version: 1.0.0
  * This is the main page for driver where is shows the map, online and menu button
  */
-public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
@@ -123,7 +117,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
             // request and the pickup user button
             case R.layout.fragment_driver_pick_rider_up:
                 t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new pickUpAndCurrentRequest()).commit();
+                t.replace(R.id.fragment_place, new PickUpAndCurrentRequest()).commit();
                 break;
                 //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
