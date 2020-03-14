@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
+import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
@@ -22,6 +23,7 @@ import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
+import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
 import java.time.LocalDateTime;
@@ -33,8 +35,7 @@ import java.util.Date;
  * Version: 1.0.0
  * show the current request that driver has accepted
  */
-public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener {
+public class pickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener, AvailRequestListListener, DriverRequestListener {
     private Driver driver;
     private Request request;
     private ArrayList<Request> requestList = new ArrayList<>();
@@ -43,7 +44,8 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     TextView requestToText;
     TextView requestTimeText;
     TextView requestCostText;
-    private RequestDatabaseAccessor requestDatabaseAccessor;
+    private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
+
 
     @Nullable
     @Override
@@ -85,10 +87,10 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                         // switch to a fragment that display the request information and pick up button.
                         String rider_email = driver.getCurRequest().getRiderEmail();
 
-                        requestDatabaseAccessor = new RequestDatabaseAccessor();
-                        requestDatabaseAccessor.getAllRequest(pickUpAndCurrentRequest.this);
-
-
+                        driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+                        request.setPickedUp(true);
+                        driverRequestDatabaseAccessor.driverRequestPickup(request,pickUpAndCurrentRequest.this);
+                        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
                     }
                 });}
@@ -136,7 +138,7 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     public void onDriverProfileRetrieveSuccess(Driver driver)
     {
         this.driver = driver;
-        Request request = driver.getCurRequest();
+        request = driver.getCurRequest();
         requestFromText.setText("From: " + request.getPickUpLocName());
         requestToText.setText("To: "+ request.getDropOffLocName());
         requestTimeText.setText("Time: "+ request.getPickUpDateTime());
@@ -181,19 +183,51 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
         this.requestList = requests;
-        for(int i=0;i<this.requestList.size();i++){
-            if(this.requestList.get(i).getRequestID() == driver.getCurRequest().getRequestID()){
-                this.request = this.requestList.get(i);
-            }
-        }
 
-        request.setPickedUp(true);
-
-        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
     }
 
     @Override
     public void onGetRequiredRequestsFailure() {
+
+    }
+
+    @Override
+    public void onDriverRequestAccept() {
+
+    }
+
+    @Override
+    public void onDriverRequestTimeoutOrFail() {
+
+    }
+
+    @Override
+    public void onRequestAlreadyTaken() {
+
+    }
+
+    @Override
+    public void onRequestCanceledByRider() {
+
+    }
+
+    @Override
+    public void onDriverPickupSuccess() {
+
+    }
+
+    @Override
+    public void onDriverPickupFail() {
+
+    }
+
+    @Override
+    public void onDriverRequestCompleteSuccess() {
+
+    }
+
+    @Override
+    public void onDriverRequestCompleteFailure() {
 
     }
 }
