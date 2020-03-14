@@ -2,10 +2,16 @@ package com.example.hopinnow.helperclasses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.hopinnow.R;
+
+import java.util.Objects;
 
 /**
  * Author: Shway Wang
@@ -13,28 +19,28 @@ import com.example.hopinnow.R;
  * Sets a progress bar on the top of the screen
  */
 public class ProgressbarDialog {
-    private Activity activity;
-    private AlertDialog alertDialog;
-    private ViewGroup viewGroup;
+    private Context context;
+    //private ViewGroup viewGroup;
+    private Dialog dialog;
 
-    public ProgressbarDialog(Activity activity, ViewGroup viewGroup) {
-        this.activity = activity;
-        this.viewGroup = viewGroup;
+    public ProgressbarDialog(Context context) {
+        this.context = context;
     }
 
     public void startProgressbarDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
-        LayoutInflater inflater = this.activity.getLayoutInflater();
-        inflater.inflate(R.layout.custom_progress_bar, this.viewGroup, false);
-        builder.setCancelable(false);
-        alertDialog = builder.create();
-        alertDialog.show();
+        this.dialog = new Dialog(this.context,
+                android.R.style.Theme_Translucent_NoTitleBar);
+        // Setting dialogview
+        Window window = dialog.getWindow();
+        Objects.requireNonNull(window).setGravity(Gravity.CENTER);
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setTitle(null);
+        dialog.setContentView(R.layout.custom_progress_bar);
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     public void dismissDialog() {
-        if ((!this.activity.isFinishing())&&(alertDialog!=null)){
-            alertDialog.dismiss();
-        }
-
+        this.dialog.dismiss();
     }
 }

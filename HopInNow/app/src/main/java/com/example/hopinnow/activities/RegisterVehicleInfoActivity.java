@@ -49,8 +49,7 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
         this.plateNumber = findViewById(R.id.vehPlateEt);
         this.finishBtn = findViewById(R.id.vehicleToFinishBtn);
         // init progress bar:
-        ViewGroup viewGroup = findViewById(R.id.vehicleInfo);
-        this.progressbarDialog = new ProgressbarDialog(this, viewGroup);
+        this.progressbarDialog = new ProgressbarDialog(this);
     }
     @Override
     protected void onStart() {

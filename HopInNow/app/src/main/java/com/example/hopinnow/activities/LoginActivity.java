@@ -25,7 +25,7 @@ import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
  */
 public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
         UserProfileStatusListener {
-    // establish the TAG of this activity:
+// establish the TAG of this activity:
     public static final String TAG = "LoginActivity";
     // initialize Database helper:
     private UserDatabaseAccessor userDatabaseAccessor;
@@ -37,15 +37,14 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     private TextView register;
     // alert progress dialog:
     private ProgressbarDialog progressbarDialog;
-    ViewGroup viewGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        viewGroup = findViewById(R.id.activity_login);
         // initialize the userDatabaseAccessor to use the login function within it:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
-        progressbarDialog = new ProgressbarDialog(LoginActivity.this, viewGroup);
+        progressbarDialog = new ProgressbarDialog(LoginActivity.this);
         // if user already logged in, go to the profile activity
         if (this.userDatabaseAccessor.isLoggedin()) {
             progressbarDialog.startProgressbarDialog();
