@@ -23,6 +23,7 @@ import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,6 @@ import java.util.ArrayList;
  */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, DriverRequestListener {
-    private Integer prePosition = -1;
     private ListView requestListView;
     private ArrayList<Request> requestList;
     private Request chooseRequest;
@@ -150,14 +150,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 dropOff = chooseRequest.getDropOffLoc();
                 LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
                 ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
-                /*
-                if (prePosition != -1){
-                    Button preAcceptBtn = getViewByPosition(position, requestListView).findViewById(R.id.accept_btn);
-                    preAcceptBtn.setVisibility(View.INVISIBLE);
-                }*/
-                prePosition = position;
+                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc, true);
+                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc, false);
                 acceptBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {

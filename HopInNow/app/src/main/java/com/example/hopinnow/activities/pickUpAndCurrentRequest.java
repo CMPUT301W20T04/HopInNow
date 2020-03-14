@@ -101,13 +101,7 @@ public class pickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     public void onClick(View v) {
                         ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                         // move this request from curRequest to trip
-                        //request parameters:
-                        // String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc,
-                        //                    String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
-                        //                    Car car, Double estimatedFare
-                        //trip paras:
-                        //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
-                        //                Date dropOffTime, int duration, Car car, Double cost, Double rating
+
                         Request request2 = driver.getCurRequest();
                         Date current_time = new Date();
                         ArrayList<Trip> driver_trip_list = driver.getDriverTripList();

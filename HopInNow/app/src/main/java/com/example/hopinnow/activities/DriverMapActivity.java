@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -158,6 +162,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     /**
      * set marker to map
      */
+    /*
     public void setMapMarker(Marker m, LatLng latLng){
         if (m == null) {
             MarkerOptions opt = new MarkerOptions();
@@ -167,7 +172,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             m.setPosition(latLng);
         }
         adjustMapFocus();
-    }
+    }*/
 
     public void setPickUpLoc(LatLng pickUpLoc) {
         this.pickUpLoc = pickUpLoc;
@@ -179,7 +184,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
      * adjust focus of the map according to the markers
      */
 
-
+    /*
     public void adjustMapFocus(){
         LatLngBounds.Builder bound = new LatLngBounds.Builder();
 
@@ -193,6 +198,92 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         } else {
             return;
         }
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
+    }*/
+
+
+    /**
+     * Transforms drawable into a bitmap drawable.
+     * @param drawable
+     *      information of the drawable to be turned into bitmap
+     * @return
+     *      Bitmap image for marker icon
+     */
+    private BitmapDescriptor toBitmapMarkerIcon(Drawable drawable) {
+        //Stackoverflow post by Mohammed Haidar
+        //https://stackoverflow.com/questions/35718103/
+        //      how-to-specify-the-size-of-the-icon-on-the-marker-in-google-maps-v2-android
+        //Answered by Rohit Bansal
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()
+                , drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    public void setMapMarker(Marker m, LatLng latLng, Boolean pickUp){
+        BitmapDescriptor mIcon;
+        if (pickUp){
+            mIcon = toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_pick_up));
+        } else {
+            mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        }
+
+        if (m == null) {
+            MarkerOptions opt = new MarkerOptions();
+            opt.position(latLng)
+                    .icon(mIcon)
+                    .draggable(true);
+            mMap.addMarker(opt);
+        } else {
+            m.setPosition(latLng);
+        }
+        adjustMapFocus();
+    }
+
+
+    /**
+     * Sets appropraite draggable state on map markers.
+     */
+    private void switchMarkerDraggable(){
+        if ((pickUpMarker!=null)&&(dropOffMarker!=null)){
+            if (pickUpMarker.isDraggable()){
+                pickUpMarker.setDraggable(false);
+            } else {
+                pickUpMarker.setDraggable(true);
+            }
+            if (dropOffMarker.isDraggable()){
+                dropOffMarker.setDraggable(false);
+            } else {
+                dropOffMarker.setDraggable(true);
+            }
+        }
+
+    }
+
+
+    /**
+     * Adjust focus of the map according to the markers.
+     */
+    public void adjustMapFocus(){
+        LatLngBounds.Builder bound = new LatLngBounds.Builder();
+
+        if ((pickUpLoc != null)&&(dropOffLoc != null)) {
+            bound.include(pickUpLoc);
+            bound.include(dropOffLoc);
+        } else if (pickUpLoc != null) {
+            bound.include(pickUpLoc);
+        } else if (dropOffLoc != null) {
+            bound.include(dropOffLoc);
+        } else {
+            return;
+        }
+
+        //TODO CHANGE PADDING ACCORDING TO FRAGMents
+
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
     }
 }
