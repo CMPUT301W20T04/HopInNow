@@ -68,8 +68,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.updateBtn.setVisibility(View.INVISIBLE);
         this.logoutButton = findViewById(R.id.proLogoutBtn);
         // alert progress dialog:
-        ViewGroup viewGroup = findViewById(R.id.activity_profile);
-        progressbarDialog = new ProgressbarDialog(ProfileActivity.this, viewGroup);
+        progressbarDialog = new ProgressbarDialog(ProfileActivity.this);
         progressbarDialog.startProgressbarDialog();
         // retrieve the current user information
         Intent intent = this.getIntent();
@@ -117,8 +116,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                     return;
                 }
                 // alert progress dialog:
-                ViewGroup viewGroup = findViewById(R.id.activity_profile);
-                progressbarDialog = new ProgressbarDialog(ProfileActivity.this, viewGroup);
+                progressbarDialog = new ProgressbarDialog(ProfileActivity.this);
                 progressbarDialog.startProgressbarDialog();
                 // access database:
                 currentUser.setName(name.getText().toString());
@@ -135,8 +133,8 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                 Toast.makeText(getApplicationContext(),
                         "You are Logged out!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
             }
         });
