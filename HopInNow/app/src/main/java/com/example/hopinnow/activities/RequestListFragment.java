@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,7 @@ import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Author: Qianxi Li
@@ -46,19 +48,13 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
-
-
         View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
         requestListView = (ListView)view.findViewById(R.id.requestList);
         requestList = new ArrayList<>();
-        //read request from database
 
+        //read request from database
         driverDatabaseAccessor = new DriverDatabaseAccessor();
         driverDatabaseAccessor.getDriverProfile(this);
-
-
-
-
         return view;
     }
 
@@ -86,7 +82,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         this.current_driver = driver;
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
         driverRequestDatabaseAccessor.getAllRequest(this);
-
     }
 
     @Override
@@ -129,43 +124,42 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
         this.requestList = requests;
         final FragmentActivity fragmentActivity = getActivity();
-        ((DriverMapActivity)getActivity()).setButtonInvisible();
+        ((DriverMapActivity) Objects.requireNonNull(getActivity())).setButtonInvisible();
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
 
         requestListView.setAdapter(adapter);
-        requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for(int i=0;i<requestList.size();i++){
-                    getViewByPosition(i, requestListView).findViewById(R.id.accept_btn).setVisibility(View.INVISIBLE);
-                }
-                View itemView = getViewByPosition(position, requestListView);
-                Button acceptBtn = itemView.findViewById(R.id.accept_btn);
-                acceptBtn.setVisibility(View.VISIBLE);
-                chooseRequest = requestList.get(position);
-                pickUp = chooseRequest.getPickUpLoc();
-                LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
-
-                ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
-                dropOff = chooseRequest.getDropOffLoc();
-                LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
-                ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
-                ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
-                prePosition = position;
-                acceptBtn.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        chooseRequest.setDriverEmail(current_driver.getEmail());
-                        chooseRequest.setCar(current_driver.getCar());
-                        driverRequestDatabaseAccessor.driverAcceptRequest(chooseRequest,
-                                RequestListFragment.this);
-
-                    }
-                });
-                //prePosition = position;
-
+        requestListView.setOnItemClickListener((parent, view, position, id) -> {
+            for(int i=0;i<requestList.size();i++){
+                getViewByPosition(i, requestListView).findViewById(R.id.accept_btn).setVisibility(View.INVISIBLE);
             }
+            View itemView = getViewByPosition(position, requestListView);
+            Button acceptBtn = itemView.findViewById(R.id.accept_btn);
+            acceptBtn.setVisibility(View.VISIBLE);
+            chooseRequest = requestList.get(position);
+            if (chooseRequest == null) {
+                Toast.makeText(getContext(), "This request does not exist!",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            pickUp = chooseRequest.getPickUpLoc();
+            LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
+
+            ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
+            dropOff = chooseRequest.getDropOffLoc();
+            LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
+            ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
+            ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
+            ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
+            prePosition = position;
+            acceptBtn.setOnClickListener(v -> {
+                chooseRequest.setDriverEmail(current_driver.getEmail());
+                chooseRequest.setCar(current_driver.getCar());
+                driverRequestDatabaseAccessor.driverAcceptRequest(chooseRequest,
+                        RequestListFragment.this);
+
+            });
+            //prePosition = position;
+
         });
     }
 
