@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.LatLong;
+import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
@@ -74,7 +76,7 @@ import java.util.Objects;
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
-        AvailRequestListListener{
+        AvailRequestListListener {
 
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
@@ -85,22 +87,25 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Driver driver;
     private Request curRequest;
 
-    //TODO change to current location later on pickUpLoc
-    private LatLng pickUpLoc = new LatLng(53.631611, -113.323975);
+    // change to current location later on pickUpLoc
+    private LatLng pickUpLoc;
     private LatLng dropOffLoc;
     private String pickUpLocName, dropOffLocName;
-    //TODO DRAG MARKER TO PIN LOCATION, onMarkerDragListener
+    // DRAG MARKER TO PIN LOCATION, onMarkerDragListener
     private Marker pickUpMarker, dropOffMarker;
 
-    private DriverDatabaseAccessor dDA;
+    private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
-    private RequestDatabaseAccessor rDA;
-    private RiderRequestDatabaseAccessor rRDA;
+    private RequestDatabaseAccessor requestDatabaseAccessor;
+    private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
+
+    // progress bar here:
+    private ProgressbarDialog progressbarDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //rider = (Rider) getIntent().getSerializableExtra("RiderObject");
+        setContentView(R.layout.activity_rider_map);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -112,15 +117,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         // assign logged in rider to local variable
-        riderDatabaseAccessor = new RiderDatabaseAccessor();
-        riderDatabaseAccessor.getRiderProfile(this);
-
-        dDA = new DriverDatabaseAccessor();
-        rDA = new RequestDatabaseAccessor();
-        rRDA = new RiderRequestDatabaseAccessor();
-
+        this.riderDatabaseAccessor = new RiderDatabaseAccessor();
+        this.driverDatabaseAccessor = new DriverDatabaseAccessor();
+        this.requestDatabaseAccessor = new RequestDatabaseAccessor();
+        this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
+        this.progressbarDialog = new ProgressbarDialog(getApplicationContext());
+        this.progressbarDialog.startProgressbarDialog();
         // sets map
-        setContentView(R.layout.activity_rider_map);
+
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
 
@@ -131,52 +135,91 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // sets location search bars
         setupAutoCompleteFragment();
 
-        //MOCK FOR INTENT TESTING
-        final EditText pickUpMock = findViewById(R.id.mock_pickUp);
-        final EditText dropOffMock = findViewById(R.id.mock_dropOff);
 
-        // sets button for adding new request
-        Button addRequestBtn = findViewById(R.id.add_request_button);
-        addRequestBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //mock, for UI test
-                if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
-                    pickUpLocName = pickUpMock.getText().toString();
-                    pickUpLoc = new LatLng(53.5258, 113.5207);
-                    dropOffLocName = dropOffMock.getText().toString();
-                    dropOffLoc = new LatLng(53.5224, 113.5305);
-                }
 
-                //FIXME
-                // if both locations eneterd, then one cleared, validation below would not work
-                // maybe gettext in autocompletefragment for validation
-                if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
-                    switchMarkerDraggable();
-                    setNewRequest();
-
-                } else {
-                    String msg = "Please enter both your pick up and drop off locations.";
-                    Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         // sets button for viewing rider profile
         FloatingActionButton riderMenuBtn = findViewById(R.id.riderMenuBtn);
-        riderMenuBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
-                startActivity(intent);
+        riderMenuBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
+            startActivity(intent);
+        });
+        riderDatabaseAccessor.getRiderProfile(this);
+    }
+    /**
+     * Displays appropriate content according to the presence of current request.
+     */
+    @Override
+    protected void onStart(){
+        super.onStart();
+        String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
+        //MOCK FOR INTENT TESTING
+        final EditText pickUpMock = findViewById(R.id.mock_pickUp);
+        final EditText dropOffMock = findViewById(R.id.mock_dropOff);
+        // sets button for adding new request
+        Button addRequestBtn = findViewById(R.id.add_request_button);
+        addRequestBtn.setOnClickListener(v -> {
+            //mock, for UI test
+            if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
+                pickUpLocName = pickUpMock.getText().toString();
+                pickUpLoc = new LatLng(53.5258, 113.5207);
+                dropOffLocName = dropOffMock.getText().toString();
+                dropOffLoc = new LatLng(53.5224, 113.5305);
+            }
+
+            //FIXME
+            // if both locations eneterd, then one cleared, validation below would not work
+            // maybe gettext in autocompletefragment for validation
+            if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
+                switchMarkerDraggable();
+                setNewRequest();
+
+            } else {
+                String msg = "Please enter both your pick up and drop off locations.";
+                Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
+        if (caseCancel.equals("cancel")) {
+            cancelRequestLocal();
+        }
 
+        if (curRequest!=null) {
+            View searchFragment = findViewById(R.id.search_layout);
+            curRequest = retrieveCurrentRequestLocal();
+            searchFragment.setVisibility(View.GONE);
+            //MOCK
+            findViewById(R.id.mock).setVisibility(View.GONE);
+            searchInPlace = false;
+        } else {
+            searchInPlace = true;
+        }
 
-        //TODO listener on rider curRequest,
-        // save waiting driver offer status, calls switch fragment
-        // update curRequest by retrieveCurrentRequestOnline
+        switchMarkerDraggable();
+
     }
+    /**
+     * Creates new request and save it to both locally and online.
+     */
+    public void setNewRequest(){
+        Date dateTime = Calendar.getInstance().getTime();
+        EstimateFare fare = new EstimateFare();
+        Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
+
+        // set attribute of the request:
+        LatLong latLongP = new LatLong(pickUpLoc.latitude, pickUpLoc.longitude);
+        LatLong latLongD = new LatLong(dropOffLoc.latitude, dropOffLoc.longitude);
+        curRequest = new Request(null, rider.getEmail(), latLongP, latLongD, pickUpLocName,
+                dropOffLocName, dateTime,null, estimatedFare);
+
+        saveCurrentRequestLocal(curRequest);
+
+        // save cur Request to firebase
+        this.progressbarDialog.startProgressbarDialog();
+        requestDatabaseAccessor.addRequest(curRequest,this);
 
 
+
+    }
     /**
      * Sets up initlal map.
      * @param googleMap
@@ -242,32 +285,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-    /**
-     * Displays appropriate content according to the presence of current request.
-     */
-    @Override
-    protected void onStart(){
-        super.onStart();
-        String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
 
-        if (caseCancel =="cancel") {
-            cancelRequestLocal();
-        }
-
-        if (curRequest!=null) {
-            View searchFragment = findViewById(R.id.search_layout);
-            curRequest = retrieveCurrentRequestLocal();
-            searchFragment.setVisibility(View.GONE);
-            //MOCK
-            findViewById(R.id.mock).setVisibility(View.GONE);
-            searchInPlace = false;
-        } else {
-            searchInPlace = true;
-        }
-
-        switchMarkerDraggable();
-
-    }
 
     /**
      * On resume.
@@ -328,7 +346,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     public void cancelRequestLocal(){
         //clear all fragments
-        rDA.deleteRequest(this);
+        requestDatabaseAccessor.deleteRequest(this);
         FrameLayout fl = findViewById(R.id.fragment_place);
         fl.removeAllViews();
         mMap.clear();
@@ -393,42 +411,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     public Driver retrieveOfferedDriver(){
         return driver;
-    }
-
-
-    /**
-     * Creates new request and save it to both locally and online.
-     */
-    public void setNewRequest(){
-        Date dateTime = Calendar.getInstance().getTime();
-        EstimateFare fare = new EstimateFare();
-        Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc,dateTime);
-
-        //TODO set current Request
-        // FIXME, changed driver to driver.email():
-        LatLong latLongP = new LatLong(pickUpLoc.latitude, pickUpLoc.longitude);
-        LatLong latLongD = new LatLong(dropOffLoc.latitude, dropOffLoc.longitude);
-        curRequest = new Request(null, rider.getEmail(), latLongP, latLongD, pickUpLocName,
-                dropOffLocName, dateTime,null, estimatedFare);
-
-        saveCurrentRequestLocal(curRequest);
-
-        //TODO save cur Request to firebase
-        rDA.addRequest(curRequest,this);
-
-        switchFragment(R.layout.fragment_rider_waiting_driver);
-
-        //TODO change intent to new activity
-        View searchFragment = findViewById(R.id.search_layout);
-        searchFragment.setVisibility(View.GONE);
-
-        //Mock
-        findViewById(R.id.mock).setVisibility(View.GONE);
-
-        rRDA.riderWaitForRequestAcceptance(this);
-        rRDA.riderWaitForPickup(this);
-        rRDA.riderWaitForRequestComplete(this);
-
     }
 
 
@@ -624,6 +606,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
+        this.progressbarDialog.dismissDialog();
         this.rider = rider;
     }
 
@@ -661,14 +644,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderRequestAcceptedNotify(Request mRequest) {
         curRequest = mRequest;
         String dEmail = curRequest.getDriverEmail();
-        dDA.getDriverObject(dEmail,this);
-        switchFragment(R.layout.fragment_rider_waiting_pickup);
-
-        //FragmentManager t = getSupportFragmentManager();
-        //t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingPickupFragment())
-                //.commit();
-
-
+        driverDatabaseAccessor.getDriverObject(dEmail,this);
     }
 
     @Override
@@ -680,7 +656,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderPickedupSuccess(Request request) {
         switchFragment(R.layout.fragment_rider_pickedup);
-
+        riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
     }
 
     @Override
@@ -703,8 +679,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
+        this.progressbarDialog.dismissDialog();
         this.driver = driver;
-
+        switchFragment(R.layout.fragment_rider_waiting_pickup);
+        riderRequestDatabaseAccessor.riderWaitForPickup(this);
     }
 
     @Override
@@ -715,7 +693,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRequestAddedSuccess() {
         searchInPlace = true;
-        //switchFragment(R.layout.fragment_rider_waiting_driver);
+        switchFragment(R.layout.fragment_rider_waiting_driver);
+        // change intent to new activity
+        View searchFragment = findViewById(R.id.search_layout);
+        searchFragment.setVisibility(View.GONE);
+        //Mock
+        findViewById(R.id.mock).setVisibility(View.GONE);
+        this.progressbarDialog.dismissDialog();
+        riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
     }
 
     @Override
