@@ -2,8 +2,12 @@ package com.example.hopinnow.database;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.RiderRequestListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
@@ -87,13 +91,26 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .document(this.currentUser.getUid())
                 .addSnapshotListener((snapshot, e) -> {
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
-                    if (e != null) {
+                    if (e == null) {
                         Log.v(TAG, "Listen failed.", e);
                         listener.onRiderRequestCompletionError();
                     }
-                    if (!snapshot.exists()) {
-                        Log.v(TAG, "Got data: ");
-                        listener.onRiderRequestComplete();
+                    if (snapshot.exists()) {
+                        if (Objects.requireNonNull(request).getDriverEmail() == null) {
+                            this.firestore
+                                    .collection(this.referenceName)
+                                    .document(this.currentUser.getUid())
+                                    .delete()
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Log.v(TAG, "Got data: ");
+                                            listener.onRiderRequestComplete();
+                                        } else {
+                                            Log.v(TAG, "Listen failed.", e);
+                                            listener.onRiderRequestCompletionError();
+                                        }
+                                    });
+                        }
                     }
                 });
     }
