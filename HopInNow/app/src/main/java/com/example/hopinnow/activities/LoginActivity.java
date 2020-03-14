@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
         if (this.userDatabaseAccessor.isLoggedin()) {
             progressbarDialog.startProgressbarDialog();
             userDatabaseAccessor.getUserProfile(this);
-
         }
         // here, the database accessor is already initialized
         this.email = findViewById(R.id.loginEmailEditText);
@@ -64,37 +63,31 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     @Override
     protected void onStart() {
         super.onStart();
-        this.loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // checks if the inputs are valid:
-                if (!verifyFields()) {
-                    loginWarn.setVisibility(View.VISIBLE);
-                    return;
-                } else {
-                    loginWarn.setVisibility(View.INVISIBLE);
-                }
-                // alert progress dialog:
-
-
-                progressbarDialog.startProgressbarDialog();
-                // access database:
-                String emailData = email.getText().toString();
-                String passwordData = password.getText().toString();
-                User user = new User();
-                user.setEmail(emailData);
-                user.setPassword(passwordData);
-                // log in the user
-                userDatabaseAccessor.loginUser(user, LoginActivity.this);
+        this.loginButton.setOnClickListener(view -> {
+            // checks if the inputs are valid:
+            if (!verifyFields()) {
+                loginWarn.setVisibility(View.VISIBLE);
+                return;
+            } else {
+                loginWarn.setVisibility(View.INVISIBLE);
             }
+            // alert progress dialog:
+
+
+            progressbarDialog.startProgressbarDialog();
+            // access database:
+            String emailData = email.getText().toString();
+            String passwordData = password.getText().toString();
+            User user = new User();
+            user.setEmail(emailData);
+            user.setPassword(passwordData);
+            // log in the user
+            userDatabaseAccessor.loginUser(user, LoginActivity.this);
         });
-        this.register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
-                //finish();
-            }
+        this.register.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(intent);
+            //finish();
         });
     }
 

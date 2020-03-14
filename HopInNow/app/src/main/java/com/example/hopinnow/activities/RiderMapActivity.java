@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -74,7 +75,7 @@ import java.util.Objects;
  * Author: Tianyu Bai
  * This activity defines all methods for main activities of rider.
  */
-public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
+public class RiderMapActivity extends AppCompatActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
         AvailRequestListListener {
 
@@ -105,8 +106,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rider_map);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -115,36 +114,27 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
         }
-
+        setContentView(R.layout.activity_rider_map);
+        switchMarkerDraggable();
+        // sets variable
+        searchInPlace = true;
+        driver = null;
+        // sets location search bars
+        setupAutoCompleteFragment();
+        // sets map
+        pickUpLoc = new LatLng(53.5258, 113.5207);
+        dropOffLoc = new LatLng(53.5224, 113.5305);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(RiderMapActivity.this);
         // assign logged in rider to local variable
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.requestDatabaseAccessor = new RequestDatabaseAccessor();
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
-        this.progressbarDialog = new ProgressbarDialog(getApplicationContext());
+        // let the progress bar show:
+        this.progressbarDialog = new ProgressbarDialog(this);
         this.progressbarDialog.startProgressbarDialog();
-        // sets map
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(RiderMapActivity.this);
-
-        // sets variable
-        searchInPlace = true;
-        driver = null;
-
-        // sets location search bars
-        setupAutoCompleteFragment();
-
-
-
-
-        // sets button for viewing rider profile
-        FloatingActionButton riderMenuBtn = findViewById(R.id.riderMenuBtn);
-        riderMenuBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
-            startActivity(intent);
-        });
-        riderDatabaseAccessor.getRiderProfile(this);
+        this.riderDatabaseAccessor.getRiderProfile(this);
     }
     /**
      * Displays appropriate content according to the presence of current request.
@@ -179,7 +169,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
-        if (caseCancel.equals("cancel")) {
+        // sets button for viewing rider profile
+        FloatingActionButton riderMenuBtn = findViewById(R.id.riderMenuBtn);
+        riderMenuBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
+            startActivity(intent);
+        });
+        if (Objects.equals(caseCancel, "cancel")) {
             cancelRequestLocal();
         }
 
@@ -193,9 +189,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         } else {
             searchInPlace = true;
         }
-
-        switchMarkerDraggable();
-
     }
     /**
      * Creates new request and save it to both locally and online.
@@ -228,8 +221,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        //TODO CURRENT LOCATION
+        // CURRENT LOCATION
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pickUpLoc, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(pickUpLoc)
