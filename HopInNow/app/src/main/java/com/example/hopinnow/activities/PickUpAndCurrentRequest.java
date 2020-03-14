@@ -123,7 +123,8 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 // set emergency button on click listener
                 emergencyCallButton.setOnClickListener(v -> {
                     // call call number method to make a phone call
-                    ((DriverMapActivity)getActivity()).callNumber("7806041057");//shway number
+                    ((DriverMapActivity)getActivity())
+                            .callNumber("7806041057");//shway number
                 });}
 
         }
@@ -220,6 +221,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onDriverRequestCompleteSuccess() {
         driver.setCurRequest(null);
+        this.driverRequestDatabaseAccessor.getAllRequest(this);
     }
 
     @Override
