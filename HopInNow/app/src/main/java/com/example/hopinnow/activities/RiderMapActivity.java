@@ -426,6 +426,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         findViewById(R.id.mock).setVisibility(View.GONE);
 
         rRDA.riderWaitForRequestAcceptance(this);
+        rRDA.riderWaitForPickup(this);
+        rRDA.riderWaitForRequestComplete(this);
 
     }
 
@@ -671,12 +673,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderRequestTimeoutOrFail() {
-        FragmentManager t = getSupportFragmentManager();
-        t.popBackStack();
+//        FragmentManager t = getSupportFragmentManager();
+//        t.popBackStack();
     }
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
+        switchFragment(R.layout.fragment_rider_pickedup);
 
     }
 
@@ -687,8 +690,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderRequestComplete() {
-
-    }
+        Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
+        startActivity(intent);
+        finish();
+}
 
     @Override
     public void onRiderRequestCompletionError() {
