@@ -36,6 +36,11 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     if (task.isSuccessful()) {
                         Request request1 =
                                 requireNonNull(task.getResult()).toObject(Request.class);
+                        if (request1 == null) {
+                            Log.v(TAG, "Request did not accept successfully!");
+                            listener.onDriverRequestTimeoutOrFail();
+                            return;
+                        }
                         assert request1 != null;
                         // check the driverEmail of the request see if it already exists:
                         if (request1.getDriverEmail() != null) {
