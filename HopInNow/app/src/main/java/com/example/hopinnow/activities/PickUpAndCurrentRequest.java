@@ -103,6 +103,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
                     Request request2 = driver.getCurRequest();
                     Date current_time = new Date();
+                    driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                     ArrayList<Trip> driverTripList = driver.getDriverTripList();
                     if(driverTripList == null){
                         driverTripList = new ArrayList<>();

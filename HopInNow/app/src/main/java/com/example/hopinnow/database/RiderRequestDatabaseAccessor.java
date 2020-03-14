@@ -9,6 +9,7 @@ import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Objects;
 
@@ -69,7 +70,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     }
                     if (snapshot.exists()) {
                         if (Objects.requireNonNull(request).isPickedUp()) {
-                            Log.v(TAG, "Got data: ");
+                            Log.v(TAG, "rider picked up: ");
                             listener.onRiderPickedupSuccess(snapshot.toObject(Request.class));
                         }
                     } else {
@@ -86,32 +87,28 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      */
     public void riderWaitForRequestComplete(final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        this.firestore
-                .collection(this.referenceName)
-                .document(this.currentUser.getUid())
-                .addSnapshotListener((snapshot, e) -> {
-                    Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
-                    if (e == null) {
-                        Log.v(TAG, "Listen failed.", e);
-                        listener.onRiderRequestCompletionError();
-                    }
-                    if (snapshot.exists()) {
-                        if (Objects.requireNonNull(request).getDriverEmail() == null) {
-                            this.firestore
-                                    .collection(this.referenceName)
-                                    .document(this.currentUser.getUid())
-                                    .delete()
-                                    .addOnCompleteListener(task -> {
-                                        if (task.isSuccessful()) {
-                                            Log.v(TAG, "Got data: ");
-                                            listener.onRiderRequestComplete();
-                                        } else {
-                                            Log.v(TAG, "Listen failed.", e);
-                                            listener.onRiderRequestCompletionError();
-                                        }
-                                    });
-                        }
-                    }
-                });
+        DocumentReference dr = this.firestore.collection(this.referenceName)
+                .document(this.currentUser.getUid());
+        dr.addSnapshotListener((snapshot, e) -> {
+            Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
+            Log.v(TAG, "rider complete caught snapshot");
+            if (e == null) {
+                Log.v(TAG, "Listen failed.", e);
+                listener.onRiderRequestCompletionError();
+            }
+            if (snapshot.exists()) {
+                if (Objects.requireNonNull(request).getDriverEmail() == null) {
+                    dr.delete().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.v(TAG, "ride completed: ");
+                                    listener.onRiderRequestComplete();
+                                } else {
+                                    Log.v(TAG, "Listen failed.", e);
+                                    listener.onRiderRequestCompletionError();
+                                }
+                            });
+                }
+            }
+        });
     }
 }

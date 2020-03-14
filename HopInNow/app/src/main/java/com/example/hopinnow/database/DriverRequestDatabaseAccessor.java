@@ -124,11 +124,11 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .document(request.getRequestID())
                 .set(request)
                 .addOnSuccessListener(aVoid -> {
-                    Log.v(TAG, "Request deleted!");
+                    Log.v(TAG, "Request completed!");
                     listener.onDriverRequestCompleteSuccess();
                 })
                 .addOnFailureListener(e -> {
-                    Log.v(TAG, "Request did not delete successfully!");
+                    Log.v(TAG, "Request did not complete successfully!");
                     listener.onDriverRequestCompleteFailure();
                 });
     }
