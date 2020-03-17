@@ -97,6 +97,7 @@ public class RiderWaitingPickupFragment extends Fragment {
                 public void onClick(View v) {
                     //change fragment
                     ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
+
                 }
             });
 
@@ -106,7 +107,8 @@ public class RiderWaitingPickupFragment extends Fragment {
             nextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RiderMapActivity)getActivity()).switchFragment(R.layout.fragment_rider_pickedup);
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).
+                            switchFragment(R.layout.fragment_rider_pickedup);
                 }
             });
 

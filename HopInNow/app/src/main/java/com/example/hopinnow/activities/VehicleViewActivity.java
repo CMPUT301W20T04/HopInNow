@@ -48,8 +48,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
         this.vehicleModelEditText = findViewById(R.id.vehicleModelEditText);
         this.vehicleColorEditText = findViewById(R.id.vehicleColorEditText);
         this.vehiclePlateEditText = findViewById(R.id.vehiclePlateEditText);
-        ViewGroup viewGroup = findViewById(R.id.vehicleInfo);
-        progressbarDialog = new ProgressbarDialog(VehicleViewActivity.this, viewGroup);
+        progressbarDialog = new ProgressbarDialog(VehicleViewActivity.this);
         progressbarDialog.startProgressbarDialog();
 
         Intent intent = this.getIntent();

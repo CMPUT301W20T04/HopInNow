@@ -150,8 +150,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     user = new Rider(emailData, passwordData, nameData, phoneNumberData,
                             false, 100, null, tripList);
                     // alert progress dialog:
-                    ViewGroup viewGroup = findViewById(R.id.activity_register);
-                    progressbarDialog = new ProgressbarDialog(RegisterActivity.this, viewGroup);
+                    progressbarDialog = new ProgressbarDialog(RegisterActivity.this);
                     progressbarDialog.startProgressbarDialog();
                     // create user in the database:
                     userDatabaseAccessor.registerUser(user, RegisterActivity.this);

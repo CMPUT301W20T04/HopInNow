@@ -24,13 +24,11 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
-import com.example.hopinnow.helperclasses.LatLong;
+import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -250,7 +248,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String msg = "Your payment of $" + totalPayment + " to your driver is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-        showRatingDialog();
+        //showRatingDialog();
     }
 
 
@@ -325,5 +323,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderProfileUpdateFailure() {}
 
+    @Override
+    public void onBackPressed(){
+
+    }
 
 }

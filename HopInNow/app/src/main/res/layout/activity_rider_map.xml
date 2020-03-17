@@ -10,9 +10,11 @@
 
     <fragment
         android:id="@+id/map"
-        class ="com.google.android.gms.maps.MapFragment"
+        class="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="108dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/riderMenuBtn"

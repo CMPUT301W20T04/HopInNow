@@ -2,13 +2,10 @@ package com.example.hopinnow.activities;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -17,9 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -76,7 +71,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(DriverMapActivity.this);
 
-        //TODO set rider, driver, car properly
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678",
@@ -123,7 +117,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             // request and the pickup user button
             case R.layout.fragment_driver_pick_rider_up:
                 t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new pickUpAndCurrentRequest()).commit();
+                t.replace(R.id.fragment_place, new PickUpAndCurrentRequest()).commit();
                 break;
                 //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
@@ -195,5 +189,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             return;
         }
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

@@ -1,7 +1,5 @@
 package com.example.hopinnow.activities;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +9,13 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
-import com.example.hopinnow.entities.Rider;
-import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
-import com.example.hopinnow.statuslisteners.RiderRequestAcceptedListener;
 
 import java.util.Objects;
-import com.example.hopinnow.database.UserDatabaseAccessor;
 
 /**
  * Author: Tianyu Baix
