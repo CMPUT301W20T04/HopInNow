@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,10 +66,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -94,6 +99,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private String pickUpLocName, dropOffLocName;
     // DRAG MARKER TO PIN LOCATION, onMarkerDragListener
     private Marker pickUpMarker, dropOffMarker;
+    private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
@@ -120,6 +126,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         searchInPlace = true;
         driver = null;
         // sets location search bars
+        pickUpAutoComplete = ((AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete));
+        dropOffAutoComplete = ((AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
         setupAutoCompleteFragment();
         // sets map
         pickUpLoc = new LatLng(53.5258, 113.5207);
@@ -221,12 +231,69 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker m) {  }
+
+            @Override
+            public void onMarkerDragEnd(Marker m) {
+                LatLng newLatLng = m.getPosition();
+                List<Address> addresses = null;
+
+                try {
+                    addresses = geocoder.getFromLocation(newLatLng.latitude, newLatLng.longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String address = addresses.get(0).getAddressLine(0);
+
+                if (m.getTitle()=="Pick Up Location"){
+                    pickUpLoc = newLatLng;
+                    pickUpLocName = address;
+                    pickUpAutoComplete.setText(pickUpLocName);
+                } else {
+                    dropOffLoc = newLatLng;
+                    dropOffLocName = address;
+                    dropOffAutoComplete.setText(dropOffLocName);
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onMarkerDrag(Marker m) {     }
+        });
+
+        Button zoomIn = findViewById(R.id.map_zoom_in);
+        zoomIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { mMap.animateCamera(CameraUpdateFactory.zoomIn()); }
+        });
+
+        Button zoomOut = findViewById(R.id.map_zoom_out);
+        zoomOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { mMap.animateCamera(CameraUpdateFactory.zoomOut()); }
+        });
+
         // CURRENT LOCATION
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pickUpLoc, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(pickUpLoc)
-                .title("My Current Location")
+                .title("Pick Up Location")
                 .icon(toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_pick_up)))
+                .draggable(true));
+
+        dropOffMarker = mMap.addMarker(new MarkerOptions()
+                .position(pickUpLoc)
+                .title("Drop Off Location")
+                .visible(false)
                 .draggable(true));
     }
 
@@ -237,8 +304,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private void setupAutoCompleteFragment() {
 
         // fragment for pick up locaation
-        AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
+        //AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
+                //getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
         assert pickUpAutoComplete != null;
         pickUpAutoComplete.setHint("Pick Up Location");
         //pickUpAutoComplete.setText("My Current Location");
@@ -257,8 +324,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         });
 
         // fragment for drop off location
-        final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
+        //final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
+        //                getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
         assert dropOffAutoComplete != null;
         dropOffAutoComplete.setHint("Drop Off Location");
         dropOffAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
@@ -349,8 +416,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         dropOffLocName= null;
         pickUpLoc = null;
         dropOffLoc = null;
-        pickUpMarker = null;
-        dropOffMarker = null;
+        pickUpMarker.setVisible(false);
+        dropOffMarker.setVisible(false);
 
         //return to initial prompt of location searching
         View searchFragment = findViewById(R.id.search_layout);
@@ -454,18 +521,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
          if (pickUp){
              mIcon = toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_pick_up));
          } else {
-             mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+             mIcon = toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_drop_off));
          }
 
-         if (m == null) {
-             MarkerOptions opt = new MarkerOptions();
-             opt.position(latLng)
-                .icon(mIcon)
-                .draggable(true);
-             mMap.addMarker(opt);
-         } else {
-             m.setPosition(latLng);
-         }
+         m.setVisible(true);
+         m.setPosition(latLng);
+         m.setIcon(mIcon);
+
+
          adjustMapFocus();
      }
 
@@ -507,7 +570,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
              return;
          }
 
-         //TODO CHANGE PADDING ACCORDING TO FRAGMents
+         //TODO CHANGE PADDING ACCORDING TO FRAGMENTS
 
          mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
      }

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="108dp" />
+        tools:layout_editor_absoluteY="0dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/riderMenuBtn"
@@ -89,7 +89,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="16dp"
+            android:layout_width="18dp"
             android:layout_height="match_parent"
             android:layout_marginStart="7dp"
             android:layout_marginEnd="7dp"
@@ -116,6 +116,8 @@
     </LinearLayout>
 
 
+
+
     <FrameLayout
         android:id="@+id/fragment_place"
         android:layout_width="match_parent"
@@ -124,6 +126,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/map_zoom_in"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:hint="+"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_layout"
+        android:background="@color/ColorWhite"
+        android:alpha="0.80"/>
+
+    <Button
+        android:id="@+id/map_zoom_out"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/ColorWhite"
+        android:hint="-"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_zoom_in"
+        android:alpha="0.80"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
