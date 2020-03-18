@@ -241,7 +241,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         saveCurrentRequestLocal(curRequest);
 
-        // save cur Request to firebase
+        // save current Request to firebase
         this.progressbarDialog.startProgressbarDialog();
         requestDatabaseAccessor.addRequest(curRequest,this);
 
