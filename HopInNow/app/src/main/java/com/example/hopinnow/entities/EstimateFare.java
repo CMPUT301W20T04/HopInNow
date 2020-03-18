@@ -26,12 +26,10 @@ public class EstimateFare {
         Double earthRadius = 6371.0; //in km
 
         //temporary, to be replaced by above
-        LatLng pickUp = pickUpLoc;
-        LatLng dropOff = dropOffLoc;
-        Double horizontalDis = Math.abs(pickUp.latitude-dropOff.latitude);
-        Double verticalDis = Math.abs(dropOff.longitude-dropOff.longitude);
+        Double horizontalDis = Math.abs(pickUpLoc.latitude-dropOffLoc.latitude);
+        Double verticalDis = Math.abs(pickUpLoc.longitude-dropOffLoc.longitude);
         horizontalDis = horizontalDis * 110.574;
-        verticalDis = verticalDis * earthRadius * Math.cos((pickUp.latitude+dropOff.latitude)/2);
+        verticalDis = verticalDis * earthRadius * Math.cos((pickUpLoc.latitude+dropOffLoc.latitude)/2);
 
 
         Double distance = horizontalDis + verticalDis;

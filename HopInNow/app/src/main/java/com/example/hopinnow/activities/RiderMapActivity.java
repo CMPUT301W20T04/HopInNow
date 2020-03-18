@@ -180,7 +180,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     protected void onStart(){
         super.onStart();
         String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
-        //MOCK FOR INTENT TESTING
+        // MOCK FOR INTENT TESTING
         final EditText pickUpMock = findViewById(R.id.mock_pickUp);
         final EditText dropOffMock = findViewById(R.id.mock_dropOff);
         // sets button for adding new request
@@ -193,7 +193,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 dropOffLocName = dropOffMock.getText().toString();
                 dropOffLoc = new LatLng(53.5224, -113.5305);
             }
-
             //FIXME
             // if both locations eneterd, then one cleared, validation below would not work
             // maybe gettext in autocompletefragment for validation
@@ -213,7 +212,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
             startActivity(intent);
         });
-        
+
         if (Objects.equals(caseCancel, "cancel")) {
             cancelRequestLocal();
         }
