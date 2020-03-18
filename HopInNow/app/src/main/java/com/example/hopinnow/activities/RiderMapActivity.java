@@ -128,7 +128,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
         }
         setContentView(R.layout.activity_rider_map);
-        switchMarkerDraggable();
         // sets variable
         driver = null;
         // sets location search bars
@@ -214,6 +213,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
             startActivity(intent);
         });
+        
         if (Objects.equals(caseCancel, "cancel")) {
             cancelRequestLocal();
         }
@@ -426,7 +426,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //clear all fragments
         FrameLayout fl = findViewById(R.id.fragment_place);
         fl.removeAllViews();
-        mMap.clear();
 
         //set curRequest to null
         curRequest = null;
@@ -437,6 +436,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         dropOffLoc = null;
         pickUpMarker.setVisible(false);
         dropOffMarker.setVisible(false);
+        switchMarkerDraggable();
 
         //return to initial prompt of location searching
         View searchFragment = findViewById(R.id.search_layout);
@@ -445,8 +445,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 findFragmentById(R.id.pick_up_auto_complete))).setText(pickUpLocName);
         ((AutocompleteSupportFragment) Objects.requireNonNull(getSupportFragmentManager().
                 findFragmentById(R.id.drop_off_auto_complete))).setText(dropOffLocName);
-
-        // TODO CURRENT LOCATION ZOOM AND MARKER
 
     }
 
@@ -545,17 +543,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      location information for where the given marker object is to be set on the map
      */
      public void setMapMarker(Marker m, LatLng latLng){
-         BitmapDescriptor mIcon;
-         if (m.getTitle().equals("Pick Up Location")){
-             mIcon = toBitmapMarkerIcon(getResources()
-                     .getDrawable(R.drawable.marker_pick_up));
-         } else {
-             mIcon = toBitmapMarkerIcon(getResources()
-                     .getDrawable(R.drawable.marker_drop_off));
-         }
          m.setVisible(true);
          m.setPosition(latLng);
-         m.setIcon(mIcon);
          adjustMapFocus();
      }
 
