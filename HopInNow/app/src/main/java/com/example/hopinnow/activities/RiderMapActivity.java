@@ -173,7 +173,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.riderDatabaseAccessor.getRiderProfile(this);
     }
 
-    
+
     /**
      * Displays appropriate content according to the presence of current request.
      */
@@ -310,6 +310,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 .position(pickUpLoc)
                 .title("Drop Off Location")
                 .visible(false)
+                .icon(toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_drop_off)))
                 .draggable(true));
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pickUpLoc, 10.0f));
@@ -544,8 +545,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      location information for where the given marker object is to be set on the map
      */
      public void setMapMarker(Marker m, LatLng latLng){
+         BitmapDescriptor mIcon;
+         if (m.getTitle().equals("Pick Up Location")){
+             mIcon = toBitmapMarkerIcon(getResources()
+                     .getDrawable(R.drawable.marker_pick_up));
+         } else {
+             mIcon = toBitmapMarkerIcon(getResources()
+                     .getDrawable(R.drawable.marker_drop_off));
+         }
          m.setVisible(true);
          m.setPosition(latLng);
+         m.setIcon(mIcon);
          adjustMapFocus();
      }
 
