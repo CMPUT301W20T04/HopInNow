@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorDark"
         android:gravity="center"
-        android:text="Trip History:"
+        android:text="Trip History"
         android:textColor="@color/ColorWhite"
         android:textSize="30sp"
         android:textStyle="bold" />
