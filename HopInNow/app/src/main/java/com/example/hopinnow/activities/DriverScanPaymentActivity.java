@@ -76,10 +76,11 @@ public class DriverScanPaymentActivity extends AppCompatActivity {
                 } else {
                     try {
                         cameraSource.start(cameraView.getHolder());
+                        permissionMsg.setVisibility(TextView.INVISIBLE);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    permissionMsg.setVisibility(TextView.INVISIBLE);
+
                 }
             }
 
