@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,10 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.io.IOException;
+
+import me.dm7.barcodescanner.core.CameraPreview;
+
 public class DriverScanPaymentActivity extends AppCompatActivity {
 
     SurfaceView cameraView;
@@ -30,6 +36,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity {
     String encoded;
     RxPermissions rxPermissions;
     int permissionCount = 0;
+    TextView permissionMsg;
 
     @SuppressLint("CheckResult")
     @Override
@@ -41,6 +48,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity {
 
         rxPermissions = new RxPermissions(DriverScanPaymentActivity.this);
         cameraView = findViewById(R.id.camera_scan_surfaceView);
+        permissionMsg = findViewById(R.id.permission_camera_textView);
 
         qrDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
@@ -60,6 +68,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity {
                             .subscribe(granted -> {
                                 if (granted) {
                                     cameraSource.start(cameraView.getHolder());
+                                    permissionMsg.setVisibility(TextView.INVISIBLE);
                                 } else {
                                     Toast.makeText(DriverScanPaymentActivity.this,
                                             "You must enable camera to receive your payment.",
@@ -67,6 +76,13 @@ public class DriverScanPaymentActivity extends AppCompatActivity {
                                 }
                             });
                     permissionCount += 1;
+                } else {
+                    try {
+                        cameraSource.start(cameraView.getHolder());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    permissionMsg.setVisibility(TextView.INVISIBLE);
                 }
             }
 
@@ -86,6 +102,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity {
                         .subscribe(granted -> {
                             if (granted) {
                                 cameraSource.start(cameraView.getHolder());
+                                permissionMsg.setVisibility(TextView.INVISIBLE);
                             } else {
                                 Toast.makeText(DriverScanPaymentActivity.this,
                                         "You must enable camera to receive your payment.",
