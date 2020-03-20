@@ -17,14 +17,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
-import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.maps.model.LatLng;
@@ -63,14 +63,14 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
 
-        // temporary
+        //TODO GET DRIVER FROM FIREBASE
         Car car = new Car("Auburn","Speedster","Cream","111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, 10.0,  null, car, null);
         rider = new Rider(null,null,null,null,false,10.00,null,null);
 
 
-        //set local variables
+        // set local variables
         //driver = curRequest.getDriver();
         baseFare = curRequest.getEstimatedFare();
         dropOffDateTime = Calendar.getInstance().getTime();
@@ -82,45 +82,39 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         //show total payment calculation
         Button showTotalBtn = findViewById(R.id.rider_payment_calculate);
-        showTotalBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setMyTip();
-                totalPayment = formatTotalPayment();
-                totalPaymentTextView.setText(Double.toString(totalPayment));
-            }
+        showTotalBtn.setOnClickListener(v -> {
+            setMyTip();
+            totalPayment = formatTotalPayment();
+            totalPaymentTextView.setText(Double.toString(totalPayment));
         });
 
         // creates QR code on button confirm, QR contains total payment amount
         qrImage = findViewById(R.id.rider_payment_qr);
         final Button confirmPaymentBtn = findViewById(R.id.rider_payment_submit_tips);
-        confirmPaymentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        confirmPaymentBtn.setOnClickListener(v -> {
 
-                setMyTip();
-                totalPayment = formatTotalPayment();
+            setMyTip();
+            totalPayment = formatTotalPayment();
 
-                //checks available deposit for payment, if enough then QR code is generated
-                if (totalPayment > rider.getDeposit()){
-                    String msg = "There is insufficient deposit in your account!";
-                    Toast.makeText(RiderPaymentActivity.this,msg,Toast.LENGTH_SHORT).show();
-                } else {
-                    Gson gsonPay = new Gson();
-                    String serializePay = gsonPay.toJson(totalPayment);
-                    Bitmap bitmap = QRCodeHelper
-                            .newInstance(RiderPaymentActivity.this)
-                            .setContent(serializePay)
-                            .setMargin(1)
-                            .generateQR();
-                    qrImage.setImageBitmap(bitmap);
-                    confirmPaymentBtn.setVisibility(View.GONE);
-                    onScanningCompleted();
-                }
-                }
-
-
-        });
+            //checks available deposit for payment, if enough then QR code is generated
+            if (totalPayment > rider.getDeposit()){
+                String msg = "There is insufficient deposit in your account!";
+                Toast.makeText(RiderPaymentActivity.this,msg,Toast.LENGTH_SHORT).show();
+            } else {
+                Gson gsonPay = new Gson();
+                String encodedMsg= driver.getEmail() + ":" + totalPayment;
+                String serializePay = gsonPay.toJson(encodedMsg);
+                Bitmap bitmap = QRCodeHelper
+                        .newInstance(RiderPaymentActivity.this)
+                        .setContent(serializePay)
+                        .setMargin(1)
+                        .generateQR();
+                qrImage.setImageBitmap(bitmap);
+                qrImage.setBackgroundResource(R.color.ColorBlack);
+                confirmPaymentBtn.setVisibility(View.GONE);
+                //onScanningCompleted();
+            }
+            });
 
         // get current rider
         RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
@@ -142,31 +136,23 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         //submit rating and complete request
         final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
         Button submitBtn= dialog.findViewById(R.id.dialog_rating_submit);
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myRating = (double) ratingBar.getRating();
+        submitBtn.setOnClickListener(v -> {
+            myRating = (double) ratingBar.getRating();
 
-                if (myRating!=0){
-                    setNewDriverRating(myRating);
-                    completeRequest();
-                } else {
-                    Toast.makeText(RiderPaymentActivity.this, "Please select your " +
-                            "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
-                            .show();
-                }
-
+            if (myRating!=0){
+                setNewDriverRating(myRating);
+                completeRequest();
+            } else {
+                Toast.makeText(RiderPaymentActivity.this, "Please select your " +
+                        "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
+                        .show();
             }
+
         });
 
         //cancel rating and complete request
         Button cancelBtn= dialog.findViewById(R.id.dialog_rating_cancel);
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                completeRequest();
-            }
-        });
+        cancelBtn.setOnClickListener(v -> completeRequest());
 
         dialog.show();
     }
@@ -242,10 +228,11 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * This method is trigger by driver finishing the scanning of the QR.
      */
     public void onScanningCompleted(){
+        //TODO THIS METHOD TRIGGER BY DRIVER COMPLETE SCANNING, LISTENER ON REQUEST TO TRIP
         double newDepositAmount = rider.getDeposit()-totalPayment;
         rider.setDeposit(newDepositAmount);
 
-        String msg = "Your payment of $" + totalPayment + " to your driver is successful!";
+        String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
         showRatingDialog();

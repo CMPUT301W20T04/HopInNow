@@ -145,7 +145,7 @@
 
     <LinearLayout
         android:id="@+id/total_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -160,9 +160,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Total Payment:   $ "
+            android:text="Total Payment:    "
             android:textColor="@color/quantum_black_100"
-            android:textSize="22sp"
+            android:textSize="19sp"
             android:textStyle="bold" />
 
         <TextView
@@ -171,16 +171,23 @@
             android:layout_height="wrap_content"
             android:text="Sample"
             android:textColor="@color/quantum_black_100"
-            android:textSize="22sp" />
+            android:textSize="19sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  QR Bucks"
+            android:textColor="@color/quantum_black_100"
+            android:textSize="19sp" />
 
         <Button
             android:id="@+id/rider_payment_calculate"
-            android:layout_width="66dp"
+            android:layout_width="60dp"
             android:layout_height="32dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/orange_all_round_corner"
-            android:text="$ Sum"
+            android:text="Sum"
             android:textColor="@color/ColorOrange"
             android:textSize="16sp" />
 

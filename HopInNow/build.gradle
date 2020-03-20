@@ -18,6 +18,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        //for runtime permission
+        maven { url 'https://jitpack.io' }
         
     }
 }
