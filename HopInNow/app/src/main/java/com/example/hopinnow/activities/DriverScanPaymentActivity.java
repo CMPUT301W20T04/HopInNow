@@ -25,7 +25,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import java.io.IOException;
 
 public class DriverScanPaymentActivity extends AppCompatActivity {
-
     SurfaceView cameraView;
     Driver driver;
     BarcodeDetector qrDetector;
