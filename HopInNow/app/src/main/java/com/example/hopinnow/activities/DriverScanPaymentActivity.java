@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +23,6 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.IOException;
-
-import me.dm7.barcodescanner.core.CameraPreview;
 
 public class DriverScanPaymentActivity extends AppCompatActivity {
 
@@ -161,8 +158,5 @@ public class DriverScanPaymentActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
-
 }
