@@ -17,7 +17,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
      * and return the item
      */
     public Fragment getItem(int position) {
-        return IntroFragment.newInstance(position);
+        return IntroFragment.newInstance(position+1);
     }
     /**
      * Get the count of the guide pages

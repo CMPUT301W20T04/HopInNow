@@ -96,6 +96,10 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //viewPager.setBackgroundResource(bgs[position]);
+                currentPage = position;
+                updateSwitcher(currentPage);
+                finishButton.setVisibility(position == 4 ? View.VISIBLE : View.GONE);
+                nextPageButton.setVisibility(position == 4 ? View.GONE : View.VISIBLE);
             }
 
             @Override

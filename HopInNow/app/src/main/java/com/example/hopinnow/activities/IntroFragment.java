@@ -34,9 +34,10 @@ public class IntroFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pager_fragment, container, false);
         TextView textView = view.findViewById(R.id.guidePageText);
-        textView.setText("Page "+(getArguments().getInt(SectionNumber)+1));
+        textView.setText("Page "+(getArguments().getInt(SectionNumber)-1));
         imageView = (ImageView) view.findViewById(R.id.image);
-        imageView.setBackgroundResource(drawable_array[getArguments().getInt(SectionNumber)]);
+        System.out.println("HERE: "+(getArguments().getInt(SectionNumber)-1));
+        imageView.setBackgroundResource(drawable_array[getArguments().getInt(SectionNumber)-1]);
         return view;
 
     }
