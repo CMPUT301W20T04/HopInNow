@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="380dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/ColorWhite">
+    android:background="@color/ColorWhite"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/name_layout"
@@ -80,19 +80,19 @@
         android:id="@+id/car_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating_layout"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rating_layout">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Car:  "
-            android:textSize="20sp"
-            android:textColor="@color/quantum_black_100"/>
+            android:textColor="@color/quantum_black_100"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/dialog_driver_car"
@@ -107,32 +107,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/car_layout"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/car_layout">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="License Plate:  "
-            android:textSize="20sp"
-            android:textColor="@color/quantum_black_100"/>
+            android:textColor="@color/quantum_black_100"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/dialog_driver_plate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:textSize="20sp"
+            android:text="plate number"
             android:textColor="@color/quantum_black_100"
-            android:text="plate number"/>
+            android:textSize="20sp" />
 
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
