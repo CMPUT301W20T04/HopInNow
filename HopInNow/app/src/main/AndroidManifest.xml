@@ -11,6 +11,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -21,8 +22,7 @@
         android:theme="@style/AppTheme">
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
-
-
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/map_key" />
@@ -39,7 +39,7 @@
         <activity android:name=".activities.DriverMenuActivity"/>
 
 
-        <activity android:name=".activities.LoginActivity" >
+        <activity android:name=".activities.DriverScanPaymentActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
