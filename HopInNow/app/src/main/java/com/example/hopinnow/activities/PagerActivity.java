@@ -70,11 +70,11 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.finishButton:
                 SharedPreference.saveSetting(PagerActivity.this,true);
-                finish();
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
                 break;
             case R.id.nextButton:
                 currentPage+=1;
