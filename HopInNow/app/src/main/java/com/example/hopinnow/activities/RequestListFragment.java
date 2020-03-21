@@ -123,6 +123,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
         this.requestList = requests;
+        driverRequestDatabaseAccessor.listenOnAllRequests(this);
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity) Objects.requireNonNull(getActivity())).setButtonInvisible();
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
@@ -170,6 +171,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
+        this.requestList = requests;
 
     }
 
