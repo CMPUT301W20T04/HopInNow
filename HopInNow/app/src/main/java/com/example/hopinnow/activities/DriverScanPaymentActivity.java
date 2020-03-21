@@ -21,7 +21,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class DriverScanPaymentActivity extends AppCompatActivity
         implements ZXingScannerView.ResultHandler{
-
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
