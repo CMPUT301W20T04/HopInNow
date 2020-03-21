@@ -189,6 +189,16 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
+    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
+
+    }
+
+    @Override
+    public void onAllRequestsUpdateError() {
+
+    }
+
+    @Override
     public void onDriverRequestAccept() {
 
     }

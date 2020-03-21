@@ -236,9 +236,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // save current Request to firebase
         this.progressbarDialog.startProgressbarDialog();
         requestDatabaseAccessor.addRequest(curRequest,this);
-
-
-
     }
     /**
      * Sets up initlal map.
@@ -798,6 +795,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onGetRequiredRequestsFailure() {
+
+    }
+
+    @Override
+    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
+        
+    }
+
+    @Override
+    public void onAllRequestsUpdateError() {
 
     }
 
