@@ -56,7 +56,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
         if (this.currentDriver == null) {
             this.driverDatabaseAccessor.getDriverProfile(this);
         } else {
-            // set all text fields according to the retreived user object:
+            // set all text fields according to the retrieved user object:
             this.vehicleMakeEditText.setText(currentDriver.getCar().getMake());
             this.vehicleModelEditText.setText(currentDriver.getCar().getModel());
             this.vehicleColorEditText.setText(currentDriver.getCar().getColor());
@@ -68,7 +68,6 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
         this.updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("abcde");
 
                 // access database:
                 currentDriver.getCar().setMake(vehicleMakeEditText.getText().toString());
