@@ -9,20 +9,17 @@
 
     <TextView
         android:id="@+id/driverMenuTextView"
-        android:layout_width="135dp"
+        android:layout_width="168dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="138dp"
-        android:layout_marginLeft="138dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="56dp"
-        android:layout_marginEnd="138dp"
+        android:layout_marginEnd="119dp"
         android:gravity="center"
-        android:text="Menu"
+        android:text="@string/menu_header"
         android:textColor="@color/ColorOrange"
-        android:textSize="50dp" />
+        android:textSize="50sp" />
 
     <Button
         android:id="@+id/driverMyProfileBtn"

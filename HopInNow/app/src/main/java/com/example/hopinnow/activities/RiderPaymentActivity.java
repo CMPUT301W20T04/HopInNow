@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,14 +17,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
-import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.maps.model.LatLng;

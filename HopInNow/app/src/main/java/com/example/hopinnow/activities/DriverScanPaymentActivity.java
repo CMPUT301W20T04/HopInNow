@@ -4,14 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Camera;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.SparseArray;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,28 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.hopinnow.R;
-import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
-import com.example.hopinnow.entities.Trip;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-import com.google.firebase.database.core.Tag;
 import com.google.zxing.Result;
-import com.google.zxing.qrcode.encoder.QRCode;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.io.IOException;
-import java.util.Date;
-
-import me.dm7.barcodescanner.core.CameraPreview;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class DriverScanPaymentActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
+public class DriverScanPaymentActivity extends AppCompatActivity
+        implements ZXingScannerView.ResultHandler{
 
     private ZXingScannerView cameraView;
     private Driver driver;
