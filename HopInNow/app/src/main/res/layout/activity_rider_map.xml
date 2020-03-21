@@ -131,7 +131,7 @@
         android:id="@+id/map_zoom_in"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="236dp"
         android:alpha="0.95"
         android:background="@color/ColorWhite"
         android:hint="十"
@@ -141,7 +141,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.958"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_layout" />
+        app:layout_constraintTop_toTopOf="@+id/map" />
 
     <Button
         android:id="@+id/map_zoom_out"
@@ -154,10 +154,12 @@
         android:textAlignment="center"
         android:textSize="12sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.958"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_zoom_in" />
+        app:layout_constraintTop_toBottomOf="@+id/map_zoom_in"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/my_loc_pickup_button"

@@ -867,6 +867,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
+    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
+        
+    }
+
+    @Override
+    public void onAllRequestsUpdateError() {
+
+    }
+
+    @Override
     public void onLocationChanged(Location location) {
         this.current = location;
     }
