@@ -8,21 +8,18 @@ import android.os.Bundle;
 import android.view.SurfaceView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.Request;
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 public class DriverScanPaymentActivity extends AppCompatActivity {
     SurfaceView cameraView;
     Driver driver;
-    BarcodeDetector qrDetector;
-    CameraSource cameraSource;
     String encoded;
     RxPermissions rxPermissions;
     int permissionCount = 0;
