@@ -16,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="HopInNow/app" />
       <module fileurl="file://$PROJECT_DIR$/march19-HopInNow-HopInNow.iml" filepath="$PROJECT_DIR$/march19-HopInNow-HopInNow.iml" group="HopInNow" />
       <module fileurl="file://$PROJECT_DIR$/app/march19-HopInNow-HopInNow-app.iml" filepath="$PROJECT_DIR$/app/march19-HopInNow-HopInNow-app.iml" group="HopInNow/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/null.iml" filepath="$PROJECT_DIR$/app/null.iml" group="HopInNow/app" />
     </modules>
   </component>
 </project>
