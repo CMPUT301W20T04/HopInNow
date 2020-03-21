@@ -1,10 +1,13 @@
 package com.example.hopinnow.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
@@ -29,6 +33,7 @@ import com.example.hopinnow.helperclasses.QRCodeHelper;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -63,15 +68,11 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
 
-        //TODO GET DRIVER FROM FIREBASE
-        Car car = new Car("Auburn","Speedster","Cream","111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,  null, car, null);
-        rider = new Rider(null,null,null,null,false,10.00,null,null);
-
+        //TODO GET rider FROM FIREBASE, is it needed?
+        driver = (Driver) getIntent().getSerializableExtra("Driver");
+        rider = (Rider) getIntent().getSerializableExtra("Rider");
 
         // set local variables
-        //driver = curRequest.getDriver();
         baseFare = curRequest.getEstimatedFare();
         dropOffDateTime = Calendar.getInstance().getTime();
         totalPayment = baseFare;
@@ -112,6 +113,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 qrImage.setImageBitmap(bitmap);
                 qrImage.setBackgroundResource(R.color.ColorBlack);
                 confirmPaymentBtn.setVisibility(View.GONE);
+                showTotalBtn.setEnabled(false);
+
                 //onScanningCompleted();
             }
             });
@@ -132,6 +135,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         // set driver name
         final TextView driverName= dialog.findViewById(R.id.dialog_rider_rating_driver);
         driverName.setText(driver.getName());
+        driverName.setOnClickListener(v -> {
+            showDriverInfo(driver);
+        });
 
         //submit rating and complete request
         final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
@@ -277,6 +283,94 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Car car = driver.getCar();
         return new Trip(driver.getEmail(),rider.getEmail(),mpickUpLoc,mdropOffLoc,pickUpName,
                 dropOffName,pickUpTime, dropOffDateTime, duration, car,totalPayment,myRating);
+    }
+
+    /**
+     * Shows driver information and contact means on a dialog
+     */
+    public void showDriverInfo(Driver myDriver){
+        final Driver d = myDriver;
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_driver_info);
+
+        //set driver name
+        TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
+        driverName.setText(d.getName());
+
+        //set driver rating
+        TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
+        String rating;
+        if (d.getRating()==0){
+            rating = "not yet rated";
+        } else {
+            rating = Double.toString(d.getRating());
+        }
+        driverRating.setText(rating);
+
+        //set driver car
+        TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
+        String carInfo = d.getCar().getColor() + " " + d.getCar().getMake() + " " + d.getCar().getModel();
+        driverCar.setText(carInfo);
+
+        //set driver license
+        TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
+        driverLicense.setText(d.getCar().getPlateNumber());
+
+        //call driver
+        Button callBtn= dialog.findViewById(R.id.dialog_call_button);
+        callBtn.setOnClickListener(v -> callNumber(d.getPhoneNumber()));
+
+        //email driver
+        Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
+        emailBtn.setOnClickListener(v -> emailDriver(d.getEmail()));
+
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
+
+    /**
+     * Starts phone calling.
+     * @param phoneNumber
+     *      the phone number to be called
+     */
+    @SuppressLint("CheckResult")
+    public void callNumber(String phoneNumber){
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:"+phoneNumber));
+
+        if (ActivityCompat.checkSelfPermission(RiderPaymentActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions
+                    .request(Manifest.permission.CALL_PHONE)
+                    .subscribe(granted -> {
+                        if (granted) {
+                            startActivity(callIntent);
+                        }
+                    });
+        } else {
+            String driverNumber = driver.getPhoneNumber();
+            Toast.makeText(this,"Driver's Number: " + driverNumber,
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    /**
+     * Prompts email app selection and directs to email drafting page with auto0filled email address
+     * of the driver.
+     * @param email
+     *      the driver's email address
+     */
+    public void emailDriver(String email){
+        //Stackoverflow post by Dira
+        //https://stackoverflow.com/questions/8701634/send-email-intent
+        //Answer by Dira (code from the question itself)
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
+
+        startActivity(Intent.createChooser(intent, "Send Email"));
     }
 
 
