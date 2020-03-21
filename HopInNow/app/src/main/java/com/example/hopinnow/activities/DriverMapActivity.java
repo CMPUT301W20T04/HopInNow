@@ -3,6 +3,9 @@ package com.example.hopinnow.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -70,7 +74,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         setContentView(R.layout.activity_driver_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(DriverMapActivity.this);
-
+        //findViewById(R.id.map).getLayoutParams().height = getBaseContext().getResources().getDisplayMetrics().heightPixels-findViewById(R.id.request_list_layout).getLayoutParams().height;
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678",
@@ -118,11 +122,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             case R.layout.fragment_driver_pick_rider_up:
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new PickUpAndCurrentRequest()).commit();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
                 //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
                 t = getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.fragment_place, new RequestListFragment()).commit();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
 
         }
@@ -139,7 +145,32 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         startActivity(callIntent);
     }
 
+    public void clearMap(){
+        mMap.clear();
+    }
+    public void updateBothMarker(){
+        pickUpMarker = mMap.addMarker(new MarkerOptions()
+                .position(pickUpLoc)
+                .title("Pick Up Location")
+                .visible(false)
+                .icon(toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_pick_up)))
+                .draggable(true));
 
+        dropOffMarker = mMap.addMarker(new MarkerOptions()
+                .position(pickUpLoc)
+                .title("Drop Off Location")
+                .visible(false)
+                .icon(toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_drop_off)))
+                .draggable(true));
+
+    }
+    public void setBothMarker(LatLng pickUpLoc, LatLng dropOffLoc){
+        pickUpMarker.setVisible(true);
+        pickUpMarker.setPosition(pickUpLoc);
+        dropOffMarker.setVisible(true);
+        dropOffMarker.setPosition(dropOffLoc);
+        adjustMapFocus();
+    }
 
     /**
      * set marker to map
@@ -147,6 +178,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void setMapMarker(Marker m, LatLng latLng){
         if (m == null) {
             MarkerOptions opt = new MarkerOptions();
+
             opt.position(latLng);
             m = mMap.addMarker(opt);
         } else {
@@ -154,7 +186,27 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         }
         adjustMapFocus();
     }
-
+    /**
+     * Transforms drawable into a bitmap drawable.
+     * @param drawable
+     *      information of the drawable to be turned into bitmap
+     * @return
+     *      Bitmap image for marker icon
+     */
+    private BitmapDescriptor toBitmapMarkerIcon(Drawable drawable) {
+        //Stackoverflow post by Mohammed Haidar
+        //https://stackoverflow.com/questions/35718103/
+        //      how-to-specify-the-size-of-the-icon-on-the-marker-in-google-maps-v2-android
+        //Answered by Rohit Bansal
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()
+                , drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
     public void setPickUpLoc(LatLng pickUpLoc) {
         this.pickUpLoc = pickUpLoc;
     }

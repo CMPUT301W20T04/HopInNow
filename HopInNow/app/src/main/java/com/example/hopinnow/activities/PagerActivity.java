@@ -75,6 +75,8 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+
                 break;
             case R.id.nextButton:
                 currentPage+=1;

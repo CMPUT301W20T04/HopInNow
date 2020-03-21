@@ -31,7 +31,7 @@
             android:shadowColor="#8E8E8E"
             android:text="@string/Request_list_each_accept_button"
             android:textColor="@color/ColorWhite"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/linearLayout2"
