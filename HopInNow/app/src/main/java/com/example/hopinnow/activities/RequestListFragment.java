@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private LatLong Loc2 = new LatLong(53.591611, -113.323975);
     private LatLong pickUp;
     private LatLong dropOff;
+    private Location current;
+    private LatLong startUp;
     private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
@@ -81,7 +84,20 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.current_driver = driver;
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-        driverRequestDatabaseAccessor.getAllRequest(new LatLong(), this);
+        if (startUp == null){
+            current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+            driverRequestDatabaseAccessor.getAllRequest(new LatLong(current.getLatitude(), current.getLongitude()), this);
+        }
+        else {
+            driverRequestDatabaseAccessor.getAllRequest(new LatLong(startUp.getLat(), startUp.getLng()), this);
+        }
+        if (startUp == null){
+            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+            driverRequestDatabaseAccessor.listenOnAllRequests(new LatLong(this.current.getLatitude(), this.current.getLongitude()), this);
+        }
+        else{
+            driverRequestDatabaseAccessor.listenOnAllRequests(new LatLong(this.startUp.getLat(), this.startUp.getLng()), this);
+        }
     }
 
     @Override
@@ -123,7 +139,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
         this.requestList = requests;
-        driverRequestDatabaseAccessor.listenOnAllRequests(new LatLong(10, 20), this);
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity) Objects.requireNonNull(getActivity())).setButtonInvisible();
         RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);

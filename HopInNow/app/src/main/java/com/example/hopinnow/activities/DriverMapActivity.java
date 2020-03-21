@@ -1,8 +1,12 @@
 package com.example.hopinnow.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -25,23 +29,22 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 /**
  * Author: Hongru Qi
  * Version: 1.0.0
  * This is the main page for driver where is shows the map, online and menu button
  */
-public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener{
     private GoogleMap mMap;
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private FloatingActionButton goOnline;
-
+    private Location current;
     private Rider rider;
     private Driver driver;
     private LatLng pickUpLoc,dropOffLoc;
-    private String pickUpLocName, dropOffLocName;
-    private Marker pickUpMarker, dropOffMarker;
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
     private int currentRequestPageCounter = 0;
@@ -72,10 +75,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(DriverMapActivity.this);
 
         rider = new Rider();
-        Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678",
-                true,12.0, null, car, null);
-
         goOnline = findViewById(R.id.onlineBtn);
         goOnline.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -91,16 +90,32 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 startActivity(startIntent);
             }
         });
+        if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                && (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    .subscribe(granted -> {
+                        if (granted) {
+                            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                                    0, 0, this);
+                        }
+                    });
+        } else {
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    0, 0, this);
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
-        pickUpMarker = mMap.addMarker(new MarkerOptions()
-                .position(edmonton) //set to current location later on pickUpLoc
-                .title("Edmonton")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
     }
 
 
@@ -170,6 +185,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void setDropOffLoc(LatLng dropOffLoc){
         this.dropOffLoc = dropOffLoc;
     }
+    public Location getCurrentLoc(){
+        return current;
+    }
     /**
      * adjust focus of the map according to the markers
      */
@@ -193,5 +211,25 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     @Override
     public void onBackPressed() {
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        this.current = location;
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
