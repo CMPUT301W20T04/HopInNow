@@ -15,6 +15,7 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
@@ -231,7 +232,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onDriverRequestCompleteSuccess() {
         driver.setCurRequest(null);
-        this.driverRequestDatabaseAccessor.getAllRequest(this);
+        this.driverRequestDatabaseAccessor.getAllRequest(new LatLong(), this);
     }
 
     @Override

@@ -81,7 +81,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.current_driver = driver;
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-        driverRequestDatabaseAccessor.getAllRequest(this);
+        driverRequestDatabaseAccessor.getAllRequest(new LatLong(), this);
     }
 
     @Override
