@@ -2,7 +2,7 @@
     <string name="app_name">HopInNow</string>
     <string name="prompt_username">Name: </string>
     <string name="vehicle_info_header">Vehicle Info</string>
-
+    <string name="menu_header">Menu</string>
     <string name="vehicle_make_hint">Make:</string>
     <string name="vehicle_model_hint">Model:</string>
     <string name="vehicle_color_hint">Color:</string>
