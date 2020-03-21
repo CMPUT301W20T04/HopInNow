@@ -47,12 +47,8 @@ public class RiderPickedUpFragment extends Fragment {
             //set driver name
             TextView driverName = view.findViewById(R.id.rider_pickedup_driver_name);
             driverName.setText(driver.getName());
-            driverName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo(driver);
-                }
-            });
+            driverName.setOnClickListener(v ->
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo());
 
             //set drop off location
             TextView dropOffLoc = view.findViewById(R.id.rider_pickedup_dropOff);

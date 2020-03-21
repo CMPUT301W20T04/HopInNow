@@ -37,6 +37,7 @@ import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.database.RiderRequestDatabaseAccessor;
+import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.LatLong;
@@ -90,7 +91,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LocationManager lm;
 
     private Rider rider;
-    private Driver driver;
+    private Driver driver = null;
     private Request curRequest;
 
     private Location current;
@@ -99,6 +100,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private String pickUpLocName, dropOffLocName;
     private Marker pickUpMarker, dropOffMarker;
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
+    private Button myLocPickUpBtn;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
@@ -178,7 +180,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         final EditText pickUpMock = findViewById(R.id.mock_pickUp);
         final EditText dropOffMock = findViewById(R.id.mock_dropOff);
         // set my location button for pickup
-        Button myLocPickUpBtn = findViewById(R.id.my_loc_pickup_button);
+        myLocPickUpBtn = findViewById(R.id.my_loc_pickup_button);
         myLocPickUpBtn.setOnClickListener(v -> {
             try {
                 setCurrentLocationPickup();
@@ -187,8 +189,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ;
         });
+
         // sets button for adding new request
         Button addRequestBtn = findViewById(R.id.add_request_button);
         addRequestBtn.setOnClickListener(v -> {
@@ -247,6 +249,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             saveCurrentRequestLocal(curRequest);
             // save current Request to firebase
             this.progressbarDialog.startProgressbarDialog();
+            myLocPickUpBtn.setVisibility(View.GONE);
             requestDatabaseAccessor.addRequest(curRequest,this);
         } else {
             Toast.makeText(this, "Sorry, you do not have enough deposit for this " +
@@ -263,6 +266,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
+        mMap.setPadding(0, 0, 14, 0);
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
@@ -342,6 +346,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
+        pickUpAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+                .setOnClickListener(v -> {
+                    pickUpAutoComplete.setText("");
+                    pickUpLoc = null;
+                    pickUpLocName = null;
+                    pickUpMarker.setVisible(false);
+                });
 
 
         assert dropOffAutoComplete != null;
@@ -359,6 +370,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
+        dropOffAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+                .setOnClickListener(v -> {
+                    dropOffAutoComplete.setText("");
+                    dropOffLoc = null;
+                    dropOffLocName = null;
+                    dropOffMarker.setVisible(false);
+                });
     }
 
     private void setCurrentLocationPickup() throws IOException {
@@ -373,6 +391,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     current.getLongitude(),1);
             if (addresses.size() == 1) {
                 pickUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
+                pickUpLocName = addresses.get(0).getAddressLine(0);
                 pickUpAutoComplete.setText(addresses.get(0).getAddressLine(0));
             }
         }
@@ -388,6 +407,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onResume();
         if (curRequest != null) {
             curRequest = retrieveCurrentRequestLocal();
+        }
+        if (myLocPickUpBtn.getVisibility() == View.GONE){
+            myLocPickUpBtn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -610,8 +632,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**
      * Shows driver information and contact means on a dialog
      */
-    public void showDriverInfo(Driver myDriver){
-        final Driver d = myDriver;
+    public void showDriverInfo(){
+        if (driver == null){
+            Car car = new Car("Auburn","Speedster","Cream","111111");
+            driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                    "12345678", true, 10.0,  null, car, null);
+        }
+
+        final Driver d = driver;
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
 
@@ -646,7 +674,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
         emailBtn.setOnClickListener(v -> emailDriver(d.getEmail()));
 
-        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
 

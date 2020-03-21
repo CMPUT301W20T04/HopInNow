@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="208dp" />
+        tools:layout_editor_absoluteY="0dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/riderMenuBtn"
@@ -66,7 +66,7 @@
         android:background="@color/ColorWhite">
 
         <LinearLayout
-            android:layout_width="380dp"
+            android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -86,7 +86,7 @@
 
 
     <LinearLayout
-        android:layout_width="380dp"
+        android:layout_width="390dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -131,30 +131,33 @@
         android:id="@+id/map_zoom_in"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:hint="+"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_layout"
+        android:layout_marginTop="20dp"
+        android:alpha="0.95"
         android:background="@color/ColorWhite"
-        android:alpha="0.95"/>
+        android:hint="十"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_layout" />
 
     <Button
         android:id="@+id/map_zoom_out"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="4dp"
+        android:alpha="0.95"
         android:background="@color/ColorWhite"
-        android:hint="-"
-        android:textSize="14sp"
+        android:hint="一"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.958"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_zoom_in"
-        android:alpha="0.95"/>
+        app:layout_constraintTop_toBottomOf="@+id/map_zoom_in" />
 
     <Button
         android:id="@+id/my_loc_pickup_button"
@@ -165,6 +168,7 @@
         android:textColor="@color/quantum_grey900"
         android:textAlignment="center"
         android:textSize="14sp"
+
         app:layout_constraintBottom_toTopOf="@+id/mock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.745"
