@@ -98,12 +98,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Driver driver;
     private Request curRequest;
 
-    // change to current location later on pickUpLoc
     private Location current;
     private LatLng pickUpLoc;
     private LatLng dropOffLoc;
     private String pickUpLocName, dropOffLocName;
-    // DRAG MARKER TO PIN LOCATION, onMarkerDragListener
     private Marker pickUpMarker, dropOffMarker;
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
 
@@ -320,13 +318,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * Sets up auto complete fragment from Google Places API.
      */
     private void setupAutoCompleteFragment() {
-
-        // fragment for pick up locaation
-        //AutocompleteSupportFragment pickUpAutoComplete = (AutocompleteSupportFragment)
-                //getSupportFragmentManager().findFragmentById(R.id.pick_up_auto_complete);
         assert pickUpAutoComplete != null;
         pickUpAutoComplete.setHint("Pick Up Location");
-        //pickUpAutoComplete.setText("My Current Location");
         pickUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         pickUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -341,9 +334,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
-        // fragment for drop off location
-        //final AutocompleteSupportFragment dropOffAutoComplete = ((AutocompleteSupportFragment)
-        //                getSupportFragmentManager().findFragmentById(R.id.drop_off_auto_complete));
+
         assert dropOffAutoComplete != null;
         dropOffAutoComplete.setHint("Drop Off Location");
         dropOffAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
@@ -362,8 +353,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-
-
     /**
      * On resume.
      */
@@ -374,7 +363,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             curRequest = retrieveCurrentRequestLocal();
         }
     }
-
 
 
     /**
@@ -593,7 +581,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * Shows driver information and contact means on a dialog
      */
     public void showDriverInfo(Driver myDriver){
-        //TODO make into a helper class for payment rating dialog, name on click
         final Driver d = myDriver;
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
@@ -755,7 +742,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderRequestComplete() {
-        Toast.makeText(getApplicationContext(), "the ride is completed!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
+        //TODO:
+        //  Opt 1. change format of availableRequest to trip
+        //  Opt 2. move request to new Collection of requestInCompletion with Trip format
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
         startActivity(intent);
         finish();

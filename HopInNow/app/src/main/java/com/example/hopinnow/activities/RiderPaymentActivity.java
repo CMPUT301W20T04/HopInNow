@@ -180,8 +180,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String msg = "Your trip is completed!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-        //TODO req to trip list in rider's trip list in firebase
         Trip trip = toTrip();
+        //TODO update request completion in firebase inside availableRequest
+        //  save request to trip
 
         // change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
@@ -268,9 +269,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private Trip toTrip(){
         int duration = (int) (curRequest.getPickUpDateTime().getTime() - dropOffDateTime.getTime());
         LatLong mpickUpLoc = curRequest.getPickUpLoc();
-        LatLng pickUpLoc = new LatLng(mpickUpLoc.getLat(), mpickUpLoc.getLng());
+        //LatLng pickUpLoc = new LatLng(mpickUpLoc.getLat(), mpickUpLoc.getLng());
         LatLong mdropOffLoc = curRequest.getDropOffLoc();
-        LatLng dropOffLoc = new LatLng(mdropOffLoc.getLat(), mdropOffLoc.getLng());
+        //LatLng dropOffLoc = new LatLng(mdropOffLoc.getLat(), mdropOffLoc.getLng());
         String dropOffName = curRequest.getDropOffLocName();
         String pickUpName = curRequest.getPickUpLocName();
         Date pickUpTime = curRequest.getPickUpDateTime();
