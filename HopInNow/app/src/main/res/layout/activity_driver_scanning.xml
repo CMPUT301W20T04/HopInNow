@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/scanning_page_title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/ColorOrange"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Scan QR Bucks"
+            android:textColor="@color/ColorWhite"
+            android:textSize="40sp" />
+    </LinearLayout>
+
+    <me.dm7.barcodescanner.zxing.ZXingScannerView
+        android:id="@+id/camera_scan_view"
+        android:layout_width="350dp"
+        android:layout_height="410dp"
+        android:background="@color/quantum_grey600"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.366" />
+
+    <TextView
+        android:id="@+id/scanning_description"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:text="Please hold your camera steady and focus on the QR code to receive your payment."
+        android:textColor="@color/quantum_grey800"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.686"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camera_scan_view" />
+
+    <TextView
+        android:id="@+id/permission_camera_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please click here to enable camera."
+        android:textColor="@color/ColorWhite"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/camera_scan_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/camera_scan_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

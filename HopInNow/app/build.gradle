@@ -45,6 +45,7 @@ dependencies {
 
     //for QR code
     implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+    implementation 'com.google.android.gms:play-services-vision:19.0.0'
 
     //for runtime permission
     implementation 'com.github.tbruyelle:rxpermissions:0.10.1'

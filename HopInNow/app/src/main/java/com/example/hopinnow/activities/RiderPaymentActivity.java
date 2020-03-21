@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +64,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
 
-        // temporary
+        //TODO GET DRIVER FROM FIREBASE
         Car car = new Car("Auburn","Speedster","Cream","111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", true, 10.0,  null, car, null);
@@ -102,7 +103,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 Toast.makeText(RiderPaymentActivity.this,msg,Toast.LENGTH_SHORT).show();
             } else {
                 Gson gsonPay = new Gson();
-                String encodedMsg= totalPayment + ":" + driver.getEmail();
+                String encodedMsg= driver.getEmail() + ":" + totalPayment;
                 String serializePay = gsonPay.toJson(encodedMsg);
                 Bitmap bitmap = QRCodeHelper
                         .newInstance(RiderPaymentActivity.this)
@@ -110,8 +111,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                         .setMargin(1)
                         .generateQR();
                 qrImage.setImageBitmap(bitmap);
+                qrImage.setBackgroundResource(R.color.ColorBlack);
                 confirmPaymentBtn.setVisibility(View.GONE);
-                onScanningCompleted();
+                //onScanningCompleted();
             }
             });
 
@@ -178,8 +180,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String msg = "Your trip is completed!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-        //TODO req to trip list in rider's trip list in firebase
         Trip trip = toTrip();
+        //TODO update request completion in firebase inside availableRequest
+        //  save request to trip
 
         // change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
@@ -227,13 +230,14 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * This method is trigger by driver finishing the scanning of the QR.
      */
     public void onScanningCompleted(){
+        //TODO THIS METHOD TRIGGER BY DRIVER COMPLETE SCANNING, LISTENER ON REQUEST TO TRIP
         double newDepositAmount = rider.getDeposit()-totalPayment;
         rider.setDeposit(newDepositAmount);
 
-        String msg = "Your payment of $" + totalPayment + " to your driver is successful!";
+        String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-        //showRatingDialog();
+        showRatingDialog();
     }
 
 
@@ -265,9 +269,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private Trip toTrip(){
         int duration = (int) (curRequest.getPickUpDateTime().getTime() - dropOffDateTime.getTime());
         LatLong mpickUpLoc = curRequest.getPickUpLoc();
-        LatLng pickUpLoc = new LatLng(mpickUpLoc.getLat(), mpickUpLoc.getLng());
+        //LatLng pickUpLoc = new LatLng(mpickUpLoc.getLat(), mpickUpLoc.getLng());
         LatLong mdropOffLoc = curRequest.getDropOffLoc();
-        LatLng dropOffLoc = new LatLng(mdropOffLoc.getLat(), mdropOffLoc.getLng());
+        //LatLng dropOffLoc = new LatLng(mdropOffLoc.getLat(), mdropOffLoc.getLng());
         String dropOffName = curRequest.getDropOffLocName();
         String pickUpName = curRequest.getPickUpLocName();
         Date pickUpTime = curRequest.getPickUpDateTime();
