@@ -24,53 +24,47 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.hopinnow.database.RequestDatabaseAccessor;
-import com.example.hopinnow.database.DriverDatabaseAccessor;
-import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.R;
-
+import com.example.hopinnow.database.DriverDatabaseAccessor;
+import com.example.hopinnow.database.RequestDatabaseAccessor;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.database.RiderRequestDatabaseAccessor;
-import com.example.hopinnow.entities.EstimateFare;
-import com.example.hopinnow.entities.Rider;
-import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.LatLong;
+import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.android.gms.common.api.Status;
-
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
