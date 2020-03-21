@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-
+                    android:textColor="@color/ColorOrange"
                     android:text="@string/From"
                     android:textSize="15sp"></TextView>
 
@@ -44,6 +44,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="@string/To"
+                    android:textColor="@color/ColorOrange"
+
                     android:textSize="15sp"></TextView>
 
                 <TextView
@@ -52,6 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="@string/Date"
+                    android:textColor="@color/ColorOrange"
+
                     android:textSize="15sp"></TextView>
 
 

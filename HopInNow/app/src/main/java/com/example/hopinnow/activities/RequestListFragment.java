@@ -24,6 +24,8 @@ import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -130,6 +132,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
         requestListView.setAdapter(adapter);
         requestListView.setOnItemClickListener((parent, view, position, id) -> {
+            ((DriverMapActivity)getActivity()).clearMap();
             for(int i=0;i<requestList.size();i++){
                 getViewByPosition(i, requestListView).findViewById(R.id.accept_btn).setVisibility(View.INVISIBLE);
             }
@@ -149,15 +152,16 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             dropOff = chooseRequest.getDropOffLoc();
             LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
             ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
-            ((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
-            ((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
+            ((DriverMapActivity)getActivity()).updateBothMarker();
+            ((DriverMapActivity)getActivity()).setBothMarker(pickUp_loc, dropOff_loc);
+            //((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
+            //((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
             prePosition = position;
             acceptBtn.setOnClickListener(v -> {
                 chooseRequest.setDriverEmail(current_driver.getEmail());
                 chooseRequest.setCar(current_driver.getCar());
                 driverRequestDatabaseAccessor.driverAcceptRequest(chooseRequest,
                         RequestListFragment.this);
-
             });
             //prePosition = position;
 
