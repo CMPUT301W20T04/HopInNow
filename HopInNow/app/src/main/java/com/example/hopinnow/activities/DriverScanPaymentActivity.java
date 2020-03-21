@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.SurfaceView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,16 +13,22 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.Request;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-public class DriverScanPaymentActivity extends AppCompatActivity {
-    SurfaceView cameraView;
-    Driver driver;
-    String encoded;
-    RxPermissions rxPermissions;
-    int permissionCount = 0;
-    TextView permissionMsg;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+public class DriverScanPaymentActivity extends AppCompatActivity
+        implements ZXingScannerView.ResultHandler{
+
+    private ZXingScannerView cameraView;
+    private Driver driver;
+    private Request curRequest;
+    private String encoded;
+    private RxPermissions rxPermissions;
+    private int permissionCount = 0;
+    private TextView permissionMsg;
 
     @SuppressLint("CheckResult")
     @Override
@@ -109,4 +114,5 @@ public class DriverScanPaymentActivity extends AppCompatActivity {
             }
         }
     }
+
 }
