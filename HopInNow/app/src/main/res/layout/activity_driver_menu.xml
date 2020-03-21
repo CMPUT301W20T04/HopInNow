@@ -14,10 +14,14 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="138dp"
+        android:layout_marginLeft="138dp"
         android:layout_marginTop="56dp"
-        android:textColor="@color/ColorOrange"
+        android:layout_marginEnd="138dp"
+        android:gravity="center"
         android:text="Menu"
+        android:textColor="@color/ColorOrange"
         android:textSize="50dp" />
 
     <Button
