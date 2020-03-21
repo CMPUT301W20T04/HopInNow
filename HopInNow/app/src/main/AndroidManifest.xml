@@ -38,6 +38,7 @@
         <activity android:name=".activities.RiderPaymentActivity"/>
         <activity android:name=".activities.RegisterVehicleInfoActivity"/>
         <activity android:name=".activities.DriverMenuActivity"/>
+        <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.PagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
