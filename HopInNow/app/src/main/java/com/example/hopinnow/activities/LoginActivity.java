@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     public void onLoginSuccess() {
         // go view the map:
         this.userDatabaseAccessor.getUserProfile( this);
+        Toast.makeText(getApplicationContext(), "Login success!", Toast.LENGTH_LONG).show();
     }
 
     @Override

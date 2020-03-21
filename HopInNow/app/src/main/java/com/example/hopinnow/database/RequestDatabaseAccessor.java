@@ -2,10 +2,15 @@ package com.example.hopinnow.database;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -110,6 +115,34 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     } else {
                         listener.onGetRequiredRequestsFailure();
                     }
+                });
+    }
+
+    /**
+     * Listening on all changes about all available requests, return as an ArrayList object from
+     * the collection availableRequests
+     * @param listener
+     *      if all requests are retrieved successfully, call the onSuccess method,
+     *      otherwise, onFailure.
+     */
+    public void listenOnAllRequests(final AvailRequestListListener listener) {
+        this.firestore
+                .collection("availableRequsts")
+                .whereEqualTo("driverEmail", null)
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    if (e != null) {
+                        Log.v(TAG, "All requests update fails.");
+                        listener.onAllRequestsUpdateError();
+                        return;
+                    }
+                    ArrayList<Request> requests = new ArrayList<>();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        if (doc.get("riderEmail") != null) {
+                            requests.add(doc.toObject(Request.class));
+                        }
+                    }
+                    Log.v(TAG, "All requests updated!!!");
+                    listener.onAllRequestsUpdateSuccess(requests);
                 });
     }
 }

@@ -169,6 +169,16 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     }
 
     @Override
+    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
+
+    }
+
+    @Override
+    public void onAllRequestsUpdateError() {
+
+    }
+
+    @Override
     public void onDriverRequestAccept() {
 
         current_driver.setCurRequest(chooseRequest);
