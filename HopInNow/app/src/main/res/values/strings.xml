@@ -40,4 +40,17 @@
 
     <string name="usertype_driver">Driver</string>
     <string name="usertype_rider">Rider</string>
+    <string name="fair">Estimate Fair:</string>
+    <string name="request_info_to">To:</string>
+    <string name="request_info_from">From:</string>
+    <string name="request_time">Time:</string>
+    <string name="request_info_title">Request Information</string>
+    <string name="pick_up_rider_button_text">Picked Up Rider</string>
+    <string name="drop_off_rider_button_text">Trip Finished</string>
+    <string name="emergency_call_button_text">EMERGENCY CALL</string>
+    <string name="rate_trip_title_text">Please rate on this trip</string>
+    <string name="single_request_in_request_list_from">From:</string>
+    <string name="single_request_in_request_list_to">To:</string>
+    <string name="Request_list_each_accept_button">ACCEPT</string>
+
 </resources>

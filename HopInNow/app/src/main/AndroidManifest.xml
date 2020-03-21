@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application
         android:allowBackup="true"
@@ -21,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-
         <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -37,14 +38,13 @@
         <activity android:name=".activities.RiderPaymentActivity"/>
         <activity android:name=".activities.RegisterVehicleInfoActivity"/>
         <activity android:name=".activities.DriverMenuActivity"/>
-
-
-        <activity android:name=".activities.DriverScanPaymentActivity" >
+        <activity android:name=".activities.PagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.DriverScanPaymentActivity" />
     </application>
 </manifest>

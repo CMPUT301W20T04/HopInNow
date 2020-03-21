@@ -1,68 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/each_trip_record"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardElevation="3dp"
     app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
     app:cardUseCompatPadding="true">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/fromText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/From"
-
                     android:layout_margin="3dp"
-                    android:textSize="15sp" ></TextView>
+
+                    android:text="@string/From"
+                    android:textSize="15sp"></TextView>
 
                 <TextView
                     android:id="@+id/ToText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/To"
-                    android:textSize="15sp"
                     android:layout_margin="3dp"
-                    ></TextView>
+                    android:text="@string/To"
+                    android:textSize="15sp"></TextView>
+
                 <TextView
                     android:id="@+id/DateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Date" android:layout_margin="3dp"
-                    android:textSize="15sp" ></TextView>
-
-
+                    android:layout_margin="3dp"
+                    android:text="@string/Date"
+                    android:textSize="15sp"></TextView>
 
 
             </LinearLayout>
 
 
-
         </LinearLayout>
-    </LinearLayout>>
+    </LinearLayout>
+    >
 
 </androidx.cardview.widget.CardView>
 
