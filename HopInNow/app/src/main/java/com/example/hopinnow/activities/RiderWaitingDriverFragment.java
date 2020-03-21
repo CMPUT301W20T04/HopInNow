@@ -12,9 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -31,6 +34,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
     private Double estimate_fare;
     private TextView fare_amount;
     private long savedTime = 0;
+    private RequestDatabaseAccessor requestDatabaseAccessor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -55,11 +59,11 @@ public class  RiderWaitingDriverFragment extends Fragment {
         reduce_money.setOnClickListener(v -> reduceFare());
 
         Button cancel_request = view.findViewById(R.id.cancel_button);
+        // when the cancel request button is clicked:
         cancel_request.setOnClickListener(v -> {
             ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
             endChronometer();
         });
-
 
         //temporary for linking fragments
         Button next = view.findViewById(R.id.rider_waiting_driver_next);
