@@ -41,14 +41,14 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_pager);
         // Enter the App for the first time and show the guide page
         whether_first_use = SharedPreference.readSetting(PagerActivity.this, false);
-        /*
+
         if (whether_first_use) {
             finish();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            //overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        }*/
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
         viewPager = findViewById(R.id.container);
         switcher0 = findViewById(R.id.switch_0);
         switcher1 = findViewById(R.id.switch_1);
@@ -70,6 +70,12 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.finishButton:
                 SharedPreference.saveSetting(PagerActivity.this,true);
+                finish();
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
             case R.id.nextButton:
                 currentPage+=1;
                 if(currentPage>4){
@@ -95,7 +101,6 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //viewPager.setBackgroundResource(bgs[position]);
                 currentPage = position;
                 updateSwitcher(currentPage);
                 finishButton.setVisibility(position == 4 ? View.VISIBLE : View.GONE);
