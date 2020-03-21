@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.entities.Rider;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -39,6 +41,8 @@ public class  RiderWaitingDriverFragment extends Fragment {
                 false);
         Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequestLocal();
+        Rider rider = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                .retrieveRider();
         lowest_price = curRequest.getEstimatedFare();
         estimate_fare = lowest_price;
         chronometer = view.findViewById(R.id.chronometer);
@@ -49,7 +53,15 @@ public class  RiderWaitingDriverFragment extends Fragment {
         startChronometer();
 
         Button add_money = view.findViewById(R.id.add_money);
-        add_money.setOnClickListener(v -> addFare());
+        add_money.setOnClickListener(v -> {
+            if ((estimate_fare+1) <= rider.getDeposit()) {
+                addFare();
+            } else {
+                Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
+                        "Sorry, you do not have enough deposit to add money.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Button reduce_money = view.findViewById(R.id.reduce_money);
         reduce_money.setOnClickListener(v -> reduceFare());
@@ -89,6 +101,10 @@ public class  RiderWaitingDriverFragment extends Fragment {
             estimate_fare -= 1;
             fare_amount.setText(df2.format(estimate_fare));
             //TODO UPDATE FIREBASE
+        } else {
+            Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
+                    "Sorry, you can not go lower than the estimated base fare.",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
