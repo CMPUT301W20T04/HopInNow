@@ -126,10 +126,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 break;
 
         }
-
-
-
-
     }
     public void callNumber(String phoneNumber){
 
@@ -143,11 +139,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         startActivity(callIntent);
     }
 
-
-
-
-        //t.addToBackStack(null);
-        //t.commit();
 
 
     /**
