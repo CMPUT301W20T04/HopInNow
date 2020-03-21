@@ -24,8 +24,10 @@
 
     <TextView
         android:id="@+id/rider_pickedup_dropOff"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_gravity="center"
         android:text="@string/sample_text"
         android:textColor="@color/quantum_black_100"
