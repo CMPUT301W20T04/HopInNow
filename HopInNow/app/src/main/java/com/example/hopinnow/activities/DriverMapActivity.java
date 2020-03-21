@@ -74,7 +74,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         setContentView(R.layout.activity_driver_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(DriverMapActivity.this);
-        //findViewById(R.id.map).getLayoutParams().height = getBaseContext().getResources().getDisplayMetrics().heightPixels-findViewById(R.id.request_list_layout).getLayoutParams().height;
+
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678",
@@ -83,6 +83,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         goOnline = findViewById(R.id.onlineBtn);
         goOnline.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                findViewById(R.id.map).getLayoutParams().height = getBaseContext().getResources().getDisplayMetrics().heightPixels-800;
+                findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
                 switchFragment(R.layout.fragment_driver_requests);
             }
         });

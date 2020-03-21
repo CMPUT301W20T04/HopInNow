@@ -49,9 +49,9 @@
         <Button
             android:id="@+id/dropOffRiderButton"
             android:layout_width="157dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="99dp"
             android:layout_marginEnd="51dp"
             android:layout_marginBottom="23dp"
             android:background="@drawable/orange_all_round_corner"
@@ -67,7 +67,7 @@
             android:id="@+id/EmergencyCall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="99dp"
             android:layout_marginEnd="28dp"
             android:layout_marginBottom="23dp"
             android:background="@drawable/red_all_round_corner"
@@ -105,7 +105,6 @@
             <TextView
                 android:id="@+id/requestFromText"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:text="@string/request_info_from"
                 android:textSize="18sp" />
