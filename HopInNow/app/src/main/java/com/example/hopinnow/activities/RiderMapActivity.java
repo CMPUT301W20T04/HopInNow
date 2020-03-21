@@ -664,7 +664,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         distance = from.distanceTo(to)/1000;
-        if (distance>300){
+        if (distance>150){
             Toast.makeText(getApplicationContext(),"Your drop off location is too far" +
                     " from your pick up location. Please reselect.", Toast.LENGTH_SHORT)
             .show();
