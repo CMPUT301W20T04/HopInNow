@@ -98,12 +98,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/request_time"
+                android:textColor="@color/ColorOrange"
                 android:textSize="18sp"
                 tools:layout_editor_absoluteX="130dp"
                 tools:layout_editor_absoluteY="37dp" />
 
             <TextView
                 android:id="@+id/requestFromText"
+                android:textColor="@color/ColorOrange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/request_info_from"
@@ -112,7 +114,7 @@
             <TextView
                 android:id="@+id/requestToText"
                 android:layout_width="match_parent"
-
+                android:textColor="@color/ColorOrange"
                 android:layout_height="wrap_content"
                 android:text="@string/request_info_to"
                 android:textSize="18sp"
@@ -122,6 +124,7 @@
             <TextView
                 android:id="@+id/requestCostText"
                 android:layout_width="match_parent"
+                android:textColor="@color/ColorOrange"
 
                 android:layout_height="wrap_content"
                 android:text="@string/fair"
