@@ -141,7 +141,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                 .collection(referenceName)
                 .whereEqualTo("driverEmail", null)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                    if (e != null) {
+                    /*if (e != null) {
                         Log.v(TAG, "All requests update fails.");
                         listener.onAllRequestsUpdateError();
                         return;
@@ -149,7 +149,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     ArrayList<Request> requests = new ArrayList<>();
                     for (QueryDocumentSnapshot doc : requireNonNull(queryDocumentSnapshots)) {
                         Request request = doc.toObject(Request.class);
-                        if (doc.get("riderEmail") != null) {
+                        if (request.getRiderEmail() != null) {
                             LatLong tempLatLong = request.getPickUpLoc();
                             request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
                                     + (latLong.getLng() - tempLatLong.getLng()));
@@ -159,7 +159,29 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     // sort all requests according to manhattan distance
                     Collections.sort(requests);
                     Log.v(TAG, "All requests updated!!!");
-                    listener.onAllRequestsUpdateSuccess(requests);
+                    listener.onAllRequestsUpdateSuccess(requests);*/
+                    this.firestore
+                            .collection(referenceName)
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    ArrayList<Request> requests = new ArrayList<>();
+                                    for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
+                                        Request request = document.toObject(Request.class);
+                                        if (request.getDriverEmail() == null) {
+                                            LatLong tempLatLong = request.getPickUpLoc();
+                                            request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
+                                                    + (latLong.getLng() - tempLatLong.getLng()));
+                                            requests.add(request);
+                                        }
+                                    }
+                                    // sort all requests according to manhattan distance
+                                    Collections.sort(requests);
+                                    listener.onAllRequestsUpdateSuccess(requests);
+                                } else {
+                                    listener.onAllRequestsUpdateError();
+                                }
+                            });
                 });
     }
 }
