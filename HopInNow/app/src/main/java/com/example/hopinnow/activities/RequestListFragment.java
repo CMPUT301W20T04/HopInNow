@@ -85,20 +85,13 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.current_driver = driver;
-        driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+        this.driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
         if (startUp == null){
-            current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
             driverRequestDatabaseAccessor.getAllRequest(new LatLong(current.getLatitude(), current.getLongitude()), this);
         }
         else {
             driverRequestDatabaseAccessor.getAllRequest(new LatLong(startUp.getLat(), startUp.getLng()), this);
-        }
-        if (startUp == null){
-            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
-            driverRequestDatabaseAccessor.listenOnAllRequests(new LatLong(this.current.getLatitude(), this.current.getLongitude()), this);
-        }
-        else{
-            driverRequestDatabaseAccessor.listenOnAllRequests(new LatLong(this.startUp.getLat(), this.startUp.getLng()), this);
         }
     }
 
@@ -181,6 +174,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             //prePosition = position;
 
         });
+        driverRequestDatabaseAccessor.listenOnAllRequests(new LatLong(this.current.getLatitude(), this.current.getLongitude()), this);
     }
 
     @Override
@@ -191,7 +185,10 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
         this.requestList = requests;
-
+        final FragmentActivity fragmentActivity = getActivity();
+        RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
+        requestListView.setAdapter(adapter);
+        driverRequestDatabaseAccessor.listenOnAllRequests(new LatLong(this.current.getLatitude(), this.current.getLongitude()), this);
     }
 
     @Override

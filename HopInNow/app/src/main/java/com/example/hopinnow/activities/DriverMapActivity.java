@@ -48,6 +48,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Location current;
     private Rider rider;
     private Driver driver;
+    private Marker pickUpMarker, dropOffMarker;
     private LatLng pickUpLoc,dropOffLoc;
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
