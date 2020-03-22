@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -37,6 +38,7 @@ import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.database.RiderRequestDatabaseAccessor;
+import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.EstimateFare;
@@ -64,6 +66,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -83,7 +86,7 @@ import java.util.Objects;
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
-        AvailRequestListListener, LocationListener {
+        AvailRequestListListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
@@ -109,6 +112,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     // progress bar here:
     private ProgressbarDialog progressbarDialog;
+    private NavigationView navigationView;
+    private UserDatabaseAccessor userDatabaseAccessor;
 
     @SuppressLint({"CheckResult", "MissingPermission"})
     @Override
@@ -165,6 +170,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.progressbarDialog = new ProgressbarDialog(this);
         this.progressbarDialog.startProgressbarDialog();
         this.riderDatabaseAccessor.getRiderProfile(this);
+        this.userDatabaseAccessor = new UserDatabaseAccessor();
     }
 
 
@@ -228,6 +234,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             //MOCK
             findViewById(R.id.mock).setVisibility(View.GONE);
         }
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
 
@@ -894,5 +902,31 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.rider_profile:
+                Intent intent1 = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.rider_trips:
+                Intent intent2 = new Intent(getApplicationContext(), TripListActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.rider_logout:
+                userDatabaseAccessor.logoutUser();
+                // go to the login activity again:
+                Toast.makeText(getApplicationContext(),
+                        "You are Logged out!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                break;
+        }
+
+        return true;
     }
 }
