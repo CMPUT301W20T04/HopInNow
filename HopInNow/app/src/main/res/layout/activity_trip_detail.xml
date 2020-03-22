@@ -3,107 +3,232 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tripDetailLayout"
+    android:id="@+id/tripDetailMainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F3ECECEC"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/TripTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="114dp"
-        android:layout_marginEnd="115dp"
-        android:text="Trip Detail"
-        android:textColor="@color/ColorOrange"
-        android:textSize="40sp"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/each_trip_record"
+        android:layout_width="401dp"
+        android:layout_height="401dp"
+        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+
+        app:cardCornerRadius="12dp"
+        app:cardElevation="12dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tripDetailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/TripTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Trip Detail"
+                android:textAlignment="center"
+                android:textColor="@color/ColorBlack"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#0F131313"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:cardMaxElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TripTitle">
 
-    <TextView
-        android:id="@+id/DriverEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="165dp"
-        android:textColor="@color/ColorOrange"
-        android:text="DriverEmail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TripTitle" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-    <TextView
-        android:id="@+id/riderEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="172dp"
-        android:textColor="@color/ColorOrange"
-        android:text="riderEmail:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DriverEmail" />
+                    <TextView
+                        android:id="@+id/riderEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="3dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="RiderEmail:"
+                        android:textAlignment="viewStart"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:typeface="sans" />
 
-    <TextView
-        android:id="@+id/pickupLoc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="172dp"
-        android:text="pickupLocation"
-        android:textColor="@color/ColorOrange"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/riderEmail" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/dropoffLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="172dp"
-        android:textColor="@color/ColorOrange"
-        android:text="dropoffLocation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pickupLoc" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginTop="7dp"
+                app:cardBackgroundColor="#0F131313"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:cardMaxElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView4">
 
-    <TextView
-        android:id="@+id/cost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="177dp"
-        android:text="Cost:"
-        android:textColor="@color/ColorOrange"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dropoffLocation" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-    <TextView
-        android:id="@+id/rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="183dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="184dp"
-        android:textColor="@color/ColorOrange"
-        android:text="Rating:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cost" />
+                    <TextView
+                        android:id="@+id/DriverEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="DriverEmail"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:typeface="sans" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#0F131313"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:cardMaxElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/dropoffLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="dropoffLocation"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:typeface="sans" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#0F131313"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:cardMaxElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/cost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Cost:"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:typeface="sans" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="343dp"
+                android:layout_height="0dp"
+                android:layout_margin="15dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="13dp"
+                app:cardBackgroundColor="#0F131313"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:cardMaxElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Rating:"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:typeface="sans" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
