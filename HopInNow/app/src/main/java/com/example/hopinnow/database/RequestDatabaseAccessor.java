@@ -138,7 +138,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      */
     public void listenOnAllRequests(LatLong latLong, final AvailRequestListListener listener) {
         this.firestore
-                .collection("availableRequsts")
+                .collection("availableRequests")
                 .whereEqualTo("driverEmail", null)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
