@@ -86,21 +86,15 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
                     .collection(super.referenceName)
                     .document(this.currentUser.getUid())
                     .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Log.v(TAG, "Get User Successfully!");
-                            if (documentSnapshot.exists()) {
-                                listener.onDriverProfileRetrieveSuccess(documentSnapshot
-                                        .toObject(Driver.class));
-                            }
+                    .addOnSuccessListener(documentSnapshot -> {
+                        Log.v(TAG, "Get User Successfully!");
+                        if (documentSnapshot.exists()) {
+                            listener.onDriverProfileRetrieveSuccess(documentSnapshot
+                                    .toObject(Driver.class));
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "Get User Failed!");
-                            listener.onDriverProfileRetrieveFailure();
-                        }
+                    }).addOnFailureListener(e -> {
+                        Log.v(TAG, "Get User Failed!");
+                        listener.onDriverProfileRetrieveFailure();
                     }));
         } else {    // the driver is not logged in
             Log.v(TAG, "User is not logged in!");

@@ -8,6 +8,8 @@ import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -140,58 +142,25 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
         this.firestore
                 .collection(referenceName)
                 .whereEqualTo("driverEmail", null)
-                .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                    /*if (e != null) {
-                        Log.v(TAG, "All requests update fails.");
-                        listener.onAllRequestsUpdateError();
-                        return;
-                    }
-                    ArrayList<Request> requests = new ArrayList<>();
-                    for (QueryDocumentSnapshot doc : requireNonNull(queryDocumentSnapshots)) {
-                        Request request = doc.toObject(Request.class);
-                        if (request.getRiderEmail() != null) {
-                            LatLong tempLatLong = request.getPickUpLoc();
-                            request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                    + (latLong.getLng() - tempLatLong.getLng()));
-                            requests.add(request);
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            listener.onAllRequestsUpdateError();
+                            return;
                         }
-                    }
-                    // sort all requests according to manhattan distance
-                    Collections.sort(requests);
-                    Log.v(TAG, "All requests updated!!!");
-                    listener.onAllRequestsUpdateSuccess(requests);*/
-                    if (e != null) {
-                        Log.v(TAG, "All requests update fails.");
-                        listener.onAllRequestsUpdateError();
-                        return;
-                    }
-                    if (queryDocumentSnapshots != null) {
-                        this.firestore
-                                .collection(referenceName)
-                                .get()
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        ArrayList<Request> requests = new ArrayList<>();
-                                        for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
-                                            Request request = document.toObject(Request.class);
-                                            if (request.getDriverEmail() == null) {
-                                                LatLong tempLatLong = request.getPickUpLoc();
-                                                request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                                        + (latLong.getLng() - tempLatLong.getLng()));
-                                                requests.add(request);
-                                            }
-                                        }
-                                        // sort all requests according to manhattan distance
-                                        Collections.sort(requests);
-                                        listener.onAllRequestsUpdateSuccess(requests);
-                                    } else {
-                                        listener.onAllRequestsUpdateError();
-                                    }
-                                });
-                    } else {
-                        Log.v(TAG, "All requests update fails.");
-                        listener.onAllRequestsUpdateError();
+
+                        ArrayList<Request> requests = new ArrayList<>();
+                        for (QueryDocumentSnapshot doc : requireNonNull(value)) {
+                            if (doc.get("riderEmail") != null) {
+                                requests.add(doc.toObject(Request.class));
+                            }
+                        }
+                        listener.onAllRequestsUpdateSuccess(requests);
                     }
                 });
+
     }
 }
