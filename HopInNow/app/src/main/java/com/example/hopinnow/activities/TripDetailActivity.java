@@ -78,10 +78,11 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         trip = driver.getDriverTripList().get(search_key);
         driverEmail.setText("Driver Email: "+trip.getDriverEmail());
         riderEmail.setText("Rider Email: "+trip.getRiderEmail());
-        pickUpLocation.setText(String.format("Pick Up Location: (%f, %f)",trip.getPickUpLoc().getLat(),trip.getPickUpLoc().getLng()));
-        dropOffLocation.setText(String.format("Drop Off Location: (%f, %f)",trip.getDropOffLoc().getLat(),trip.getDropOffLoc().getLng()));
+        pickUpLocation.setText(String.format("Pick Up Location: %s",trip.getPickUpLocName()));
+        dropOffLocation.setText(String.format("Drop Off Location: %s",trip.getDropOffLocName()));
         rating.setText("Rating: "+trip.getRating().toString());
         cost.setText("Revenue: "+trip.getCost().toString());
+        System.out.println(trip.getRiderEmail());
         riderDatabaseAccessor.getRiderObject(trip.getRiderEmail(),this);
 
     }
@@ -113,16 +114,18 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
 
     @Override
     public void onProfileRetrieveSuccess(User user) {
+
         this.type = user.isUserType();
+        driverDatabaseAccessor = new DriverDatabaseAccessor();
+        riderDatabaseAccessor = new RiderDatabaseAccessor();
         if(type){
             //driver
             //function that get the certain trip from the database
-            driverDatabaseAccessor = new DriverDatabaseAccessor();
             driverDatabaseAccessor.getDriverProfile(this);
+            ((TextView)findViewById(R.id.textView8)).setText("Rider Information");
         }
         else{
             otherRating.setVisibility(View.INVISIBLE);
-            riderDatabaseAccessor = new RiderDatabaseAccessor();
             riderDatabaseAccessor.getRiderProfile(this);
         }
 
@@ -151,8 +154,8 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         trip = this.rider.getRiderTripList().get(search_key);
         driverEmail.setText("Driver Email: "+trip.getDriverEmail());
         riderEmail.setText("Rider Email: "+trip.getRiderEmail());
-        pickUpLocation.setText(String.format("Pick Up Location: (%f, %f)",trip.getPickUpLoc().getLat(),trip.getPickUpLoc().getLng()));
-        dropOffLocation.setText(String.format("Drop Off Location: (%f, %f)",trip.getDropOffLoc().getLat(),trip.getDropOffLoc().getLng()));
+        pickUpLocation.setText(String.format("Pick Up Location: %s",trip.getPickUpLocName()));
+        dropOffLocation.setText(String.format("Drop Off Location: %s",trip.getDropOffLocName()));
         rating.setText("Rating: "+trip.getRating().toString());
         cost.setText("Cost: "+trip.getCost().toString());
         driverDatabaseAccessor.getDriverObject(trip.getDriverEmail(),this);
@@ -177,9 +180,10 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.otherDriver = driver;
-        otherName.setText(this.driver.getName());
-        otherRating.setText(this.driver.getRating().toString());
-        otherPhone.setText(this.driver.getPhoneNumber());
+        System.out.println("123 "+this.otherDriver.getEmail());
+        otherName.setText(this.otherDriver.getName());
+        otherRating.setText(this.otherDriver.getRating().toString());
+        otherPhone.setText(this.otherDriver.getPhoneNumber());
     }
 
     @Override
@@ -190,6 +194,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onRiderObjRetrieveSuccess(Rider rider) {
         this.otherRider = rider;
+        System.out.println("123 "+this.otherRider.getEmail());
         otherName.setText(this.otherRider.getName());
         otherPhone.setText(this.otherRider.getPhoneNumber());
     }
