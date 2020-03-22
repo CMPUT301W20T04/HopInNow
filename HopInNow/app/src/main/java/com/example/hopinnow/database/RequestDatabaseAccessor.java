@@ -154,7 +154,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
 
                         ArrayList<Request> requests = new ArrayList<>();
                         for (QueryDocumentSnapshot doc : requireNonNull(value)) {
-                            if (doc.get("riderEmail") != null) {
+                            if (doc.exists() && doc.get("riderEmail") != null) {
                                 requests.add(doc.toObject(Request.class));
                             }
                         }
