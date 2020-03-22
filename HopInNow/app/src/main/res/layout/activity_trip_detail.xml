@@ -9,16 +9,102 @@
     android:background="#F3ECECEC"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:background="#ABABAB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/each_trip_record" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Driver Information"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/informationTextTitle"
+        android:layout_width="379dp"
+        android:layout_height="161dp"
+        android:layout_margin="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="1dp"
+        app:cardMaxElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="162dp">
+
+            <TextView
+                android:id="@+id/otherName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="169dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="169dp"
+                android:text="Name:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/otherPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="166dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="169dp"
+                android:text="Phone:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/otherName" />
+
+            <TextView
+                android:id="@+id/otherRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="166dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="169dp"
+                android:text="Rating:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/otherPhoneNumber" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/each_trip_record"
-        android:layout_width="401dp"
-        android:layout_height="401dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
 
         app:cardCornerRadius="12dp"
-        app:cardElevation="12dp"
+        app:cardElevation="1dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +113,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tripDetailLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -49,13 +135,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:layout_marginStart="14dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="26dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="18dp"
                 app:cardBackgroundColor="#0F131313"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="0dp"
-                app:cardMaxElevation="0dp"
+                app:cardElevation="0.5dp"
+                app:cardMaxElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TripTitle">
@@ -68,6 +154,15 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginStart="3sp"
+                        android:layout_marginEnd="3sp"
+                        app:srcCompat="@drawable/email" />
+
                     <TextView
                         android:id="@+id/riderEmail"
                         android:layout_width="match_parent"
@@ -75,9 +170,10 @@
                         android:layout_marginStart="3dp"
                         android:fontFamily="sans-serif-light"
                         android:text="RiderEmail:"
-                        android:textAlignment="viewStart"
+                        android:textAlignment="textStart"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="#000000"
+                        android:textColor="#F06F6F6F"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="sans" />
 
@@ -92,8 +188,8 @@
                 android:layout_marginTop="7dp"
                 app:cardBackgroundColor="#0F131313"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="0dp"
-                app:cardMaxElevation="0dp"
+                app:cardElevation="0.5dp"
+                app:cardMaxElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView4">
@@ -106,19 +202,30 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="27dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginStart="3sp"
+                        android:layout_marginEnd="3sp"
+                        app:srcCompat="@drawable/email" />
+
                     <TextView
                         android:id="@+id/DriverEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
                         android:text="DriverEmail"
-                        android:textColor="#000000"
+                        android:textColor="#F06F6F6F"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="sans" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -127,8 +234,8 @@
                 android:layout_marginEnd="16dp"
                 app:cardBackgroundColor="#0F131313"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="0dp"
-                app:cardMaxElevation="0dp"
+                app:cardElevation="0.5dp"
+                app:cardMaxElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -138,8 +245,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
                     android:baselineAligned="false"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="8dp">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="27dp"
+
+                        android:layout_marginStart="3sp"
+                        android:layout_marginEnd="3sp"
+                        app:srcCompat="@drawable/position" />
 
                     <TextView
                         android:id="@+id/dropoffLocation"
@@ -148,7 +265,8 @@
                         android:layout_marginStart="3dp"
                         android:fontFamily="sans-serif-light"
                         android:text="dropoffLocation"
-                        android:textColor="#000000"
+                        android:textColor="#F06F6F6F"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="sans" />
                 </LinearLayout>
@@ -164,8 +282,8 @@
                 android:layout_marginEnd="16dp"
                 app:cardBackgroundColor="#0F131313"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="0dp"
-                app:cardMaxElevation="0dp"
+                app:cardElevation="0.5dp"
+                app:cardMaxElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView2">
@@ -178,6 +296,15 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="26dp"
+
+                        android:layout_marginStart="3sp"
+                        android:layout_marginEnd="3sp"
+                        app:srcCompat="@drawable/money" />
+
                     <TextView
                         android:id="@+id/cost"
                         android:layout_width="wrap_content"
@@ -185,7 +312,8 @@
                         android:layout_marginStart="3dp"
                         android:fontFamily="sans-serif-light"
                         android:text="Cost:"
-                        android:textColor="#000000"
+                        android:textColor="#F06F6F6F"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="sans" />
                 </LinearLayout>
@@ -193,19 +321,67 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
-                android:layout_width="343dp"
-                android:layout_height="0dp"
+                android:layout_width="358dp"
+                android:layout_height="43dp"
                 android:layout_margin="15dp"
                 android:layout_marginStart="13dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="13dp"
                 app:cardBackgroundColor="#0F131313"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="0dp"
-                app:cardMaxElevation="0dp"
+                app:cardElevation="0.5dp"
+                app:cardMaxElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+                <LinearLayout
+                    android:layout_width="362dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="31dp"
+                        android:layout_height="28dp"
+
+                        android:layout_marginStart="3sp"
+                        android:layout_marginEnd="3sp"
+                        app:srcCompat="@drawable/rate" />
+
+                    <TextView
+                        android:id="@+id/rating2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Rating:"
+                        android:textColor="#F06F6F6F"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:typeface="sans" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#0F131313"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0.5dp"
+                app:cardMaxElevation="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -215,20 +391,31 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="25dp"
+                        android:layout_height="26dp"
+
+                        android:layout_marginStart="3sp"
+                        android:layout_marginEnd="3sp"
+                        app:srcCompat="@drawable/dest" />
+
                     <TextView
-                        android:id="@+id/rating"
+                        android:id="@+id/pickUpLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
                         android:fontFamily="sans-serif-light"
-                        android:text="Rating:"
-                        android:textColor="#000000"
+                        android:text="PickUpLocation"
+                        android:textColor="#F06F6F6F"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="sans" />
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
