@@ -158,6 +158,10 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                                 requests.add(doc.toObject(Request.class));
                             }
                         }
+                        if (requests.size() == 0) {
+                            listener.onAllRequestsUpdateError();
+                            return;
+                        }
                         listener.onAllRequestsUpdateSuccess(requests);
                     }
                 });
