@@ -6,7 +6,7 @@
     android:id="@+id/tripDetailMainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3ECECEC"
+    android:background="@drawable/back2"
     android:orientation="vertical">
 
     <View
