@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,9 +27,11 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -37,6 +40,7 @@ import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.database.RiderRequestDatabaseAccessor;
+import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.LatLong;
@@ -63,6 +67,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -82,7 +87,7 @@ import java.util.Objects;
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
-        AvailRequestListListener, LocationListener {
+        AvailRequestListListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
@@ -99,10 +104,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Marker pickUpMarker, dropOffMarker;
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
 
+    private UserDatabaseAccessor userDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private RequestDatabaseAccessor requestDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
+
+    private NavigationView navigationView;
 
     // progress bar here:
     private ProgressbarDialog progressbarDialog;
@@ -162,8 +170,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.progressbarDialog = new ProgressbarDialog(this);
         this.progressbarDialog.startProgressbarDialog();
         this.riderDatabaseAccessor.getRiderProfile(this);
+        this.userDatabaseAccessor = new UserDatabaseAccessor();
     }
-
 
     /**
      * Displays appropriate content according to the presence of current request.
@@ -198,12 +206,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
+
         // sets button for viewing rider profile
         FloatingActionButton riderMenuBtn = findViewById(R.id.riderMenuBtn);
         riderMenuBtn.setOnClickListener(v -> {
             Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
             startActivity(intent);
         });
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         if (Objects.equals(caseCancel, "cancel")) {
             cancelRequestLocal();
@@ -819,5 +831,32 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        switch (menuItem.getItemId()){
+            case R.id.rider_profile:
+                Intent intent1 = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.rider_trips:
+                Intent intent2 = new Intent(getApplicationContext(), TripListActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.rider_logout:
+                userDatabaseAccessor.logoutUser();
+                // go to the login activity again:
+                Toast.makeText(getApplicationContext(),
+                        "You are Logged out!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                break;
+        }
+
+        return true;
     }
 }
