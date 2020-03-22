@@ -71,6 +71,11 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         //TODO GET rider FROM FIREBASE, is it needed?
         driver = (Driver) getIntent().getSerializableExtra("Driver");
         rider = (Rider) getIntent().getSerializableExtra("Rider");
+        if (driver == null){
+            Car car = new Car("Auburn","Speedster","Cream","111111");
+            driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                    "12345678", true, 10.0,  null, car, null);
+        }
 
         // set local variables
         baseFare = curRequest.getEstimatedFare();
@@ -114,7 +119,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 qrImage.setBackgroundResource(R.color.ColorBlack);
                 confirmPaymentBtn.setVisibility(View.GONE);
                 showTotalBtn.setEnabled(false);
-
                 //onScanningCompleted();
             }
             });
