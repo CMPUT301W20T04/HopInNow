@@ -11,12 +11,69 @@
     <fragment
         android:id="@+id/map"
         class="com.google.android.gms.maps.MapFragment"
-        android:layout_width="412dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="-1dp"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="0dp"
+
+        />
+
+    <RelativeLayout
+        android:id="@+id/mock"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="60dp">
+
+        <EditText
+            android:id="@+id/mock_dropOff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/search_layout"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:background="@color/ColorWhite">
+
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="6dp"
+                android:layout_width="17dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/marker_pick_up" />
+
+            <fragment
+                android:id="@+id/pick_up_auto_complete"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+            <Button
+                android:id="@+id/add_request_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorOrange"
+                android:textColor="@color/ColorWhite"
+                android:ems="10"
+                android:text="HOP IN NOW!"
+                android:textSize="20dp" />
+    </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/driverMenuBtn"
@@ -43,6 +100,7 @@
         app:backgroundTint="@color/ColorOrange" />
 
     <TextView
+        android:id="@+id/onlineButtonText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/fragment_place"
@@ -57,7 +115,7 @@
     <FrameLayout
         android:id="@+id/fragment_place"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="800px"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

@@ -87,6 +87,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
     private SharedPreferences mPrefs;
+    private LocationManager lm;
 
     private Rider rider;
     private Driver driver;
@@ -138,7 +139,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     Manifest.permission.ACCESS_COARSE_LOCATION)
                     .subscribe(granted -> {
                         if (granted) {
-                            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
                         }
@@ -172,9 +173,22 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     protected void onStart(){
         super.onStart();
         String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
+        if (Objects.equals(caseCancel, "cancel")) { cancelRequestLocal(); }
         // MOCK FOR INTENT TESTING
         final EditText pickUpMock = findViewById(R.id.mock_pickUp);
         final EditText dropOffMock = findViewById(R.id.mock_dropOff);
+        // set my location button for pickup
+        Button myLocPickUpBtn = findViewById(R.id.my_loc_pickup_button);
+        myLocPickUpBtn.setOnClickListener(v -> {
+            try {
+                setCurrentLocationPickup();
+                setMapMarker(pickUpMarker,pickUpLoc);
+                adjustMapFocus();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ;
+        });
         // sets button for adding new request
         Button addRequestBtn = findViewById(R.id.add_request_button);
         addRequestBtn.setOnClickListener(v -> {
@@ -188,7 +202,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             //FIXME
             // if both locations eneterd, then one cleared, validation below would not work
             // maybe gettext in autocompletefragment for validation
-            if ((pickUpLoc!=null)&&(dropOffLoc!=null)){
+            if ((pickUpLocName!=null)&&(dropOffLocName!=null)){
                 if (validLocations()){
                     switchMarkerDraggable();
                     setNewRequest();
@@ -205,10 +219,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             startActivity(intent);
         });
 
-        if (Objects.equals(caseCancel, "cancel")) {
-            cancelRequestLocal();
-        }
-
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
             curRequest = retrieveCurrentRequestLocal();
@@ -217,6 +227,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             findViewById(R.id.mock).setVisibility(View.GONE);
         }
     }
+
+
+
     /**
      * Creates new request and save it to both locally and online.
      */
@@ -225,17 +238,21 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         EstimateFare fare = new EstimateFare();
         Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc);
 
-        // set attribute of the request:
-        LatLong latLongP = new LatLong(pickUpLoc.latitude, pickUpLoc.longitude);
-        LatLong latLongD = new LatLong(dropOffLoc.latitude, dropOffLoc.longitude);
-        curRequest = new Request(null, rider.getEmail(), latLongP, latLongD, pickUpLocName,
-                dropOffLocName, dateTime,null, estimatedFare);
+        if (estimatedFare <= rider.getDeposit()){
+            // set attribute of the request:
+            LatLong latLongP = new LatLong(pickUpLoc.latitude, pickUpLoc.longitude);
+            LatLong latLongD = new LatLong(dropOffLoc.latitude, dropOffLoc.longitude);
+            curRequest = new Request(null, rider.getEmail(), latLongP, latLongD, pickUpLocName,
+                    dropOffLocName, dateTime,null, estimatedFare);
+            saveCurrentRequestLocal(curRequest);
+            // save current Request to firebase
+            this.progressbarDialog.startProgressbarDialog();
+            requestDatabaseAccessor.addRequest(curRequest,this);
+        } else {
+            Toast.makeText(this, "Sorry, you do not have enough deposit for this " +
+                    "request.", Toast.LENGTH_SHORT).show();
+        }
 
-        saveCurrentRequestLocal(curRequest);
-
-        // save current Request to firebase
-        this.progressbarDialog.startProgressbarDialog();
-        requestDatabaseAccessor.addRequest(curRequest,this);
     }
     /**
      * Sets up initlal map.
@@ -245,6 +262,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
@@ -343,6 +361,24 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         });
     }
 
+    private void setCurrentLocationPickup() throws IOException {
+        if ((ActivityCompat.checkSelfPermission(RiderMapActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                && (ActivityCompat.checkSelfPermission(RiderMapActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            //lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    //0, 0, RiderMapActivity.this);
+            Geocoder gc = new Geocoder(RiderMapActivity.this, Locale.getDefault());
+            List<Address> addresses = gc.getFromLocation(current.getLatitude(),
+                    current.getLongitude(),1);
+            if (addresses.size() == 1) {
+                pickUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
+                pickUpAutoComplete.setText(addresses.get(0).getAddressLine(0));
+            }
+        }
+
+    }
+
 
     /**
      * On resume.
@@ -410,8 +446,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         saveCurrentRequestLocal(null);
         pickUpLocName = null;
         dropOffLocName= null;
-        pickUpLoc = null;
-        dropOffLoc = null;
+        pickUpLoc = new LatLng(53.5258, -113.5207);
+        dropOffLoc = new LatLng(53.5224, -113.5305);
         pickUpMarker.setVisible(false);
         dropOffMarker.setVisible(false);
         switchMarkerDraggable();
@@ -440,7 +476,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         prefsEditor.putString("CurrentRequest", json).apply();
     }
 
-
     /**
      * Retrieves current request form local storage.
      * @return
@@ -464,6 +499,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     public Driver retrieveOfferedDriver(){
         return driver;
+    }
+
+    public Rider retrieveRider(){
+        return rider;
     }
 
 
@@ -738,6 +777,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //  Opt 1. change format of availableRequest to trip
         //  Opt 2. move request to new Collection of requestInCompletion with Trip format
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
+        intent.putExtra("Driver", driver);
+        intent.putExtra("Rider", rider);
         startActivity(intent);
         finish();
 }
@@ -810,7 +851,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onLocationChanged(Location location) {
-        current = location;
+        this.current = location;
     }
 
     @Override

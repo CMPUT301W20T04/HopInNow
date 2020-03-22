@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="10dp"
     app:cardElevation="3dp"
     app:cardCornerRadius="12dp"
     app:cardUseCompatPadding="true">
@@ -31,7 +31,7 @@
             android:shadowColor="#8E8E8E"
             android:text="@string/Request_list_each_accept_button"
             android:textColor="@color/ColorWhite"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/linearLayout2"

@@ -38,7 +38,6 @@
         <activity android:name=".activities.RiderPaymentActivity"/>
         <activity android:name=".activities.RegisterVehicleInfoActivity"/>
         <activity android:name=".activities.DriverMenuActivity"/>
-        <activity android:name=".activities.DriverScanPaymentActivity"/>
         <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.PagerActivity">
             <intent-filter>
@@ -47,5 +46,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.DriverScanPaymentActivity" />
     </application>
 </manifest>
