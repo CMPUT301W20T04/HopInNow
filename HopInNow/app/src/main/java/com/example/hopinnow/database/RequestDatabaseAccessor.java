@@ -160,28 +160,38 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     Collections.sort(requests);
                     Log.v(TAG, "All requests updated!!!");
                     listener.onAllRequestsUpdateSuccess(requests);*/
-                    this.firestore
-                            .collection(referenceName)
-                            .get()
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    ArrayList<Request> requests = new ArrayList<>();
-                                    for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
-                                        Request request = document.toObject(Request.class);
-                                        if (request.getDriverEmail() == null) {
-                                            LatLong tempLatLong = request.getPickUpLoc();
-                                            request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                                    + (latLong.getLng() - tempLatLong.getLng()));
-                                            requests.add(request);
+                    if (e != null) {
+                        Log.v(TAG, "All requests update fails.");
+                        listener.onAllRequestsUpdateError();
+                        return;
+                    }
+                    if (queryDocumentSnapshots != null) {
+                        this.firestore
+                                .collection(referenceName)
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        ArrayList<Request> requests = new ArrayList<>();
+                                        for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
+                                            Request request = document.toObject(Request.class);
+                                            if (request.getDriverEmail() == null) {
+                                                LatLong tempLatLong = request.getPickUpLoc();
+                                                request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
+                                                        + (latLong.getLng() - tempLatLong.getLng()));
+                                                requests.add(request);
+                                            }
                                         }
+                                        // sort all requests according to manhattan distance
+                                        Collections.sort(requests);
+                                        listener.onAllRequestsUpdateSuccess(requests);
+                                    } else {
+                                        listener.onAllRequestsUpdateError();
                                     }
-                                    // sort all requests according to manhattan distance
-                                    Collections.sort(requests);
-                                    listener.onAllRequestsUpdateSuccess(requests);
-                                } else {
-                                    listener.onAllRequestsUpdateError();
-                                }
-                            });
+                                });
+                    } else {
+                        Log.v(TAG, "All requests update fails.");
+                        listener.onAllRequestsUpdateError();
+                    }
                 });
     }
 }
