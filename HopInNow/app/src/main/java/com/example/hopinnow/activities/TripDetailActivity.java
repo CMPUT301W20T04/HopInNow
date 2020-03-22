@@ -2,6 +2,7 @@ package com.example.hopinnow.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,9 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
+import com.example.hopinnow.statuslisteners.RiderObjectRetrieveListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.type.LatLng;
@@ -25,18 +28,23 @@ import com.google.type.LatLng;
  * Show the detail information of historical trip after clicking on one row in trip history
  */
 public class TripDetailActivity extends AppCompatActivity implements DriverProfileStatusListener,
-        UserProfileStatusListener, RiderProfileStatusListener {
+        UserProfileStatusListener, RiderProfileStatusListener, DriverObjectRetreieveListener, RiderObjectRetrieveListener {
     private TextView driverEmail;
     private TextView riderEmail;
-    public TextView pickUpLocation;
+    private TextView pickUpLocation;
     private TextView dropOffLocation;
+    private TextView otherName;
+    private TextView otherPhone;
+    private TextView otherRating;
     private Driver driver;
     private Rider rider;
+    private Driver otherDriver;
+    private Rider otherRider;
     private Trip trip;
     private TextView rating;
     private TextView cost;
     private boolean type;
-    private  int search_key;
+    private int search_key;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private UserDatabaseAccessor userDatabaseAccessor;
@@ -46,10 +54,15 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         setContentView(R.layout.activity_trip_detail);
         driverEmail = findViewById(R.id.DriverEmail);
         riderEmail = findViewById(R.id.riderEmail);
-        pickUpLocation = findViewById(R.id.pickupLoc);
+        pickUpLocation = findViewById(R.id.pickUpLocation);
         dropOffLocation = findViewById(R.id.dropoffLocation);
-        rating = findViewById(R.id.rating);
+        rating = findViewById(R.id.rating2);
         cost = findViewById(R.id.cost);
+        otherName = findViewById(R.id.otherName);
+        otherPhone = findViewById(R.id.otherPhoneNumber);
+        otherRating = findViewById(R.id.otherRating);
+        otherRating.setVisibility(View.INVISIBLE);
+
         //get the key
         Intent intent = getIntent();
         search_key = intent.getIntExtra("pos_key",0);
@@ -68,7 +81,9 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         pickUpLocation.setText(String.format("Pick Up Location: (%f, %f)",trip.getPickUpLoc().getLat(),trip.getPickUpLoc().getLng()));
         dropOffLocation.setText(String.format("Drop Off Location: (%f, %f)",trip.getDropOffLoc().getLat(),trip.getDropOffLoc().getLng()));
         rating.setText("Rating: "+trip.getRating().toString());
-        cost.setText("Cost: "+trip.getCost().toString());
+        cost.setText("Revenue: "+trip.getCost().toString());
+        riderDatabaseAccessor.getRiderObject(trip.getRiderEmail(),this);
+
     }
 
     @Override
@@ -106,7 +121,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
             driverDatabaseAccessor.getDriverProfile(this);
         }
         else{
-
+            otherRating.setVisibility(View.INVISIBLE);
             riderDatabaseAccessor = new RiderDatabaseAccessor();
             riderDatabaseAccessor.getRiderProfile(this);
         }
@@ -140,6 +155,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         dropOffLocation.setText(String.format("Drop Off Location: (%f, %f)",trip.getDropOffLoc().getLat(),trip.getDropOffLoc().getLng()));
         rating.setText("Rating: "+trip.getRating().toString());
         cost.setText("Cost: "+trip.getCost().toString());
+        driverDatabaseAccessor.getDriverObject(trip.getDriverEmail(),this);
 
     }
 
@@ -155,6 +171,31 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
 
     @Override
     public void onRiderProfileUpdateFailure() {
+
+    }
+
+    @Override
+    public void onDriverObjRetrieveSuccess(Driver driver) {
+        this.otherDriver = driver;
+        otherName.setText(this.driver.getName());
+        otherRating.setText(this.driver.getRating().toString());
+        otherPhone.setText(this.driver.getPhoneNumber());
+    }
+
+    @Override
+    public void onDriverObjRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onRiderObjRetrieveSuccess(Rider rider) {
+        this.otherRider = rider;
+        otherName.setText(this.otherRider.getName());
+        otherPhone.setText(this.otherRider.getPhoneNumber());
+    }
+
+    @Override
+    public void onRiderObjRetrieveFailure() {
 
     }
 }
