@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hopinnow">
 
-    <uses-permission android:name="android.permission.INJECT_EVENTS"
+    <uses-permission
+        android:name="android.permission.INJECT_EVENTS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,9 +12,10 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -22,30 +24,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode"/>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/map_key" />
-        <activity android:name=".activities.TripDetailActivity"/>
-        <activity android:name=".activities.TripListActivity"/>
+
+        <activity android:name=".activities.TripDetailActivity" />
+        <activity android:name=".activities.TripListActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.DriverMapActivity"/>
-        <activity android:name=".activities.VehicleViewActivity"/>
-        <activity android:name=".activities.RiderMapActivity"/>
-        <activity android:name=".activities.RiderMenuActivity"/>
-        <activity android:name=".activities.RiderPaymentActivity"/>
-        <activity android:name=".activities.RegisterVehicleInfoActivity"/>
-        <activity android:name=".activities.DriverMenuActivity"/>
-        <activity android:name=".activities.LoginActivity"/>
-        <activity android:name=".activities.PagerActivity">
+        <activity android:name=".activities.DriverMapActivity" />
+        <activity android:name=".activities.VehicleViewActivity" />
+        <activity android:name=".activities.RiderMapActivity" />
+        <activity android:name=".activities.RiderMenuActivity" />
+        <activity android:name=".activities.RiderPaymentActivity" />
+        <activity android:name=".activities.RegisterVehicleInfoActivity" />
+        <activity android:name=".activities.DriverMenuActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity
+            android:name=".activities.firstPageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity android:name=".activities.PagerActivity">
+
         </activity>
         <activity android:name=".activities.DriverScanPaymentActivity" />
     </application>
+
 </manifest>
