@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -17,18 +17,19 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.RequestListAdapter;
-import com.example.hopinnow.entities.LatLong;
+import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Author: Qianxi Li
@@ -37,7 +38,7 @@ import java.util.Objects;
  */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, DriverRequestListener {
-    private Integer prePosition = -1;
+    public static final String TAG = "RequestListFragment";
     private ListView requestListView;
     private ArrayList<Request> requestList;
     private Request chooseRequest;
@@ -48,14 +49,22 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    // Shway added this:
+    private ProgressbarDialog progressbarDialog;
+    private RequestListAdapter requestListAdapter;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState){
         super.onCreateView(inflater,container,savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_driver_requests, container, false);
+        View view = inflater
+                .inflate(R.layout.fragment_driver_requests, container, false);
         requestListView = (ListView)view.findViewById(R.id.requestList);
         requestList = new ArrayList<>();
 
         //read request from database
         driverDatabaseAccessor = new DriverDatabaseAccessor();
+        // Shway added this:
+        this.progressbarDialog = new ProgressbarDialog(getContext());
+        this.progressbarDialog.startProgressbarDialog();
         driverDatabaseAccessor.getDriverProfile(this);
         return view;
     }
@@ -67,7 +76,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     Title: android - listview get item view by position
     Link: https://stackoverflow.com/questions/24811536/android-listview-get-item-view-by-position
      */
-    public View getViewByPosition(int pos, ListView listView) {
+    private View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
@@ -83,17 +92,23 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.current_driver = driver;
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-        driverRequestDatabaseAccessor.getAllRequest(new LatLong(), this);
+        // TODO
+        // later need to fix the new LatLong(10, 20) to current location of the driver:
+        driverRequestDatabaseAccessor.getAllRequest(new LatLong(10, 20), this);
     }
 
     @Override
     public void onDriverProfileRetrieveFailure() {
-
+        // Shway added the following:
+        Toast.makeText(getContext(), "Weak Internet, try again later",
+                Toast.LENGTH_LONG).show();
+        driverDatabaseAccessor.getDriverProfile(this);
     }
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-        ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
+        ((DriverMapActivity) requireNonNull(getActivity()))
+                .switchFragment(R.layout.fragment_driver_pick_rider_up);
 
     }
 
@@ -124,17 +139,20 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
+        // Shway's comment:
+        // I assume this is to setup the request list:
         this.requestList = requests;
-        driverRequestDatabaseAccessor.listenOnAllRequests(new LatLong(10, 20), this);
         final FragmentActivity fragmentActivity = getActivity();
         ((DriverMapActivity) Objects.requireNonNull(getActivity())).setButtonInvisible();
-        RequestListAdapter adapter = new RequestListAdapter(requestList, fragmentActivity);
+        this.requestListAdapter = new RequestListAdapter(requestList, fragmentActivity);
+        this.requestListView.setAdapter(this.requestListAdapter);
 
-        requestListView.setAdapter(adapter);
+        // setting the listeners:
         requestListView.setOnItemClickListener((parent, view, position, id) -> {
             ((DriverMapActivity)getActivity()).clearMap();
             for(int i=0;i<requestList.size();i++){
-                getViewByPosition(i, requestListView).findViewById(R.id.accept_btn).setVisibility(View.INVISIBLE);
+                getViewByPosition(i, requestListView).findViewById(R.id.accept_btn)
+                        .setVisibility(View.INVISIBLE);
             }
             View itemView = getViewByPosition(position, requestListView);
             Button acceptBtn = itemView.findViewById(R.id.accept_btn);
@@ -156,7 +174,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             ((DriverMapActivity)getActivity()).setBothMarker(pickUp_loc, dropOff_loc);
             //((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
             //((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
-            prePosition = position;
             acceptBtn.setOnClickListener(v -> {
                 chooseRequest.setDriverEmail(current_driver.getEmail());
                 chooseRequest.setCar(current_driver.getCar());
@@ -164,19 +181,27 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                         RequestListFragment.this);
             });
             //prePosition = position;
-
         });
+        // Shway added this following lines:
+        this.progressbarDialog.dismissDialog();
+        this.driverRequestDatabaseAccessor
+                .listenOnAllRequests(new LatLong(10, 20), this);
     }
 
     @Override
     public void onGetRequiredRequestsFailure() {
-
+        // Shway added this:
+        Toast.makeText(getContext(), "Internet is too weak!", Toast.LENGTH_LONG).show();
+        driverRequestDatabaseAccessor.getAllRequest(new LatLong(10, 20), this);
     }
 
     @Override
     public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
-        this.requestList = requests;
-
+        // Shway added this:
+        this.requestList.clear();
+        this.requestList.addAll(requests);
+        this.requestListAdapter.notifyDataSetChanged();
+        this.requestListView.setAdapter(requestListAdapter);
     }
 
     @Override
