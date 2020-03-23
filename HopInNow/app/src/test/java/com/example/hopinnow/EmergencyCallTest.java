@@ -14,6 +14,7 @@ public class EmergencyCallTest {
     /**
      * set up test entity
      * @return
+     *      return an EmergencyCall object
      */
     private EmergencyCall mockEmCall(){
         return new EmergencyCall("110");

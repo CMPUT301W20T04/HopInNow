@@ -19,16 +19,15 @@ public class RequestTest {
     /**
      * set up test entity
      * @return
+     *      return a request object
      */
     private Request mockRequest(){
         Car mockCar = new Car("Nissan", "Altima", "Black", "AAA-0001");
         LatLong pickUpLoc = new LatLong(10, 20);
         LatLong dropOffLoc = new LatLong(5, 10);
         Date pickUpTime = new Date();
-        Date dropOffTime = new Date();
-        Request mockRequest = new Request("driver", "rider", pickUpLoc, dropOffLoc,
+        return new Request("driver", "rider", pickUpLoc, dropOffLoc,
                 "pickUp",  "dropOff", pickUpTime, mockCar, 10.0);
-        return mockRequest;
     }
 
     /**
@@ -37,24 +36,12 @@ public class RequestTest {
     @Test
     public void testEmpty(){
         Request mockRequest = new Request();
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getEstimatedFare();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getDropOffLoc();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getDropOffLocName();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getPickUpDateTime();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getPickUpLoc();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            mockRequest.getRiderEmail();
-        });
+        assertThrows(NullPointerException.class, mockRequest::getEstimatedFare);
+        assertThrows(NullPointerException.class, mockRequest::getDropOffLoc);
+        assertThrows(NullPointerException.class, mockRequest::getDropOffLocName);
+        assertThrows(NullPointerException.class, mockRequest::getPickUpDateTime);
+        assertThrows(NullPointerException.class, mockRequest::getPickUpLoc);
+        assertThrows(NullPointerException.class, mockRequest::getRiderEmail);
     }
 
 
@@ -87,7 +74,6 @@ public class RequestTest {
         LatLong newPickUpLoc = new LatLong(50, 110);
         LatLong newDropOffLoc = new LatLong(3, 13);
         Date newPickUpTime = new Date();
-        Date newDropOffTime = new Date();
         mockRequest.setEstimatedFare(5.0);
         mockRequest.setCar(car);
         mockRequest.setDriverEmail("newDriver@gmail.com");
