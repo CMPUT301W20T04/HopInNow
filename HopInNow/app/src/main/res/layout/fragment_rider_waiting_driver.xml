@@ -1,174 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
-    android:layout_width="match_parent"
+<ScrollView
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/ColorWhite">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content">
 
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginRight="80dp"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time_elapsed" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="413dp"
-        android:layout_height="763dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:background="@color/ColorWhite">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="196dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="330dp"
-            android:text="The estimated fare is: "
-            android:textColor="@color/ColorBlack"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/fare_amount"
+        <Chronometer
+            android:id="@+id/chronometer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="330dp"
-            android:shadowColor="#F44336"
-            android:text="TextView"
-            android:textColor="@color/ColorBlack"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/add_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/ColorOrange"
-            android:shadowColor="#F44336"
-            android:text="+1$"
-            android:textColor="@color/ColorWhite"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <Button
-            android:id="@+id/reduce_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="70dp"
-            android:background="@color/ColorOrange"
-            android:shadowColor="#F44336"
-            android:text="-1$"
-            android:textColor="@color/ColorWhite"
-            android:textSize="20sp"
+            android:layout_marginStart="80dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginRight="80dp"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/prompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:text="While you are waiting, you can: "
-            android:textColor="@color/ColorBlack"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_money" />
+            app:layout_constraintTop_toBottomOf="@+id/time_elapsed" />
 
-        <Button
-            android:id="@+id/joke_button"
-            android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="44dp"
-            android:background="@color/ColorOrange"
-            android:gravity="center"
-            android:shadowColor="#F44336"
-            android:text="Read A Joke (Coming Soon)"
-            android:textColor="@color/ColorWhite"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/prompt" />
-
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="250sp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="79dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="78dp"
-            android:layout_marginBottom="60dp"
-            android:background="@color/ColorOrange"
-            android:gravity="center"
-            android:shadowColor="#F44336"
-            android:text="CANCEL REQUEST"
-            android:textColor="@color/ColorWhite"
-            android:textSize="20sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="413dp"
+            android:layout_height="763dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.529"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/joke_button"
-            app:layout_constraintVertical_bias="0.404" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-        <Button
-            android:id="@+id/rider_waiting_driver_next"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/orange_all_round_corner"
-            android:text=">"
-            android:textColor="@color/ColorOrange"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="196dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="330dp"
+                android:text="The estimated fare is: "
+                android:textColor="@color/ColorBlack"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fare_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="330dp"
+                android:shadowColor="#F44336"
+                android:text="TextView"
+                android:textColor="@color/ColorBlack"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/add_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/ColorOrange"
+                android:shadowColor="#F44336"
+                android:text="+1$"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <Button
+                android:id="@+id/reduce_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="70dp"
+                android:background="@color/ColorOrange"
+                android:shadowColor="#F44336"
+                android:text="-1$"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="While you are waiting, you can: "
+                android:textColor="@color/ColorBlack"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/add_money" />
+
+            <Button
+                android:id="@+id/joke_button"
+                android:layout_width="300sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="44dp"
+                android:background="@color/ColorOrange"
+                android:gravity="center"
+                android:shadowColor="#F44336"
+                android:text="Read A Joke (Coming Soon)"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/prompt" />
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="79dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="78dp"
+                android:layout_marginBottom="60dp"
+                android:background="@color/ColorOrange"
+                android:gravity="center"
+                android:shadowColor="#F44336"
+                android:text="CANCEL REQUEST"
+                android:textColor="@color/ColorWhite"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.529"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/joke_button"
+                app:layout_constraintVertical_bias="0.404" />
+
+            <Button
+                android:id="@+id/rider_waiting_driver_next"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/orange_all_round_corner"
+                android:text=">"
+                android:textColor="@color/ColorOrange"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.466"
+                app:layout_constraintStart_toEndOf="@+id/cancel_button"
+                app:layout_constraintTop_toBottomOf="@+id/joke_button"
+                app:layout_constraintVertical_bias="0.127" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/time_elapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginRight="80dp"
+            android:text="Time Elapsed:"
+            android:textColor="@color/ColorBlack"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.466"
-            app:layout_constraintStart_toEndOf="@+id/cancel_button"
-            app:layout_constraintTop_toBottomOf="@+id/joke_button"
-            app:layout_constraintVertical_bias="0.127" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/time_elapsed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginRight="80dp"
-        android:text="Time Elapsed:"
-        android:textColor="@color/ColorBlack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

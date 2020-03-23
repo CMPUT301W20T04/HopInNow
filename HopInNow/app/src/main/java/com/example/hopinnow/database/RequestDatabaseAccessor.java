@@ -142,28 +142,28 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
         this.firestore
                 .collection(referenceName)
                 .whereEqualTo("driverEmail", null)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w(TAG, "Listen failed.", e);
-                            listener.onAllRequestsUpdateError();
-                            return;
-                        }
-
-                        ArrayList<Request> requests = new ArrayList<>();
-                        for (QueryDocumentSnapshot doc : requireNonNull(value)) {
-                            if (doc.exists() && doc.get("riderEmail") != null) {
-                                requests.add(doc.toObject(Request.class));
-                            }
-                        }
-                        if (requests.size() == 0) {
-                            listener.onAllRequestsUpdateError();
-                            return;
-                        }
-                        listener.onAllRequestsUpdateSuccess(requests);
+                .addSnapshotListener((value, e) -> {
+                    Log.v(TAG, "an event happened!");
+                    if (e != null) {
+                        Log.v(TAG, "event listening failed.", e);
+                        listener.onAllRequestsUpdateError();
+                        return;
                     }
+                    ArrayList<Request> requests = new ArrayList<>();
+                    for (QueryDocumentSnapshot doc : requireNonNull(value)) {
+                        if (doc.exists() && doc.get("riderEmail") != null) {
+                            Request request = doc.toObject(Request.class);
+                            Log.v(TAG, (String) requireNonNull(doc.get("riderEmail")));
+                            LatLong tempLatLong = request.getPickUpLoc();
+                            request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
+                                    + (latLong.getLng() - tempLatLong.getLng()));
+                            requests.add(request);
+                        }
+                    }
+                    Log.v(TAG, "requests updated!");
+                    // sort all requests according to manhattan distance
+                    Collections.sort(requests);
+                    listener.onAllRequestsUpdateSuccess(requests);
                 });
 
     }
