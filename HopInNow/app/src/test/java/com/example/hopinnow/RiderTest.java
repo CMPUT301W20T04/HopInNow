@@ -20,9 +20,9 @@ public class RiderTest {
     /**
      * set up test entity
      * @return
-     * @throws ParseException
+     *      returns a Rider object
      */
-    private Rider mockRider() throws ParseException {
+    private Rider mockRider() {
         Car mockCar = new Car("Nissan", "Altima", "Black",
                 "AAA-0001");
         LatLong pickUpLoc = new LatLong(10, 20);
@@ -32,7 +32,6 @@ public class RiderTest {
         Request mockRequest = new Request("rider", "rider", pickUpLoc, dropOffLoc,
                 "pickUp",
                 "dropOff", pickUpTime, mockCar, 0.0);
-        ArrayList<Trip> riderTripList = new ArrayList<Trip>();
         Trip mockTrip = new Trip("rider", "rider", pickUpLoc, dropOffLoc,
                 "pickUp",  "dropOff", pickUpTime, dropOffTime,
                 10, mockCar, 1.1, 2.1);
@@ -48,23 +47,16 @@ public class RiderTest {
     @Test
     public void testEmpty(){
         Rider rider = new Rider();
-        assertThrows(NullPointerException.class, () -> {
-            rider.getDeposit();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            rider.getDeposit();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            rider.getName();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            rider.getPhoneNumber();
-        });
+        assertThrows(NullPointerException.class, rider::getDeposit);
+        assertThrows(NullPointerException.class, rider::getDeposit);
+        assertThrows(NullPointerException.class, rider::getName);
+        assertThrows(NullPointerException.class, rider::getPhoneNumber);
     }
 
     /**
      * test on checking entity elements
      * @throws ParseException
+     *      throws ParseException
      */
     @Test
     public void testCheck() throws ParseException {
@@ -83,7 +75,7 @@ public class RiderTest {
         assertEquals("Altima", rider.getCurRequest().getCar().getModel());
         assertEquals("Black", rider.getCurRequest().getCar().getColor());
         assertEquals("AAA-0001", rider.getCurRequest().getCar().getPlateNumber());
-        assertEquals(1.0, (double)rider.getCurRequest().getEstimatedFare(), 1);
+        assertEquals(1.0, rider.getCurRequest().getEstimatedFare(), 1);
         assertEquals(11, rider.getRiderTripList().get(0).getPickUpLoc().getLat(), 1);
         assertEquals(21, rider.getRiderTripList().get(0).getPickUpLoc().getLng(), 1);
         assertEquals(6, rider.getRiderTripList().get(0).getDropOffLoc().getLat(), 1);
@@ -95,8 +87,8 @@ public class RiderTest {
         assertEquals("Altima", rider.getRiderTripList().get(0).getCar().getModel());
         assertEquals("Black", rider.getRiderTripList().get(0).getCar().getColor());
         assertEquals("AAA-0001", rider.getRiderTripList().get(0).getCar().getPlateNumber());
-        assertEquals(2.1, (double)rider.getRiderTripList().get(0).getCost(), 1);
-        assertEquals(3.1, (double)rider.getRiderTripList().get(0).getRating(), 1);
+        assertEquals(2.1, rider.getRiderTripList().get(0).getCost(), 1);
+        assertEquals(3.1, rider.getRiderTripList().get(0).getRating(), 1);
     }
 
     /**
@@ -105,25 +97,14 @@ public class RiderTest {
     @Test
     public void testEdit() {
         Car car = new Car("newMake", "newModel", "newColor", "newPlate");
-        Request newRiderRequest = new Request();
-        ArrayList<Trip> newRiderTripList = new ArrayList<Trip>();
-        Rider newRider = new Rider("newRider@gmail.com", "newRiderPasswd", "newRider",
-                "7801230001", false,
-                1.0, newRiderRequest, newRiderTripList);
-        Rider newRequestRider = new Rider();
         LatLong newPickUpLoc = new LatLong(50, -110);
         LatLong newDropOffLoc = new LatLong(53, -113);
         Date newPickUpTime = new Date();
         Date newDropOffTime = new Date();
-        Request mockRequest = new Request("newRider", "newRider", newPickUpLoc, newDropOffLoc, "pickUp",
-                "dropOff", newPickUpTime, car, 0.0);
-        ArrayList<Request> newRequestList = new ArrayList<Request>();
         Trip newTrip = new Trip("newRider", "newRider", newPickUpLoc, newDropOffLoc,
                 "pickUp",  "dropOff", newPickUpTime, newDropOffTime, 10,
                 car, 1.1, 2.1);
         ArrayList<Trip> newTripList = new ArrayList<Trip>();
         newTripList.add(newTrip);
-        Rider mockRider = new Rider("rider@gmail.com", "riderPasswd", "drier", "7800101234", true, 0.0,
-                mockRequest, newTripList);
     }
 }
