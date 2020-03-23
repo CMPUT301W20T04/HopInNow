@@ -8,16 +8,25 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
+import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
+import com.example.hopinnow.helperclasses.ProgressbarDialog;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -29,13 +38,14 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 /**
  * Author: Hongru Qi
  * Version: 1.0.0
  * This is the main page for driver where is shows the map, online and menu button
  */
-public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener {
     private GoogleMap mMap;
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
@@ -49,6 +59,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
     private int currentRequestPageCounter = 0;
+
+    private ProgressbarDialog progressbarDialog;
+    private NavigationView navigationView;
+    private DriverDatabaseAccessor userDatabaseAccessor;
+    public static final String TAG = "DriverMenuActivity";
     /**
      * set the visibility of goOnline button into invisible
      */
@@ -97,6 +112,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 startActivity(startIntent);
             }
         });
+
+        this.userDatabaseAccessor = new DriverDatabaseAccessor();
+        navigationView = findViewById(R.id.nav_view_driver);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -238,5 +257,62 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     @Override
     public void onBackPressed() {
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.driver_profile:
+                Intent intent1 = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.driver_trips:
+                Intent intent2 = new Intent(getApplicationContext(), TripListActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.car_info:
+                Log.d(TAG, "Car info btn clicked!");
+                userDatabaseAccessor.getDriverProfile(DriverMapActivity.this);
+                break;
+            case R.id.driver_logout:
+                userDatabaseAccessor.logoutUser();
+                // go to the login activity again:
+                Toast.makeText(getApplicationContext(),
+                        "You are Logged out!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+        // when retrieve the driver profile successful,
+        // open vehicle view activity to display the car information
+        Log.v(TAG, "Driver info retrieved!");
+        Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("DriverObject", driver);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+
     }
 }
