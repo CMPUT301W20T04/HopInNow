@@ -632,7 +632,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
          } else {
              return;
          }
-
          mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
      }
 
