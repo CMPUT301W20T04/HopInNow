@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -114,6 +116,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private ProgressbarDialog progressbarDialog;
     private NavigationView navigationView;
     private UserDatabaseAccessor userDatabaseAccessor;
+    private DrawerLayout drawerLayout;
 
     @SuppressLint({"CheckResult", "MissingPermission"})
     @Override
@@ -220,11 +223,15 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Toast.makeText(RiderMapActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.rider_drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         // sets button for viewing rider profile
         FloatingActionButton riderMenuBtn = findViewById(R.id.riderMenuBtn);
         riderMenuBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(RiderMapActivity.this,RiderMenuActivity.class);
-            startActivity(intent);
+            drawerLayout.openDrawer(GravityCompat.START);
         });
 
         if (curRequest!=null) {
@@ -234,8 +241,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             //MOCK
             findViewById(R.id.mock).setVisibility(View.GONE);
         }
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
 
