@@ -119,9 +119,7 @@ public class Test1_RegisterActivityTest {
         solo.enterText((EditText)solo.getView(R.id.vehPlateEt),"1111111");
         assertTrue(solo.waitForText("1111111",1,2000));
 
-        // test creating driver account
         solo.clickOnButton("finish");
-        //assertFalse(solo.waitForText("finish",1,2000));
     }
 
 
@@ -148,8 +146,6 @@ public class Test1_RegisterActivityTest {
 
         Thread.sleep(2000);
 
-        //solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
-        //solo.clickOnView(solo.getView(R.id.proLogoutBtn));
     }
 
 

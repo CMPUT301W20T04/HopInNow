@@ -91,21 +91,22 @@ public class Test2_LoginActivityTest {
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
         // test email
-        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText),"folanqi123@ualberta.ca");
-        assertTrue(solo.waitForText("folanqi123@ualberta.ca",
+        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText),"v@v.com");
+        assertTrue(solo.waitForText("v@v.com",
                 1, 2000));
 
         // test password
-        solo.enterText((EditText)solo.getView(R.id.loginPassword),"12345678");
-        assertTrue(solo.waitForText("12345678", 1, 2000));
+        solo.enterText((EditText)solo.getView(R.id.loginPassword),"1111111");
 
         solo.clickOnButton("LOGIN");
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
 
         Thread.sleep(2000);
         solo.clickOnView(solo.getView(R.id.riderMenuBtn));
-        solo.clickOnView(solo.getView(R.id.riderMyProfile));
-        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
+        Thread.sleep(2000);
+        solo.clickOnActionBarItem(3);
+        //solo.clickOnView(solo.getView(R.id.rider_logout));
+        solo.goBack();
     }
 
 

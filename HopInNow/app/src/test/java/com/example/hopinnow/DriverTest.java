@@ -23,6 +23,7 @@ public class DriverTest {
     /**
      * set up test entity
      * @return
+     *      return a Driver object
      */
     private Driver mockDriver(){
         Car mockCar = new Car("Nissan", "Altima", "Black",
@@ -46,10 +47,9 @@ public class DriverTest {
                 10, mockCar, 1.1, 2.1);
         ArrayList<Trip> mockTripList = new ArrayList<Trip>();
         mockTripList.add(mockTrip);
-        Driver mockDriver = new Driver("driver@gmail.com", "abc123456",
+        return new Driver("driver@gmail.com", "abc123456",
                 "driver", "7801230000", true, 0.0,
                 mockRequest, mockCar, mockTripList);
-        return mockDriver;
     }
 
     /**
@@ -58,21 +58,11 @@ public class DriverTest {
     @Test
     public void testEmpty(){
         Driver driver = new Driver();
-        assertThrows(NullPointerException.class, () -> {
-            driver.getDriverTripList();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            driver.getCar();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            driver.getDeposit();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            driver.getName();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            driver.getPhoneNumber();
-        });
+        assertThrows(NullPointerException.class, driver::getDriverTripList);
+        assertThrows(NullPointerException.class, driver::getCar);
+        assertThrows(NullPointerException.class, driver::getDeposit);
+        assertThrows(NullPointerException.class, driver::getName);
+        assertThrows(NullPointerException.class, driver::getPhoneNumber);
     }
 
     /**
@@ -85,9 +75,9 @@ public class DriverTest {
         assertEquals("abc123456", driver.getPassword());
         assertEquals("driver", driver.getName());
         assertEquals("7801230000", driver.getPhoneNumber());
-        assertEquals(true, driver.isUserType());
+        assertTrue(driver.isUserType());
         assertEquals(1.0, driver.getDeposit(), 1);
-        assertEquals(1.0, (double)driver.getRating(), 1);
+        assertEquals(1.0, driver.getRating(), 1);
         assertEquals(0, driver.getRatingCounts());
         assertEquals("Nissan", driver.getCar().getMake());
         assertEquals("Altima", driver.getCar().getModel());
@@ -101,7 +91,7 @@ public class DriverTest {
         assertEquals("Altima", driver.getCurRequest().getCar().getModel());
         assertEquals("Black", driver.getCurRequest().getCar().getColor());
         assertEquals("AAA-0001", driver.getCurRequest().getCar().getPlateNumber());
-        assertEquals(1.0, (double)driver.getCurRequest().getEstimatedFare(), 1);
+        assertEquals(1.0, driver.getCurRequest().getEstimatedFare(), 1);
         assertEquals(11, driver.getDriverTripList().get(0).getPickUpLoc().getLat(), 1);
         assertEquals(21, driver.getDriverTripList().get(0).getPickUpLoc().getLng(), 1);
         assertEquals(6, driver.getDriverTripList().get(0).getDropOffLoc().getLat(), 1);
@@ -113,8 +103,8 @@ public class DriverTest {
         assertEquals("Altima", driver.getDriverTripList().get(0).getCar().getModel());
         assertEquals("Black", driver.getDriverTripList().get(0).getCar().getColor());
         assertEquals("AAA-0001", driver.getDriverTripList().get(0).getCar().getPlateNumber());
-        assertEquals(2.1, (double)driver.getDriverTripList().get(0).getCost(), 1);
-        assertEquals(3.1, (double)driver.getDriverTripList().get(0).getRating(), 1);
+        assertEquals(2.1, driver.getDriverTripList().get(0).getCost(), 1);
+        assertEquals(3.1, driver.getDriverTripList().get(0).getRating(), 1);
     }
 
     /**
@@ -124,19 +114,12 @@ public class DriverTest {
     public void testEdit() {
         Driver mockDriver = mockDriver();
         Car car = new Car("newMake", "newModel", "newColor", "newPlate");
-        Request newRiderRequest = new Request();
-        ArrayList<Trip> newDriverTripList = new ArrayList<Trip>();
-        Rider newRider = new Rider("newRider@gmail.com", "newRiderPasswd", "newRider",
-                "7801230001", false,
-                1.0, newRiderRequest, newDriverTripList);
-        Driver newRequestDriver = new Driver();
         LatLong newPickUpLoc = new LatLong(50, 110);
         LatLong newDropOffLoc = new LatLong(3, 13);
         Date newPickUpTime = new Date();
         Date newDropOffTime = new Date();
         Request mockRequest = new Request("newDriver", "newRider", newPickUpLoc, newDropOffLoc, "newPickUp",
                 "newDropOff", newPickUpTime, car, 0.0);
-        ArrayList<Request> newRequestList = new ArrayList<Request>();
         Trip newTrip = new Trip("newDriver", "newRider", newPickUpLoc, newDropOffLoc,
                 "newPickUp",  "newDropOff", newPickUpTime, newDropOffTime, 10,
                 car, 2.0, 3.0);
@@ -156,9 +139,9 @@ public class DriverTest {
         assertEquals("newDriverPasswd", mockDriver.getPassword());
         assertEquals("newDriver", mockDriver.getName());
         assertEquals("7800101234", mockDriver.getPhoneNumber());
-        assertEquals(true, mockDriver.isUserType());
+        assertTrue(mockDriver.isUserType());
         assertEquals(11, mockDriver.getDeposit(), 1);
-        assertEquals(6.0, (double)mockDriver.getRating(), 1);
+        assertEquals(6.0, mockDriver.getRating(), 1);
         assertEquals(1, mockDriver.getRatingCounts());
         assertEquals("newMake", mockDriver.getCar().getMake());
         assertEquals("newModel", mockDriver.getCar().getModel());
@@ -172,7 +155,7 @@ public class DriverTest {
         assertEquals("newModel", mockDriver.getCurRequest().getCar().getModel());
         assertEquals("newColor", mockDriver.getCurRequest().getCar().getColor());
         assertEquals("newPlate", mockDriver.getCurRequest().getCar().getPlateNumber());
-        assertEquals(1.0, (double)mockDriver.getCurRequest().getEstimatedFare(), 1);
+        assertEquals(1.0, mockDriver.getCurRequest().getEstimatedFare(), 1);
         assertEquals(51, mockDriver.getDriverTripList().get(0).getPickUpLoc().getLat(), 1);
         assertEquals(111, mockDriver.getDriverTripList().get(0).getPickUpLoc().getLng(), 1);
         assertEquals(4, mockDriver.getDriverTripList().get(0).getDropOffLoc().getLat(), 1);
@@ -184,7 +167,7 @@ public class DriverTest {
         assertEquals("newModel", mockDriver.getDriverTripList().get(0).getCar().getModel());
         assertEquals("newColor", mockDriver.getDriverTripList().get(0).getCar().getColor());
         assertEquals("newPlate", mockDriver.getDriverTripList().get(0).getCar().getPlateNumber());
-        assertEquals(3.0, (double)mockDriver.getDriverTripList().get(0).getCost(), 1);
-        assertEquals(4.0, (double)mockDriver.getDriverTripList().get(0).getRating(), 1);
+        assertEquals(3.0, mockDriver.getDriverTripList().get(0).getCost(), 1);
+        assertEquals(4.0, mockDriver.getDriverTripList().get(0).getRating(), 1);
     }
 }

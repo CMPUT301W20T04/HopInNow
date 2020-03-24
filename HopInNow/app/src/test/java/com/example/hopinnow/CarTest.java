@@ -25,18 +25,10 @@ public class CarTest {
     @Test
     public void testEmpty() {
         Car car = new Car();
-        assertThrows(NullPointerException.class, () -> {
-            car.getMake();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            car.getColor();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            car.getModel();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            car.getPlateNumber();
-        });
+        assertThrows(NullPointerException.class, car::getMake);
+        assertThrows(NullPointerException.class, car::getColor);
+        assertThrows(NullPointerException.class, car::getModel);
+        assertThrows(NullPointerException.class, car::getPlateNumber);
     }
 
     /**

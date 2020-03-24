@@ -42,11 +42,6 @@ import static org.junit.Assert.assertFalse;
 public class Test4_RiderActivityTest {
     private Solo solo;
 
-    //TODO fragment
-    //TODO toast message check
-    //TODO hanging up phone / driver calling
-    //TODO email cannot go back
-    //TODO QR image popping
 
     @Rule
     public ActivityTestRule<LoginActivity> rule =
@@ -81,9 +76,9 @@ public class Test4_RiderActivityTest {
      */
     private void loginUser() throws InterruptedException {
         // Log in To Activity
-        String userEmail = "folanqi123@ualberta.ca";
+        String userEmail = "v@v.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
-        String userPassword = "12345678";
+        String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
         solo.goBack();
         solo.clickOnView(solo.getView(R.id.loginButton));
@@ -99,9 +94,7 @@ public class Test4_RiderActivityTest {
     private void logoutUser() throws InterruptedException {
 
         solo.clickOnView(solo.getView(R.id.riderMenuBtn));
-        solo.clickOnView(solo.getView(R.id.riderMyProfile));
-        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
-
+        solo.clickOnMenuItem("Log Out");
         Thread.sleep(2000);
     }
 
@@ -112,8 +105,10 @@ public class Test4_RiderActivityTest {
      *      throws exception if thread is interrupted
      */
     private void addNewRequest() throws InterruptedException {
-        solo.enterText((EditText) solo.getView(R.id.mock_pickUp), "Hub Edmonton");
-        solo.enterText((EditText) solo.getView(R.id.mock_dropOff), "Lister Edmonton");
+        solo.clickOnButton("Pick Up at My Location");
+        String address = solo.getView(R.id.pick_up_auto_complete).toString();
+        solo.enterText((EditText) solo.getView(R.id.mock_pickUp), address);
+        solo.enterText((EditText) solo.getView(R.id.mock_dropOff), address);
         Thread.sleep(2000);
         solo.clickOnButton("HOP IN NOW!");
         Thread.sleep(2000);
@@ -128,25 +123,22 @@ public class Test4_RiderActivityTest {
     private  void checkPayment() throws InterruptedException {
         solo.clickOnButton("10%");
         solo.clickOnView(solo.getView(R.id.rider_payment_calculate));
-        assertTrue(solo.waitForText("2.71", 1, 2000));
+        assertTrue(solo.waitForText("3.85", 1, 2000));
 
         solo.clickOnButton("15%");
         solo.clickOnView(solo.getView(R.id.rider_payment_calculate));
-        assertTrue(solo.waitForText("2.83", 1, 2000));
+        assertTrue(solo.waitForText("4.03", 1, 2000));
 
         solo.clickOnButton("20%");
         solo.clickOnView(solo.getView(R.id.rider_payment_calculate));
-        assertTrue(solo.waitForText("2.95", 1, 2000));
+        assertTrue(solo.waitForText("4.2", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.rider_payment_else));
         solo.enterText((EditText)solo.getView(R.id.rider_payment_other_editText),"10");
         solo.clickOnView(solo.getView(R.id.rider_payment_calculate));
-        assertTrue(solo.waitForText("2.71", 1, 3000));
+        assertTrue(solo.waitForText("3.85", 1, 3000));
 
         solo.clickOnButton("CONFIRM");
-        assertTrue(solo.waitForText("Rating", 1, 2000));
-
-        //check qr image popping
 
         Thread.sleep(2000);
     }
@@ -159,33 +151,15 @@ public class Test4_RiderActivityTest {
      * Auto complete fragment testing is currently in question and mocks are used.
      * @throws InterruptedException
      *      throws exception if thread is interrupted
-     *
-     *      todo: autocompletefragment cannot be entered with text
      */
     @Test
     public void Case1() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         loginUser();
-
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
 
-        solo.enterText((EditText) solo.getView(R.id.mock_pickUp), "Hub Edmonton");
-        solo.enterText((EditText) solo.getView(R.id.mock_dropOff), "Lister Edmonton");
-        //solo.enterText((EditText) solo.getView(R.id.pick_up_auto_complete), "Hub Edmonton");
-        //solo.enterText((EditText) solo.getView(R.id.drop_off_auto_complete), "Lister Edmonton");
-        //assertTrue(solo.waitForText("Hub Edmonton", 1, 2000));
-        //assertTrue(solo.waitForText("Cab Edmonton", 1, 2000));
-
-        //solo.clearEditText((EditText) solo.getView(R.id.pick_up_auto_complete));
-        //solo.clearEditText((EditText) solo.getView(R.id.drop_off_auto_complete));
-        //assertFalse(solo.searchText("Edmonton"));
-        //assertFalse(solo.searchText("Edmonton"));
-
-        View fab = solo.getView(R.id.riderMenuBtn);
-        solo.clickOnView(fab);
-        assertTrue(solo.waitForText("Menu", 1, 2000));
-        solo.goBack();
-        solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
+        solo.clickOnButton("Pick Up at My Location");
+        String address = solo.getView(R.id.pick_up_auto_complete).toString();
+        Thread.sleep(2000);
 
         logoutUser();
 
@@ -211,10 +185,10 @@ public class Test4_RiderActivityTest {
 
         solo.clickOnView(solo.getView(R.id.add_money));
         //String newFare = Double.toString(fare+1);
-        assertTrue(solo.waitForText("3.68", 1, 2000));
+        assertTrue(solo.waitForText("4.5", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.reduce_money));
-        assertTrue(solo.waitForText("2.68", 1, 2000));
+        assertTrue(solo.waitForText("3.5", 1, 2000));
 
         solo.clickOnButton("CANCEL REQUEST");
         assertTrue(solo.waitForText("HOP IN NOW!", 1, 2000));
