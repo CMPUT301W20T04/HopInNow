@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -64,6 +67,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private NavigationView navigationView;
     private DriverDatabaseAccessor userDatabaseAccessor;
     public static final String TAG = "DriverMenuActivity";
+    private DrawerLayout drawerLayout;
     /**
      * set the visibility of goOnline button into invisible
      */
@@ -103,19 +107,22 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 switchFragment(R.layout.fragment_driver_requests);
             }
         });
-        // a button listener
-        driverMenuBtn = findViewById(R.id.driverMenuBtn);
-        driverMenuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), DriverMenuActivity.class);
-                startActivity(startIntent);
-            }
-        });
 
         this.userDatabaseAccessor = new DriverDatabaseAccessor();
         navigationView = findViewById(R.id.nav_view_driver);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // a button listener
+        drawerLayout = (DrawerLayout) findViewById(R.id.driver_drawer_layout);
+        driverMenuBtn = findViewById(R.id.driverMenuBtn);
+        driverMenuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // If the navigation drawer is not open then open it, if its already open then close it.
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
     }
 
     @Override
@@ -274,14 +281,21 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 Log.d(TAG, "Car info btn clicked!");
                 userDatabaseAccessor.getDriverProfile(DriverMapActivity.this);
                 break;
+            case R.id.go_offline:
+                Intent intent3 = new Intent(getApplicationContext(), DriverMapActivity.class);
+                intent3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent3);
+                this.overridePendingTransition(0, 0);
+                finish();
+                break;
             case R.id.driver_logout:
                 userDatabaseAccessor.logoutUser();
                 // go to the login activity again:
                 Toast.makeText(getApplicationContext(),
                         "You are Logged out!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent4 = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent4);
+                intent4.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
                 break;
         }
@@ -315,4 +329,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void onDriverProfileUpdateFailure() {
 
     }
+
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        overridePendingTransition(0, 0);
+//    }
 }

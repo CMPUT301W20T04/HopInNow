@@ -12,6 +12,9 @@
             android:id="@+id/car_info"
             android:title="Car Information"/>
         <item
+            android:id="@+id/go_offline"
+            android:title="Offline"/>
+        <item
             android:id="@+id/driver_logout"
             android:title="Log Out"/>
 
