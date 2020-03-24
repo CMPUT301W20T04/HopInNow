@@ -8,6 +8,8 @@ import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -140,26 +142,29 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
         this.firestore
                 .collection(referenceName)
                 .whereEqualTo("driverEmail", null)
-                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                .addSnapshotListener((value, e) -> {
+                    Log.v(TAG, "an event happened!");
                     if (e != null) {
-                        Log.v(TAG, "All requests update fails.");
+                        Log.v(TAG, "event listening failed.", e);
                         listener.onAllRequestsUpdateError();
                         return;
                     }
                     ArrayList<Request> requests = new ArrayList<>();
-                    for (QueryDocumentSnapshot doc : requireNonNull(queryDocumentSnapshots)) {
-                        Request request = doc.toObject(Request.class);
-                        if (doc.get("riderEmail") != null) {
+                    for (QueryDocumentSnapshot doc : requireNonNull(value)) {
+                        if (doc.exists() && doc.get("riderEmail") != null) {
+                            Request request = doc.toObject(Request.class);
+                            Log.v(TAG, (String) requireNonNull(doc.get("riderEmail")));
                             LatLong tempLatLong = request.getPickUpLoc();
                             request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
                                     + (latLong.getLng() - tempLatLong.getLng()));
                             requests.add(request);
                         }
                     }
+                    Log.v(TAG, "requests updated!");
                     // sort all requests according to manhattan distance
                     Collections.sort(requests);
-                    Log.v(TAG, "All requests updated!!!");
                     listener.onAllRequestsUpdateSuccess(requests);
                 });
+
     }
 }

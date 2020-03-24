@@ -54,19 +54,13 @@ public class RiderDatabaseAccessor extends UserDatabaseAccessor {
                     .collection(referenceName)
                     .document(this.currentUser.getUid())
                     .set(rider)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.v(TAG, "User info updated!");
-                            listener.onRiderProfileUpdateSuccess(rider);
-                        }
+                    .addOnSuccessListener(aVoid -> {
+                        Log.v(TAG, "User info updated!");
+                        listener.onRiderProfileUpdateSuccess(rider);
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "User info did not update successfully!");
-                            listener.onRiderProfileUpdateFailure();
-                        }
+                    .addOnFailureListener(e -> {
+                        Log.v(TAG, "User info did not update successfully!");
+                        listener.onRiderProfileUpdateFailure();
                     });
         } else {    // the rider is not logged in
             Log.v(TAG, "User is not logged in!");
@@ -87,21 +81,15 @@ public class RiderDatabaseAccessor extends UserDatabaseAccessor {
                     .collection(super.referenceName)
                     .document(this.currentUser.getUid())
                     .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Log.v(TAG, "Get User Successfully!");
-                            if (documentSnapshot.exists()) {
-                                listener.onRiderProfileRetrieveSuccess(documentSnapshot
-                                        .toObject(Rider.class));
-                            }
+                    .addOnSuccessListener(documentSnapshot -> {
+                        Log.v(TAG, "Get User Successfully!");
+                        if (documentSnapshot.exists()) {
+                            listener.onRiderProfileRetrieveSuccess(documentSnapshot
+                                    .toObject(Rider.class));
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "Get User Failed!");
-                            listener.onRiderProfileRetrieveFailure();
-                        }
+                    }).addOnFailureListener(e -> {
+                        Log.v(TAG, "Get User Failed!");
+                        listener.onRiderProfileRetrieveFailure();
                     }));
         } else {    // the rider is not logged in
             Log.v(TAG, "User is not logged in!");
@@ -120,19 +108,16 @@ public class RiderDatabaseAccessor extends UserDatabaseAccessor {
                 .collection(referenceName)
                 .whereEqualTo("email", email)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document :
-                                    Objects.requireNonNull(task.getResult())) {
-                                Log.d(TAG, "Rider got!");
-                                listener.onRiderObjRetrieveSuccess(document.toObject(Rider.class));
-                            }
-                        } else {
-                            Log.d(TAG, "Rider did not get!");
-                            listener.onRiderObjRetrieveFailure();
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document :
+                                Objects.requireNonNull(task.getResult())) {
+                            Log.d(TAG, "Rider got!");
+                            listener.onRiderObjRetrieveSuccess(document.toObject(Rider.class));
                         }
+                    } else {
+                        Log.d(TAG, "Rider did not get!");
+                        listener.onRiderObjRetrieveFailure();
                     }
                 });
     }

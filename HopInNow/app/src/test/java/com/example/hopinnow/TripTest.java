@@ -36,36 +36,16 @@ public class TripTest {
     @Test
     public void testEmpty() {
         Trip trip = new Trip();
-        assertThrows(NullPointerException.class, () -> {
-            trip.getRating();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getCost();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getDropOffTime();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getDuration();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getDropOffLoc();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getDropOffLocName();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getPickUpDateTime();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getPickUpLoc();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getPickUpLocName();
-        });
-        assertThrows(NullPointerException.class, () -> {
-            trip.getRiderEmail();
-        });
+        assertThrows(NullPointerException.class, trip::getRating);
+        assertThrows(NullPointerException.class, trip::getCost);
+        assertThrows(NullPointerException.class, trip::getDropOffTime);
+        assertThrows(NullPointerException.class, trip::getDuration);
+        assertThrows(NullPointerException.class, trip::getDropOffLoc);
+        assertThrows(NullPointerException.class, trip::getDropOffLocName);
+        assertThrows(NullPointerException.class, trip::getPickUpDateTime);
+        assertThrows(NullPointerException.class, trip::getPickUpLoc);
+        assertThrows(NullPointerException.class, trip::getPickUpLocName);
+        assertThrows(NullPointerException.class, trip::getRiderEmail);
     }
 
     /**
