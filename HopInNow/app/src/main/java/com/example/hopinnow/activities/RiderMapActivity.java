@@ -206,13 +206,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             //mock, for UI test
             if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
                 pickUpLocName = pickUpMock.getText().toString();
-                pickUpLoc = new LatLng(53.5258, -113.5207);
+                pickUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
                 dropOffLocName = dropOffMock.getText().toString();
-                dropOffLoc = new LatLng(53.5224, -113.5305);
+                dropOffLoc = new LatLng(current.getLatitude(),current.getLongitude());
             }
-            //FIXME
-            // if both locations eneterd, then one cleared, validation below would not work
-            // maybe gettext in autocompletefragment for validation
+
             if ((pickUpLocName!=null)&&(dropOffLocName!=null)){
                 if (validLocations()){
                     switchMarkerDraggable();
@@ -805,9 +803,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onRiderPickedupTimeoutOrFail() {
-
-    }
+    public void onRiderPickedupTimeoutOrFail() {}
 
     @Override
     public void onRiderRequestComplete() {
@@ -820,12 +816,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         intent.putExtra("Rider", rider);
         startActivity(intent);
         finish();
-}
+    }
 
     @Override
-    public void onRiderRequestCompletionError() {
-
-    }
+    public void onRiderRequestCompletionError() {}
 
 
     @Override
@@ -837,9 +831,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onDriverObjRetrieveFailure() {
-
-    }
+    public void onDriverObjRetrieveFailure() {}
 
     @Override
     public void onRequestAddedSuccess() {
@@ -854,8 +846,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onRequestAddedFailure() {
-    }
+    public void onRequestAddedFailure() {}
 
     @Override
     public void onRequestDeleteSuccess() {
@@ -864,29 +855,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onRequestDeleteFailure() {
-
-    }
+    public void onRequestDeleteFailure() {}
 
     @Override
-    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-
-    }
+    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {}
 
     @Override
-    public void onGetRequiredRequestsFailure() {
-
-    }
+    public void onGetRequiredRequestsFailure() {}
 
     @Override
-    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
-        
-    }
+    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {}
 
     @Override
-    public void onAllRequestsUpdateError() {
-
-    }
+    public void onAllRequestsUpdateError() {}
 
     @Override
     public void onLocationChanged(Location location) {
@@ -894,19 +875,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
     @Override
-    public void onProviderEnabled(String provider) {
-
-    }
+    public void onProviderEnabled(String provider) {}
 
     @Override
-    public void onProviderDisabled(String provider) {
-
-    }
+    public void onProviderDisabled(String provider) {}
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

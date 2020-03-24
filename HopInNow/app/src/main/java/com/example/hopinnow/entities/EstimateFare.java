@@ -25,8 +25,8 @@ public class EstimateFare {
     @SuppressLint("DefaultLocale")
     public Double estimateFare(LatLng pickUpLoc, LatLng dropOffLoc){
         Double price;
-        Double baseFare = 2.0;
-        Double costPerMile = 1.25;
+        Double baseFare = 2.5;
+        Double costPerMile = 1.4;
         Double bookingFee = 1.0;
 
         //Manhattan distance is used here to replace Directs API (which is no longer free)
