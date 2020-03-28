@@ -53,4 +53,8 @@
     <string name="single_request_in_request_list_to">To:</string>
     <string name="Request_list_each_accept_button">ACCEPT</string>
 
+    <string name="title_activity_first_page">firstPageActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
