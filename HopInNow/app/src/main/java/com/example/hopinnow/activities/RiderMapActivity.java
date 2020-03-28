@@ -117,6 +117,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private NavigationView navigationView;
     private UserDatabaseAccessor userDatabaseAccessor;
     private DrawerLayout drawerLayout;
+    private TextView menuUserName;
 
     @SuppressLint({"CheckResult", "MissingPermission"})
     @Override
@@ -225,10 +226,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         drawerLayout = (DrawerLayout) findViewById(R.id.rider_drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         // sets button for viewing rider profile
         FloatingActionButton riderMenuBtn = findViewById(R.id.riderMenuBtn);
         riderMenuBtn.setOnClickListener(v -> {
+            menuUserName = findViewById(R.id.menuUserNameTextView);
+            menuUserName.setText(rider.getName());
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
