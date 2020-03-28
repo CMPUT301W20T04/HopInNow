@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
@@ -30,6 +31,7 @@ import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
+import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
@@ -43,7 +45,8 @@ import java.util.Date;
  * Author: Tianyu Bai
  * This class defines the activity for rider payment after confirming arrival at drop off location.
  */
-public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener {
+public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener,
+        DriverObjectRetreieveListener {
     private Request curRequest;
     private Driver driver;
     private Rider rider;
@@ -55,6 +58,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private TextView totalPaymentTextView;
     private Date dropOffDateTime;
     private Double myRating;
+    private RiderDatabaseAccessor riderDatabaseAccessor;
+    private DriverDatabaseAccessor driverDatabaseAccessor;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -76,6 +81,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                     "12345678", true, 10.0,  null, car, null);
         }
+        this.riderDatabaseAccessor = new RiderDatabaseAccessor();
+        this.riderDatabaseAccessor.getRiderProfile(this);
 
         // set local variables
         baseFare = curRequest.getEstimatedFare();
@@ -242,6 +249,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         //TODO THIS METHOD TRIGGER BY DRIVER COMPLETE SCANNING, LISTENER ON REQUEST TO TRIP
         double newDepositAmount = rider.getDeposit()-totalPayment;
         rider.setDeposit(newDepositAmount);
+        riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
 
         String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
@@ -400,7 +408,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * Called when profile update successes.
      */
     @Override
-    public void onRiderProfileUpdateSuccess(Rider rider) {}
+    public void onRiderProfileUpdateSuccess(Rider rider) {
+
+    }
 
 
     /**
@@ -414,4 +424,13 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     }
 
+    @Override
+    public void onDriverObjRetrieveSuccess(Driver driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public void onDriverObjRetrieveFailure() {
+
+    }
 }
