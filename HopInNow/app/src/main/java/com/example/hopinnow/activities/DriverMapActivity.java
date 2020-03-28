@@ -68,6 +68,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private DriverDatabaseAccessor userDatabaseAccessor;
     public static final String TAG = "DriverMenuActivity";
     private DrawerLayout drawerLayout;
+    private TextView menuUserName;
     /**
      * set the visibility of goOnline button into invisible
      */
@@ -107,17 +108,19 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 switchFragment(R.layout.fragment_driver_requests);
             }
         });
-
+        drawerLayout = (DrawerLayout) findViewById(R.id.driver_drawer_layout);
         this.userDatabaseAccessor = new DriverDatabaseAccessor();
         navigationView = findViewById(R.id.nav_view_driver);
         navigationView.setNavigationItemSelectedListener(this);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         // a button listener
-        drawerLayout = (DrawerLayout) findViewById(R.id.driver_drawer_layout);
         driverMenuBtn = findViewById(R.id.driverMenuBtn);
         driverMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                menuUserName = findViewById(R.id.menuUserNameTextView);
+                menuUserName.setText(driver.getName());
                 // If the navigation drawer is not open then open it, if its already open then close it.
                 drawerLayout.openDrawer(GravityCompat.START);
             }
