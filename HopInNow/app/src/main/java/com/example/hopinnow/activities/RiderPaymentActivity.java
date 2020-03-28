@@ -40,6 +40,8 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Author: Tianyu Bai
@@ -126,7 +128,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 qrImage.setBackgroundResource(R.color.ColorBlack);
                 confirmPaymentBtn.setVisibility(View.GONE);
                 showTotalBtn.setEnabled(false);
-                //onScanningCompleted();
+                onScanningCompleted();
             }
             });
 
@@ -172,6 +174,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         cancelBtn.setOnClickListener(v -> completeRequest());
 
         dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+
+
     }
 
 
@@ -305,6 +310,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
 
+        boolean phoneEnabled = ((ActivityCompat.checkSelfPermission(RiderPaymentActivity.this,
+                Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED));
+
         //set driver name
         TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
         driverName.setText(d.getName());
@@ -358,12 +366,14 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                     .subscribe(granted -> {
                         if (granted) {
                             startActivity(callIntent);
+                        } else {
+                            String driverNumber = driver.getPhoneNumber();
+                            Toast.makeText(this,"Driver's Phone Number: " + driverNumber,
+                                    Toast.LENGTH_LONG).show();
                         }
                     });
         } else {
-            String driverNumber = driver.getPhoneNumber();
-            Toast.makeText(this,"Driver's Number: " + driverNumber,
-                    Toast.LENGTH_LONG).show();
+            startActivity(callIntent);
         }
     }
 
