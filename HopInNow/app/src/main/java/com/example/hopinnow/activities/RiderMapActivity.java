@@ -242,9 +242,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
             curRequest = retrieveCurrentRequestLocal();
-            searchFragment.setVisibility(View.INVISIBLE);
+            searchFragment.setVisibility(View.GONE);
             //MOCK
-            findViewById(R.id.mock).setVisibility(View.INVISIBLE);
+            findViewById(R.id.mock).setVisibility(View.GONE);
         }
     }
 
@@ -426,7 +426,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (curRequest != null) {
             curRequest = retrieveCurrentRequestLocal();
         }
-        if (myLocPickUpBtn.getVisibility() == View.INVISIBLE){
+        if (myLocPickUpBtn.getVisibility() != View.VISIBLE){
             myLocPickUpBtn.setVisibility(View.VISIBLE);
         }
     }
@@ -536,10 +536,22 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         return curRequest;
     }
 
+
+    /**
+     * Retrieves information of the driver.
+     * @return
+     *      driver information from firebase
+     */
     public Driver retrieveOfferedDriver(){
         return driver;
     }
 
+
+    /**
+     * Retrieves information of the logged in rider.
+     * @return
+     *      rider information from firebase
+     */
     public Rider retrieveRider(){
         return rider;
     }
@@ -575,6 +587,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
+    /*
+    Stackoverflow post by Dira
+    https://stackoverflow.com/questions/8701634/send-email-intent
+    Answer by Dira (code from the question itself)
+     */
     /**
      * Prompts email app selection and directs to email drafting page with auto0filled email address
      * of the driver.
@@ -582,9 +599,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      the driver's email address
      */
     public void emailDriver(String email){
-        //Stackoverflow post by Dira
-        //https://stackoverflow.com/questions/8701634/send-email-intent
-        //Answer by Dira (code from the question itself)
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/html");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
@@ -847,9 +861,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         switchFragment(R.layout.fragment_rider_waiting_driver);
         // change intent to new activity
         View searchFragment = findViewById(R.id.search_layout);
-        searchFragment.setVisibility(View.INVISIBLE);
+        searchFragment.setVisibility(View.GONE);
         //Mock
-        findViewById(R.id.mock).setVisibility(View.INVISIBLE);
+        findViewById(R.id.mock).setVisibility(View.GONE);
         this.progressbarDialog.dismissDialog();
         riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
     }

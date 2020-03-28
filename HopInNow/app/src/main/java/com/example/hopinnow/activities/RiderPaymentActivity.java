@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
+import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
@@ -48,7 +50,7 @@ import java.util.TimerTask;
  * This class defines the activity for rider payment after confirming arrival at drop off location.
  */
 public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener,
-        DriverObjectRetreieveListener {
+        DriverObjectRetreieveListener, DriverRequestListener {
     private Request curRequest;
     private Driver driver;
     private Rider rider;
@@ -176,6 +178,18 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
 
+        // if no response on rating for three minutes, then no rating would be available for the trip
+        new CountDownTimer(180000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {}
+            @Override
+            public void onFinish() {
+                Toast.makeText(RiderPaymentActivity.this,"Rating cancelled due to " +
+                                "inactivity over 3 minutes.",
+                        Toast.LENGTH_SHORT).show();
+                completeRequest();
+            }
+    }.start();
 
     }
 
@@ -259,6 +273,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
+        //todo for testing
         showRatingDialog();
     }
 
@@ -440,7 +455,31 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     }
 
     @Override
-    public void onDriverObjRetrieveFailure() {
+    public void onDriverObjRetrieveFailure() {}
 
+    @Override
+    public void onDriverRequestAccept() {}
+
+    @Override
+    public void onDriverRequestTimeoutOrFail() {}
+
+    @Override
+    public void onRequestAlreadyTaken() {}
+
+    @Override
+    public void onRequestCanceledByRider() {}
+
+    @Override
+    public void onDriverPickupSuccess() {}
+
+    @Override
+    public void onDriverPickupFail() {}
+
+    @Override
+    public void onDriverRequestCompleteSuccess() {
+        showRatingDialog();
     }
+
+    @Override
+    public void onDriverRequestCompleteFailure() {}
 }
