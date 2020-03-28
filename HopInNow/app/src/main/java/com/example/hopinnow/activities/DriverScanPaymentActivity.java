@@ -12,15 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class DriverScanPaymentActivity extends AppCompatActivity
-        implements ZXingScannerView.ResultHandler{
+        implements ZXingScannerView.ResultHandler, DriverRequestListener {
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
@@ -34,11 +36,9 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_scanning);
-        //TODO PASS DRIVER FROM DRIVER MAP ACTIVITY
         driver = (Driver) getIntent().getSerializableExtra("Driver");
-        //todo get request from firebase
         //curRequest
-        //curRequest =
+        curRequest = driver.getCurRequest();
 
         rxPermissions = new RxPermissions(DriverScanPaymentActivity.this);
         cameraView = findViewById(R.id.camera_scan_view);
@@ -64,16 +64,23 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
         String result[] = encoded.split(":");
-        if (true){ //driver.getEmail.equals(result[0])
+        if (driver.getEmail().equals(result[0])){ //
+
             //todo trigger rider rating by removing request from firebase
             //double prevDeposit = driver.getDeposit();
             //driver.setDeposit(prevDeposit + Double.valueOf(result[1]));
             Toast.makeText(this, "You have successfully received " + result[1] +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
+
+            //call request complete api
             //todo:
             //  Wait for firebase listener of "myrating" to be completed, move completed request
             //      from available request to trips
-            // Change below intent in listener
+
+            DriverRequestDatabaseAccessor driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+            //driver complete the request and trigger the rider to rate.
+            driverRequestDatabaseAccessor.driverCompleteRequest(curRequest,this);
+
             Intent intent = new Intent(DriverScanPaymentActivity.this, DriverMapActivity.class);
             startActivity(intent);
         } else {
@@ -115,4 +122,43 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onDriverRequestAccept() {
+
+    }
+
+    @Override
+    public void onDriverRequestTimeoutOrFail() {
+
+    }
+
+    @Override
+    public void onRequestAlreadyTaken() {
+
+    }
+
+    @Override
+    public void onRequestCanceledByRider() {
+
+    }
+
+    @Override
+    public void onDriverPickupSuccess() {
+
+    }
+
+    @Override
+    public void onDriverPickupFail() {
+
+    }
+
+    @Override
+    public void onDriverRequestCompleteSuccess() {
+
+    }
+
+    @Override
+    public void onDriverRequestCompleteFailure() {
+
+    }
 }
