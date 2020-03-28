@@ -41,7 +41,6 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                             listener.onDriverRequestTimeoutOrFail();
                             return;
                         }
-                        assert request1 != null;
                         // check the driverEmail of the request see if it already exists:
                         if (request1.getDriverEmail() != null) {
                             Log.v(TAG, "Request is already taken!");
@@ -118,12 +117,13 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     /**
      * Driver can delete a request after it is completed
      * @param request
-     *      teh request completed, ready to delete
+     *      the request completed, ready to delete
      * @param listener
      *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void driverCompleteRequest(Request request, final DriverRequestListener listener) {
-        request.setDriverEmail(null);
+        // because the request is now complete:
+        request.setComplete(true);
         this.firestore
                 .collection(referenceName)
                 .document(request.getRequestID())
