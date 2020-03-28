@@ -180,12 +180,12 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.otherDriver = driver;
-        otherName.setText(this.otherDriver.getName());
+        otherName.setText("Driver Name: "+this.otherDriver.getName());
         otherRating.setNumStars(5);
         float rating3 = (float)this.otherDriver.getRating().doubleValue();
         otherRating.setRating(rating3);
         otherRating.setVisibility(View.VISIBLE);
-        otherPhone.setText(this.otherDriver.getPhoneNumber());
+        otherPhone.setText("Driver Phone Number: "+this.otherDriver.getPhoneNumber());
     }
 
     @Override
@@ -196,8 +196,8 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onRiderObjRetrieveSuccess(Rider rider) {
         this.otherRider = rider;
-        otherName.setText(this.otherRider.getName());
-        otherPhone.setText(this.otherRider.getPhoneNumber());
+        otherName.setText("Rider Name: "+this.otherRider.getName());
+        otherPhone.setText("Rider Phone Number: "+this.otherRider.getPhoneNumber());
     }
 
     @Override
