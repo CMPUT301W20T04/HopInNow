@@ -40,7 +40,7 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorDark));
         setContentView(R.layout.activity_pager);
         // Enter the App for the first time and show the guide page
-        whether_first_use = SharedPreference.readSetting(PagerActivity.this, false);
+        whether_first_use = SharedPreference.readSetting(PagerActivity.this, false,"page_settings");
 
         if (whether_first_use) {
             finish();
@@ -69,7 +69,7 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.finishButton:
-                SharedPreference.saveSetting(PagerActivity.this,true);
+                SharedPreference.saveSetting(PagerActivity.this,true,"page_settings");
                 finish();
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
