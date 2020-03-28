@@ -3,6 +3,7 @@ package com.example.hopinnow.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +36,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     private TextView dropOffLocation;
     private TextView otherName;
     private TextView otherPhone;
-    private TextView otherRating;
+    private RatingBar otherRating;
     private Driver driver;
     private Rider rider;
     private Driver otherDriver;
@@ -60,7 +61,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         cost = findViewById(R.id.cost);
         otherName = findViewById(R.id.otherName);
         otherPhone = findViewById(R.id.otherPhoneNumber);
-        otherRating = findViewById(R.id.otherRating);
+        otherRating = findViewById(R.id.ratingBar2);
         otherRating.setVisibility(View.INVISIBLE);
 
         //get the key
@@ -82,7 +83,6 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         dropOffLocation.setText(String.format("Drop Off Location: %s",trip.getDropOffLocName()));
         rating.setText("Rating: "+trip.getRating().toString());
         cost.setText("Revenue: "+trip.getCost().toString());
-        System.out.println(trip.getRiderEmail());
         riderDatabaseAccessor.getRiderObject(trip.getRiderEmail(),this);
 
     }
@@ -180,9 +180,11 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.otherDriver = driver;
-        System.out.println("123 "+this.otherDriver.getEmail());
         otherName.setText(this.otherDriver.getName());
-        otherRating.setText(this.otherDriver.getRating().toString());
+        otherRating.setNumStars(5);
+        float rating3 = (float)this.otherDriver.getRating().doubleValue();
+        otherRating.setRating(rating3);
+        otherRating.setVisibility(View.VISIBLE);
         otherPhone.setText(this.otherDriver.getPhoneNumber());
     }
 
@@ -194,7 +196,6 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onRiderObjRetrieveSuccess(Rider rider) {
         this.otherRider = rider;
-        System.out.println("123 "+this.otherRider.getEmail());
         otherName.setText(this.otherRider.getName());
         otherPhone.setText(this.otherRider.getPhoneNumber());
     }
