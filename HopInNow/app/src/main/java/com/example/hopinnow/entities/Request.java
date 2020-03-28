@@ -12,7 +12,8 @@ public class Request extends Ride implements Comparable<Request>{
     private String requestID;
     private boolean isPickedUp;
     private double mdToDriver;
-
+    private boolean isComplete;
+    
 //public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc,
     // Date dateTime, Car car, Double estimatedFare){}
 
@@ -49,6 +50,7 @@ public class Request extends Ride implements Comparable<Request>{
         try{
             this.estimatedFare = estimatedFare;
             this.isPickedUp = false;
+            this.isComplete = false;
         }
         catch(Exception e){
             throw e;
@@ -116,5 +118,23 @@ public class Request extends Ride implements Comparable<Request>{
     @Override
     public int compareTo(Request request) {
         return (Double.compare(this.getMdToDriver(), request.getMdToDriver()));
+    }
+
+    /**
+     * get isComplete
+     * @return iscomplete
+     *      return if the request is complete
+     */
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    /**
+     * set complete
+     * @param complete
+     *      indicate if the request if complete:
+     */
+    public void setComplete(boolean complete) {
+        isComplete = complete;
     }
 }
