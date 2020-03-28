@@ -38,6 +38,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         driver = (Driver) getIntent().getSerializableExtra("Driver");
         //todo get request from firebase
         //curRequest
+        //curRequest =
 
         rxPermissions = new RxPermissions(DriverScanPaymentActivity.this);
         cameraView = findViewById(R.id.camera_scan_view);
