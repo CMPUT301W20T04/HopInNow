@@ -75,17 +75,13 @@ public class Driver extends User {
      * @return
      */
     public Car getCar() {
-        if (car == null){
-            throw new NullPointerException();
-        }
-        else{
-            return car;
-        }
+        return this.car;
     }
 
     /**
      * set car information
      * @param car
+     *      the car object to set
      */
     public void setCar(Car car) {
         try{
@@ -99,6 +95,7 @@ public class Driver extends User {
     /**
      * get driver
      * @return
+     *      the current car object held by this class instance
      */
     public ArrayList<Trip> getDriverTripList() {
         if (driverTripList == null){
