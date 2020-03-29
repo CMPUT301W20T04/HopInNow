@@ -42,4 +42,14 @@ public interface RiderRequestListener {
      * Called when the current running reuqest goes wrong or it is timed out
      */
     void onRiderRequestCompletionError();
+
+    /**
+     * Called when the rider rates the request successfully
+     */
+    void onRequestRatedSuccess();
+
+    /**
+     * Called when an error happens when the rider tries to rate the request:
+     */
+    void onRequestRatedError();
 }

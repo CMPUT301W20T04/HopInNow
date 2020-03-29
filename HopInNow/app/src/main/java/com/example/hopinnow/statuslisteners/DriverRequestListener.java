@@ -45,4 +45,14 @@ public interface DriverRequestListener {
      * Called when the driver fails to complete the request
      */
     void onDriverRequestCompleteFailure();
+
+    /**
+     * Called when the request is successfully rated by the rider:
+     */
+    void onWaitOnRatingSuccess();
+
+    /**
+     * Called when the request receives an error while waiting for the rating:
+     */
+    void onWaitOnRatingError();
 }

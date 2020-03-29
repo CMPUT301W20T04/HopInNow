@@ -89,7 +89,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
-        AvailRequestListListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
+        AvailRequestListListener, LocationListener,
+        NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
@@ -843,6 +844,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderRequestCompletionError() {}
+
+    @Override
+    public void onRequestRatedSuccess() {
+
+    }
+
+    @Override
+    public void onRequestRatedError() {
+
+    }
 
 
     @Override
