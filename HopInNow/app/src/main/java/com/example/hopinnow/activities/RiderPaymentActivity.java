@@ -166,8 +166,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Button submitBtn= dialog.findViewById(R.id.dialog_rating_submit);
         submitBtn.setOnClickListener(v -> {
             myRating = (double) ratingBar.getRating();
-
-            if (myRating!=0){
+            System.out.println("myrating:"+myRating);
+            if (myRating!= -1.0){
                 setNewDriverRating(myRating);
                 completeRequest(myRating);
             } else {
