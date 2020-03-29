@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import com.example.hopinnow.R;
 //https://stackoverflow.com/questions/17357226/add-the-loading-screen-in-starting-of-the-android-application
 
-public class firstPageActivity extends AppCompatActivity {
+public class FirstPageActivity extends AppCompatActivity {
     private ImageView titleImage;
     private ImageView roadImage;
     @Override
@@ -45,7 +45,7 @@ public class firstPageActivity extends AppCompatActivity {
                     sleep(2000);  //Delay of 10 seconds
                 } catch (Exception e) {
                 } finally {
-                    Intent i = new Intent(firstPageActivity.this,
+                    Intent i = new Intent(FirstPageActivity.this,
                             PagerActivity.class);
                     startActivity(i);
                     finish();
