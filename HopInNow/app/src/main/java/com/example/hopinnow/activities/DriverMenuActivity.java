@@ -77,6 +77,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
      * when retrieve the driver profile successful,
      * open vehicle view activity to display the car information
      * @param driver
+     *      the driver object just retrieved
      */
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
