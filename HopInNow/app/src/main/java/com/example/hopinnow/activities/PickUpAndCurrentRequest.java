@@ -239,4 +239,14 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     public void onDriverRequestCompleteFailure() {
 
     }
+
+    @Override
+    public void onWaitOnRatingSuccess() {
+
+    }
+
+    @Override
+    public void onWaitOnRatingError() {
+
+    }
 }
