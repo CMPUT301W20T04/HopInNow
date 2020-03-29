@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
+import com.example.hopinnow.database.RiderRequestDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.LatLong;
@@ -33,13 +34,16 @@ import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
+import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -50,7 +54,8 @@ import java.util.TimerTask;
  * This class defines the activity for rider payment after confirming arrival at drop off location.
  */
 public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener,
-        DriverObjectRetreieveListener, DriverRequestListener {
+        DriverObjectRetreieveListener, DriverRequestListener, RiderRequestListener,
+        DriverProfileStatusListener {
     private Request curRequest;
     private Driver driver;
     private Rider rider;
@@ -64,6 +69,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private Double myRating;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
+    private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -77,7 +83,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
 
-        //TODO GET rider FROM FIREBASE, is it needed?
+        //TODO for testing without interaction
         driver = (Driver) getIntent().getSerializableExtra("Driver");
         rider = (Rider) getIntent().getSerializableExtra("Rider");
         if (driver == null){
@@ -87,6 +93,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         }
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.riderDatabaseAccessor.getRiderProfile(this);
+        this.driverDatabaseAccessor = new DriverDatabaseAccessor();
+        this.driverDatabaseAccessor.getDriverProfile(this);
+        this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
 
         // set local variables
         baseFare = curRequest.getEstimatedFare();
@@ -150,9 +159,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         // set driver name
         final TextView driverName= dialog.findViewById(R.id.dialog_rider_rating_driver);
         driverName.setText(driver.getName());
-        driverName.setOnClickListener(v -> {
-            showDriverInfo(driver);
-        });
+        driverName.setOnClickListener(v -> showDriverInfo(driver));
 
         //submit rating and complete request
         final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
@@ -162,7 +169,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
             if (myRating!=0){
                 setNewDriverRating(myRating);
-                completeRequest();
+                completeRequest(myRating);
             } else {
                 Toast.makeText(RiderPaymentActivity.this, "Please select your " +
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
@@ -172,8 +179,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         });
 
         //cancel rating and complete request
-        Button cancelBtn= dialog.findViewById(R.id.dialog_rating_cancel);
-        cancelBtn.setOnClickListener(v -> completeRequest());
+        Button cancelBtn = dialog.findViewById(R.id.dialog_rating_cancel);
+        cancelBtn.setOnClickListener(v -> completeRequest(-1.00));
 
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
@@ -187,7 +194,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 Toast.makeText(RiderPaymentActivity.this,"Rating cancelled due to " +
                                 "inactivity over 3 minutes.",
                         Toast.LENGTH_SHORT).show();
-                completeRequest();
+                completeRequest(-1.00);
             }
     }.start();
 
@@ -205,19 +212,25 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Double newRating = (prevRating + r)/(counts+1);
         driver.setRatingCounts(counts+1);
         driver.setRating(newRating);
+        driverDatabaseAccessor.updateDriverProfile(driver,RiderPaymentActivity.this);
     }
 
 
     /**
      * Completes current request and returns rider to the new request prompt page.
      */
-    private void completeRequest(){
+    private void completeRequest(double rating){
         String msg = "Your trip is completed!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-        Trip trip = toTrip();
-        //TODO update request completion in firebase inside availableRequest
-        //  save request to trip
+        curRequest.setRating(rating);
+        riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
+
+        Trip newTrip = toTrip();
+        ArrayList<Trip> riderTripList = rider.getRiderTripList();
+        riderTripList.add(newTrip);
+        rider.setRiderTripList(riderTripList);
+        riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
 
         // change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
@@ -265,7 +278,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * This method is trigger by driver finishing the scanning of the QR.
      */
     public void onScanningCompleted(){
-        //TODO THIS METHOD TRIGGER BY DRIVER COMPLETE SCANNING, LISTENER ON REQUEST TO TRIP
         double newDepositAmount = rider.getDeposit()-totalPayment;
         rider.setDeposit(newDepositAmount);
         riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
@@ -273,8 +285,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-        //todo for testing
-        showRatingDialog();
+        //todo for testing auto show rating dialog
+        //showRatingDialog();
     }
 
 
@@ -324,9 +336,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         final Driver d = myDriver;
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
-
-        boolean phoneEnabled = ((ActivityCompat.checkSelfPermission(RiderPaymentActivity.this,
-                Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED));
 
         //set driver name
         TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
@@ -411,43 +420,20 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     }
 
 
-    /**
-     * Called when profile retrieve successfully:
-     * @param rider
-     *      receives a user object containing all info about the current user.
-     */
     @Override
-    public void onRiderProfileRetrieveSuccess(Rider rider) {
-        this.rider = rider;
-    }
+    public void onRiderProfileRetrieveSuccess(Rider rider) { this.rider = rider;}
 
-
-    /**
-     * Called when profile retrieve failed:
-     */
     @Override
     public void onRiderProfileRetrieveFailure() {}
 
-
-    /**
-     * Called when profile update successes.
-     */
     @Override
-    public void onRiderProfileUpdateSuccess(Rider rider) {
+    public void onRiderProfileUpdateSuccess(Rider rider) {}
 
-    }
-
-
-    /**
-     * Called when profile update failed:
-     */
     @Override
     public void onRiderProfileUpdateFailure() {}
 
     @Override
-    public void onBackPressed(){
-
-    }
+    public void onBackPressed(){}
 
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
@@ -482,4 +468,50 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onDriverRequestCompleteFailure() {}
+
+    @Override
+    public void onWaitOnRatingSuccess() {}
+
+    @Override
+    public void onWaitOnRatingError() {}
+
+    @Override
+    public void onRiderRequestAcceptedNotify(Request request) {}
+
+    @Override
+    public void onRiderRequestTimeoutOrFail() {}
+
+    @Override
+    public void onRiderPickedupSuccess(Request request) {}
+
+    @Override
+    public void onRiderPickedupTimeoutOrFail() {}
+
+    @Override
+    public void onRiderRequestComplete() {}
+
+    @Override
+    public void onRiderRequestCompletionError() {}
+
+    @Override
+    public void onRequestRatedSuccess() {}
+
+    @Override
+    public void onRequestRatedError() {}
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {}
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {}
 }
