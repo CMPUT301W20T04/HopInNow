@@ -93,14 +93,14 @@ public class  RiderWaitingDriverFragment extends Fragment {
     private void addFare(){
         estimate_fare += 1;
         fare_amount.setText(df2.format(estimate_fare));
-        //TODO UPDATE FIREBASE
+        ((RiderMapActivity)getActivity()).updateFare(estimate_fare);
     }
 
     private void reduceFare(){
         if(Double.parseDouble(df2.format(estimate_fare)) - 1 >= lowest_price) {
             estimate_fare -= 1;
             fare_amount.setText(df2.format(estimate_fare));
-            //TODO UPDATE FIREBASE
+            ((RiderMapActivity)getActivity()).updateFare(estimate_fare);
         } else {
             Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
                     "Sorry, you can not go lower than the estimated base fare.",
