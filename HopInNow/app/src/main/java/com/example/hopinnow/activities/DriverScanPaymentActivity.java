@@ -12,15 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class DriverScanPaymentActivity extends AppCompatActivity
-        implements ZXingScannerView.ResultHandler{
+        implements ZXingScannerView.ResultHandler, DriverProfileStatusListener {
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
@@ -28,6 +30,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     private RxPermissions rxPermissions;
     private int permissionCount = 0;
     private TextView permissionMsg;
+    private DriverDatabaseAccessor driverDatabaseAccessor;
 
     @SuppressLint("CheckResult")
     @Override
@@ -36,6 +39,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         setContentView(R.layout.activity_driver_scanning);
         //TODO PASS DRIVER FROM DRIVER MAP ACTIVITY
         driver = (Driver) getIntent().getSerializableExtra("Driver");
+        this.driverDatabaseAccessor = new DriverDatabaseAccessor();
+        this.driverDatabaseAccessor.getDriverProfile(this);
         //todo get request from firebase
         //curRequest
 
@@ -67,6 +72,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             //todo trigger rider rating by removing request from firebase
             //double prevDeposit = driver.getDeposit();
             //driver.setDeposit(prevDeposit + Double.valueOf(result[1]));
+            //driverDatabaseAccessor.updateDriverProfile(driver,DriverScanPaymentActivity.this);
             Toast.makeText(this, "You have successfully received " + result[1] +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
             //todo:
@@ -114,4 +120,23 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+        Toast.makeText(this, "Your profile cannot be retrieved, please check your" +
+                " network connection.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {}
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+        Toast.makeText(this, "Your profile cannot be updated, please check your" +
+                " network connection.", Toast.LENGTH_SHORT).show();
+    }
 }

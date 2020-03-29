@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         if (this.currentUser == null) {
             this.userDatabaseAccessor.getUserProfile(this);
         } else {
-            // set all text fields according to the retreived user object:
+            // set all text fields according to the retrieved user object:
             this.name.setText(Objects.requireNonNull(currentUser).getName());
             this.email.setText(currentUser.getEmail());
             this.phoneNumber.setText(currentUser.getPhoneNumber());

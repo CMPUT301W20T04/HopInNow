@@ -5,6 +5,9 @@ import android.util.Log;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -41,7 +44,6 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                             listener.onDriverRequestTimeoutOrFail();
                             return;
                         }
-                        assert request1 != null;
                         // check the driverEmail of the request see if it already exists:
                         if (request1.getDriverEmail() != null) {
                             Log.v(TAG, "Request is already taken!");
@@ -116,14 +118,16 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     }
 
     /**
-     * Driver can delete a request after it is completed
+     * This function sets the isComplete attribute in a request in the database to true.
      * @param request
-     *      teh request completed, ready to delete
+     *      the request that is completed
      * @param listener
-     *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
+     *      if the isComplete attribute is changed successfully,
+     *      call the onSuccess method, otherwise, onFailure.
      */
     public void driverCompleteRequest(Request request, final DriverRequestListener listener) {
-        request.setDriverEmail(null);
+        // because the request is now complete:
+        request.setComplete(true);
         this.firestore
                 .collection(referenceName)
                 .document(request.getRequestID())
@@ -136,5 +140,37 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     Log.v(TAG, "Request did not complete successfully!");
                     listener.onDriverRequestCompleteFailure();
                 });
+    }
+
+    /**
+     * Driver waits on the rider to make the rating on the current request. After it is rated, the
+     * caller of this function can specify the actions to take in the onRequestRatedSuccess method
+     * or the onRequestRatedError method.
+     * @param request
+     *      the request with the requestID to listen to
+     * @param listener
+     *      if the request is rated successfully, call the onSuccess method, otherwise, onFailure.
+     */
+    public void driverWaitOnRating(Request request, final DriverRequestListener listener) {
+        DocumentReference dr = this.firestore.collection(this.referenceName)
+                .document(request.getRequestID());
+        dr.addSnapshotListener((snapshot, e) -> {
+            Request req = Objects.requireNonNull(snapshot).toObject(Request.class);
+            Log.v(TAG, "driver wait for rating caught snapshot");
+            if (e == null) {
+                Log.v(TAG, "Listen failed.", e);
+                listener.onWaitOnRatingError();
+            }
+            if (snapshot.exists()) {
+                // see if the rating actually has changed:
+                if (Objects.requireNonNull(req).getRating() != -1.0) {
+                    Log.v(TAG, "request rated: ");
+                    listener.onWaitOnRatingSuccess();
+                } else {
+                    Log.v(TAG, "request rated failed.", e);
+                    listener.onWaitOnRatingError();
+                }
+            }
+        });
     }
 }
