@@ -20,6 +20,12 @@ import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
+/**
+ * Author: Shway Wang
+ * Version: 1.0.3
+ * This activity class lets the driver enter the vehicle information and store it in database.
+ * The information can be left null and be filled later.
+ */
 public class RegisterVehicleInfoActivity extends AppCompatActivity implements LoginStatusListener,
         RegisterStatusListener, UserProfileStatusListener {
     private UserDatabaseAccessor userDatabaseAccessor;
@@ -54,18 +60,15 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
     @Override
     protected void onStart() {
         super.onStart();
-        this.finishBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressbarDialog.startProgressbarDialog();
-                String makeData = make.getText().toString();
-                String modelData = model.getText().toString();
-                String colorData = color.getText().toString();
-                String plateNumberData = plateNumber.getText().toString();
-                Car car = new Car(makeData, modelData, colorData, plateNumberData);
-                driver.setCar(car);
-                userDatabaseAccessor.registerUser((User)driver, RegisterVehicleInfoActivity.this);
-            }
+        this.finishBtn.setOnClickListener(view -> {
+            progressbarDialog.startProgressbarDialog();
+            String makeData = make.getText().toString();
+            String modelData = model.getText().toString();
+            String colorData = color.getText().toString();
+            String plateNumberData = plateNumber.getText().toString();
+            Car car = new Car(makeData, modelData, colorData, plateNumberData);
+            driver.setCar(car);
+            userDatabaseAccessor.registerUser(driver, RegisterVehicleInfoActivity.this);
         });
     }
 

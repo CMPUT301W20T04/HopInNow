@@ -1,20 +1,21 @@
 package com.example.hopinnow.activities;
 
 import android.annotation.SuppressLint;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.example.hopinnow.R;
 //https://stackoverflow.com/questions/17357226/add-the-loading-screen-in-starting-of-the-android-application
 
+/**
+ * Author: Qianxi Li
+ * Shows the page before the program begins
+ */
 public class FirstPageActivity extends AppCompatActivity {
     private ImageView titleImage;
     private ImageView roadImage;

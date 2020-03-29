@@ -24,8 +24,9 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * Authoer: Peter Zhou
- * Version: 1.0.0
+ * Author: Peter Zhou
+ * Editor: Shway Wang
+ * Version: 1.0.2
  * This class is to show the vehicle info and user can update it
  */
 public class VehicleViewActivity extends AppCompatActivity implements DriverProfileStatusListener {
