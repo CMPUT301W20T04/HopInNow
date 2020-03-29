@@ -90,13 +90,13 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
         DocumentReference dr = this.firestore.collection(this.referenceName)
                 .document(this.currentUser.getUid());
         dr.addSnapshotListener((snapshot, e) -> {
-            Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
             Log.v(TAG, "rider complete caught snapshot");
             if (e == null) {
                 Log.v(TAG, "Listen failed.", e);
                 listener.onRiderRequestCompletionError();
             }
-            if (snapshot.exists()) {
+            if (Objects.requireNonNull(snapshot).exists()) {
+                Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                 if (Objects.requireNonNull(request).isComplete()) {
                     Log.v(TAG, "ride completed: ");
                     listener.onRiderRequestComplete();
