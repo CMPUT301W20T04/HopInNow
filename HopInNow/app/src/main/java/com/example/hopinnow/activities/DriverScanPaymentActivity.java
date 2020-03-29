@@ -82,8 +82,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             Toast.makeText(this, "You have successfully received " + result[1] +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
 
-
-
             //driver complete the request and trigger the rider to rate.
             driverRequestDatabaseAccessor.driverCompleteRequest(curRequest,this);
 
