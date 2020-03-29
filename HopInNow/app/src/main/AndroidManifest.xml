@@ -49,7 +49,7 @@
         <activity android:name=".activities.DriverMenuActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity
-            android:name=".activities.firstPageActivity"
+            android:name=".activities.FirstPageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             >
             <intent-filter>

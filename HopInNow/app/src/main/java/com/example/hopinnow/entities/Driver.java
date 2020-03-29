@@ -22,35 +22,38 @@ public class Driver extends User {
     /**
      * driver constructor
      * @param email
+     *      email
      * @param password
+     *      password
      * @param name
+     *      name
      * @param phoneNumber
-     * @param userType
+     *      phonenumber
      * @param deposit
+     *      deposit
      * @param curRequest
+     *      current request
      * @param car
+     *      driver's car
      * @param driverTripList
+     *      driver's trip history
      */
-    public Driver(String email, String password, String name, String phoneNumber, boolean userType,
+    public Driver(String email, String password, String name, String phoneNumber,
                   double deposit, Request curRequest, Car car, ArrayList<Trip> driverTripList) {
-        super(email, password, name, phoneNumber, userType, deposit);
-        try{
-            this.curRequest = curRequest;
-            this.car = car;
-            this.driverTripList = driverTripList;
-            //first time
-            this.rating = 0.00;
-            this.ratingCounts = 0;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        super(email, password, name, phoneNumber, true, deposit);
+        this.curRequest = curRequest;
+        this.car = car;
+        this.driverTripList = driverTripList;
+        //first time
+        this.rating = 0.00;
+        this.ratingCounts = 0;
     }
 
     /**
      * get current request
      * can be null as database set needs to perform get
      * @return
+     *      return the current request held by this driver:
      */
     public Request getCurRequest() {
         return curRequest;
@@ -59,116 +62,82 @@ public class Driver extends User {
     /**
      * set current request
      * @param curRequest
+     *      set the current request for this driver:
      */
     public void setCurRequest(Request curRequest) {
-        try{
-            this.curRequest = curRequest;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.curRequest = curRequest;
     }
 
     /**
      * get car information
      * can be null for request initialization
      * @return
+     *      get the car information of this driver:
      */
     public Car getCar() {
-        if (car == null){
-            throw new NullPointerException();
-        }
-        else{
-            return car;
-        }
+        return this.car;
     }
 
     /**
      * set car information
      * @param car
+     *      the car object to set
      */
     public void setCar(Car car) {
-        try{
-            this.car = car;
-        }
-        catch(Exception e){
-            throw e;
-        }
+        this.car = car;
     }
 
     /**
      * get driver
      * @return
+     *      the current car object held by this class instance
      */
     public ArrayList<Trip> getDriverTripList() {
-        if (driverTripList == null){
-            throw new NullPointerException();
-        }
-        else{
-            return driverTripList;
-        }
+        return driverTripList;
     }
 
     /**
      * set the driver trip list
      * @param driverTripList
+     *      set the driver's trip list:
      */
     public void setDriverTripList(ArrayList<Trip> driverTripList) {
-        try{
-            this.driverTripList = driverTripList;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.driverTripList = driverTripList;
     }
 
     /**
      * get the driver rating
      * @return
+     *      get the rating of this driver:
      */
     public Double getRating() {
-        if (rating == null){
-            throw new NullPointerException();
-        }
-        else{
-            return rating;
-        }
+        return rating;
     }
 
     /**
      * set driver rating
      * @param rating
+     *      set the rating of this driver:
      */
     public void setRating(Double rating) {
-        try{
-            this.rating = rating;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.rating = rating;
     }
 
     /**
      * get number of ratings
      * @return
+     *      get the number of ratings of this driver:
      */
     public int getRatingCounts(){
-
         return ratingCounts;
-
     }
 
     /**
      * set the number of ratings
      * @param ratingCounts
+     *      set the numbre of ratings of this driver:
      */
     public void setRatingCounts(int ratingCounts){
-        try{
-            this.ratingCounts = ratingCounts;
-        }
-        catch(Exception e){
-            throw e;
-        }
+        this.ratingCounts = ratingCounts;
     }
-
 }
