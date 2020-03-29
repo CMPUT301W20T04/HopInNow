@@ -45,8 +45,9 @@ public class RiderDriverOfferFragment extends Fragment {
         //driver =  ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
 
         Car car = new Car("Auburn","Speedster","Cream","111111");
-        final Driver driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                "12345678", true, 10.0,  null, car, null);
+        final Driver driver = new Driver("111@gmail.com", "12345678",
+                "Lupin the Third", "12345678", 10.0,  null,
+                car, null);
 
 
 

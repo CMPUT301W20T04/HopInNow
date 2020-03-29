@@ -76,12 +76,15 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
 
         this.updateBtn = findViewById(R.id.vehicleUpdateBtn);
         this.updateBtn.setOnClickListener(v -> {
+            Car car = new Car();
+            car.setMake(vehicleMakeEditText.getText().toString());
+            car.setModel(vehicleModelEditText.getText().toString());
+            car.setColor(vehicleColorEditText.getText().toString());
+            car.setPlateNumber(vehiclePlateEditText.getText().toString());
+            this.currentDriver.setCar(car);
             // access database:
-            currentDriver.getCar().setMake(vehicleMakeEditText.getText().toString());
-            currentDriver.getCar().setModel(vehicleModelEditText.getText().toString());
-            currentDriver.getCar().setColor(vehicleColorEditText.getText().toString());
-            currentDriver.getCar().setPlateNumber(vehiclePlateEditText.getText().toString());
-            driverDatabaseAccessor.updateDriverProfile(currentDriver, VehicleViewActivity.this);
+            driverDatabaseAccessor.updateDriverProfile(this.currentDriver,
+                    VehicleViewActivity.this);
         });
     }
     // wrapper function to set text for car information:
@@ -119,11 +122,11 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
+        this.currentDriver = driver;
+        this.setCarInfo(this.currentDriver.getCar());
         this.progressbarDialog.dismissDialog();
         Toast.makeText(getApplicationContext(),
                 "Your info is updated!", Toast.LENGTH_LONG).show();
-        this.setCarInfo(driver.getCar());
-        this.progressbarDialog.dismissDialog();
     }
 
     @Override

@@ -139,8 +139,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                 ArrayList<Trip> tripList = new ArrayList<Trip>();
                 if (isDriver) { // the user is a driver
                     user = new Driver(emailData, passwordData, nameData, phoneNumberData,
-                            true, 0, null, null,
-                            tripList);
+                            0, null, null, tripList);
                     Intent intent = new Intent(getApplicationContext(), RegisterVehicleInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("DriverObject", user);
