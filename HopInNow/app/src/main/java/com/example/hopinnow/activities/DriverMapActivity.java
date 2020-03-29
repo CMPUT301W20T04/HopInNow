@@ -103,7 +103,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         goOnline = findViewById(R.id.onlineBtn);
         goOnline.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                findViewById(R.id.map).getLayoutParams().height = getBaseContext().getResources().getDisplayMetrics().heightPixels-800;
                 findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
                 switchFragment(R.layout.fragment_driver_requests);
             }
