@@ -12,10 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Trip;
+import com.example.hopinnow.statuslisteners.AvailRequestListListener;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -26,7 +29,7 @@ import java.util.Date;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class DriverScanPaymentActivity extends AppCompatActivity
-        implements ZXingScannerView.ResultHandler, DriverRequestListener {
+        implements ZXingScannerView.ResultHandler, DriverRequestListener, DriverProfileStatusListener, AvailRequestListListener {
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
@@ -34,6 +37,9 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     private RxPermissions rxPermissions;
     private int permissionCount = 0;
     private TextView permissionMsg;
+    private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+    private DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
+
 
     @SuppressLint("CheckResult")
     @Override
@@ -77,23 +83,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
 
 
-            Date current_time = new Date();
 
-
-            DriverRequestDatabaseAccessor driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-            ArrayList<Trip> driverTripList = driver.getDriverTripList();
-            if(driverTripList == null){
-                driverTripList = new ArrayList<>();
-
-            }
-            driverTripList.add(new Trip(curRequest.getDriverEmail(),curRequest.getRiderEmail(),
-                    curRequest.getPickUpLoc(),curRequest.getDropOffLoc(),
-                    curRequest.getPickUpLocName(),curRequest.getDropOffLocName(),
-                    (Date)curRequest.getPickUpDateTime(),  (Date)current_time,
-                    (int)Math.abs(current_time.getTime() -
-                            curRequest.getPickUpDateTime().getTime()),
-                    curRequest.getCar(),curRequest.getEstimatedFare(),5.0));
-            driver.setDriverTripList(driverTripList);
             //driver complete the request and trigger the rider to rate.
             driverRequestDatabaseAccessor.driverCompleteRequest(curRequest,this);
 
@@ -170,11 +160,101 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverRequestCompleteSuccess() {
-
+        driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
     }
 
     @Override
     public void onDriverRequestCompleteFailure() {
+
+    }
+
+    @Override
+    public void onWaitOnRatingSuccess() {
+        //means the rider update the rating successfully.
+        driverDatabaseAccessor.getDriverProfile(this);
+
+
+    }
+
+    @Override
+    public void onWaitOnRatingError() {
+
+    }
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+        this.driver = driver;
+        Date current_time = new Date();
+
+
+        ArrayList<Trip> driverTripList = this.driver.getDriverTripList();
+        if(driverTripList == null){
+            driverTripList = new ArrayList<>();
+
+        }
+        driverTripList.add(new Trip(curRequest.getDriverEmail(),curRequest.getRiderEmail(),
+                curRequest.getPickUpLoc(),curRequest.getDropOffLoc(),
+                curRequest.getPickUpLocName(),curRequest.getDropOffLocName(),
+                (Date)curRequest.getPickUpDateTime(),  (Date)current_time,
+                (int)Math.abs(current_time.getTime() -
+                        curRequest.getPickUpDateTime().getTime()),
+                curRequest.getCar(),curRequest.getEstimatedFare(),curRequest.getRating()));
+        this.driver.setDriverTripList(driverTripList);
+        driverDatabaseAccessor.updateDriverProfile(this.driver,this);
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+        driverRequestDatabaseAccessor.deleteRequest(this);
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+
+    }
+
+    @Override
+    public void onRequestAddedSuccess() {
+
+    }
+
+    @Override
+    public void onRequestAddedFailure() {
+
+    }
+
+    @Override
+    public void onRequestDeleteSuccess() {
+
+    }
+
+    @Override
+    public void onRequestDeleteFailure() {
+
+    }
+
+    @Override
+    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
+
+    }
+
+    @Override
+    public void onGetRequiredRequestsFailure() {
+
+    }
+
+    @Override
+    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
+
+    }
+
+    @Override
+    public void onAllRequestsUpdateError() {
 
     }
 }
