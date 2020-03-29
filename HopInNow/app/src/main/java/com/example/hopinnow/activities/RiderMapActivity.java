@@ -603,7 +603,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/html");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
-
         startActivity(Intent.createChooser(intent, "Send Email"));
     }
 
@@ -815,15 +814,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onRiderRequestTimeoutOrFail() {
-//        FragmentManager t = getSupportFragmentManager();
-//        t.popBackStack();
-    }
+    public void onRiderRequestTimeoutOrFail() {}
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
         switchFragment(R.layout.fragment_rider_pickedup);
-        riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
+        //riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
     }
 
     @Override
@@ -831,15 +827,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderRequestComplete() {
-        Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
-        //TODO:
-        //  Opt 1. change format of availableRequest to trip
-        //  Opt 2. move request to new Collection of requestInCompletion with Trip format
+        /*Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
         intent.putExtra("Driver", driver);
         intent.putExtra("Rider", rider);
         startActivity(intent);
-        finish();
+        finish();*/
     }
 
     @Override
