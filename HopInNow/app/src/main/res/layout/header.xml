@@ -14,14 +14,13 @@
         android:src="@mipmap/ic_launcher_round"/>
 
     <TextView
-        android:id="@+id/menuUserNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome!"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/rider_menu_username"
+        android:id="@+id/menuUserNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp" />
