@@ -667,11 +667,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @SuppressLint("CheckResult")
     public void showDriverInfo(){
         if (driver == null){
-            Car car = new Car("Auburn","Speedster","Cream",
-                    "111111");
-            driver = new Driver("111@gmail.com", "12345678",
-                    "Lupin the Third", "12345678", 10.0,
-                    null, car, null);
+            Car car = new Car("Auburn","Speedster","Cream","111111");
+            driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                    "12345678", 10.0,  null, car, null);
         }
 
         final Driver d = driver;
@@ -821,7 +819,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderPickedupSuccess(Request request) {
         switchFragment(R.layout.fragment_rider_pickedup);
-        //riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
+        riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
     }
 
     @Override
@@ -829,12 +827,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderRequestComplete() {
-        /*Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
         intent.putExtra("Driver", driver);
         intent.putExtra("Rider", rider);
         startActivity(intent);
-        finish();*/
+        finish();
     }
 
     @Override
