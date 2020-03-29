@@ -28,6 +28,10 @@ import java.util.Date;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+/**
+ * Author: Tianyu Bai
+ * This class deals with the QR code and the payment process:
+ */
 public class DriverScanPaymentActivity extends AppCompatActivity
         implements ZXingScannerView.ResultHandler, DriverRequestListener,
         DriverProfileStatusListener, AvailRequestListListener {
