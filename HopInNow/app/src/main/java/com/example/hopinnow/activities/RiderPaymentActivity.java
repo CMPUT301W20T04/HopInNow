@@ -89,7 +89,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         if (driver == null){
             Car car = new Car("Auburn","Speedster","Cream","111111");
             driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                    "12345678", true, 10.0,  null, car, null);
+                    "12345678", 10.0,  null, car, null);
         }
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.riderDatabaseAccessor.getRiderProfile(this);
