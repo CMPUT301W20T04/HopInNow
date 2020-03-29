@@ -53,19 +53,13 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
                     .collection(referenceName)
                     .document(this.currentUser.getUid())
                     .set(driver)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.v(TAG, "User info updated!");
-                            listener.onDriverProfileUpdateSuccess(driver);
-                        }
+                    .addOnSuccessListener(aVoid -> {
+                        Log.v(TAG, "User info updated!");
+                        listener.onDriverProfileUpdateSuccess(driver);
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "User info did not update successfully!");
-                            listener.onDriverProfileUpdateFailure();
-                        }
+                    .addOnFailureListener(e -> {
+                        Log.v(TAG, "User info did not update successfully!");
+                        listener.onDriverProfileUpdateFailure();
                     });
         } else {    // the driver is not logged in
             Log.v(TAG, "User is not logged in!");
@@ -113,19 +107,16 @@ public class DriverDatabaseAccessor extends UserDatabaseAccessor {
                 .collection(referenceName)
                 .whereEqualTo("email", email)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document :
-                                    Objects.requireNonNull(task.getResult())) {
-                                Log.d(TAG, "Driver got!");
-                                listener.onDriverObjRetrieveSuccess(document.toObject(Driver.class));
-                            }
-                        } else {
-                            Log.d(TAG, "Driver did not get!");
-                            listener.onDriverObjRetrieveFailure();
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document :
+                                Objects.requireNonNull(task.getResult())) {
+                            Log.d(TAG, "Driver got!");
+                            listener.onDriverObjRetrieveSuccess(document.toObject(Driver.class));
                         }
+                    } else {
+                        Log.d(TAG, "Driver did not get!");
+                        listener.onDriverObjRetrieveFailure();
                     }
                 });
     }
