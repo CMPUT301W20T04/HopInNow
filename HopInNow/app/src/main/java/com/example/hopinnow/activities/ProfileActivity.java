@@ -20,7 +20,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * Author: Zhiqi Zhou
+ * Author: Shway Wang
+ * Co-author: Zhiqi Zhou
  * Version: 1.0.0
  * show and edit user profile for both rider and driver
  */

@@ -188,6 +188,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     protected void onStart(){
         super.onStart();
         String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
+        // if the cancel request button is clicked in the RiderWaitingPickupFragment:
         if (Objects.equals(caseCancel, "cancel")) {
             cancelRequestLocal();
         }
@@ -486,7 +487,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         curRequest = null;
         saveCurrentRequestLocal(null);
         pickUpLocName = null;
-        dropOffLocName= null;
+        dropOffLocName= null;cancelRequestLocal();
         pickUpLoc = new LatLng(53.5258, -113.5207);
         dropOffLoc = new LatLng(53.5224, -113.5305);
         switchMarkerDraggable();
