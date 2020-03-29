@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,6 +103,14 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //trip paras:
                     //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
+                    Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
+
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Driver", driver);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    /*
                     Request request2 = driver.getCurRequest();
                     Date current_time = new Date();
                     driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
@@ -118,8 +127,9 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                                     request2.getPickUpDateTime().getTime()),
                             request2.getCar(),request2.getEstimatedFare(),5.0));
                     driver.setDriverTripList(driverTripList);
+
                     driverRequestDatabaseAccessor.driverCompleteRequest(request2,
-                            PickUpAndCurrentRequest.this);
+                            PickUpAndCurrentRequest.this);*/
                 });
                 // set emergency button on click listener
                 emergencyCallButton.setOnClickListener(v -> {
@@ -232,7 +242,9 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onDriverRequestCompleteSuccess() {
         driver.setCurRequest(null);
-        this.driverRequestDatabaseAccessor.getAllRequest(new LatLong(), this);
+
+        //this.driverRequestDatabaseAccessor.getAllRequest(new LatLong(), this);
+
     }
 
     @Override
