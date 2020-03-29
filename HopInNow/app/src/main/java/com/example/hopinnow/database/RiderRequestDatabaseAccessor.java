@@ -97,18 +97,36 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 listener.onRiderRequestCompletionError();
             }
             if (snapshot.exists()) {
-                if (Objects.requireNonNull(request).getDriverEmail() == null) {
-                    dr.delete().addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    Log.v(TAG, "ride completed: ");
-                                    listener.onRiderRequestComplete();
-                                } else {
-                                    Log.v(TAG, "Listen failed.", e);
-                                    listener.onRiderRequestCompletionError();
-                                }
-                            });
+                if (Objects.requireNonNull(request).isComplete()) {
+                    Log.v(TAG, "ride completed: ");
+                    listener.onRiderRequestComplete();
+                } else {
+                    Log.v(TAG, "Listen failed.", e);
+                    listener.onRiderRequestCompletionError();
                 }
             }
         });
+    }
+
+    /**
+     * The current request is finished, rider now can rate the request
+     * @param request
+     *      the rating for the current request is set in this request
+     * @param listener
+     *      invoke method when the rider finishes rating the request
+     */
+    public void riderRateRequest(Request request, final RiderRequestListener listener) {
+        this.firestore
+                .collection(referenceName)
+                .document(request.getRequestID())
+                .set(request)
+                .addOnSuccessListener(aVoid -> {
+                    Log.v(TAG, "Request completed!");
+                    listener.onRequestRatedSuccess();
+                })
+                .addOnFailureListener(e -> {
+                    Log.v(TAG, "Request did not complete successfully!");
+                    listener.onRequestRatedError();
+                });
     }
 }

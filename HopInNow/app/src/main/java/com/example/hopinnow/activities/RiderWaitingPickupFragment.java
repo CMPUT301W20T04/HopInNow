@@ -50,12 +50,8 @@ public class RiderWaitingPickupFragment extends Fragment {
             //set driver name
             TextView driverName = view.findViewById(R.id.rider_waiting_driver_name);
             driverName.setText(driver.getName());
-            driverName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo();
-                }
-            });
+            driverName.setOnClickListener(v ->
+                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).showDriverInfo());
 
             //set pick up location
             TextView pickUpLoc = view.findViewById(R.id.rider_waiting_pickUp);

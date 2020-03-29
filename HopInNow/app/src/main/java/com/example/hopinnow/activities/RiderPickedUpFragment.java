@@ -64,7 +64,7 @@ public class RiderPickedUpFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     ((RiderMapActivity) Objects.requireNonNull(getActivity())).
-                            callNumber("911");
+                            callNumber("0000911");
                 }
             });
 
