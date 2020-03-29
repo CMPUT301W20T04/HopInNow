@@ -48,7 +48,8 @@ import com.google.android.material.navigation.NavigationView;
  * Version: 1.0.0
  * This is the main page for driver where is shows the map, online and menu button
  */
-public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener {
+public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,
+        NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener {
     private GoogleMap mMap;
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);

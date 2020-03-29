@@ -29,7 +29,8 @@ import java.util.Date;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class DriverScanPaymentActivity extends AppCompatActivity
-        implements ZXingScannerView.ResultHandler, DriverRequestListener, DriverProfileStatusListener, AvailRequestListListener {
+        implements ZXingScannerView.ResultHandler, DriverRequestListener,
+        DriverProfileStatusListener, AvailRequestListListener {
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
