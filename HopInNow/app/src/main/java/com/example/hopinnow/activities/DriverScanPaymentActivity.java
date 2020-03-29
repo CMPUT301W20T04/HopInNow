@@ -15,9 +15,13 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -72,12 +76,24 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             Toast.makeText(this, "You have successfully received " + result[1] +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
 
-            //call request complete api
-            //todo:
-            //  Wait for firebase listener of "myrating" to be completed, move completed request
-            //      from available request to trips
+
+            Date current_time = new Date();
+
 
             DriverRequestDatabaseAccessor driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+            ArrayList<Trip> driverTripList = driver.getDriverTripList();
+            if(driverTripList == null){
+                driverTripList = new ArrayList<>();
+
+            }
+            driverTripList.add(new Trip(curRequest.getDriverEmail(),curRequest.getRiderEmail(),
+                    curRequest.getPickUpLoc(),curRequest.getDropOffLoc(),
+                    curRequest.getPickUpLocName(),curRequest.getDropOffLocName(),
+                    (Date)curRequest.getPickUpDateTime(),  (Date)current_time,
+                    (int)Math.abs(current_time.getTime() -
+                            curRequest.getPickUpDateTime().getTime()),
+                    curRequest.getCar(),curRequest.getEstimatedFare(),5.0));
+            driver.setDriverTripList(driverTripList);
             //driver complete the request and trigger the rider to rate.
             driverRequestDatabaseAccessor.driverCompleteRequest(curRequest,this);
 
