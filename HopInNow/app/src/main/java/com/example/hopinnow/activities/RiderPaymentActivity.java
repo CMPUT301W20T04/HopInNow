@@ -259,7 +259,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-        showRatingDialog();
+        //showRatingDialog();
     }
 
 
