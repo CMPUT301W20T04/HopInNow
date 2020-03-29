@@ -764,6 +764,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         return true;
     }
 
+    public void updateFare(Double newFare){
+        curRequest.setEstimatedFare(newFare);
+        saveCurrentRequestLocal(curRequest);
+        //TODO UPDATE FARE in firebase
+    }
+
 
     /**
      * Called when profile retrieve successfully:
