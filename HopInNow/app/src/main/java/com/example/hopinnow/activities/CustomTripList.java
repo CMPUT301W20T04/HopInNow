@@ -1,6 +1,7 @@
 package com.example.hopinnow.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.entities.Trip;
@@ -45,12 +47,15 @@ public class CustomTripList extends ArrayAdapter<Trip> {
 
         }
         // get the single trip from the trip data list and set texts for single view.
+        //CardView card = view.findViewById(R.id.each_trip_record);
+
+        //
         Trip trip = trips.get(position);
         TextView fromText = view.findViewById(R.id.fromText);
         TextView toText = view.findViewById(R.id.ToText);
         TextView dateText = view.findViewById(R.id.DateText);
-        fromText.setText(String.format("From: (%f, %f)",trip.getPickUpLoc().getLat(),trip.getPickUpLoc().getLng()));
-        toText.setText(String.format("To: (%f, %f)",trip.getDropOffLoc().getLat(),trip.getDropOffLoc().getLng()));
+        fromText.setText(String.format("From: "+trip.getPickUpLocName()));
+        toText.setText(String.format("To: "+trip.getDropOffLocName()));
         dateText.setText("date: "+trip.getPickUpDateTime().toString());
         return view;
     }

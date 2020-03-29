@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/tripListTitleText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50sp"
         android:background="@color/ColorOrange"
         android:gravity="center"
         android:text="Trip History"
