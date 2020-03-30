@@ -72,10 +72,12 @@ public class RiderDriverOfferFragment extends Fragment {
 
             //set driver car
             TextView driverCar = view.findViewById(R.id.rider_driver_offer_car);
-            String carInfo = this.driver.getCar().getColor() + " "
-                    + this.driver.getCar().getMake() + " "
-                    + this.driver.getCar().getModel();
-            driverCar.setText(carInfo);
+            if (this.driver.getCar() != null) {
+                String carInfo = this.driver.getCar().getColor() + " "
+                        + this.driver.getCar().getMake() + " "
+                        + this.driver.getCar().getModel();
+                driverCar.setText(carInfo);
+            }
             //set driver license
             TextView driverLicense = view.findViewById(R.id.rider_driver_offer_plate);
             driverLicense.setText(driver.getCar().getPlateNumber());
