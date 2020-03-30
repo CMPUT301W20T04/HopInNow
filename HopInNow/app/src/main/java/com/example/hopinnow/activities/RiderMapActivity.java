@@ -116,6 +116,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private RequestDatabaseAccessor requestDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
+    private RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
 
     // progress bar here:
     private ProgressbarDialog progressbarDialog;
@@ -444,18 +445,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @SuppressLint("ResourceType")
     public void switchFragment(int caseId){
         FragmentManager t = getSupportFragmentManager();
+        //RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
 
         // caseID defined by id of the next fragment to show
         switch(caseId){
             case R.layout.fragment_rider_waiting_driver:
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("baseFare", baseFare);
-                RiderWaitingDriverFragment f = new RiderWaitingDriverFragment();
-                f.setArguments(bundle);
-                t.beginTransaction().replace(R.id.fragment_place, f)
+
+                fragWatingDriver.setArguments(bundle);
+                t.beginTransaction().replace(R.id.fragment_place, fragWatingDriver)
                         .commit();
                 break;
             case R.layout.fragment_rider_driver_offer:
+                fragWatingDriver.endChronometer();
                 t.beginTransaction().replace(R.id.fragment_place, new RiderDriverOfferFragment())
                         .addToBackStack(null)
                         .commit();

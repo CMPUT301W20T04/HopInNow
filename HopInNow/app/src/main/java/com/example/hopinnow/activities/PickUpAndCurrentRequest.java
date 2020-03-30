@@ -104,8 +104,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
                     // fixme, page with picked up button need to be press twice to enter page with drop off button
-
-                    // fixme, is request or listener null in driverDropoffRider()?
                     request.setAD(true);
                     driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                     driverRequestDatabaseAccessor.driverDropoffRider(request,PickUpAndCurrentRequest.this);
@@ -154,6 +152,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         return view;
     }
 
+    public void requestCancelled(){
+        ((DriverMapActivity)getActivity()).switchFragment(-1);
+    }
+
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver)
     {
@@ -192,7 +194,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestDeleteSuccess() {
-
+        requestCancelled();
     }
 
     @Override

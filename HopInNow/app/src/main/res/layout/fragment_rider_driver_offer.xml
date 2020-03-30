@@ -16,7 +16,7 @@
             android:layout_height="34dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="8dp"
-            android:text="Would you like to accept this offer?"
+            android:text="A driver responded your request ..."
             android:textColor="@color/ColorWhite"
             android:textSize="22sp" />
 

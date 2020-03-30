@@ -161,7 +161,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             chooseRequest = requestList.get(position);
             if (chooseRequest == null) {
                 Toast.makeText(getContext(), "This request does not exist!",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
             pickUp = chooseRequest.getPickUpLoc();
@@ -203,7 +203,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onGetRequiredRequestsFailure() {
         // Shway added this:
-        Toast.makeText(getContext(), "Internet is too weak!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Internet is too weak!", Toast.LENGTH_SHORT).show();
         driverRequestDatabaseAccessor.getAllRequest(new LatLong(10, 20), this);
     }
 
