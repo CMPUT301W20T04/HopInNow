@@ -108,6 +108,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Marker pickUpMarker, dropOffMarker;
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
     private Button myLocPickUpBtn;
+    private boolean driverDecided = false;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
@@ -156,6 +157,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                             lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
+                            mMap.setMyLocationEnabled(true);
                         }
                     });
         } else {
@@ -268,7 +270,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             saveCurrentRequestLocal(curRequest);
             // save current Request to firebase
             this.progressbarDialog.startProgressbarDialog();
-            requestDatabaseAccessor.addUpdateRequest(curRequest,this);
+            requestDatabaseAccessor.addRequest(curRequest,this);
         } else {
             Toast.makeText(this, "Sorry, you do not have enough deposit for this " +
                     "request.", Toast.LENGTH_SHORT).show();
@@ -283,12 +285,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if ((ActivityCompat.checkSelfPermission(RiderMapActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                && (ActivityCompat.checkSelfPermission(RiderMapActivity.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
-            mMap.setMyLocationEnabled(true);
-        }
 
         mMap.setPadding(0, 0, 14, 0);
 
@@ -749,19 +745,23 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void updateFare(Double newFare){
         curRequest.setEstimatedFare(newFare);
         saveCurrentRequestLocal(curRequest);
-        //TODO UPDATE FARE in firebase
+        riderRequestDatabaseAccessor.deleteRequest(RiderMapActivity.this);
+        riderRequestDatabaseAccessor.addRequest(curRequest,RiderMapActivity.this);
+    }
+
+    public void respondDriverOffer(int acceptStatus){
+        riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(acceptStatus,
+                RiderMapActivity.this);
+        if (acceptStatus==1){
+            driverDecided = true;
+            riderRequestDatabaseAccessor.riderWaitForPickup(this);
+            switchFragment(R.layout.fragment_rider_waiting_pickup);
+        } else {
+            switchFragment(-1);
+        }
     }
 
 
-    public void acceptDriverOffer(){
-        //todo
-    }
-
-
-    public void declineDriverOffer(){
-        //todo
-        //riderDatabaseAccessor.
-    }
 
     /**
      * Called when profile retrieve successfully:
@@ -827,7 +827,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderPickedupSuccess(Request request) {
         switchFragment(R.layout.fragment_rider_pickedup);
-        //riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
     }
 
     @Override
@@ -861,8 +860,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.progressbarDialog.dismissDialog();
         this.driver = driver;
-        switchFragment(R.layout.fragment_rider_waiting_pickup);
-        riderRequestDatabaseAccessor.riderWaitForPickup(this);
+        if (!driverDecided){
+            switchFragment(R.layout.fragment_rider_driver_offer);
+        }
     }
 
     @Override

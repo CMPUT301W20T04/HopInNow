@@ -45,15 +45,17 @@ public class RiderDriverOfferFragment extends Fragment {
 
         //TODO get curRequest from firebase, driver email is empty, means not accepted yet
         //curRequest
-        //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                //.retrieveCurrentRequest();
+        //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
 
-        //driver =  ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
+        driver =  ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
 
-        Car car = new Car("Auburn","Speedster","Cream","111111");
-        final Driver driver = new Driver("111@gmail.com", "12345678",
-                "Lupin the Third", "12345678", 10.0,  null,
-                car, null);
+        if (driver==null){
+            Car car = new Car("Auburn","Speedster","Cream","111111");
+            driver = new Driver("111@gmail.com", "12345678",
+                    "Lupin the Third", "12345678", 10.0,  null,
+                    car, null);
+        }
+
         if(view!=null) {
             //set driver name
             this.driverName = view.findViewById(R.id.rider_driver_offer_name);
@@ -105,13 +107,14 @@ public class RiderDriverOfferFragment extends Fragment {
         this.acceptBtn.setOnClickListener(v -> {
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .saveCurrentRequestLocal(curRequest);
-            ((RiderMapActivity) Objects.requireNonNull(getActivity())).acceptDriverOffer();
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                    .switchFragment(R.layout.fragment_rider_waiting_pickup);
+                    .respondDriverOffer(1);
+            //((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(R.layout.fragment_rider_waiting_pickup);
         });
         this.declineBtn.setOnClickListener(v -> {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).declineDriverOffer();
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(-1);
+            ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                    .respondDriverOffer(-1);
+            //((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(-1);
         });
     }
 }

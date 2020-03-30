@@ -107,8 +107,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-        ((DriverMapActivity) requireNonNull(getActivity()))
-                .switchFragment(R.layout.fragment_driver_pick_rider_up);
+        //((DriverMapActivity) requireNonNull(getActivity())).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
     }
 
@@ -179,6 +178,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 chooseRequest.setCar(current_driver.getCar());
                 driverRequestDatabaseAccessor.driverAcceptRequest(chooseRequest,
                         RequestListFragment.this);
+                driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(chooseRequest,
+                        RequestListFragment.this);
+                this.progressbarDialog.startProgressbarDialog();
             });
             //prePosition = position;
 
@@ -242,12 +244,19 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onRequestAcceptedByRider(Request request) {
-
+        this.progressbarDialog.dismissDialog();
+        Toast.makeText(getContext(),"Rider has accepted your offer!",Toast.LENGTH_SHORT)
+                .show();
+        ((DriverMapActivity) Objects.requireNonNull(getActivity()))
+                .switchFragment(R.layout.fragment_driver_pick_rider_up);
     }
 
     @Override
     public void onRequestDeclinedByRider() {
-
+        this.progressbarDialog.dismissDialog();
+        Toast.makeText(getContext(),"Rider has rejected your offer.",Toast.LENGTH_SHORT)
+                .show();
+        ((DriverMapActivity) Objects.requireNonNull(getActivity())).switchFragment(-1);
     }
 
     @Override
