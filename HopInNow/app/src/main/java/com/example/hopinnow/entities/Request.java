@@ -11,7 +11,10 @@ public class Request extends Ride implements Comparable<Request>{
     private Double estimatedFare;
     private String requestID;
     private boolean isPickedUp;
+    // manhatton distance to driver
     private double mdToDriver;
+    // is arrived at destination
+    private boolean isAD;
     private boolean isComplete;
     private Double rating;
     private int acceptStatus;
@@ -49,6 +52,7 @@ public class Request extends Ride implements Comparable<Request>{
         try {
             this.estimatedFare = estimatedFare;
             this.isPickedUp = false;
+            this.isAD = false;
             this.isComplete = false;
             this.rating = -1.0;
             this.acceptStatus = 0;
@@ -160,5 +164,13 @@ public class Request extends Ride implements Comparable<Request>{
 
     public void setAcceptStatus(int acceptStatus) {
         this.acceptStatus = acceptStatus;
+    }
+
+    public boolean isAD() {
+        return isAD;
+    }
+
+    public void setAD(boolean AD) {
+        isAD = AD;
     }
 }

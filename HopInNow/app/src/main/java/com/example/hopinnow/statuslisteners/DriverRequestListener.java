@@ -49,6 +49,16 @@ public interface DriverRequestListener {
     void onDriverPickupFail();
 
     /**
+     * Called when the driver drop off the rider
+     */
+    void onDriverDropoffSuccess(Request request);
+
+    /**
+     * Called when the drop off fails for some reason
+     */
+    void onDriverDropoffFail();
+
+    /**
      * Called when the driver completes the request
      */
     void onDriverRequestCompleteSuccess();

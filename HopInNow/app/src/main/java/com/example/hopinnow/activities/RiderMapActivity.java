@@ -823,6 +823,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderPickedupTimeoutOrFail() {}
 
     @Override
+    public void onRiderDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onRiderDropoffFail() {
+
+    }
+
+    @Override
     public void onRiderRequestComplete() {
         Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
