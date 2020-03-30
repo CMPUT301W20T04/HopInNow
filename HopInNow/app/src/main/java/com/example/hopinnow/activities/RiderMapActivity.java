@@ -268,7 +268,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             saveCurrentRequestLocal(curRequest);
             // save current Request to firebase
             this.progressbarDialog.startProgressbarDialog();
-            requestDatabaseAccessor.addRequest(curRequest,this);
+            requestDatabaseAccessor.addUpdateRequest(curRequest,this);
         } else {
             Toast.makeText(this, "Sorry, you do not have enough deposit for this " +
                     "request.", Toast.LENGTH_SHORT).show();
