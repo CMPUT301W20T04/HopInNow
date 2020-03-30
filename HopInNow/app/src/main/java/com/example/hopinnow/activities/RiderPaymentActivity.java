@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -132,7 +133,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
 
                 Gson gsonPay = new Gson();
-                String encodedMsg= driver.getEmail() + ":" + totalPayment;
+                String encodedMsg= "<driverEmail>" + driver.getEmail() + "</driverEmail>" +
+                        "<totalPayment>" + totalPayment + "</totalPayment>";
                 String serializePay = gsonPay.toJson(encodedMsg);
                 Bitmap bitmap = QRCodeHelper
                         .newInstance(RiderPaymentActivity.this)
