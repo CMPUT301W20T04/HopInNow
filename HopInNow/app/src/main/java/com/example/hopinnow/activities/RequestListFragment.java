@@ -183,8 +183,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(chooseRequest,
                             RequestListFragment.this);
                 this.progressbarDialog.startProgressbarDialog();
-                //fixme once driver was declined once, he would always be rejected by that request,
-                // but rider would still see his new offer
 
             });
             //prePosition = position;

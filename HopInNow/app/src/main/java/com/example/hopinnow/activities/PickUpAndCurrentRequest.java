@@ -107,7 +107,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
                     // fixme, is request or listener null in driverDropoffRider()?
                     request.setAD(true);
+                    driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                     driverRequestDatabaseAccessor.driverDropoffRider(request,PickUpAndCurrentRequest.this);
+                    Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Driver", driver);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 
                     // moved to onDriverDropoffSuccess
                     /*Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
@@ -247,6 +253,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverPickupSuccess() {
+
     }
 
     @Override
@@ -256,11 +263,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverDropoffSuccess(Request request) {
-        Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Driver", driver);
-        intent.putExtras(bundle);
-        startActivity(intent);
+
     }
 
     @Override
