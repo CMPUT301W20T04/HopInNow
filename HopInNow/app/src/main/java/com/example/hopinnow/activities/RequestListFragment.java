@@ -262,6 +262,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         Toast.makeText(context,"Rider has rejected your offer.",Toast.LENGTH_SHORT)
                 .show();
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
+
     }
 
     @Override

@@ -759,11 +759,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void respondDriverOffer(int acceptStatus){
         riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(acceptStatus,
                 RiderMapActivity.this);
-        if (acceptStatus==1){
-
-        } else {
-
-        }
     }
 
 
@@ -828,7 +823,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderDeclineDriverRequest() {
-        switchFragment(-1);
+        if (!driverDecided){
+            switchFragment(-1);
+            riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(0,
+                    RiderMapActivity.this);
+            riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
+        }
+
     }
 
     @Override
