@@ -47,6 +47,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
                 // set driver check my profile button listener
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
+
             }
         });
 
@@ -55,6 +56,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
             public void onClick(View v) {
                 //set driver check trip button listener
                 Intent intent = new Intent(getApplicationContext(), TripListActivity.class);
+
                 startActivity(intent);
             }
         });
