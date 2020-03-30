@@ -161,7 +161,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             chooseRequest = requestList.get(position);
             if (chooseRequest == null) {
                 Toast.makeText(getContext(), "This request does not exist!",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
             pickUp = chooseRequest.getPickUpLoc();
@@ -181,8 +181,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 driverRequestDatabaseAccessor.driverAcceptRequest(chooseRequest,
                         RequestListFragment.this);
                 driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(chooseRequest,
-                        RequestListFragment.this);
+                            RequestListFragment.this);
                 this.progressbarDialog.startProgressbarDialog();
+
             });
             //prePosition = position;
 
@@ -202,7 +203,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onGetRequiredRequestsFailure() {
         // Shway added this:
-        Toast.makeText(getContext(), "Internet is too weak!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Internet is too weak!", Toast.LENGTH_SHORT).show();
         driverRequestDatabaseAccessor.getAllRequest(new LatLong(10, 20), this);
     }
 
@@ -249,8 +250,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         this.progressbarDialog.dismissDialog();
         Toast.makeText(context,"Rider has accepted your offer!",Toast.LENGTH_SHORT)
                 .show();
-        ((DriverMapActivity) Objects.requireNonNull(context))
-                .switchFragment(R.layout.fragment_driver_pick_rider_up);
+        ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(R.layout.fragment_driver_pick_rider_up);
+        //((DriverMapActivity) Objects.requireNonNull(context))
+         //       .switchFragment(R.layout.fragment_driver_pick_rider_up);
     }
 
     @Override
@@ -259,6 +261,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         Toast.makeText(context,"Rider has rejected your offer.",Toast.LENGTH_SHORT)
                 .show();
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
+
     }
 
     @Override

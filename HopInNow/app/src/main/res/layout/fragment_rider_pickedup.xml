@@ -19,8 +19,8 @@
             android:text="Now, we are heading to ..."
             android:textColor="@color/ColorWhite"
             android:textSize="22sp" />
-
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/rider_pickedup_dropOff"
@@ -82,16 +82,6 @@
             android:textColor="@color/quantum_black_100"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/rider_pickedup_next_button"
-            android:layout_width="30dp"
-            android:layout_height="34dp"
-            android:layout_marginLeft="100dp"
-            android:background="@drawable/orange_all_round_corner"
-            android:text=">"
-            android:textColor="@color/ColorOrange"
-            android:textSize="18sp"/>
-
     </LinearLayout>
 
 
@@ -117,6 +107,16 @@
         android:textColor="@android:color/holo_red_light"
         android:textSize="18sp"/>
 
+    <Button
+        android:id="@+id/rider_pickedup_next_button"
+        android:layout_width="2dp"
+        android:layout_height="4dp"
+        android:layout_marginLeft="100dp"
+        android:alpha="0"
+        android:background="@drawable/orange_all_round_corner"
+        android:text=">"
+        android:textColor="@color/ColorOrange"
+        android:textSize="18sp" />
 
 
 </LinearLayout>

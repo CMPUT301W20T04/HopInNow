@@ -208,6 +208,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         adjustMapFocus();
     }
 
+
     /**
      * set marker to map
      */
