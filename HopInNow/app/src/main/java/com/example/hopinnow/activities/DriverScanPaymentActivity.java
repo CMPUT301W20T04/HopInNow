@@ -172,6 +172,16 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     }
 
     @Override
+    public void onDriverDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onDriverDropoffFail() {
+
+    }
+
+    @Override
     public void onDriverRequestCompleteSuccess() {
         driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
     }

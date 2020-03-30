@@ -44,6 +44,18 @@ public interface RiderRequestListener {
     void onRiderPickedupTimeoutOrFail();
 
     /**
+     * Called when the rider is dropped off successfully
+     * @param request
+     *      the current request object updated
+     */
+    void onRiderDropoffSuccess(Request request);
+
+    /**
+     * Called when the rider is dropped failed
+     */
+    void onRiderDropoffFail();
+
+    /**
      * Called when the request is completed by the driver
      */
     void onRiderRequestComplete();
