@@ -10,12 +10,12 @@ import java.util.Date;
 public class Request extends Ride implements Comparable<Request>{
     private Double estimatedFare;
     private String requestID;
-    private boolean isPickedUp;
+    private boolean pickedUp;
     // manhatton distance to driver
     private double mdToDriver;
     // is arrived at destination
-    private boolean isAD;
-    private boolean isComplete;
+    private boolean arrivedAtDest;
+    private boolean complete;
     private Double rating;
     private int acceptStatus;
 
@@ -51,9 +51,9 @@ public class Request extends Ride implements Comparable<Request>{
         super(driver,rider,pickUpLoc,dropOffLoc,pickUpLocName, dropOffLocName,pickUpDateTime,car);
         try {
             this.estimatedFare = estimatedFare;
-            this.isPickedUp = false;
-            this.isAD = false;
-            this.isComplete = false;
+            this.pickedUp = false;
+            this.arrivedAtDest = false;
+            this.complete = false;
             this.rating = -1.0;
             this.acceptStatus = 0;
         } catch(Exception e){
@@ -103,13 +103,7 @@ public class Request extends Ride implements Comparable<Request>{
     public void setRequestID(String requestID) {
         this.requestID = requestID;
     }
-    public boolean isPickedUp() {
-        return isPickedUp;
-    }
 
-    public void setPickedUp(boolean pickedUp) {
-        isPickedUp = pickedUp;
-    }
 
     public double getMdToDriver() {
         return mdToDriver;
@@ -130,7 +124,7 @@ public class Request extends Ride implements Comparable<Request>{
      *      return if the request is complete
      */
     public boolean isComplete() {
-        return isComplete;
+        return complete;
     }
 
     /**
@@ -139,7 +133,7 @@ public class Request extends Ride implements Comparable<Request>{
      *      indicate if the request if complete:
      */
     public void setComplete(boolean complete) {
-        isComplete = complete;
+        this.complete = complete;
     }
 
     /**
@@ -166,11 +160,19 @@ public class Request extends Ride implements Comparable<Request>{
         this.acceptStatus = acceptStatus;
     }
 
-    public boolean isAD() {
-        return isAD;
+    public boolean isPickedUp() {
+        return pickedUp;
     }
 
-    public void setAD(boolean AD) {
-        isAD = AD;
+    public void setPickedUp(boolean pickedUp) {
+        this.pickedUp = pickedUp;
+    }
+
+    public boolean isArrivedAtDest() {
+        return arrivedAtDest;
+    }
+
+    public void setArrivedAtDest(boolean arrivedAtDest) {
+        this.arrivedAtDest = arrivedAtDest;
     }
 }

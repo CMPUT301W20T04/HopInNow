@@ -19,12 +19,14 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Trip;
+import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Author: Qianxi Li
@@ -43,11 +45,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     TextView requestCostText;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
+    private ProgressbarDialog progressbarDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.progressbarDialog = new ProgressbarDialog(this.getContext());
         driverDatabaseAccessor = new DriverDatabaseAccessor();
         int display_mode;
         //here get the driver from database
@@ -81,14 +85,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 //set pick up button on click listener
                 pickUpButton.setOnClickListener(v -> {
                     // switch to a fragment that display the request information and pick up button.
-                    String rider_email = driver.getCurRequest().getRiderEmail();
+                    //String rider_email = driver.getCurRequest().getRiderEmail();
 
-                    driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-                    request.setPickedUp(true);
-                    driverRequestDatabaseAccessor.driverPickupRider(request,
+                    this.driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+                    // the function below can set isPickedup to true and update in the database:
+                    this.driverRequestDatabaseAccessor.driverPickupRider(request,
                             PickUpAndCurrentRequest.this);
-                    ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
-
+                    this.progressbarDialog.startProgressbarDialog();
                 });}
             else{
                 // switch to a fragment that display the request information and drop off button.
@@ -103,7 +106,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
                     // fixme, what is AD? why is request null in driverDropoffRider()?
-                    request.setAD(true);
+                    request.setArrivedAtDest(true);
                     driverRequestDatabaseAccessor.driverDropoffRider(request,PickUpAndCurrentRequest.this);
                     Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
 
@@ -243,7 +246,9 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverPickupSuccess() {
-
+        this.progressbarDialog.dismissDialog();
+        ((DriverMapActivity) Objects.requireNonNull(getActivity()))
+                .switchFragment(R.layout.fragment_driver_pick_rider_up);
     }
 
     @Override

@@ -40,16 +40,17 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .addSnapshotListener((snapshot, e) -> {
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                     if (e != null) {
-                        Log.v(TAG, "Listen failed.", e);
+                        Log.v(TAG, "riderWaitForRequestAcceptance failed.", e);
                         listener.onRiderRequestTimeoutOrFail();
                     }
                     if (snapshot.exists()) {
                         if (Objects.requireNonNull(request).getDriverEmail() != null) {
-                            Log.v(TAG, "Got data: ");
+                            Log.v(TAG, "riderWaitForRequestAcceptance" +
+                                    "driver accepted request.");
                             listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
                         }
                     } else {
-                        Log.v(TAG, "Current data: null");
+                        Log.v(TAG, "riderWaitForRequestAcceptance data: null");
                         listener.onRiderRequestTimeoutOrFail();
                     }
                 });
@@ -105,6 +106,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                         listener.onRiderPickedupTimeoutOrFail();
                     }
                     if (snapshot.exists()) {
+                        Log.v(TAG, "riderWaitForPickup snapshot exists.");
                         if (Objects.requireNonNull(request).isPickedUp()) {
                             Log.v(TAG, "rider picked up: ");
                             listener.onRiderPickedupSuccess(snapshot.toObject(Request.class));
@@ -133,7 +135,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                         listener.onRiderDropoffFail();
                     }
                     if (snapshot.exists()) {
-                        if (Objects.requireNonNull(request).isAD()) {
+                        if (Objects.requireNonNull(request).isArrivedAtDest()) {
                             Log.v(TAG, "rider picked up: ");
                             listener.onRiderDropoffSuccess(snapshot.toObject(Request.class));
                         }
