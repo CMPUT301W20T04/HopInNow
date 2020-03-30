@@ -86,6 +86,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Author: Tianyu Bai
+ * Co-author: Shway Wang
  * This activity defines all methods for main activities of rider.
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -114,7 +115,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
-    private RequestDatabaseAccessor requestDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
 
     // progress bar here:
@@ -175,7 +175,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // assign logged in rider to local variable
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
-        this.requestDatabaseAccessor = new RequestDatabaseAccessor();
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
         // let the progress bar show:
         this.progressbarDialog = new ProgressbarDialog(this);
@@ -273,7 +272,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             saveCurrentRequestLocal(curRequest);
             // save current Request to firebase
             this.progressbarDialog.startProgressbarDialog();
-            requestDatabaseAccessor.addUpdateRequest(curRequest,this);
+            riderRequestDatabaseAccessor.addUpdateRequest(curRequest,this);
         } else {
             Toast.makeText(this, "Sorry, you do not have enough deposit for this " +
                     "request.", Toast.LENGTH_SHORT).show();
@@ -487,7 +486,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     public void cancelRequestLocal(){
         this.progressbarDialog.startProgressbarDialog();
-        this.requestDatabaseAccessor.deleteRequest(this);
+        this.riderRequestDatabaseAccessor.deleteRequest(this);
     }
 
     /**
@@ -757,18 +756,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         riderRequestDatabaseAccessor.addUpdateRequest(curRequest,RiderMapActivity.this);
     }
 
-    private void respondDriverOffer(int acceptStatus){
+    // used in RiderDriverOfferFragment class:
+    public void respondDriverOffer(int acceptStatus){
         riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(acceptStatus,
                 RiderMapActivity.this);
-        if (acceptStatus==1){
-            driverDecided = true;
-            riderRequestDatabaseAccessor.riderWaitForPickup(this);
-            switchFragment(R.layout.fragment_rider_waiting_pickup);
-        } else {
-            switchFragment(-1);
-        }
     }
-    
+
     /**
      * Disable the back button.
      */
@@ -823,17 +816,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderAcceptDriverRequest() {
-
+        driverDecided = true;
+        riderRequestDatabaseAccessor.riderWaitForPickup(this);
+        switchFragment(R.layout.fragment_rider_waiting_pickup);
     }
 
     @Override
     public void onRiderDeclineDriverRequest() {
-
+        switchFragment(-1);
     }
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
-            switchFragment(R.layout.fragment_rider_pickedup);
+        switchFragment(R.layout.fragment_rider_pickedup);
     }
 
     @Override
