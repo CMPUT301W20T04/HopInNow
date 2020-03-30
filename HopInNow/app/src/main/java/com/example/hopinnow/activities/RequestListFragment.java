@@ -250,8 +250,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         this.progressbarDialog.dismissDialog();
         Toast.makeText(context,"Rider has accepted your offer!",Toast.LENGTH_SHORT)
                 .show();
-        ((DriverMapActivity) Objects.requireNonNull(context))
-                .switchFragment(R.layout.fragment_driver_pick_rider_up);
+        ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(R.layout.fragment_driver_pick_rider_up);
+        //((DriverMapActivity) Objects.requireNonNull(context))
+         //       .switchFragment(R.layout.fragment_driver_pick_rider_up);
     }
 
     @Override
