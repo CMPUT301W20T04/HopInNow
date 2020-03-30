@@ -86,7 +86,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
                     driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                     request.setPickedUp(true);
-                    driverRequestDatabaseAccessor.driverRequestPickup(request,
+                    driverRequestDatabaseAccessor.driverPickupRider(request,
                             PickUpAndCurrentRequest.this);
                     ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
@@ -246,6 +246,16 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverPickupFail() {
+
+    }
+
+    @Override
+    public void onDriverDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onDriverDropoffFail() {
 
     }
 

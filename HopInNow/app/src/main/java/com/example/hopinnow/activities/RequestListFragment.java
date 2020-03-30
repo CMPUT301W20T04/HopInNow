@@ -270,6 +270,16 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     }
 
     @Override
+    public void onDriverDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onDriverDropoffFail() {
+
+    }
+
+    @Override
     public void onDriverRequestCompleteSuccess() {
 
     }

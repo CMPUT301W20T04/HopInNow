@@ -115,7 +115,35 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
     }
 
     /**
-     * Rider is pickedup, now to wait for the request to complete
+     * invoke the listener when rider is dropped off
+     * @param listener
+     *      listener called when success or fail or timeout
+     */
+    public void riderWaitForDropoff(final RiderRequestListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        this.firestore
+                .collection(this.referenceName)
+                .document(this.currentUser.getUid())
+                .addSnapshotListener((snapshot, e) -> {
+                    Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
+                    if (e != null) {
+                        Log.v(TAG, "Listen failed.", e);
+                        listener.onRiderDropoffFail();
+                    }
+                    if (snapshot.exists()) {
+                        if (Objects.requireNonNull(request).isAD()) {
+                            Log.v(TAG, "rider picked up: ");
+                            listener.onRiderDropoffSuccess(snapshot.toObject(Request.class));
+                        }
+                    } else {
+                        Log.v(TAG, "Current data: null");
+                        listener.onRiderDropoffFail();
+                    }
+                });
+    }
+
+    /**
+     * Rider is dropped off, now to wait for the request to complete
      * @param listener
      *      invoke method when the rider is dropped off
      */
