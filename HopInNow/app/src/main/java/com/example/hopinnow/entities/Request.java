@@ -14,10 +14,7 @@ public class Request extends Ride implements Comparable<Request>{
     private double mdToDriver;
     private boolean isComplete;
     private Double rating;
-
-
-//public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc,
-    // Date dateTime, Car car, Double estimatedFare){}
+    private boolean isAccept;
 
     /**
      * empty constructor
@@ -155,5 +152,13 @@ public class Request extends Ride implements Comparable<Request>{
      */
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public boolean isAccept() {
+        return isAccept;
+    }
+
+    public void setAccept(boolean accept) {
+        isAccept = accept;
     }
 }

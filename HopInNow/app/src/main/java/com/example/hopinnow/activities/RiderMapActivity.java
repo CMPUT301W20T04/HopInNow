@@ -510,7 +510,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         return gson.fromJson(json, Request.class);
     }
 
-
     /**
      * Retrieves information of the current request from online.
      * @return
@@ -519,7 +518,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public Request retrieveCurrentRequest(){
         return curRequest;
     }
-
 
     /**
      * Retrieves information of the driver.
