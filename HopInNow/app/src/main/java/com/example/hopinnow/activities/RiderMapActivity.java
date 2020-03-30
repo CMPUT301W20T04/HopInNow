@@ -836,6 +836,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderPickedupSuccess(Request request) {
         switchFragment(R.layout.fragment_rider_pickedup);
+        riderRequestDatabaseAccessor.riderWaitForDropoff(this);
     }
 
     @Override
@@ -843,7 +844,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderDropoffSuccess(Request request) {
-        Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
         intent.putExtra("Driver", driver);
         intent.putExtra("Rider", rider);
