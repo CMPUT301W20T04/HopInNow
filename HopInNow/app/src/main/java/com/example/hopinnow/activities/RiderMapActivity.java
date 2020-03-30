@@ -285,6 +285,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * @param googleMap
      *      map object
      */
+    @SuppressLint("CheckResult")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

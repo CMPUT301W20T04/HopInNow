@@ -247,6 +247,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onRequestAcceptedByRider(Request request) {
+        driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
         this.progressbarDialog.dismissDialog();
         Toast.makeText(context,"Rider has accepted your offer!",Toast.LENGTH_SHORT)
                 .show();
