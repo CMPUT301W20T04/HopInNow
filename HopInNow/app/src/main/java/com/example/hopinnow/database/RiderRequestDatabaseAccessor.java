@@ -7,10 +7,13 @@ import androidx.annotation.NonNull;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -48,6 +51,34 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     } else {
                         Log.v(TAG, "Current data: null");
                         listener.onRiderRequestTimeoutOrFail();
+                    }
+                });
+    }
+
+    /**
+     * invoke the listener when request is accepted or declined by the rider.
+     * @param acceptStatus
+     *      1: request accepted by rider
+     *      0: request neither accepted nor declined by rider
+     *      -1: request declined by rider
+     * @param listener
+     *      listener called when success or fail
+     */
+    public void riderAcceptOrDeclineRequest(int acceptStatus, final RiderRequestListener listener) {
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        Map<String, Object> map = new HashMap<>();
+        map.put("acceptStatus", acceptStatus);
+        this.firestore
+                .collection(this.referenceName)
+                .document(this.currentUser.getUid())
+                .update(map)
+                .addOnSuccessListener(aVoid -> {
+                    if (acceptStatus == 1) {
+                        Log.v(TAG, "the request is accepted by the rider.");
+                        listener.onRiderAcceptDriverRequest();
+                    } else {
+                        Log.v(TAG, "the request is declined by the rider.");
+                        listener.onRiderDeclineDriverRequest();
                     }
                 });
     }

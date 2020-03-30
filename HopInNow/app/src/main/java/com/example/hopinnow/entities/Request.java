@@ -14,10 +14,7 @@ public class Request extends Ride implements Comparable<Request>{
     private double mdToDriver;
     private boolean isComplete;
     private Double rating;
-
-
-//public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc,
-    // Date dateTime, Car car, Double estimatedFare){}
+    private int acceptStatus;
 
     /**
      * empty constructor
@@ -49,13 +46,13 @@ public class Request extends Ride implements Comparable<Request>{
                     String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     Car car, Double estimatedFare){
         super(driver,rider,pickUpLoc,dropOffLoc,pickUpLocName, dropOffLocName,pickUpDateTime,car);
-        try{
+        try {
             this.estimatedFare = estimatedFare;
             this.isPickedUp = false;
             this.isComplete = false;
             this.rating = -1.0;
-        }
-        catch(Exception e){
+            this.acceptStatus = 0;
+        } catch(Exception e){
             throw e;
         }
     }
@@ -155,5 +152,13 @@ public class Request extends Ride implements Comparable<Request>{
      */
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public int getAcceptStatus() {
+        return this.acceptStatus;
+    }
+
+    public void setAcceptStatus(int acceptStatus) {
+        this.acceptStatus = acceptStatus;
     }
 }
