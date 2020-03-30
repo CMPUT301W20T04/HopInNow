@@ -82,7 +82,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         System.out.println(result);
         System.out.println(driver.getEmail());
 
-        if (driver.getEmail().equals(result[0])){ //
+        if (driver.getEmail().equals(result[0])){
 
             //todo trigger rider rating by removing request from firebase
             //double prevDeposit = driver.getDeposit();
