@@ -468,6 +468,16 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRiderPickedupTimeoutOrFail() {}
 
     @Override
+    public void onRiderDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onRiderDropoffFail() {
+
+    }
+
+    @Override
     public void onRiderRequestComplete() {
         showRatingDialog();
     }

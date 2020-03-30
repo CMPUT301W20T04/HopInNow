@@ -86,7 +86,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
                     driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                     request.setPickedUp(true);
-                    driverRequestDatabaseAccessor.driverRequestPickup(request,
+                    driverRequestDatabaseAccessor.driverPickupRider(request,
                             PickUpAndCurrentRequest.this);
                     ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
@@ -103,6 +103,9 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //trip paras:
                     //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
+                    // fixme, what is AD? why is request null in driverDropoffRider()?
+                    request.setAD(true);
+                    driverRequestDatabaseAccessor.driverDropoffRider(request,PickUpAndCurrentRequest.this);
                     Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
 
 
@@ -246,6 +249,16 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverPickupFail() {
+
+    }
+
+    @Override
+    public void onDriverDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onDriverDropoffFail() {
 
     }
 

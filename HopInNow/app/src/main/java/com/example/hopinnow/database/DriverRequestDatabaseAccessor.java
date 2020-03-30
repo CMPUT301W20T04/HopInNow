@@ -7,13 +7,15 @@ import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
 /**
  * Author: Shway Wang
- * Version: 1.0.2
+ * Version: 1.0.4
  */
 public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public static final String TAG = "DriverRequestDA";
@@ -111,19 +113,46 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      * @param listener
      *      the listener to invoke the methods
      */
-    public void driverRequestPickup(Request request, final DriverRequestListener listener) {
+    public void driverPickupRider(Request request, final DriverRequestListener listener) {
         String requestID = request.getRequestID();
+        Map<String, Object> map = new HashMap<>();
+        map.put("isPickedUp", true);
         this.firestore
                 .collection(referenceName)
                 .document(requestID)
-                .set(request)
+                .update(map)
                 .addOnSuccessListener(aVoid -> {
-                    Log.v(TAG, "Request added!");
+                    Log.v(TAG, "picked up success!");
                     listener.onDriverPickupSuccess();
                 })
                 .addOnFailureListener(e -> {
-                    Log.v(TAG, "Request did not save successfully!");
+                    Log.v(TAG, "picked up fail!");
                     listener.onDriverPickupFail();
+                });
+    }
+
+    /**
+     * Should only set the isAD to true in the request list
+     * @param request
+     *      request object to change
+     * @param listener
+     *      the listener to invoke the methods
+     */
+    public void driverDropoffRider(Request request, final DriverRequestListener listener) {
+        String requestID = request.getRequestID();
+        Map<String, Object> map = new HashMap<>();
+        map.put("isAD", true);
+        this.firestore
+                .collection(referenceName)
+                .document(requestID)
+                .update(map)
+                .addOnSuccessListener(aVoid -> {
+                    Log.v(TAG, "Drop off success!");
+                    listener.onDriverDropoffSuccess(request);
+                })
+                .addOnFailureListener(e -> {
+                    Log.v(TAG, "Drop off fail!");
+                    listener.onDriverDropoffFail();
                 });
     }
 

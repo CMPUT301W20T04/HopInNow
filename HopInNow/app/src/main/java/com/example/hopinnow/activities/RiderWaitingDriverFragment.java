@@ -28,22 +28,25 @@ public class  RiderWaitingDriverFragment extends Fragment {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private Chronometer chronometer;
     private boolean running;
-    private Double lowest_price;
+    private double lowest_price;
     private Double estimate_fare;
     private TextView fare_amount;
     private long savedTime = 0;
+
+    public RiderWaitingDriverFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_rider_waiting_driver, container,
                 false);
+        lowest_price = Double.valueOf((Double) getArguments().getSerializable("baseFare"));
         Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequestLocal();
         Rider rider = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveRider();
-        lowest_price = curRequest.getEstimatedFare();
-        estimate_fare = lowest_price;
+        estimate_fare = curRequest.getEstimatedFare();
         chronometer = view.findViewById(R.id.chronometer);
 
         fare_amount = view.findViewById(R.id.fare_amount);
@@ -63,7 +66,16 @@ public class  RiderWaitingDriverFragment extends Fragment {
         });
 
         Button reduce_money = view.findViewById(R.id.reduce_money);
-        reduce_money.setOnClickListener(v -> reduceFare());
+        reduce_money.setOnClickListener(v -> {
+            if((estimate_fare - 1) >= lowest_price) {
+                reduceFare();
+            } else {
+                Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
+                        "Sorry, you can not go lower than the estimated base fare.",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        });
 
         Button cancel_request = view.findViewById(R.id.cancel_button);
         // the action after the cancel request button is clicked:
@@ -97,15 +109,9 @@ public class  RiderWaitingDriverFragment extends Fragment {
     }
 
     private void reduceFare(){
-        if(Double.parseDouble(df2.format(estimate_fare)) - 1 >= lowest_price) {
-            estimate_fare -= 1;
-            fare_amount.setText(df2.format(estimate_fare));
-            ((RiderMapActivity)getActivity()).updateFare(estimate_fare);
-        } else {
-            Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
-                    "Sorry, you can not go lower than the estimated base fare.",
-                    Toast.LENGTH_SHORT).show();
-        }
+        estimate_fare -= 1;
+        fare_amount.setText(df2.format(estimate_fare));
+        ((RiderMapActivity)getActivity()).updateFare(estimate_fare);
     }
 
     private void startChronometer(){
@@ -118,7 +124,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
         }
     }
 
-    private void endChronometer(){
+    public void endChronometer(){
         if(running){
             savedTime = chronometer.getBase();
             chronometer.stop();

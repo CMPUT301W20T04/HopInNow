@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -108,6 +109,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Marker pickUpMarker, dropOffMarker;
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
     private Button myLocPickUpBtn;
+    private boolean driverDecided = false;
+    private double baseFare;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
@@ -156,6 +159,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                             lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
+                            mMap.setMyLocationEnabled(true);
                         }
                     });
         } else {
@@ -258,6 +262,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Date dateTime = Calendar.getInstance().getTime();
         EstimateFare fare = new EstimateFare();
         Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc);
+        baseFare = estimatedFare;
 
         if (estimatedFare <= rider.getDeposit()){
             // set attribute of the request:
@@ -283,12 +288,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if ((ActivityCompat.checkSelfPermission(RiderMapActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                && (ActivityCompat.checkSelfPermission(RiderMapActivity.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
-            mMap.setMyLocationEnabled(true);
-        }
 
         mMap.setPadding(0, 0, 14, 0);
 
@@ -442,13 +441,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * @param caseId
      *      information of destination fragment
      */
+    @SuppressLint("ResourceType")
     public void switchFragment(int caseId){
         FragmentManager t = getSupportFragmentManager();
 
         // caseID defined by id of the next fragment to show
         switch(caseId){
             case R.layout.fragment_rider_waiting_driver:
-                t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingDriverFragment())
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("baseFare", baseFare);
+                RiderWaitingDriverFragment f = new RiderWaitingDriverFragment();
+                f.setArguments(bundle);
+                t.beginTransaction().replace(R.id.fragment_place, f)
                         .commit();
                 break;
             case R.layout.fragment_rider_driver_offer:
@@ -749,8 +753,23 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void updateFare(Double newFare){
         curRequest.setEstimatedFare(newFare);
         saveCurrentRequestLocal(curRequest);
-        //TODO UPDATE FARE in firebase
+        //riderRequestDatabaseAccessor.deleteRequest(RiderMapActivity.this);
+        riderRequestDatabaseAccessor.addUpdateRequest(curRequest,RiderMapActivity.this);
     }
+
+    public void respondDriverOffer(int acceptStatus){
+        riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(acceptStatus,
+                RiderMapActivity.this);
+        if (acceptStatus==1){
+            driverDecided = true;
+            riderRequestDatabaseAccessor.riderWaitForPickup(this);
+            switchFragment(R.layout.fragment_rider_waiting_pickup);
+        } else {
+            switchFragment(-1);
+        }
+    }
+
+
 
     /**
      * Called when profile retrieve successfully:
@@ -815,15 +834,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
-        switchFragment(R.layout.fragment_rider_pickedup);
-        //riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
+            switchFragment(R.layout.fragment_rider_pickedup);
     }
 
     @Override
     public void onRiderPickedupTimeoutOrFail() {}
 
     @Override
-    public void onRiderRequestComplete() {
+    public void onRiderDropoffSuccess(Request request) {
         Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
         intent.putExtra("Driver", driver);
@@ -833,25 +851,27 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
+    public void onRiderDropoffFail() {}
+
+     @Override
+    public void onRiderRequestComplete() {}
+
+    @Override
     public void onRiderRequestCompletionError() {}
 
     @Override
-    public void onRequestRatedSuccess() {
-
-    }
+    public void onRequestRatedSuccess() {}
 
     @Override
-    public void onRequestRatedError() {
-
-    }
-
+    public void onRequestRatedError() {}
 
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.progressbarDialog.dismissDialog();
         this.driver = driver;
-        switchFragment(R.layout.fragment_rider_waiting_pickup);
-        riderRequestDatabaseAccessor.riderWaitForPickup(this);
+        if (!driverDecided){
+            switchFragment(R.layout.fragment_rider_driver_offer);
+        }
     }
 
     @Override
@@ -882,6 +902,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //set curRequest to null
         curRequest = null;
         saveCurrentRequestLocal(null);
+        baseFare = 0.00;
+        driverDecided = false;
         pickUpLocName = null;
         dropOffLocName= null;
         switchMarkerDraggable();
