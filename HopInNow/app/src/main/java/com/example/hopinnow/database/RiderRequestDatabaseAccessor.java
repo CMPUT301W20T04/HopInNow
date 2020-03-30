@@ -136,7 +136,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     }
                     if (snapshot.exists()) {
                         if (Objects.requireNonNull(request).isArrivedAtDest()) {
-                            Log.v(TAG, "rider picked up: ");
+                            Log.v(TAG, "rider dropped off: ");
                             listener.onRiderDropoffSuccess(snapshot.toObject(Request.class));
                         }
                     } else {
