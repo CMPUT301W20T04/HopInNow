@@ -37,12 +37,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         AvailRequestListListener, DriverRequestListener {
     private Driver driver;
     private Request request;
-    private ArrayList<Request> requestList = new ArrayList<>();
-    TextView requestTitleText;
-    TextView requestFromText;
-    TextView requestToText;
-    TextView requestTimeText;
-    TextView requestCostText;
+    private TextView requestFromText;
+    private TextView requestToText;
+    private TextView requestTimeText;
+    private TextView requestCostText;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private ProgressbarDialog progressbarDialog;
@@ -59,7 +57,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container,false);
         if(view!=null)
         {
-            requestTitleText = view.findViewById(R.id.RequestInfoText);
+            TextView requestTitleText = view.findViewById(R.id.RequestInfoText);
             requestFromText = view.findViewById(R.id.requestFromText);
             requestToText = view.findViewById(R.id.requestToText);
             requestTimeText = view.findViewById(R.id.requestTimeText);
@@ -67,7 +65,8 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             Button pickUpButton = view.findViewById(R.id.PickUpRiderButton);
             Button dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             Button emergencyCallButton = view.findViewById(R.id.EmergencyCall);
-            display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
+            display_mode = ((DriverMapActivity) Objects.requireNonNull(getActivity()))
+                    .getCurrentRequestPageCounter();
             if(display_mode == 0){
                 // the fragment that display the pickup button and request information
                 pickUpButton.setVisibility(View.VISIBLE);
@@ -95,7 +94,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 });}
             else{
                 // switch to a fragment that display the request information and drop off button.
-                dropOffButton.setOnClickListener((View.OnClickListener) v -> {
+                dropOffButton.setOnClickListener(v -> {
                     ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                     // move this request from curRequest to trip
                     //request parameters:
@@ -107,8 +106,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
                     // fixme, what is AD? why is request null in driverDropoffRider()?
                     request.setArrivedAtDest(true);
-                    driverRequestDatabaseAccessor.driverDropoffRider(request,PickUpAndCurrentRequest.this);
-                    Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
+                    driverRequestDatabaseAccessor.driverDropoffRider(request,
+                            PickUpAndCurrentRequest.this);
+                    Intent intent = new Intent((getActivity()).getApplicationContext(),
+                            DriverScanPaymentActivity.class);
 
 
                     Bundle bundle = new Bundle();
@@ -195,7 +196,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        this.requestList = requests;
         driverDatabaseAccessor.updateDriverProfile(driver, PickUpAndCurrentRequest.this);
     }
 
