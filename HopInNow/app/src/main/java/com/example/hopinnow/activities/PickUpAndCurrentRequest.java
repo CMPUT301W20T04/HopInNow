@@ -264,7 +264,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverPickupSuccess() {
-        this.progressbarDialog.dismissDialog();
         driverDatabaseAccessor.updateDriverProfile(driver,this);
         ((DriverMapActivity) Objects.requireNonNull(context))
                 .switchFragment(R.layout.fragment_driver_pick_rider_up);
