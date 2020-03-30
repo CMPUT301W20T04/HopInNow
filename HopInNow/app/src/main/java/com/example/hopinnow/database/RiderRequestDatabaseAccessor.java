@@ -98,6 +98,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .collection(this.referenceName)
                 .document(this.currentUser.getUid())
                 .addSnapshotListener((snapshot, e) -> {
+                    Log.v(TAG, "riderWaitForPickup snapshot listener added.");
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                     if (e != null) {
                         Log.v(TAG, "Listen failed.", e);
