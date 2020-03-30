@@ -86,7 +86,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         requestTimeText.setText("Time: " + request.getPickUpDateTime());
         requestCostText.setText("Estimate Fare: " + request.getEstimatedFare());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
-        System.out.println(request.isPickedUp());
+
         if (!request.isPickedUp()) {
 
             // the fragment that display the pickup button and request information
