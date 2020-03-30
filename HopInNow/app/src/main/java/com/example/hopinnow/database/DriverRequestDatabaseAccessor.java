@@ -142,7 +142,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public void driverDropoffRider(Request request, final DriverRequestListener listener) {
         String requestID = request.getRequestID();
         Map<String, Object> map = new HashMap<>();
-        map.put("isAD", true);
+        map.put("isArrivedAtDest", true);
         this.firestore
                 .collection(super.referenceName)
                 .document(requestID)
