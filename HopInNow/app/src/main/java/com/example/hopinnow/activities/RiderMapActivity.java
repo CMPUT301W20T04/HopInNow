@@ -753,7 +753,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void updateFare(Double newFare){
         curRequest.setEstimatedFare(newFare);
         saveCurrentRequestLocal(curRequest);
-        //riderRequestDatabaseAccessor.deleteRequest(RiderMapActivity.this);
         riderRequestDatabaseAccessor.addUpdateRequest(curRequest,RiderMapActivity.this);
     }
 
@@ -761,11 +760,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(acceptStatus,
                 RiderMapActivity.this);
         if (acceptStatus==1){
-            driverDecided = true;
-            riderRequestDatabaseAccessor.riderWaitForPickup(this);
-            switchFragment(R.layout.fragment_rider_waiting_pickup);
+
         } else {
-            switchFragment(-1);
+
         }
     }
 
@@ -824,17 +821,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderAcceptDriverRequest() {
-
+        this.driverDecided = true;
+        riderRequestDatabaseAccessor.riderWaitForPickup(this);
+        switchFragment(R.layout.fragment_rider_waiting_pickup);
     }
 
     @Override
     public void onRiderDeclineDriverRequest() {
-
+        switchFragment(-1);
     }
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
-            switchFragment(R.layout.fragment_rider_pickedup);
+        switchFragment(R.layout.fragment_rider_pickedup);
     }
 
     @Override
