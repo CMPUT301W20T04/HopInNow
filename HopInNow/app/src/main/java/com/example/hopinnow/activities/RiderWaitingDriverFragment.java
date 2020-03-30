@@ -25,7 +25,6 @@ import java.util.Objects;
  * This class is triggered by by rider creating a new current request.
  */
 public class  RiderWaitingDriverFragment extends Fragment {
-
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private Chronometer chronometer;
     private boolean running;
