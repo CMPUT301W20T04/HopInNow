@@ -133,7 +133,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     }
 
     /**
-     * Should only set the isAD to true in the request list
+     * Should only set the isArriveAtDest to true in the request list
      * @param request
      *      request object to change
      * @param listener
@@ -142,7 +142,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public void driverDropoffRider(Request request, final DriverRequestListener listener) {
         String requestID = request.getRequestID();
         Map<String, Object> map = new HashMap<>();
-        map.put("isAD", true);
+        map.put("arrivedAtDest", true);
         this.firestore
                 .collection(super.referenceName)
                 .document(requestID)
