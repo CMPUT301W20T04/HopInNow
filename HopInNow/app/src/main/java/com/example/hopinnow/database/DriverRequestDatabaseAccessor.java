@@ -87,8 +87,13 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .collection(super.referenceName)
                 .document(requestID)
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    assert documentSnapshot != null;
-                    Request req = documentSnapshot.toObject(Request.class);
+                    Request req = requireNonNull(documentSnapshot).toObject(Request.class);
+                    if (req == null || !requireNonNull(documentSnapshot).exists()) {
+                        Log.v(TAG, "The request is declined by" +
+                                "the rider before the driver arrives");
+                        listener.onRequestDeclinedByRider();
+                        return;
+                    }
                     if (requireNonNull(req).getAcceptStatus() == 1) {
                         // acceptStatus is 1 means request is accepted
                         Log.v(TAG, "The request is accepted by the rider.");
