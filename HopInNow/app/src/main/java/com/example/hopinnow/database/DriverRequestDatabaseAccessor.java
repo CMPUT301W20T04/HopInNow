@@ -72,7 +72,8 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     }
     /**
      * Called for the driver to listen on the request he or she just accepted,
-     * the listener method invokes if the rider cancels the request before the driver arrives.
+     * the listener method invokes if the rider accepts or declines the request before the driver
+     * arrives.
      * @param request
      *      the request to listen on
      * @param listener
@@ -86,10 +87,19 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .addSnapshotListener((documentSnapshot, e) -> {
                     assert documentSnapshot != null;
                     Request req = documentSnapshot.toObject(Request.class);
-                    if (req == null || req.getRiderEmail() == null) {
-                        Log.v(TAG, "The request is canceled by" +
+                    if (requireNonNull(req).getAcceptStatus() == 1) {
+                        // acceptStatus is 1 means request is accepted
+                        Log.v(TAG, "The request is accepted by the rider.");
+                        listener.onRequestAcceptedByRider(req);
+                    } else if (req.getAcceptStatus() == -1 || req.getRiderEmail() == null) {
+                        // acceptStatus is -1 means request is declined
+                        Log.v(TAG, "The request is declined by" +
                                 "the rider before the driver arrives");
-                        listener.onRequestCanceledByRider();
+                        listener.onRequestDeclinedByRider();
+                    } else {
+                        // acceptStatus is 0 means request is neither accepted nor declined yet
+                        Log.v(TAG, "The request info is changed.");
+                        listener.onRequestInfoChange(req);
                     }
                 });
     }

@@ -225,7 +225,17 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
-    public void onRequestCanceledByRider() {
+    public void onRequestInfoChange(Request request) {
+
+    }
+
+    @Override
+    public void onRequestAcceptedByRider(Request request) {
+
+    }
+
+    @Override
+    public void onRequestDeclinedByRider() {
 
     }
 

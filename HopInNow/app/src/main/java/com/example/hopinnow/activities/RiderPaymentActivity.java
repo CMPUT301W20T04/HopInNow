@@ -452,6 +452,16 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRiderRequestTimeoutOrFail() {}
 
     @Override
+    public void onRiderAcceptDriverRequest() {
+
+    }
+
+    @Override
+    public void onRiderDeclineDriverRequest() {
+
+    }
+
+    @Override
     public void onRiderPickedupSuccess(Request request) {}
 
     @Override

@@ -236,7 +236,17 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     }
 
     @Override
-    public void onRequestCanceledByRider() {
+    public void onRequestInfoChange(Request request) {
+
+    }
+
+    @Override
+    public void onRequestAcceptedByRider(Request request) {
+
+    }
+
+    @Override
+    public void onRequestDeclinedByRider() {
 
     }
 
