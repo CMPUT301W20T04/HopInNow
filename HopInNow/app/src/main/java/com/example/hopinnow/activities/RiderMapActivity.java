@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -109,6 +110,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
     private Button myLocPickUpBtn;
     private boolean driverDecided = false;
+    private double baseFare;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
@@ -260,6 +262,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Date dateTime = Calendar.getInstance().getTime();
         EstimateFare fare = new EstimateFare();
         Double estimatedFare = fare.estimateFare(pickUpLoc,dropOffLoc);
+        baseFare = estimatedFare;
 
         if (estimatedFare <= rider.getDeposit()){
             // set attribute of the request:
@@ -270,7 +273,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             saveCurrentRequestLocal(curRequest);
             // save current Request to firebase
             this.progressbarDialog.startProgressbarDialog();
-            requestDatabaseAccessor.addRequest(curRequest,this);
+            requestDatabaseAccessor.addUpdateRequest(curRequest,this);
         } else {
             Toast.makeText(this, "Sorry, you do not have enough deposit for this " +
                     "request.", Toast.LENGTH_SHORT).show();
@@ -438,13 +441,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * @param caseId
      *      information of destination fragment
      */
+    @SuppressLint("ResourceType")
     public void switchFragment(int caseId){
         FragmentManager t = getSupportFragmentManager();
 
         // caseID defined by id of the next fragment to show
         switch(caseId){
             case R.layout.fragment_rider_waiting_driver:
-                t.beginTransaction().replace(R.id.fragment_place, new RiderWaitingDriverFragment())
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("baseFare", baseFare);
+                RiderWaitingDriverFragment f = new RiderWaitingDriverFragment();
+                f.setArguments(bundle);
+                t.beginTransaction().replace(R.id.fragment_place, f)
                         .commit();
                 break;
             case R.layout.fragment_rider_driver_offer:
@@ -745,8 +753,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void updateFare(Double newFare){
         curRequest.setEstimatedFare(newFare);
         saveCurrentRequestLocal(curRequest);
-        riderRequestDatabaseAccessor.deleteRequest(RiderMapActivity.this);
-        riderRequestDatabaseAccessor.addRequest(curRequest,RiderMapActivity.this);
+        //riderRequestDatabaseAccessor.deleteRequest(RiderMapActivity.this);
+        riderRequestDatabaseAccessor.addUpdateRequest(curRequest,RiderMapActivity.this);
     }
 
     public void respondDriverOffer(int acceptStatus){
@@ -832,7 +840,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderPickedupTimeoutOrFail() {}
 
-    @Override
+    //todo
+    //todo
+    //todo
+     @Override
     public void onRiderRequestComplete() {
         Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
@@ -893,6 +904,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //set curRequest to null
         curRequest = null;
         saveCurrentRequestLocal(null);
+        baseFare = 0.00;
         pickUpLocName = null;
         dropOffLocName= null;
         switchMarkerDraggable();
