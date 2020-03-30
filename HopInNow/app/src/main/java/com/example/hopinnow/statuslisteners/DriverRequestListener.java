@@ -1,5 +1,7 @@
 package com.example.hopinnow.statuslisteners;
 
+import com.example.hopinnow.entities.Request;
+
 /**
  * Author: Shway Wang
  * Version: 1.0.0
@@ -22,9 +24,19 @@ public interface DriverRequestListener {
     void onRequestAlreadyTaken();
 
     /**
-     * Called when the request is cancel by the rider before the driver arrives.
+     * Called when the request info is changed by rider before driver arrives
      */
-    void onRequestCanceledByRider();
+    void onRequestInfoChange(Request request);
+
+    /**
+     * Called when the request is accepted by the rider
+     */
+    void onRequestAcceptedByRider(Request request);
+
+    /**
+     * Called when the request is declined by the rider before the driver arrives.
+     */
+    void onRequestDeclinedByRider();
 
     /**
      * Called when the driver picks up the rider

@@ -804,6 +804,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderRequestTimeoutOrFail() {}
 
     @Override
+    public void onRiderAcceptDriverRequest() {
+
+    }
+
+    @Override
+    public void onRiderDeclineDriverRequest() {
+
+    }
+
+    @Override
     public void onRiderPickedupSuccess(Request request) {
         switchFragment(R.layout.fragment_rider_pickedup);
         //riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
