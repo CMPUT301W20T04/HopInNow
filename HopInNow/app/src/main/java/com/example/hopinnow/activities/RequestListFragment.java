@@ -181,6 +181,13 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                         RequestListFragment.this);
             });
             //prePosition = position;
+
+            //ui mock next page button (viola)
+            Button nextBtn = view.findViewById(R.id.mock_toPickUpRider);
+            nextBtn.setOnClickListener(v -> {
+                ((DriverMapActivity) requireNonNull(getActivity()))
+                        .switchFragment(R.layout.fragment_driver_pick_rider_up);
+            });
         });
         // Shway added this following lines:
         this.progressbarDialog.dismissDialog();

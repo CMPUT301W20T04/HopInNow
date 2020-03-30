@@ -26,6 +26,8 @@ import static junit.framework.TestCase.assertTrue;
 /**
  * Author: Tianyu Bai
  * UI tests on register activities. Robotium test framework is used.
+ *
+ * Note: Please allow permission of location,camera and phone before launching UI testing.
  */
 @RunWith(AndroidJUnit4.class)
 public class Test1_RegisterActivityTest {
@@ -60,7 +62,7 @@ public class Test1_RegisterActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case1_registerDriver() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", RegisterActivity.class);
 
@@ -128,7 +130,7 @@ public class Test1_RegisterActivityTest {
      * @throws InterruptedException
      *           throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case2_registerRider() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", RegisterActivity.class);
 
