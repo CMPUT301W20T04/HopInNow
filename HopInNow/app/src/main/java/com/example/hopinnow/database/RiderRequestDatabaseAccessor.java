@@ -18,7 +18,7 @@ import java.util.Objects;
 
 /**
  * Author: Shway Wang
- * Version: 1.0.0
+ * Version: 1.1.0
  * Handles all rider side database accesses
  */
 public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {

@@ -768,7 +768,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             switchFragment(-1);
         }
     }
+    
+    /**
+     * Disable the back button.
+     */
+    @Override
+    public void onBackPressed() {
 
+    }
 
 
     /**
@@ -800,14 +807,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     @Override
     public void onRiderProfileUpdateFailure() {}
-
-    /**
-     * Disable the back button.
-     */
-    @Override
-    public void onBackPressed() {
-
-    }
 
     /**
      * We are skipping the step of rider accepting/declining the offer right now.
