@@ -419,7 +419,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 pickUpAutoComplete.setText(addresses.get(0).getAddressLine(0));
             }
         }
-
     }
 
 
@@ -483,29 +482,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * Cancels current request of the rider and return to initial location search prompt page.
      */
     public void cancelRequestLocal(){
-        //clear all fragments
-        FrameLayout fl = findViewById(R.id.fragment_place);
-        fl.removeAllViews();
-
-        //set curRequest to null
-        curRequest = null;
-        saveCurrentRequestLocal(null);
-        pickUpLocName = null;
-        dropOffLocName= null;
-        switchMarkerDraggable();
-        if ((pickUpMarker!=null) && (dropOffMarker!=null)){
-            pickUpMarker.setVisible(false);
-            dropOffMarker.setVisible(false);
-        }
-        //return to initial prompt of location searching
-        View searchFragment = findViewById(R.id.search_layout);
-        findViewById(R.id.mock).setVisibility(View.INVISIBLE);
-        searchFragment.setVisibility(View.VISIBLE);
-        pickUpAutoComplete.setText("");
-        dropOffAutoComplete.setText("");
-        myLocPickUpBtn.setVisibility(View.VISIBLE);
+        this.progressbarDialog.startProgressbarDialog();
+        this.requestDatabaseAccessor.deleteRequest(this);
     }
-
 
     /**
      * Save current request locally.
@@ -664,7 +643,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
          mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
      }
 
-
     /**
      * Shows driver information and contact means on a dialog
      */
@@ -776,7 +754,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO UPDATE FARE in firebase
     }
 
-
     /**
      * Called when profile retrieve successfully:
      * @param rider
@@ -839,12 +816,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderRequestComplete() {
-        /*Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
         intent.putExtra("Driver", driver);
         intent.putExtra("Rider", rider);
         startActivity(intent);
-        finish();*/
+        finish();
     }
 
     @Override
@@ -890,6 +867,28 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRequestDeleteSuccess() {
+        //clear all fragments
+        FrameLayout fl = findViewById(R.id.fragment_place);
+        fl.removeAllViews();
+
+        //set curRequest to null
+        curRequest = null;
+        saveCurrentRequestLocal(null);
+        pickUpLocName = null;
+        dropOffLocName= null;
+        switchMarkerDraggable();
+        if ((pickUpMarker!=null) && (dropOffMarker!=null)){
+            pickUpMarker.setVisible(false);
+            dropOffMarker.setVisible(false);
+        }
+        //return to initial prompt of location searching
+        View searchFragment = findViewById(R.id.search_layout);
+        findViewById(R.id.mock).setVisibility(View.INVISIBLE);
+        searchFragment.setVisibility(View.VISIBLE);
+        pickUpAutoComplete.setText("");
+        dropOffAutoComplete.setText("");
+        myLocPickUpBtn.setVisibility(View.VISIBLE);
+        this.progressbarDialog.dismissDialog();
         Toast.makeText(this,"The request is cancelled succesfully!",Toast.LENGTH_SHORT)
                 .show();
     }

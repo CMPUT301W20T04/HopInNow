@@ -57,7 +57,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
             if ((estimate_fare+1) <= rider.getDeposit()) {
                 addFare();
             } else {
-                Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
+                Toast.makeText(Objects.requireNonNull(getActivity()),
                         "Sorry, you do not have enough deposit to add money.",
                         Toast.LENGTH_SHORT).show();
             }
@@ -67,6 +67,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
         reduce_money.setOnClickListener(v -> reduceFare());
 
         Button cancel_request = view.findViewById(R.id.cancel_button);
+        // the action after the cancel request button is clicked:
         cancel_request.setOnClickListener(v -> {
             ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
             endChronometer();
