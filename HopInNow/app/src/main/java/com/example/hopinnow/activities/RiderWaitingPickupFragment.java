@@ -21,6 +21,8 @@ import java.util.Objects;
 
 /**
  * Authoer: Tianyu Bai
+ * Co-author: Shway Wang
+ * Version: 1.0.2
  * This class defines the fargment while rider is waiting for driver pickup.
  * TODO: This class is triggered by rider accepting driver's offer, acceptance not connected to fire base yet.
  */
@@ -55,7 +57,7 @@ public class RiderWaitingPickupFragment extends Fragment {
 
             //set pick up location
             TextView pickUpLoc = view.findViewById(R.id.rider_waiting_pickUp);
-            pickUpLoc.setText(curRequest.getPickUpLocName());
+            pickUpLoc.setText(Objects.requireNonNull(curRequest).getPickUpLocName());
 
             //set drop off location
             TextView dropOffLoc = view.findViewById(R.id.rider_waiting_dropOff);
@@ -67,54 +69,31 @@ public class RiderWaitingPickupFragment extends Fragment {
 
             // Click this button to call driver
             Button callBtn = view.findViewById(R.id.rider_waiting_call_button);
-            callBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                            .callNumber(driver.getPhoneNumber());
-                }
-            });
+            callBtn.setOnClickListener(v -> ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                    .callNumber(driver.getPhoneNumber()));
 
             // Click this button to email driver
             Button emailBtn = view.findViewById(R.id.rider_waiting_email_button);
-            emailBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                            .emailDriver(driver.getEmail());
-                }
-            });
+            emailBtn.setOnClickListener(v -> ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                    .emailDriver(driver.getEmail()));
 
             // Click this button to cancel request
             // Change fragment
             Button cancelBtn = view.findViewById(R.id.rider_waiting_cancel_button);
-            cancelBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //change fragment
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
+            cancelBtn.setOnClickListener(v -> {
+                //change fragment
+                ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
 
-                }
             });
-
 
             //TODO TEMPORARY
             Button nextBtn = view.findViewById(R.id.rider_waiting_next_button);
-            nextBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).
-                            switchFragment(R.layout.fragment_rider_pickedup);
-                }
-            });
+            nextBtn.setOnClickListener(v -> ((RiderMapActivity) Objects.requireNonNull(getActivity())).
+                    switchFragment(R.layout.fragment_rider_pickedup));
 
         }
-
         return view;
     }
-
-
-
 }
 
 
