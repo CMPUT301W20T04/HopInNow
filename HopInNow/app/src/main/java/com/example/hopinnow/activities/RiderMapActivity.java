@@ -110,7 +110,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
     private Button myLocPickUpBtn;
     private boolean driverDecided = false;
-    private boolean pickedUp = false;
     private double baseFare;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
@@ -835,11 +834,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
-        if (!pickedUp){
-            pickedUp = true;
             switchFragment(R.layout.fragment_rider_pickedup);
-        }
-
     }
 
     @Override
@@ -908,7 +903,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         curRequest = null;
         saveCurrentRequestLocal(null);
         baseFare = 0.00;
-        pickedUp = false;
         driverDecided = false;
         pickUpLocName = null;
         dropOffLocName= null;

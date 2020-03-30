@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private LatLong Loc2 = new LatLong(53.591611, -113.323975);
     private LatLong pickUp;
     private LatLong dropOff;
+    private Context context;
     private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
@@ -142,13 +144,13 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         // I assume this is to setup the request list:
         this.requestList = requests;
         final FragmentActivity fragmentActivity = getActivity();
-        ((DriverMapActivity) Objects.requireNonNull(getActivity())).setButtonInvisible();
+        ((DriverMapActivity) Objects.requireNonNull(context)).setButtonInvisible();
         this.requestListAdapter = new RequestListAdapter(requestList, fragmentActivity);
         this.requestListView.setAdapter(this.requestListAdapter);
 
         // setting the listeners:
         requestListView.setOnItemClickListener((parent, view, position, id) -> {
-            ((DriverMapActivity)getActivity()).clearMap();
+            ((DriverMapActivity)context).clearMap();
             for(int i=0;i<requestList.size();i++){
                 getViewByPosition(i, requestListView).findViewById(R.id.accept_btn)
                         .setVisibility(View.INVISIBLE);
@@ -165,12 +167,12 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             pickUp = chooseRequest.getPickUpLoc();
             LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
 
-            ((DriverMapActivity)getActivity()).setPickUpLoc(pickUp_loc);
+            ((DriverMapActivity)context).setPickUpLoc(pickUp_loc);
             dropOff = chooseRequest.getDropOffLoc();
             LatLng dropOff_loc = new LatLng(dropOff.getLat(),dropOff.getLng());
-            ((DriverMapActivity)getActivity()).setDropOffLoc(dropOff_loc);
-            ((DriverMapActivity)getActivity()).updateBothMarker();
-            ((DriverMapActivity)getActivity()).setBothMarker(pickUp_loc, dropOff_loc);
+            ((DriverMapActivity)context).setDropOffLoc(dropOff_loc);
+            ((DriverMapActivity)context).updateBothMarker();
+            ((DriverMapActivity)context).setBothMarker(pickUp_loc, dropOff_loc);
             //((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
             //((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
             acceptBtn.setOnClickListener(v -> {
@@ -245,18 +247,18 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onRequestAcceptedByRider(Request request) {
         this.progressbarDialog.dismissDialog();
-        Toast.makeText(getContext(),"Rider has accepted your offer!",Toast.LENGTH_SHORT)
+        Toast.makeText(context,"Rider has accepted your offer!",Toast.LENGTH_SHORT)
                 .show();
-        ((DriverMapActivity) Objects.requireNonNull(getActivity()))
+        ((DriverMapActivity) Objects.requireNonNull(context))
                 .switchFragment(R.layout.fragment_driver_pick_rider_up);
     }
 
     @Override
     public void onRequestDeclinedByRider() {
         this.progressbarDialog.dismissDialog();
-        Toast.makeText(getContext(),"Rider has rejected your offer.",Toast.LENGTH_SHORT)
+        Toast.makeText(context,"Rider has rejected your offer.",Toast.LENGTH_SHORT)
                 .show();
-        ((DriverMapActivity) Objects.requireNonNull(getActivity())).switchFragment(-1);
+        ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
     }
 
     @Override
@@ -297,5 +299,11 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onWaitOnRatingError() {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        this.context = context;
+        super.onAttach(context);
     }
 }

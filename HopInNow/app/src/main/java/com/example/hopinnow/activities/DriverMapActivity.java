@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -157,12 +158,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             case R.layout.fragment_driver_requests:
                 //t = getSupportFragmentManager().beginTransaction();
                 t.beginTransaction().replace(R.id.fragment_place, new RequestListFragment())
-                        .addToBackStack(null)
                         .commit();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case -1:
-                t.popBackStack(); //when rider declines driver offer
+                FrameLayout fl = findViewById(R.id.fragment_place);
+                fl.removeAllViews();
+                goOnline.performClick();
                 break;
 
         }
