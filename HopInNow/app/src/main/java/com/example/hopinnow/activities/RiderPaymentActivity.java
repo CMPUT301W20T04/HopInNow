@@ -84,8 +84,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         curRequest = gsonRequest.fromJson(json, Request.class);
 
         //TODO for testing without interaction
-        driver = (Driver) getIntent().getSerializableExtra("Driver");
-        rider = (Rider) getIntent().getSerializableExtra("Rider");
+        //driver = (Driver) getIntent().getSerializableExtra("Driver");
+        //rider = (Rider) getIntent().getSerializableExtra("Rider");
         if (driver == null){
             Car car = new Car("Auburn","Speedster","Cream","111111");
             driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
