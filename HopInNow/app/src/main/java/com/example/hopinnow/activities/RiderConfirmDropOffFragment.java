@@ -59,9 +59,8 @@ public class RiderConfirmDropOffFragment extends Fragment {
             Button emergencyCallBtn = view.findViewById(R.id.rider_confirm_emergency_button);
             emergencyCallBtn.setOnClickListener(v -> ((RiderMapActivity) Objects
                     .requireNonNull(getActivity()))
-                    .callNumber("0000911"));
+                    .callNumber("911"));
         }
-
         return view;
     }
 }
