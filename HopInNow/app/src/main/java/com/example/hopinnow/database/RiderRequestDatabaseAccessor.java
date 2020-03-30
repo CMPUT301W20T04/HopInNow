@@ -68,6 +68,10 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Map<String, Object> map = new HashMap<>();
         map.put("acceptStatus", acceptStatus);
+        if (acceptStatus == -1) {
+            map.put("car", null);
+            map.put("driverEmail", null);
+        }
         this.firestore
                 .collection(this.referenceName)
                 .document(this.currentUser.getUid())
