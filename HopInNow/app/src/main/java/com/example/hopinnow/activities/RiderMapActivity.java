@@ -391,7 +391,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
-        dropOffAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+        Objects.requireNonNull(dropOffAutoComplete.getView())
+                .findViewById(R.id.places_autocomplete_clear_button)
                 .setOnClickListener(v -> {
                     dropOffAutoComplete.setText("");
                     dropOffLoc = null;
