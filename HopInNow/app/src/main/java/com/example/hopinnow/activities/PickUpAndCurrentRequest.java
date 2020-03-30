@@ -86,7 +86,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
                     driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                     request.setPickedUp(true);
-                    driverRequestDatabaseAccessor.driverRequestPickup(request,
+                    driverRequestDatabaseAccessor.driverPickupRider(request,
                             PickUpAndCurrentRequest.this);
                     ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
@@ -94,7 +94,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             else{
                 // switch to a fragment that display the request information and drop off button.
                 dropOffButton.setOnClickListener((View.OnClickListener) v -> {
-                    ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
+                    //((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                     // move this request from curRequest to trip
                     //request parameters:
                     // String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc,
@@ -103,13 +103,23 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //trip paras:
                     //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
+                    // fixme, page with picked up button need to be press twice to enter page with drop off button
+                    request.setAD(true);
+                    driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+                    driverRequestDatabaseAccessor.driverDropoffRider(request,PickUpAndCurrentRequest.this);
                     Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
-
-
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Driver", driver);
                     intent.putExtras(bundle);
                     startActivity(intent);
+
+                    // moved to onDriverDropoffSuccess
+                    /*Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Driver", driver);
+                    intent.putExtras(bundle);
+                    startActivity(intent);*/
+
                     /*
                     Request request2 = driver.getCurRequest();
                     Date current_time = new Date();
@@ -140,6 +150,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
         }
         return view;
+    }
+
+    public void requestCancelled(){
+        ((DriverMapActivity)getActivity()).switchFragment(-1);
     }
 
     @Override
@@ -180,7 +194,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestDeleteSuccess() {
-
+        requestCancelled();
     }
 
     @Override
@@ -225,7 +239,17 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
-    public void onRequestCanceledByRider() {
+    public void onRequestInfoChange(Request request) {
+
+    }
+
+    @Override
+    public void onRequestAcceptedByRider(Request request) {
+
+    }
+
+    @Override
+    public void onRequestDeclinedByRider() {
 
     }
 
@@ -236,6 +260,16 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverPickupFail() {
+
+    }
+
+    @Override
+    public void onDriverDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onDriverDropoffFail() {
 
     }
 

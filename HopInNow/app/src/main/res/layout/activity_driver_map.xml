@@ -20,10 +20,8 @@
             class="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <RelativeLayout
             android:id="@+id/mock"
@@ -120,16 +118,17 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/fragment_place"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="36dp"
+            android:layout_marginTop="32dp"
             android:elevation="30dp"
             android:text="ONLINE"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
+
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/map"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/onlineBtn"
+            app:layout_constraintHorizontal_bias="0.437"
+            app:layout_constraintStart_toStartOf="@+id/onlineBtn"
+            app:layout_constraintTop_toTopOf="@+id/onlineBtn" />
 
         <FrameLayout
             android:id="@+id/fragment_place"

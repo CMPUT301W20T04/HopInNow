@@ -54,7 +54,7 @@ import java.util.TimerTask;
  * This class defines the activity for rider payment after confirming arrival at drop off location.
  */
 public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener,
-        DriverObjectRetreieveListener, DriverRequestListener, RiderRequestListener,
+        DriverObjectRetreieveListener, RiderRequestListener,
         DriverProfileStatusListener {
     private Request curRequest;
     private Driver driver;
@@ -89,13 +89,14 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         if (driver == null){
             Car car = new Car("Auburn","Speedster","Cream","111111");
             driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
-                    "12345678", true, 10.0,  null, car, null);
+                    "12345678", 10.0,  null, car, null);
         }
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.riderDatabaseAccessor.getRiderProfile(this);
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.driverDatabaseAccessor.getDriverProfile(this);
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
+        riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
 
         // set local variables
         baseFare = curRequest.getEstimatedFare();
@@ -127,6 +128,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 String msg = "There is insufficient deposit in your account!";
                 Toast.makeText(RiderPaymentActivity.this,msg,Toast.LENGTH_SHORT).show();
             } else {
+                curRequest.setEstimatedFare(totalPayment);
+
+
                 Gson gsonPay = new Gson();
                 String encodedMsg= driver.getEmail() + ":" + totalPayment;
                 String serializePay = gsonPay.toJson(encodedMsg);
@@ -143,9 +147,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             }
             });
 
-        // get current rider
-        RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
-        riderDatabaseAccessor.getRiderProfile(this);
     }
 
 
@@ -224,6 +225,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
         curRequest.setRating(rating);
+        curRequest.setEstimatedFare(totalPayment);
         riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
 
         Trip newTrip = toTrip();
@@ -444,42 +446,20 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onDriverObjRetrieveFailure() {}
 
     @Override
-    public void onDriverRequestAccept() {}
-
-    @Override
-    public void onDriverRequestTimeoutOrFail() {}
-
-    @Override
-    public void onRequestAlreadyTaken() {}
-
-    @Override
-    public void onRequestCanceledByRider() {}
-
-    @Override
-    public void onDriverPickupSuccess() {}
-
-    @Override
-    public void onDriverPickupFail() {}
-
-    @Override
-    public void onDriverRequestCompleteSuccess() {
-        showRatingDialog();
-    }
-
-    @Override
-    public void onDriverRequestCompleteFailure() {}
-
-    @Override
-    public void onWaitOnRatingSuccess() {}
-
-    @Override
-    public void onWaitOnRatingError() {}
-
-    @Override
     public void onRiderRequestAcceptedNotify(Request request) {}
 
     @Override
     public void onRiderRequestTimeoutOrFail() {}
+
+    @Override
+    public void onRiderAcceptDriverRequest() {
+
+    }
+
+    @Override
+    public void onRiderDeclineDriverRequest() {
+
+    }
 
     @Override
     public void onRiderPickedupSuccess(Request request) {}
@@ -488,7 +468,19 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRiderPickedupTimeoutOrFail() {}
 
     @Override
-    public void onRiderRequestComplete() {}
+    public void onRiderDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onRiderDropoffFail() {
+
+    }
+
+    @Override
+    public void onRiderRequestComplete() {
+        showRatingDialog();
+    }
 
     @Override
     public void onRiderRequestCompletionError() {}
@@ -508,9 +500,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onDriverProfileRetrieveFailure() {}
 
     @Override
-    public void onDriverProfileUpdateSuccess(Driver driver) {
-        this.driver = driver;
-    }
+    public void onDriverProfileUpdateSuccess(Driver driver){}
 
     @Override
     public void onDriverProfileUpdateFailure() {}

@@ -28,8 +28,13 @@ import java.util.Date;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+/**
+ * Author: Tianyu Bai
+ * This class deals with the QR code and the payment process:
+ */
 public class DriverScanPaymentActivity extends AppCompatActivity
-        implements ZXingScannerView.ResultHandler, DriverRequestListener, DriverProfileStatusListener, AvailRequestListListener {
+        implements ZXingScannerView.ResultHandler, DriverRequestListener,
+        DriverProfileStatusListener, AvailRequestListListener {
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
@@ -81,8 +86,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             //driver.setDeposit(prevDeposit + Double.valueOf(result[1]));
             Toast.makeText(this, "You have successfully received " + result[1] +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
-
-
 
             //driver complete the request and trigger the rider to rate.
             driverRequestDatabaseAccessor.driverCompleteRequest(curRequest,this);
@@ -144,7 +147,17 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRequestCanceledByRider() {
+    public void onRequestInfoChange(Request request) {
+
+    }
+
+    @Override
+    public void onRequestAcceptedByRider(Request request) {
+
+    }
+
+    @Override
+    public void onRequestDeclinedByRider() {
 
     }
 
@@ -155,6 +168,16 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverPickupFail() {
+
+    }
+
+    @Override
+    public void onDriverDropoffSuccess(Request request) {
+
+    }
+
+    @Override
+    public void onDriverDropoffFail() {
 
     }
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -40,37 +41,26 @@ public class RiderConfirmDropOffFragment extends Fragment {
 
             // rider confirms, starts payment activity
             Button completeBtn = view.findViewById(R.id.rider_confirm_yes_button);
-            completeBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(),RiderPaymentActivity.class);
-                    startActivity(intent);
-                }
+            completeBtn.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(),RiderPaymentActivity.class);
+                startActivity(intent);
             });
 
             // rider does not confirm, go back to the last picked up ragment and notifies driver
             Button incompleteBtn = view.findViewById(R.id.rider_confirm_no_button);
-            incompleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO TOAST MESSAGE FOR DRIVER, DRIVER SIDE FRAGMENT GOES BACK TO PREVIOUS
+            incompleteBtn.setOnClickListener(v -> {
+                //TODO TOAST MESSAGE FOR DRIVER, DRIVER SIDE FRAGMENT GOES BACK TO PREVIOUS
 
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                            .switchFragment(R.layout.fragment_rider_pickedup);
-                }
+                ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                        .switchFragment(R.layout.fragment_rider_pickedup);
             });
 
             // click this button to call 911
             Button emergencyCallBtn = view.findViewById(R.id.rider_confirm_emergency_button);
-            emergencyCallBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                            .callNumber("0000911");
-                }
-            });
+            emergencyCallBtn.setOnClickListener(v -> ((RiderMapActivity) Objects
+                    .requireNonNull(getActivity()))
+                    .callNumber("911"));
         }
-
         return view;
     }
 }

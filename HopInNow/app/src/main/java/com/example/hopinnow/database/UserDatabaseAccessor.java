@@ -3,6 +3,8 @@ package com.example.hopinnow.database;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
@@ -16,7 +18,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Author: Shway Wang.
@@ -144,19 +151,13 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                     .collection(referenceName)
                     .document(this.currentUser.getUid())
                     .set(user)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.v(TAG, "User info saved!");
-                            listener.onProfileStoreSuccess();
-                        }
+                    .addOnSuccessListener(aVoid -> {
+                        Log.v(TAG, "User info saved!");
+                        listener.onProfileStoreSuccess();
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "User info did not save successfully!");
-                            listener.onProfileStoreFailure();
-                        }
+                    .addOnFailureListener(e -> {
+                        Log.v(TAG, "User info did not save successfully!");
+                        listener.onProfileStoreFailure();
                     });
         } else {    // the user is not logged in
             Log.v(TAG, "User is not logged in!");
@@ -181,23 +182,20 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
             // the user is logged in successfully
             Log.v(TAG, "User is logged in!");
             Log.v(TAG, "Ready to store user information!");
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", user.getName());
+            map.put("phoneNumber", user.getPhoneNumber());
             this.firestore
                     .collection(referenceName)
                     .document(this.currentUser.getUid())
-                    .set(user)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.v(TAG, "User info updated!");
-                            listener.onProfileUpdateSuccess(user);
-                        }
+                    .update(map)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.v(TAG, "User info updated!");
+                        listener.onProfileUpdateSuccess(user);
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "User info did not update successfully!");
-                            listener.onProfileUpdateFailure();
-                        }
+                    .addOnFailureListener(e -> {
+                        Log.v(TAG, "User info did not update successfully!");
+                        listener.onProfileUpdateFailure();
                     });
         } else {    // the user is not logged in
             Log.v(TAG, "User is not logged in!");

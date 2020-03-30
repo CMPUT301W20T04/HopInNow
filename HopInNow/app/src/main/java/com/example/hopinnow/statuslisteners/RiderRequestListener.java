@@ -22,6 +22,16 @@ public interface RiderRequestListener {
     void onRiderRequestTimeoutOrFail();
 
     /**
+     * Called when the rider accepts the driver's request
+     */
+    void onRiderAcceptDriverRequest();
+
+    /**
+     * Called when the rider declines the driver's request
+     */
+    void onRiderDeclineDriverRequest();
+
+    /**
      * Called when the rider is picked up successfully
      * @param request
      *      the current request object updated
@@ -32,6 +42,18 @@ public interface RiderRequestListener {
      * Called when the rider is picked failed
      */
     void onRiderPickedupTimeoutOrFail();
+
+    /**
+     * Called when the rider is dropped off successfully
+     * @param request
+     *      the current request object updated
+     */
+    void onRiderDropoffSuccess(Request request);
+
+    /**
+     * Called when the rider is dropped failed
+     */
+    void onRiderDropoffFail();
 
     /**
      * Called when the request is completed by the driver

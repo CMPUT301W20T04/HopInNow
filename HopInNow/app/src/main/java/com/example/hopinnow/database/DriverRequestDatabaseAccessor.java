@@ -7,13 +7,15 @@ import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
 /**
  * Author: Shway Wang
- * Version: 1.0.2
+ * Version: 1.0.4
  */
 public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public static final String TAG = "DriverRequestDA";
@@ -72,7 +74,8 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     }
     /**
      * Called for the driver to listen on the request he or she just accepted,
-     * the listener method invokes if the rider cancels the request before the driver arrives.
+     * the listener method invokes if the rider accepts or declines the request before the driver
+     * arrives.
      * @param request
      *      the request to listen on
      * @param listener
@@ -85,11 +88,20 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .document(requestID)
                 .addSnapshotListener((documentSnapshot, e) -> {
                     assert documentSnapshot != null;
-                    Request request1 = documentSnapshot.toObject(Request.class);
-                    if (request1 == null || request1.getRiderEmail() == null) {
-                        Log.v(TAG, "The request is canceled by" +
+                    Request req = documentSnapshot.toObject(Request.class);
+                    if (requireNonNull(req).getAcceptStatus() == 1) {
+                        // acceptStatus is 1 means request is accepted
+                        Log.v(TAG, "The request is accepted by the rider.");
+                        listener.onRequestAcceptedByRider(req);
+                    } else if (req.getAcceptStatus() == -1 || req.getRiderEmail() == null) {
+                        // acceptStatus is -1 means request is declined
+                        Log.v(TAG, "The request is declined by" +
                                 "the rider before the driver arrives");
-                        listener.onRequestCanceledByRider();
+                        listener.onRequestDeclinedByRider();
+                    } else {
+                        // acceptStatus is 0 means request is neither accepted nor declined yet
+                        Log.v(TAG, "The request info is changed.");
+                        listener.onRequestInfoChange(req);
                     }
                 });
     }
@@ -101,19 +113,46 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      * @param listener
      *      the listener to invoke the methods
      */
-    public void driverRequestPickup(Request request, final DriverRequestListener listener) {
+    public void driverPickupRider(Request request, final DriverRequestListener listener) {
         String requestID = request.getRequestID();
+        Map<String, Object> map = new HashMap<>();
+        map.put("isPickedUp", true);
         this.firestore
                 .collection(referenceName)
                 .document(requestID)
-                .set(request)
+                .update(map)
                 .addOnSuccessListener(aVoid -> {
-                    Log.v(TAG, "Request added!");
+                    Log.v(TAG, "picked up success!");
                     listener.onDriverPickupSuccess();
                 })
                 .addOnFailureListener(e -> {
-                    Log.v(TAG, "Request did not save successfully!");
+                    Log.v(TAG, "picked up fail!");
                     listener.onDriverPickupFail();
+                });
+    }
+
+    /**
+     * Should only set the isAD to true in the request list
+     * @param request
+     *      request object to change
+     * @param listener
+     *      the listener to invoke the methods
+     */
+    public void driverDropoffRider(Request request, final DriverRequestListener listener) {
+        String requestID = request.getRequestID();
+        Map<String, Object> map = new HashMap<>();
+        map.put("isAD", true);
+        this.firestore
+                .collection(referenceName)
+                .document(requestID)
+                .update(map)
+                .addOnSuccessListener(aVoid -> {
+                    Log.v(TAG, "Drop off success!");
+                    listener.onDriverDropoffSuccess(request);
+                })
+                .addOnFailureListener(e -> {
+                    Log.v(TAG, "Drop off fail!");
+                    listener.onDriverDropoffFail();
                 });
     }
 
