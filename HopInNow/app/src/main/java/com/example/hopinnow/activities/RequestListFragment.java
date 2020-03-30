@@ -181,8 +181,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 driverRequestDatabaseAccessor.driverAcceptRequest(chooseRequest,
                         RequestListFragment.this);
                 driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(chooseRequest,
-                        RequestListFragment.this);
+                            RequestListFragment.this);
                 this.progressbarDialog.startProgressbarDialog();
+
             });
             //prePosition = position;
 
@@ -259,6 +260,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         Toast.makeText(context,"Rider has rejected your offer.",Toast.LENGTH_SHORT)
                 .show();
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
+
     }
 
     @Override

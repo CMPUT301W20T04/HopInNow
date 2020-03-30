@@ -94,7 +94,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             else{
                 // switch to a fragment that display the request information and drop off button.
                 dropOffButton.setOnClickListener((View.OnClickListener) v -> {
-                    ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
+                    //((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                     // move this request from curRequest to trip
                     //request parameters:
                     // String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc,
@@ -103,16 +103,25 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //trip paras:
                     //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
-                    // fixme, what is AD? why is request null in driverDropoffRider()?
+                    // fixme, page with picked up button need to be press twice to enter page with drop off button
+
+                    // fixme, is request or listener null in driverDropoffRider()?
                     request.setAD(true);
+                    driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                     driverRequestDatabaseAccessor.driverDropoffRider(request,PickUpAndCurrentRequest.this);
                     Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
-
-
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Driver", driver);
                     intent.putExtras(bundle);
                     startActivity(intent);
+
+                    // moved to onDriverDropoffSuccess
+                    /*Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Driver", driver);
+                    intent.putExtras(bundle);
+                    startActivity(intent);*/
+
                     /*
                     Request request2 = driver.getCurRequest();
                     Date current_time = new Date();
