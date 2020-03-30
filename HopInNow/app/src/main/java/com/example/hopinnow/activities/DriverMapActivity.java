@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hopinnow.R;
@@ -142,20 +143,26 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
      *      status of current program:
      */
     public void switchFragment(int caseId){
-        FragmentTransaction t;
+        FragmentManager t = getSupportFragmentManager();
         switch(caseId){
             // change the fragment to the one that display the current
             // request and the pickup user button
             case R.layout.fragment_driver_pick_rider_up:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new PickUpAndCurrentRequest()).commit();
+                //t = getSupportFragmentManager().beginTransaction();
+                t.beginTransaction().replace(R.id.fragment_place, new PickUpAndCurrentRequest())
+                        .commit();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
                 //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
-                t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.fragment_place, new RequestListFragment()).commit();
+                //t = getSupportFragmentManager().beginTransaction();
+                t.beginTransaction().replace(R.id.fragment_place, new RequestListFragment())
+                        .addToBackStack(null)
+                        .commit();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
+            case -1:
+                t.popBackStack(); //when rider declines driver offer
                 break;
 
         }
