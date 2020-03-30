@@ -103,14 +103,17 @@ public class RiderDriverOfferFragment extends Fragment {
                 .requireNonNull(getActivity()))
                 .emailDriver(driver.getEmail()));
         this.acceptBtn.setOnClickListener(v -> {
-            //TODO set rider.curRequest to have Boolean accept = true in firebase
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .saveCurrentRequestLocal(curRequest);
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                    .respondDriverOffer(true);
+            ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .switchFragment(R.layout.fragment_rider_waiting_pickup);
         });
-        this.declineBtn.setOnClickListener(v -> ((RiderMapActivity) Objects
-                .requireNonNull(getActivity()))
-                .switchFragment(-1));
+        this.declineBtn.setOnClickListener(v -> {
+            ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                    .respondDriverOffer(false);
+            ((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(-1);
+        });
     }
 }

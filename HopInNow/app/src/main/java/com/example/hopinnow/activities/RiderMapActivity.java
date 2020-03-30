@@ -752,6 +752,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //TODO UPDATE FARE in firebase
     }
 
+    public void respondDriverOffer(Boolean acceptStatus){
+        riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(acceptStatus,
+                RiderMapActivity.this);
+    }
+
+
+
     /**
      * Called when profile retrieve successfully:
      * @param rider

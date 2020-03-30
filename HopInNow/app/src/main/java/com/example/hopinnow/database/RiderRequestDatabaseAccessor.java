@@ -62,9 +62,8 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      *      0: request neither accepted nor declined by rider
      *      -1: request declined by rider
      * @param listener
-     *      listener called when success or fail
      */
-    public void riderAcceptOrDeclineRequest(int acceptStatus, final RiderRequestListener listener) {
+    public void riderAcceptOrDeclineRequest(Boolean acceptStatus, final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Map<String, Object> map = new HashMap<>();
         map.put("acceptStatus", acceptStatus);
@@ -73,7 +72,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .document(this.currentUser.getUid())
                 .update(map)
                 .addOnSuccessListener(aVoid -> {
-                    if (acceptStatus == 1) {
+                    if (acceptStatus) {
                         Log.v(TAG, "the request is accepted by the rider.");
                         listener.onRiderAcceptDriverRequest();
                     } else {
