@@ -20,6 +20,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Trip;
+import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
@@ -30,6 +31,7 @@ import java.util.Objects;
 
 /**
  * Author: Qianxi Li
+ * Co-author: Shway Wang
  * Version: 1.0.0
  * show the current request that driver has accepted
  */
@@ -37,24 +39,25 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         AvailRequestListListener, DriverRequestListener {
     private Driver driver;
     private Request request;
-    private ArrayList<Request> requestList = new ArrayList<>();
-    TextView requestTitleText;
-    TextView requestFromText;
-    TextView requestToText;
-    TextView requestTimeText;
-    TextView requestCostText;
+    private TextView requestTitleText;
+    private TextView requestFromText;
+    private TextView requestToText;
+    private TextView requestTimeText;
+    private TextView requestCostText;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
+    // Shway Wang added this:
+    private ProgressbarDialog progressbarDialog;
     private Context context;
     Button pickUpButton;
     Button dropOffButton;
     Button emergencyCallButton;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.progressbarDialog = new ProgressbarDialog(this.getContext());
         driverDatabaseAccessor = new DriverDatabaseAccessor();
         int display_mode;
         //here get the driver from database
@@ -62,7 +65,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container, false);
         if (view != null) {
-
             requestTitleText = view.findViewById(R.id.RequestInfoText);
             requestFromText = view.findViewById(R.id.requestFromText);
             requestToText = view.findViewById(R.id.requestToText);
@@ -72,7 +74,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             driverDatabaseAccessor.getDriverProfile(this);
-
         }
         return view;
     }
@@ -130,7 +131,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 // fixme, page with picked up button need to be press twice to enter page with drop off button
 
                 // fixme, is request or listener null in driverDropoffRider()?
-                request.setAD(true);
+                request.setArrivedAtDest(true);
                 driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                 driverRequestDatabaseAccessor.driverDropoffRider(request, PickUpAndCurrentRequest.this);
                 Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
@@ -213,7 +214,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        this.requestList = requests;
         driverDatabaseAccessor.updateDriverProfile(driver, PickUpAndCurrentRequest.this);
     }
 
@@ -264,9 +264,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverPickupSuccess() {
+        this.progressbarDialog.dismissDialog();
         driverDatabaseAccessor.updateDriverProfile(driver,this);
-        ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(R.layout.fragment_driver_pick_rider_up);
-
+        ((DriverMapActivity) Objects.requireNonNull(context))
+                .switchFragment(R.layout.fragment_driver_pick_rider_up);
     }
 
     @Override

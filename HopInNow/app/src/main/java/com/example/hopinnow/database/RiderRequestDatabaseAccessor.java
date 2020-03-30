@@ -18,7 +18,7 @@ import java.util.Objects;
 
 /**
  * Author: Shway Wang
- * Version: 1.0.0
+ * Version: 1.1.0
  * Handles all rider side database accesses
  */
 public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
@@ -40,16 +40,17 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .addSnapshotListener((snapshot, e) -> {
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                     if (e != null) {
-                        Log.v(TAG, "Listen failed.", e);
+                        Log.v(TAG, "riderWaitForRequestAcceptance failed.", e);
                         listener.onRiderRequestTimeoutOrFail();
                     }
                     if (snapshot.exists()) {
                         if (Objects.requireNonNull(request).getDriverEmail() != null) {
-                            Log.v(TAG, "Got data: ");
+                            Log.v(TAG, "riderWaitForRequestAcceptance" +
+                                    "driver accepted request.");
                             listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
                         }
                     } else {
-                        Log.v(TAG, "Current data: null");
+                        Log.v(TAG, "riderWaitForRequestAcceptance data: null");
                         listener.onRiderRequestTimeoutOrFail();
                     }
                 });
@@ -62,6 +63,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      *      0: request neither accepted nor declined by rider
      *      -1: request declined by rider
      * @param listener
+     *      RiderRequestListener class object
      */
     public void riderAcceptOrDeclineRequest(int acceptStatus, final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -97,12 +99,14 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .collection(this.referenceName)
                 .document(this.currentUser.getUid())
                 .addSnapshotListener((snapshot, e) -> {
+                    Log.v(TAG, "riderWaitForPickup snapshot listener added.");
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                     if (e != null) {
                         Log.v(TAG, "Listen failed.", e);
                         listener.onRiderPickedupTimeoutOrFail();
                     }
                     if (snapshot.exists()) {
+                        Log.v(TAG, "riderWaitForPickup snapshot exists.");
                         if (Objects.requireNonNull(request).isPickedUp()) {
                             Log.v(TAG, "rider picked up: ");
                             listener.onRiderPickedupSuccess(snapshot.toObject(Request.class));
@@ -131,7 +135,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                         listener.onRiderDropoffFail();
                     }
                     if (snapshot.exists()) {
-                        if (Objects.requireNonNull(request).isAD()) {
+                        if (Objects.requireNonNull(request).isArrivedAtDest()) {
                             Log.v(TAG, "rider picked up: ");
                             listener.onRiderDropoffSuccess(snapshot.toObject(Request.class));
                         }
