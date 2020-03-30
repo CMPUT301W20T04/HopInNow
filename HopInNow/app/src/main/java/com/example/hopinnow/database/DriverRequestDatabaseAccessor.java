@@ -133,7 +133,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     }
 
     /**
-     * Should only set the isAD to true in the request list
+     * Should only set the isArrriveAtDest to true in the request list
      * @param request
      *      request object to change
      * @param listener
