@@ -453,7 +453,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRiderAcceptDriverRequest() {
-        
+
     }
 
     @Override
