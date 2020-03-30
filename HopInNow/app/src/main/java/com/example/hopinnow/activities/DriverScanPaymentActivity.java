@@ -78,7 +78,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
-        String result[] = encoded.split(":");
+        String[] result = encoded.split(":",2);
         System.out.println(result);
         System.out.println(driver.getEmail());
 
