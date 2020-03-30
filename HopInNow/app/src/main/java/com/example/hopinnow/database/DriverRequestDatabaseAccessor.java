@@ -34,7 +34,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
         String requestID = request.getRequestID();
         // get the request object to inspect
         this.firestore
-                .collection(referenceName)
+                .collection(super.referenceName)
                 .document(requestID)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -55,7 +55,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                         }
                         // if driverEmail does not exist, put in the current driver email:
                         firestore
-                                .collection(referenceName)
+                                .collection(super.referenceName)
                                 .document(requestID)
                                 .set(request)
                                 .addOnSuccessListener(aVoid -> {
@@ -84,7 +84,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public void driverListenOnRequestBeforeArrive(Request request, final DriverRequestListener listener) {
         String requestID = request.getRequestID();
         this.firestore
-                .collection(referenceName)
+                .collection(super.referenceName)
                 .document(requestID)
                 .addSnapshotListener((documentSnapshot, e) -> {
                     assert documentSnapshot != null;
@@ -116,9 +116,10 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public void driverPickupRider(Request request, final DriverRequestListener listener) {
         String requestID = request.getRequestID();
         Map<String, Object> map = new HashMap<>();
-        map.put("isPickedUp", true);
+        map.put("pickedUp", true);
+        Log.v(TAG, "ready to put isPickedUp == true into database.");
         this.firestore
-                .collection(referenceName)
+                .collection(super.referenceName)
                 .document(requestID)
                 .update(map)
                 .addOnSuccessListener(aVoid -> {
@@ -143,7 +144,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
         Map<String, Object> map = new HashMap<>();
         map.put("isAD", true);
         this.firestore
-                .collection(referenceName)
+                .collection(super.referenceName)
                 .document(requestID)
                 .update(map)
                 .addOnSuccessListener(aVoid -> {
@@ -168,7 +169,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
         // because the request is now complete:
         request.setComplete(true);
         this.firestore
-                .collection(referenceName)
+                .collection(super.referenceName)
                 .document(request.getRequestID())
                 .set(request)
                 .addOnSuccessListener(aVoid -> {
@@ -191,7 +192,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      *      if the request is rated successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void driverWaitOnRating(Request request, final DriverRequestListener listener) {
-        DocumentReference dr = this.firestore.collection(this.referenceName)
+        DocumentReference dr = this.firestore.collection(super.referenceName)
                 .document(request.getRequestID());
         dr.addSnapshotListener((snapshot, e) -> {
             Request req = Objects.requireNonNull(snapshot).toObject(Request.class);

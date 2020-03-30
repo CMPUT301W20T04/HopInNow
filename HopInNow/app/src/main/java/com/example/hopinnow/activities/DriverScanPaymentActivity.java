@@ -79,6 +79,9 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
         String result[] = encoded.split(":");
+        System.out.println(result);
+        System.out.println(driver.getEmail());
+
         if (driver.getEmail().equals(result[0])){ //
 
             //todo trigger rider rating by removing request from firebase
