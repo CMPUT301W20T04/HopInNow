@@ -39,7 +39,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
     }
 
     /**
-     * Add a new request to the availableRequests collection.
+     * Add or update a (new) request to the availableRequests collection.
      * Note: this method should only be called by the rider,
      * if this method is called by the driver, the action is unspecified.
      * @param request
@@ -47,7 +47,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      * @param listener
      *      if the request is added successfully, call the onSuccess method, otherwise, onFailure.
      */
-    public void addRequest(Request request, final AvailRequestListListener listener) {
+    public void addUpdateRequest(Request request, final AvailRequestListListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (this.currentUser == null) {
             Log.v(TAG, "user is not logged in!!!");
