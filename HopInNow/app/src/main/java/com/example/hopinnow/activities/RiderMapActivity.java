@@ -757,7 +757,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         riderRequestDatabaseAccessor.addUpdateRequest(curRequest,RiderMapActivity.this);
     }
 
-    public void respondDriverOffer(int acceptStatus){
+    private void respondDriverOffer(int acceptStatus){
         riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(acceptStatus,
                 RiderMapActivity.this);
         if (acceptStatus==1){

@@ -62,6 +62,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      *      0: request neither accepted nor declined by rider
      *      -1: request declined by rider
      * @param listener
+     *      RiderRequestListener class object
      */
     public void riderAcceptOrDeclineRequest(int acceptStatus, final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();

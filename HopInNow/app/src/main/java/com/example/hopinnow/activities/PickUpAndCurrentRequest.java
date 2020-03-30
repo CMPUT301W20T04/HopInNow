@@ -44,7 +44,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
