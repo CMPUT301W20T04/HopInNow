@@ -24,7 +24,9 @@ import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -53,7 +55,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         setContentView(R.layout.activity_driver_scanning);
         driver = (Driver) getIntent().getSerializableExtra("Driver");
         //curRequest
-        curRequest = driver.getCurRequest();
+        curRequest = Objects.requireNonNull(driver).getCurRequest();
 
         rxPermissions = new RxPermissions(DriverScanPaymentActivity.this);
         cameraView = findViewById(R.id.camera_scan_view);
@@ -78,8 +80,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
-        String result[] = encoded.split(":");
-        System.out.println(result);
+        String[] result = encoded.split(":");
+        System.out.println(Arrays.toString(result));
         System.out.println(driver.getEmail());
 
         if (driver.getEmail().equals(result[0])){ //
