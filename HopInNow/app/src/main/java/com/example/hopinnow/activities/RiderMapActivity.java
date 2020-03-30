@@ -110,6 +110,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
     private Button myLocPickUpBtn;
     private boolean driverDecided = false;
+    private boolean pickedUp = false;
     private double baseFare;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
@@ -834,17 +835,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
-        switchFragment(R.layout.fragment_rider_pickedup);
+        if (!pickedUp){
+            pickedUp = true;
+            switchFragment(R.layout.fragment_rider_pickedup);
+        }
+
     }
 
     @Override
     public void onRiderPickedupTimeoutOrFail() {}
 
-    //todo
-    //todo
-    //todo
-     @Override
-    public void onRiderRequestComplete() {
+    @Override
+    public void onRiderDropoffSuccess(Request request) {
         Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
         intent.putExtra("Driver", driver);
@@ -854,18 +856,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
+    public void onRiderDropoffFail() {}
+
+     @Override
+    public void onRiderRequestComplete() {}
+
+    @Override
     public void onRiderRequestCompletionError() {}
 
     @Override
-    public void onRequestRatedSuccess() {
-
-    }
+    public void onRequestRatedSuccess() {}
 
     @Override
-    public void onRequestRatedError() {
-
-    }
-
+    public void onRequestRatedError() {}
 
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
@@ -905,6 +908,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         curRequest = null;
         saveCurrentRequestLocal(null);
         baseFare = 0.00;
+        pickedUp = false;
+        driverDecided = false;
         pickUpLocName = null;
         dropOffLocName= null;
         switchMarkerDraggable();

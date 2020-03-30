@@ -103,6 +103,8 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                     //trip paras:
                     //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     //                Date dropOffTime, int duration, Car car, Double cost, Double rating
+                    // fixme
+                    driverRequestDatabaseAccessor.driverDropoffRider(request,PickUpAndCurrentRequest.this);
                     Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
 
 
