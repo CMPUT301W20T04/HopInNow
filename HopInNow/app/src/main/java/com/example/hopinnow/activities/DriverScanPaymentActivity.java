@@ -26,7 +26,9 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -55,7 +57,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         setContentView(R.layout.activity_driver_scanning);
         driver = (Driver) getIntent().getSerializableExtra("Driver");
         //curRequest
-        curRequest = driver.getCurRequest();
+        curRequest = Objects.requireNonNull(driver).getCurRequest();
 
         rxPermissions = new RxPermissions(DriverScanPaymentActivity.this);
         cameraView = findViewById(R.id.camera_scan_view);
@@ -91,7 +93,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
             //todo trigger rider rating by removing request from firebase
             double prevDeposit = driver.getDeposit();
-            driver.setDeposit(prevDeposit + Double.valueOf(qrPayment));
+            driver.setDeposit(prevDeposit + Double.parseDouble(qrPayment));
             Toast.makeText(this, "You have successfully received " + qrPayment +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
 
