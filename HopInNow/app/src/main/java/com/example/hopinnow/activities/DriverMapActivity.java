@@ -48,7 +48,8 @@ import com.google.android.material.navigation.NavigationView;
  * Version: 1.0.0
  * This is the main page for driver where is shows the map, online and menu button
  */
-public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener {
+public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,
+        NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener {
     private GoogleMap mMap;
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
@@ -97,17 +98,15 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
-        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third", "12345678",
-                true,12.0, null, car, null);
+        driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
+                "12345678", 12.0, null, car, null);
 
         goOnline = findViewById(R.id.onlineBtn);
-        goOnline.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
-                switchFragment(R.layout.fragment_driver_requests);
-            }
+        goOnline.setOnClickListener(v -> {
+            findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
+            switchFragment(R.layout.fragment_driver_requests);
         });
-        drawerLayout = (DrawerLayout) findViewById(R.id.driver_drawer_layout);
+        drawerLayout = findViewById(R.id.driver_drawer_layout);
         this.userDatabaseAccessor = new DriverDatabaseAccessor();
         navigationView = findViewById(R.id.nav_view_driver);
         navigationView.setNavigationItemSelectedListener(this);
@@ -115,14 +114,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         // a button listener
         driverMenuBtn = findViewById(R.id.driverMenuBtn);
-        driverMenuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menuUserName = findViewById(R.id.menuUserNameTextView);
-                menuUserName.setText(driver.getName());
-                // If the navigation drawer is not open then open it, if its already open then close it.
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
+        driverMenuBtn.setOnClickListener(v -> {
+            menuUserName = findViewById(R.id.menuUserNameTextView);
+            menuUserName.setText(driver.getName());
+            // If the navigation drawer is not open then open it, if its already open then close it.
+            drawerLayout.openDrawer(GravityCompat.START);
         });
 
     }
@@ -143,6 +139,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
      * so that the fragments on it can switch easily by calling
      * switchFragment method,
      * @param caseId
+     *      status of current program:
      */
     public void switchFragment(int caseId){
         FragmentTransaction t;

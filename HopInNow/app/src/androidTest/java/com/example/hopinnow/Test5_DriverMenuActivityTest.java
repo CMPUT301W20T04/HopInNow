@@ -22,8 +22,8 @@ public class Test5_DriverMenuActivityTest {
     private Solo solo;
 
     @Rule
-    public ActivityTestRule<DriverMapActivity> rule =
-            new ActivityTestRule<>(DriverMapActivity.class, true, true);
+    public ActivityTestRule<LoginActivity> rule =
+            new ActivityTestRule<>(LoginActivity.class, true, true);
 
 
     /**
@@ -57,9 +57,15 @@ public class Test5_DriverMenuActivityTest {
     public void Case1_checkMenu() throws InterruptedException {
         Thread.sleep(2000);
 
+        String userEmail = "folanqi14@ualberta.ca";
+        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
+        String userPassword = "12345678";
+        solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
+        solo.clickOnView(solo.getView(R.id.loginButton));
+
         solo.assertCurrentActivity("Wrong Activity", DriverMapActivity.class);
         solo.clickOnView(solo.getView(R.id.driverMenuBtn));
-        assertTrue(solo.waitForText("Welcome!",1,2000));
+        assertTrue(solo.waitForText("My Profile",1,2000));
 
         //test my profile
         solo.clickOnMenuItem("My Profile");
@@ -88,13 +94,13 @@ public class Test5_DriverMenuActivityTest {
         //test editing my car
         solo.clickOnMenuItem("Car Information");
         solo.clearEditText((EditText) solo.getView(R.id.vehMakeEt));
-        solo.enterText(phoneET,"2");
+        solo.enterText((EditText) solo.getView(R.id.vehMakeEt),"BMW");
         solo.clearEditText((EditText) solo.getView(R.id.vehModelEt));
-        solo.enterText(phoneET,"2");
+        solo.enterText((EditText) solo.getView(R.id.vehModelEt),"X6");
         solo.clearEditText((EditText) solo.getView(R.id.vehColorEt));
-        solo.enterText(phoneET,"2");
+        solo.enterText((EditText) solo.getView(R.id.vehColorEt),"Red");
         solo.clearEditText((EditText) solo.getView(R.id.vehPlateEt));
-        solo.enterText(phoneET,"2");
+        solo.enterText((EditText) solo.getView(R.id.vehPlateEt),"2222222");
         solo.clickOnView(solo.getView(R.id.vehicleUpdateBtn));
         assertTrue(solo.waitForText("updated!",1,2000));
         solo.goBack();

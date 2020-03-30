@@ -20,7 +20,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * Author: Zhiqi Zhou
+ * Author: Shway Wang
+ * Co-author: Zhiqi Zhou
  * Version: 1.0.0
  * show and edit user profile for both rider and driver
  */
@@ -76,6 +77,19 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         if (this.currentUser == null) {
             this.userDatabaseAccessor.getUserProfile(this);
         } else {
+            this.fillUserInfo(this.currentUser);
+        }
+    }
+
+    // wrapper function to fill in the text fields the information from the user object:
+    private void fillUserInfo(User user) {
+        if (user == null) {
+            this.name.setText("");
+            this.email.setText("");
+            this.phoneNumber.setText("");
+            this.deposit.setText("");
+            this.userType.setText("");
+        } else {
             // set all text fields according to the retrieved user object:
             this.name.setText(Objects.requireNonNull(currentUser).getName());
             this.email.setText(currentUser.getEmail());
@@ -87,56 +101,41 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
             } else {    // or else, the user is a rider
                 this.userType.setText(R.string.usertype_rider);
             }
-            this.progressbarDialog.dismissDialog();
         }
-    }
-    private boolean verifyFields() {
-        return true;
+        this.progressbarDialog.dismissDialog();
     }
     @Override
     protected void onStart() {
         super.onStart();
         // actions when edit button is clicked:
-        this.editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                name.setEnabled(true);
-                phoneNumber.setEnabled(true);
-                editBtn.setEnabled(false);
-                editBtn.setVisibility(View.INVISIBLE);
-                updateBtn.setEnabled(true);
-                updateBtn.setVisibility(View.VISIBLE);
-            }
+        this.editBtn.setOnClickListener(view -> {
+            name.setEnabled(true);
+            phoneNumber.setEnabled(true);
+            editBtn.setEnabled(false);
+            editBtn.setVisibility(View.INVISIBLE);
+            updateBtn.setEnabled(true);
+            updateBtn.setVisibility(View.VISIBLE);
         });
         // actions when update button is clicked:
-        this.updateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!verifyFields()) {
-                    return;
-                }
-                // alert progress dialog:
-                progressbarDialog = new ProgressbarDialog(ProfileActivity.this);
-                progressbarDialog.startProgressbarDialog();
-                // access database:
-                currentUser.setName(name.getText().toString());
-                currentUser.setPhoneNumber(phoneNumber.getText().toString());
-                userDatabaseAccessor.updateUserProfile(currentUser, ProfileActivity.this);
-            }
+        this.updateBtn.setOnClickListener(view -> {
+            // alert progress dialog:
+            progressbarDialog = new ProgressbarDialog(ProfileActivity.this);
+            progressbarDialog.startProgressbarDialog();
+            // access database:
+            currentUser.setName(name.getText().toString());
+            currentUser.setPhoneNumber(phoneNumber.getText().toString());
+            userDatabaseAccessor.updateUserProfile(currentUser, ProfileActivity.this);
         });
         // actions when logout button is clicked:
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                userDatabaseAccessor.logoutUser();
-                // go to the login activity again:
-                Toast.makeText(getApplicationContext(),
-                        "You are Logged out!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                finish();
-            }
+        logoutButton.setOnClickListener(view -> {
+            userDatabaseAccessor.logoutUser();
+            // go to the login activity again:
+            Toast.makeText(getApplicationContext(),
+                    "You are Logged out!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
         });
     }
 
@@ -155,18 +154,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     @Override
     public void onProfileRetrieveSuccess(User user) {
         this.currentUser = user;
-        // set all text fields according to the retreived user object:
-        this.name.setText(Objects.requireNonNull(currentUser).getName());
-        this.email.setText(currentUser.getEmail());
-        this.phoneNumber.setText(currentUser.getPhoneNumber());
-        this.deposit.setText(
-                String.format(Locale.CANADA, "%.2f", currentUser.getDeposit()));
-        if (user.isUserType()) {    // if true, then the user is driver
-            this.userType.setText(R.string.usertype_driver);
-        } else {    // or else, the user is a rider
-            this.userType.setText(R.string.usertype_rider);
-        }
-        this.progressbarDialog.dismissDialog();
+        this.fillUserInfo(this.currentUser);
     }
 
     @Override
@@ -179,10 +167,8 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     @Override
     public void onProfileUpdateSuccess(User user) {
         this.currentUser = user;
+        this.fillUserInfo(this.currentUser);
         // set all text fields according to the retreived user object:
-        this.name.setText(Objects.requireNonNull(currentUser).getName());
-        this.email.setText(currentUser.getEmail());
-        this.phoneNumber.setText(currentUser.getPhoneNumber());
         name.setEnabled(false);
         phoneNumber.setEnabled(false);
         editBtn.setEnabled(true);

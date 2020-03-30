@@ -61,22 +61,16 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
             }
         });
         //
-        vehicleInfoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Car info btn clicked!");
-                userDatabaseAccessor.getDriverProfile(DriverMenuActivity.this);
-            }
+        vehicleInfoBtn.setOnClickListener(v -> {
+            Log.d(TAG, "Car info btn clicked!");
+            userDatabaseAccessor.getDriverProfile(DriverMenuActivity.this);
         });
         // set driver offline when click on the offline button
-        offlineBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DriverMapActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            }
+        offlineBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), DriverMapActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         });
 
     }
@@ -85,6 +79,7 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
      * when retrieve the driver profile successful,
      * open vehicle view activity to display the car information
      * @param driver
+     *      the driver object just retrieved
      */
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {

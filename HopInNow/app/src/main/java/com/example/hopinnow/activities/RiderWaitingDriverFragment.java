@@ -25,7 +25,6 @@ import java.util.Objects;
  * This class is triggered by by rider creating a new current request.
  */
 public class  RiderWaitingDriverFragment extends Fragment {
-
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private Chronometer chronometer;
     private boolean running;
@@ -57,7 +56,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
             if ((estimate_fare+1) <= rider.getDeposit()) {
                 addFare();
             } else {
-                Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
+                Toast.makeText(Objects.requireNonNull(getActivity()),
                         "Sorry, you do not have enough deposit to add money.",
                         Toast.LENGTH_SHORT).show();
             }
@@ -67,6 +66,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
         reduce_money.setOnClickListener(v -> reduceFare());
 
         Button cancel_request = view.findViewById(R.id.cancel_button);
+        // the action after the cancel request button is clicked:
         cancel_request.setOnClickListener(v -> {
             ((RiderMapActivity) Objects.requireNonNull(getActivity())).cancelRequestLocal();
             endChronometer();
@@ -93,14 +93,14 @@ public class  RiderWaitingDriverFragment extends Fragment {
     private void addFare(){
         estimate_fare += 1;
         fare_amount.setText(df2.format(estimate_fare));
-        //TODO UPDATE FIREBASE
+        ((RiderMapActivity)getActivity()).updateFare(estimate_fare);
     }
 
     private void reduceFare(){
         if(Double.parseDouble(df2.format(estimate_fare)) - 1 >= lowest_price) {
             estimate_fare -= 1;
             fare_amount.setText(df2.format(estimate_fare));
-            //TODO UPDATE FIREBASE
+            ((RiderMapActivity)getActivity()).updateFare(estimate_fare);
         } else {
             Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
                     "Sorry, you can not go lower than the estimated base fare.",
