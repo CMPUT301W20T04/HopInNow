@@ -109,10 +109,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
     private Button myLocPickUpBtn;
     private boolean driverDecided = false;
+    private boolean newOffer = true;
     private double baseFare;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
+    private RiderDatabaseAccessor riderDatabaseAccessor;
     private RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
 
     // progress bar here:
@@ -174,6 +176,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
+        this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         // let the progress bar show:
         this.progressbarDialog = new ProgressbarDialog(this);
         this.progressbarDialog.startProgressbarDialog();
@@ -242,6 +245,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             menuUserName.setText(rider.getName());
             drawerLayout.openDrawer(GravityCompat.START);
         });
+        riderDatabaseAccessor.getRiderProfile(this);
+
 
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
@@ -466,11 +471,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             case R.layout.fragment_rider_driver_offer:
                 fragWatingDriver.endChronometer();
                 t.beginTransaction().replace(R.id.fragment_place, new RiderDriverOfferFragment())
-                        .addToBackStack(null)
                         .commit();
                 break;
             case -1:
-                t.popBackStack(); //when rider declines driver offer
+                t.beginTransaction().replace(R.id.fragment_place, fragWatingDriver).commit();
                 break;
             case R.layout.fragment_rider_waiting_pickup:
                 t.beginTransaction()
@@ -538,7 +542,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      driver information from firebase
      */
     public Driver retrieveOfferedDriver(){
-        return driver;
+        return this.driver;
     }
 
 
@@ -761,6 +765,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     public void updateFare(Double newFare){
         curRequest.setEstimatedFare(newFare);
+        if (!driverDecided){
+            curRequest.setDriverEmail(null);
+            curRequest.setCar(null);
+        }
         saveCurrentRequestLocal(curRequest);
         riderRequestDatabaseAccessor.addUpdateRequest(curRequest,RiderMapActivity.this);
     }
@@ -810,14 +818,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderProfileUpdateFailure() {}
 
-    /**
-     * We are skipping the step of rider accepting/declining the offer right now.
-     */
     @Override
     public void onRiderRequestAcceptedNotify(Request mRequest) {
         curRequest = mRequest;
         String dEmail = curRequest.getDriverEmail();
         driverDatabaseAccessor.getDriverObject(dEmail,this);
+        //newOffer = false;
     }
 
     @Override
@@ -832,11 +838,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderDeclineDriverRequest() {
-        if (!driverDecided){
+        if (!this.driverDecided){
             switchFragment(-1);
             riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(0,
                     RiderMapActivity.this);
-            riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
+            this.driver = null;
+            curRequest.setDriverEmail(null);
+            curRequest.setCar(null);
+            saveCurrentRequestLocal(curRequest);
         }
     }
 
@@ -914,6 +923,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         saveCurrentRequestLocal(null);
         baseFare = 0.00;
         driverDecided = false;
+        newOffer = false;
         pickUpLocName = null;
         dropOffLocName= null;
         switchMarkerDraggable();

@@ -78,6 +78,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
 //    private FloatingActionButton goOnline;
     private AutocompleteSupportFragment startUpAutoComplete;
+    private boolean showSearch;
 
     private Rider rider;
     private Driver driver;
@@ -199,6 +200,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     @Override
+    protected void onStart(){
+        super.onStart();
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
@@ -265,22 +271,26 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             // change the fragment to the one that display the current
             // request and the pickup user button
             case R.layout.fragment_driver_pick_rider_up:
-                //t = getSupportFragmentManager().beginTransaction();
+                findViewById(R.id.search_layout).setVisibility(View.GONE);
+                myLocStartUpBtn.setVisibility(View.GONE);
                 t.beginTransaction().replace(R.id.fragment_place, new PickUpAndCurrentRequest())
                         .commit();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
                 //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
-                //t = getSupportFragmentManager().beginTransaction();
+                findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+                myLocStartUpBtn.setVisibility(View.VISIBLE);
                 t.beginTransaction().replace(R.id.fragment_place, new RequestListFragment())
                         .commit();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case -1:
+                findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+                myLocStartUpBtn.setVisibility(View.VISIBLE);
                 FrameLayout fl = findViewById(R.id.fragment_place);
                 fl.removeAllViews();
-//                goOnline.performClick();
+                myLocStartUpBtn.performClick();
                 break;
 
         }
@@ -487,6 +497,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         // when retrieve the driver profile successful,
         // open vehicle view activity to display the car information
         Log.v(TAG, "Driver info retrieved!");
+        this.driver = driver;
         Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("DriverObject", driver);

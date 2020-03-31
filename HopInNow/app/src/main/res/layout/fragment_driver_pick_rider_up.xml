@@ -93,43 +93,74 @@
 
             <LinearLayout
                 android:layout_width="328dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time:  "
+                    android:textStyle="bold"
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/requestTimeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Time:  "
-                    android:textColor="@color/ColorOrange"
+                    android:layout_gravity="center"
+                    android:text="Time"
+                    android:textColor="@color/ColorBlack"
                     android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="328dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <TextView
+                    android:textColor="@color/ColorBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="From:  "
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/requestFromText"
-                    android:textColor="@color/ColorOrange"
-                    android:layout_width="match_parent"
+                    android:textColor="@color/ColorBlack"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="From:  "
+                    android:layout_gravity="center"
+                    android:text="From"
                     android:textSize="18sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="328dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <TextView
-                    android:id="@+id/requestToText"
                     android:layout_width="match_parent"
-                    android:textColor="@color/ColorOrange"
+                    android:textColor="@color/ColorBlack"
                     android:layout_height="wrap_content"
                     android:text="To:  "
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="130dp"
+                    tools:layout_editor_absoluteY="75dp" />
+                <TextView
+                    android:id="@+id/requestToText"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/ColorBlack"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="To  "
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="75dp" />
@@ -137,15 +168,32 @@
 
             <LinearLayout
                 android:layout_width="328dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/ColorBlack"
+                    android:layout_height="wrap_content"
+                    android:text="Estimated Fare:   "
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="130dp"
+                    tools:layout_editor_absoluteY="94dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/ColorBlack"
+                    android:layout_height="wrap_content"
+                    android:text="$"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="130dp"
+                    tools:layout_editor_absoluteY="94dp" />
                 <TextView
                     android:id="@+id/requestCostText"
                     android:layout_width="match_parent"
-                    android:textColor="@color/ColorOrange"
+                    android:textColor="@color/ColorBlack"
                     android:layout_height="wrap_content"
-                    android:text="Estimated Fare:  $"
+                    android:text="Estimated Fare"
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="94dp" />
