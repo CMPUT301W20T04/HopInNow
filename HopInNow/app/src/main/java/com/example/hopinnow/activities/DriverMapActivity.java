@@ -1,17 +1,26 @@
 package com.example.hopinnow.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +41,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -42,8 +52,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Author: Hongru Qi
@@ -51,33 +72,36 @@ import com.google.android.material.navigation.NavigationView;
  * This is the main page for driver where is shows the map, online and menu button
  */
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener {
+        NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener, LocationListener {
     private GoogleMap mMap;
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
-    private FloatingActionButton goOnline;
+//    private FloatingActionButton goOnline;
+    private AutocompleteSupportFragment startUpAutoComplete;
 
     private Rider rider;
     private Driver driver;
-    private LatLng pickUpLoc,dropOffLoc;
-    private String pickUpLocName, dropOffLocName;
-    private Marker pickUpMarker, dropOffMarker;
+    private LatLng pickUpLoc, startUpLoc, dropOffLoc;
+    private String pickUpLocName, startUpLocName;
+    private Marker pickUpMarker, dropOffMarker, startUpMarker;
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
     private int currentRequestPageCounter = 0;
-
+    private Location current;
+    private Button myLocStartUpBtn;
     private ProgressbarDialog progressbarDialog;
     private NavigationView navigationView;
     private DriverDatabaseAccessor userDatabaseAccessor;
     public static final String TAG = "DriverMenuActivity";
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
+    private boolean useCurrent;
     /**
      * set the visibility of goOnline button into invisible
      */
-    public void setButtonInvisible(){
-        goOnline.setVisibility(View.INVISIBLE);
-    }
+//    public void setButtonInvisible(){
+//        goOnline.setVisibility(View.INVISIBLE);
+//    }
 
     /**
      * get the appear time of the fragment that display the current request
@@ -91,29 +115,38 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void setCurrentRequestPageCounter(int value){
         this.currentRequestPageCounter = value;
     }
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(DriverMapActivity.this);
+        // initialize places
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
+        }
 
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", 12.0, null, car, null);
 
-        goOnline = findViewById(R.id.onlineBtn);
-        goOnline.setOnClickListener(v -> {
-            findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
-            switchFragment(R.layout.fragment_driver_requests);
-        });
+//        goOnline = findViewById(R.id.onlineBtn);
+//        goOnline.setOnClickListener(v -> {
+//            findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
+//            switchFragment(R.layout.fragment_driver_requests);
+//        });
+        startUpAutoComplete = ((AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.start_up_auto_complete));
+        setupAutoCompleteFragment();
         drawerLayout = findViewById(R.id.driver_drawer_layout);
         this.userDatabaseAccessor = new DriverDatabaseAccessor();
         navigationView = findViewById(R.id.nav_view_driver);
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
+        myLocStartUpBtn = findViewById(R.id.my_loc_startup_button);
         // a button listener
         driverMenuBtn = findViewById(R.id.driverMenuBtn);
         driverMenuBtn.setOnClickListener(v -> {
@@ -122,17 +155,95 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             // If the navigation drawer is not open then open it, if its already open then close it.
             drawerLayout.openDrawer(GravityCompat.START);
         });
+        final EditText startUpMock = findViewById(R.id.mock_startUp);
+        Button driverSearchBtn = findViewById(R.id.driver_search_button);
+        driverSearchBtn.setOnClickListener(v -> {
+            //mock, for UI test
+            if (!startUpMock.getText().toString().equals("")){
+                setUseCurrent(false);
+                startUpLocName = startUpMock.getText().toString();
+                startUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
+            }
 
+            if ((startUpLocName!=null)){
+                switchFragment(R.layout.fragment_driver_requests);
+                //TODO: add and move marker
+            } else {
+                String msg = "Please enter your start up location.";
+                Toast.makeText(DriverMapActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+        myLocStartUpBtn.setOnClickListener(v -> {
+            setUseCurrent(true);
+            switchFragment(R.layout.fragment_driver_requests);
+        });
+        if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                && (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    .subscribe(granted -> {
+                        if (granted) {
+                            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                                    0, 0, this);
+                        }
+                    });
+        } else {
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    0, 0, this);
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(edmonton) //set to current location later on pickUpLoc
                 .title("Edmonton")
+                .visible(false)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker m) {
+            }
+
+            @Override
+            public void onMarkerDrag(Marker m) {
+                LatLng newLatLng = m.getPosition();
+                List<Address> addresses = null;
+
+                try {
+                    addresses = geocoder.getFromLocation(newLatLng.latitude, newLatLng.longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String address = Objects.requireNonNull(addresses).get(0).getAddressLine(0);
+                startUpLoc = newLatLng;
+                startUpLocName = address;
+                startUpAutoComplete.setText(pickUpLocName);
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker m) {
+                LatLng newLatLng = m.getPosition();
+                List<Address> addresses = null;
+
+                try {
+                    addresses = geocoder.getFromLocation(newLatLng.latitude, newLatLng.longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String address = Objects.requireNonNull(addresses).get(0).getAddressLine(0);
+            }
+        });
     }
 
 
@@ -164,7 +275,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             case -1:
                 FrameLayout fl = findViewById(R.id.fragment_place);
                 fl.removeAllViews();
-                goOnline.performClick();
+//                goOnline.performClick();
                 break;
 
         }
@@ -198,8 +309,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .visible(false)
                 .icon(toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_drop_off)))
                 .draggable(true));
-
     }
+
     public void setBothMarker(LatLng pickUpLoc, LatLng dropOffLoc){
         pickUpMarker.setVisible(true);
         pickUpMarker.setPosition(pickUpLoc);
@@ -207,6 +318,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         dropOffMarker.setPosition(dropOffLoc);
         adjustMapFocus();
     }
+
 
 
     /**
@@ -222,6 +334,35 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             m.setPosition(latLng);
         }
         adjustMapFocus();
+    }
+
+    /**
+     * Sets up auto complete fragment from Google Places API.
+     */
+    private void setupAutoCompleteFragment() {
+        assert startUpAutoComplete != null;
+        startUpAutoComplete.setHint("Pick Up Location");
+        startUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
+        startUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                startUpLocName = place.getAddress();
+                startUpLoc = place.getLatLng();
+                setMapMarker(pickUpMarker,startUpLoc);
+            }
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.e("An error occurred: ", status.toString());
+            }
+        });
+        startUpAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+                .setOnClickListener(v -> {
+                    startUpAutoComplete.setText("");
+                    startUpLoc = null;
+                    startUpLocName = null;
+                    pickUpMarker.setVisible(false);
+                });
+
     }
     /**
      * Transforms drawable into a bitmap drawable.
@@ -244,17 +385,22 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         drawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+    /**
+     * adjust focus of the map according to the markers
+     */
+
     public void setPickUpLoc(LatLng pickUpLoc) {
         this.pickUpLoc = pickUpLoc;
     }
     public void setDropOffLoc(LatLng dropOffLoc){
         this.dropOffLoc = dropOffLoc;
     }
-    /**
-     * adjust focus of the map according to the markers
-     */
-
-
+    public Location getCurrentLoc(){
+        return current;
+    }
+    public LatLng getStartUpLoc(){
+        return this.startUpLoc;
+    }
     public void adjustMapFocus(){
         LatLngBounds.Builder bound = new LatLngBounds.Builder();
 
@@ -269,6 +415,25 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             return;
         }
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
+    }
+    @Override
+    public void onLocationChanged(Location location) {
+        this.current = location;
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
     @Override
@@ -337,6 +502,14 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onDriverProfileUpdateFailure() {
 
+    }
+
+    public boolean isUseCurrent() {
+        return useCurrent;
+    }
+
+    public void setUseCurrent(boolean useCurrent) {
+        this.useCurrent = useCurrent;
     }
 
 //    @Override
