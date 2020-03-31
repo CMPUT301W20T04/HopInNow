@@ -156,7 +156,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                             lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager
                                             .GPS_PROVIDER, 0, 0, this);
-                            mMap.setMyLocationEnabled(true);
                         }
                     });
         } else {
@@ -287,7 +286,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setMyLocationEnabled(true);
+        if ((ActivityCompat.checkSelfPermission(RiderMapActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                && (ActivityCompat.checkSelfPermission(RiderMapActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            mMap.setMyLocationEnabled(true);
+        }
         mMap.setPadding(0, 0, 14, 0);
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());

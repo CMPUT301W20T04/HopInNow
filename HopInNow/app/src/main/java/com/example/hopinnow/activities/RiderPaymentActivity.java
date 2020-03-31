@@ -133,8 +133,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
 
                 Gson gsonPay = new Gson();
-                String encodedMsg= "<driverEmail>" + driver.getEmail() + "</driverEmail>" +
-                        "<totalPayment>" + totalPayment + "</totalPayment>";
+                String encodedMsg= "driverEmail" + driver.getEmail() + "DriverEmail" +
+                        "totalPayment" + totalPayment + "TotalPayment";
                 String serializePay = gsonPay.toJson(encodedMsg);
                 Bitmap bitmap = QRCodeHelper
                         .newInstance(RiderPaymentActivity.this)
@@ -145,7 +145,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 qrImage.setBackgroundResource(R.color.ColorBlack);
                 confirmPaymentBtn.setVisibility(View.GONE);
                 showTotalBtn.setEnabled(false);
-                onScanningCompleted();
+                //onScanningCompleted();
             }
             });
 
@@ -290,7 +290,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
         //todo for testing auto show rating dialog
-        //showRatingDialog();
+        showRatingDialog();
     }
 
 
@@ -481,7 +481,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRiderRequestComplete() {
-        showRatingDialog();
+        onScanningCompleted();
+        //showRatingDialog();
     }
 
     @Override
