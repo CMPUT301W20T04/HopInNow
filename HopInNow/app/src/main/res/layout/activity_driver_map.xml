@@ -65,7 +65,7 @@
                     android:src="@drawable/marker_pick_up" />
 
                 <fragment
-                    android:id="@+id/pick_up_auto_complete"
+                    android:id="@+id/start_up_auto_complete"
                     android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

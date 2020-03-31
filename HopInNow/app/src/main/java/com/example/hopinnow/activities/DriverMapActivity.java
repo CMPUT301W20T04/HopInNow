@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +34,7 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -42,8 +45,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Author: Hongru Qi
@@ -56,11 +68,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private FloatingActionButton goOnline;
+    private AutocompleteSupportFragment startUpAutoComplete;
 
     private Rider rider;
     private Driver driver;
-    private LatLng pickUpLoc,dropOffLoc;
-    private String pickUpLocName, dropOffLocName;
+    private LatLng pickUpLoc, startUpLoc, dropOffLoc;
+    private String pickUpLocName, startUpLocName;
     private Marker pickUpMarker, dropOffMarker;
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
@@ -108,6 +121,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
             switchFragment(R.layout.fragment_driver_requests);
         });
+        startUpAutoComplete = ((AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.start_up_auto_complete));
         drawerLayout = findViewById(R.id.driver_drawer_layout);
         this.userDatabaseAccessor = new DriverDatabaseAccessor();
         navigationView = findViewById(R.id.nav_view_driver);
@@ -133,6 +148,39 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .position(edmonton) //set to current location later on pickUpLoc
                 .title("Edmonton")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker m) {  }
+
+            @Override
+            public void onMarkerDrag(Marker m) {
+                LatLng newLatLng = m.getPosition();
+                List<Address> addresses = null;
+
+                try {
+                    addresses = geocoder.getFromLocation(newLatLng.latitude, newLatLng.longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String address = Objects.requireNonNull(addresses).get(0).getAddressLine(0);
+                startUpLoc = newLatLng;
+                startUpLocName = address;
+                startUpAutoComplete.setText(pickUpLocName);
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker m) {
+                LatLng newLatLng = m.getPosition();
+                List<Address> addresses = null;
+
+                try {
+                    addresses = geocoder.getFromLocation(newLatLng.latitude, newLatLng.longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String address = Objects.requireNonNull(addresses).get(0).getAddressLine(0);
     }
 
 
@@ -200,6 +248,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .draggable(true));
 
     }
+
     public void setBothMarker(LatLng pickUpLoc, LatLng dropOffLoc){
         pickUpMarker.setVisible(true);
         pickUpMarker.setPosition(pickUpLoc);
@@ -223,6 +272,35 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         }
         adjustMapFocus();
     }
+
+    /**
+     * Sets up auto complete fragment from Google Places API.
+     */
+    private void setupAutoCompleteFragment() {
+        assert startUpAutoComplete != null;
+        startUpAutoComplete.setHint("Pick Up Location");
+        startUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
+        startUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                startUpLocName = place.getAddress();
+                startUpLoc = place.getLatLng();
+                setMapMarker(pickUpMarker,startUpLoc);
+            }
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.e("An error occurred: ", status.toString());
+            }
+        });
+        startUpAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+                .setOnClickListener(v -> {
+                    startUpAutoComplete.setText("");
+                    startUpLoc = null;
+                    startUpLocName = null;
+                    pickUpMarker.setVisible(false);
+                });
+
+    }
     /**
      * Transforms drawable into a bitmap drawable.
      * @param drawable
@@ -243,12 +321,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 , drawable.getIntrinsicHeight());
         drawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
-    public void setPickUpLoc(LatLng pickUpLoc) {
-        this.pickUpLoc = pickUpLoc;
-    }
-    public void setDropOffLoc(LatLng dropOffLoc){
-        this.dropOffLoc = dropOffLoc;
     }
     /**
      * adjust focus of the map according to the markers
