@@ -87,8 +87,13 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .collection(super.referenceName)
                 .document(requestID)
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    assert documentSnapshot != null;
-                    Request req = documentSnapshot.toObject(Request.class);
+                    Request req = requireNonNull(documentSnapshot).toObject(Request.class);
+                    if (req == null || !requireNonNull(documentSnapshot).exists()) {
+                        Log.v(TAG, "The request is declined by" +
+                                "the rider before the driver arrives");
+                        listener.onRequestDeclinedByRider();
+                        return;
+                    }
                     if (requireNonNull(req).getAcceptStatus() == 1) {
                         // acceptStatus is 1 means request is accepted
                         Log.v(TAG, "The request is accepted by the rider.");
@@ -133,7 +138,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     }
 
     /**
-     * Should only set the isAD to true in the request list
+     * Should only set the isArriveAtDest to true in the request list
      * @param request
      *      request object to change
      * @param listener
@@ -142,7 +147,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public void driverDropoffRider(Request request, final DriverRequestListener listener) {
         String requestID = request.getRequestID();
         Map<String, Object> map = new HashMap<>();
-        map.put("isAD", true);
+        map.put("arrivedAtDest", true);
         this.firestore
                 .collection(super.referenceName)
                 .document(requestID)

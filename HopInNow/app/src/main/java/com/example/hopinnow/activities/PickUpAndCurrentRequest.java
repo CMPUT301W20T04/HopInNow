@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +38,7 @@ import java.util.Objects;
  * show the current request that driver has accepted
  */
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener, DriverRequestListener {
+        AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener {
     private Driver driver;
     private Request request;
     private TextView requestTitleText;
@@ -75,17 +77,26 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             driverDatabaseAccessor.getDriverProfile(this);
         }
+
+        if (request==null){
+            requestFromText.setText("From: pick up location ui test" );
+            requestToText.setText("To: drop off location ui test");
+            requestTimeText.setText("Time: right now ui test" );
+            requestCostText.setText("Estimate Fare: fare ui test");
+        }
+
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
         request = driver.getCurRequest();
-        requestFromText.setText("From: " + request.getPickUpLocName());
-        requestToText.setText("To: " + request.getDropOffLocName());
-        requestTimeText.setText("Time: " + request.getPickUpDateTime());
-        requestCostText.setText("Estimate Fare: " + request.getEstimatedFare());
+        requestFromText.setText(request.getPickUpLocName());
+        requestToText.setText( request.getDropOffLocName());
+        requestTimeText.setText(request.getPickUpDateTime().toString());
+        requestCostText.setText(request.getEstimatedFare().toString());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
 
         if (!request.isPickedUp()) {

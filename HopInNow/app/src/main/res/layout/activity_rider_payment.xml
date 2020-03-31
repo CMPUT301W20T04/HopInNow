@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/qr_description"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         android:gravity="center"
@@ -39,7 +39,7 @@
         android:textColor="@color/quantum_black_100"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/payment_linear" />
 
@@ -59,11 +59,11 @@
         android:id="@+id/tips_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="36dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rider_payment_qr">
 
@@ -117,8 +117,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text=""
                 android:onClick="onRadioButtonClicked"
+                android:text=""
                 android:textSize="16sp" />
 
         </RadioGroup>
@@ -147,14 +147,13 @@
         android:id="@+id/total_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/rider_payment_submit_tips"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.372"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tips_layout"
-        app:layout_constraintVertical_bias="0.298">
+        app:layout_constraintTop_toBottomOf="@id/tips_layout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -198,15 +197,16 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/orange_full_all_round_corner"
         android:text="CONFIRM"
         android:textColor="@color/ColorWhite"
+
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_layout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

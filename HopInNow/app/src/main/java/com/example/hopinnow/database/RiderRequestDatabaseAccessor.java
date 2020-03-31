@@ -45,7 +45,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     }
                     if (snapshot.exists()) {
                         if (Objects.requireNonNull(request).getDriverEmail() != null) {
-                            Log.v(TAG, "riderWaitForRequestAcceptance" +
+                            Log.v(TAG, "riderWaitForRequestAcceptance: " +
                                     "driver accepted request.");
                             listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
                         }
@@ -81,7 +81,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     if (acceptStatus == 1) {
                         Log.v(TAG, "the request is accepted by the rider.");
                         listener.onRiderAcceptDriverRequest();
-                    } else {
+                    } else if (acceptStatus == -1) {
                         Log.v(TAG, "the request is declined by the rider.");
                         listener.onRiderDeclineDriverRequest();
                     }
@@ -136,7 +136,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     }
                     if (snapshot.exists()) {
                         if (Objects.requireNonNull(request).isArrivedAtDest()) {
-                            Log.v(TAG, "rider picked up: ");
+                            Log.v(TAG, "rider dropped off: ");
                             listener.onRiderDropoffSuccess(snapshot.toObject(Request.class));
                         }
                     } else {

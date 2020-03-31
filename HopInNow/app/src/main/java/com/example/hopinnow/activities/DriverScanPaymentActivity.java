@@ -20,11 +20,15 @@ import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -34,7 +38,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
  */
 public class DriverScanPaymentActivity extends AppCompatActivity
         implements ZXingScannerView.ResultHandler, DriverRequestListener,
-        DriverProfileStatusListener, AvailRequestListListener {
+        DriverProfileStatusListener, AvailRequestListListener, RequestAddDeleteListener {
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
@@ -53,7 +57,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         setContentView(R.layout.activity_driver_scanning);
         driver = (Driver) getIntent().getSerializableExtra("Driver");
         //curRequest
-        curRequest = driver.getCurRequest();
+        curRequest = Objects.requireNonNull(driver).getCurRequest();
 
         rxPermissions = new RxPermissions(DriverScanPaymentActivity.this);
         cameraView = findViewById(R.id.camera_scan_view);
@@ -78,16 +82,18 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
-        String result[] = encoded.split(":");
-        System.out.println(result);
+        String qrDriverEmail = StringUtils.substringBetween("driverEmail","DriverEmail");
+        String qrPayment = StringUtils.substringBetween("totalPayment","TotalPayment");
+        System.out.println(qrDriverEmail);
         System.out.println(driver.getEmail());
+        System.out.println(qrPayment);
 
-        if (driver.getEmail().equals(result[0])){
+        if (driver.getEmail().equals(qrDriverEmail)){ //
 
             //todo trigger rider rating by removing request from firebase
-            //double prevDeposit = driver.getDeposit();
-            //driver.setDeposit(prevDeposit + Double.valueOf(result[1]));
-            Toast.makeText(this, "You have successfully received " + result[1] +
+            double prevDeposit = driver.getDeposit();
+            driver.setDeposit(prevDeposit + Double.parseDouble(qrPayment));
+            Toast.makeText(this, "You have successfully received " + qrPayment +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
 
             //driver complete the request and trigger the rider to rate.
