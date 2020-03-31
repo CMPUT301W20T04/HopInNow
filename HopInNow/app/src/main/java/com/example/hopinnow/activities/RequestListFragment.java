@@ -26,6 +26,7 @@ import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import static java.util.Objects.requireNonNull;
  * show the current available request for driver to choose to take
  */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener, DriverRequestListener {
+        AvailRequestListListener, DriverRequestListener, RequestAddDeleteListener {
     public static final String TAG = "RequestListFragment";
     private ListView requestListView;
     private ArrayList<Request> requestList;

@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
+import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -47,7 +49,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      * @param listener
      *      if the request is added successfully, call the onSuccess method, otherwise, onFailure.
      */
-    public void addUpdateRequest(Request request, final AvailRequestListListener listener) {
+    public void addUpdateRequest(Request request, final RequestAddDeleteListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (this.currentUser == null) {
             Log.v(TAG, "user is not logged in!!!");
@@ -80,7 +82,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      * @param listener
      *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
      */
-    public void deleteRequest(final AvailRequestListListener listener) {
+    public void deleteRequest(final RequestAddDeleteListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         this.firestore
                 .collection(referenceName)
