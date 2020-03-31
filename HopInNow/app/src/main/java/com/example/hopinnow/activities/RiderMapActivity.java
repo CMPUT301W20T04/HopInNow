@@ -838,7 +838,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderDeclineDriverRequest() {
-        if (!this.driverDecided){
+        if (!this.driverDecided) {
             switchFragment(-1);
             riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(0,
                     RiderMapActivity.this);
