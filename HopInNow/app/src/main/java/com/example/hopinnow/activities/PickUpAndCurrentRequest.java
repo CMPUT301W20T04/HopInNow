@@ -24,6 +24,7 @@ import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +37,7 @@ import java.util.Objects;
  * show the current request that driver has accepted
  */
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener, DriverRequestListener {
+        AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener {
     private Driver driver;
     private Request request;
     private TextView requestTitleText;
@@ -75,6 +76,14 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             driverDatabaseAccessor.getDriverProfile(this);
         }
+
+        if (request==null){
+            requestFromText.setText("From: pick up location ui test" );
+            requestToText.setText("To: drop off location ui test");
+            requestTimeText.setText("Time: right now ui test" );
+            requestCostText.setText("Estimate Fare: fare ui test");
+        }
+
         return view;
     }
 

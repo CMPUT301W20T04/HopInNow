@@ -1,6 +1,7 @@
 package com.example.hopinnow.activities;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ import static java.util.Objects.requireNonNull;
  * show the current available request for driver to choose to take
  */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener, DriverRequestListener {
+        AvailRequestListListener, DriverRequestListener, RequestAddDeleteListener {
     public static final String TAG = "RequestListFragment";
     private ListView requestListView;
     private ArrayList<Request> requestList;
@@ -47,6 +49,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private LatLong Loc2 = new LatLong(53.591611, -113.323975);
     private LatLong pickUp;
     private LatLong dropOff;
+    private Location current;
+    private LatLng startUp;
     private Context context;
     private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
@@ -96,7 +100,16 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
         // TODO
         // later need to fix the new LatLong(10, 20) to current location of the driver:
-        driverRequestDatabaseAccessor.getAllRequest(new LatLong(10, 20), this);
+        if (((DriverMapActivity) requireNonNull(getActivity())).isUseCurrent()){
+            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+            driverRequestDatabaseAccessor.getAllRequest(new LatLong(current.getLatitude(),
+                    current.getLongitude()), this);
+        }
+        else {
+            this.startUp = ((DriverMapActivity)getActivity()).getStartUpLoc();
+            driverRequestDatabaseAccessor.getAllRequest(
+                    new LatLong(startUp.latitude, startUp.longitude), this);
+        }
     }
 
     @Override
@@ -144,7 +157,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         // I assume this is to setup the request list:
         this.requestList = requests;
         final FragmentActivity fragmentActivity = getActivity();
-        ((DriverMapActivity) Objects.requireNonNull(context)).setButtonInvisible();
+//        ((DriverMapActivity) Objects.requireNonNull(context)).setButtonInvisible();
         this.requestListAdapter = new RequestListAdapter(requestList, fragmentActivity);
         this.requestListView.setAdapter(this.requestListAdapter);
 
@@ -164,6 +177,12 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                         Toast.LENGTH_SHORT).show();
                 return;
             }
+            //ui test
+            Button nextBtn = itemView.findViewById(R.id.mock_next_pickUpRider);
+            nextBtn.setOnClickListener(v -> {
+                ((DriverMapActivity) Objects.requireNonNull(context))
+                        .switchFragment(R.layout.fragment_driver_pick_rider_up);
+            });
             pickUp = chooseRequest.getPickUpLoc();
             LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
 
@@ -185,9 +204,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 this.progressbarDialog.startProgressbarDialog();
 
             });
-            //prePosition = position;
 
-            //ui mock next page button (viola)
+            //DO NOT DELETE ui mock next page button (viola)
             /*Button nextBtn = view.findViewById(R.id.mock_toPickUpRider);
             nextBtn.setOnClickListener(v -> {
                 ((DriverMapActivity) requireNonNull(getActivity()))
@@ -196,8 +214,18 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         });
         // Shway added this following lines:
         this.progressbarDialog.dismissDialog();
-        this.driverRequestDatabaseAccessor
-                .listenOnAllRequests(new LatLong(10, 20), this);
+        if (((DriverMapActivity) requireNonNull(getActivity())).isUseCurrent()){
+            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+            this.driverRequestDatabaseAccessor
+                    .listenOnAllRequests(new LatLong(current.getLatitude(),
+                            current.getLongitude()), this);
+        }
+        else {
+            this.startUp = ((DriverMapActivity)getActivity()).getStartUpLoc();
+            this.driverRequestDatabaseAccessor
+                    .listenOnAllRequests(
+                            new LatLong(startUp.latitude, startUp.longitude),this);
+        }
     }
 
     @Override
@@ -259,7 +287,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onRequestDeclinedByRider() {
         this.progressbarDialog.dismissDialog();
-        Toast.makeText(context,"Rider has rejected your offer.",Toast.LENGTH_SHORT)
+        Toast.makeText(context,"Please find a new request.",Toast.LENGTH_SHORT)
                 .show();
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
 
@@ -306,7 +334,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         this.context = context;
         super.onAttach(context);
     }

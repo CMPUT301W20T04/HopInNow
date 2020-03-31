@@ -49,6 +49,7 @@ import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.android.gms.common.api.Status;
@@ -88,7 +89,7 @@ import java.util.Objects;
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
-        AvailRequestListListener, LocationListener,
+        LocationListener, RequestAddDeleteListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "RiderMapActivity";
@@ -155,7 +156,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                             lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager
                                             .GPS_PROVIDER, 0, 0, this);
-                            mMap.setMyLocationEnabled(true);
                         }
                     });
         } else {
@@ -286,7 +286,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        if ((ActivityCompat.checkSelfPermission(RiderMapActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                && (ActivityCompat.checkSelfPermission(RiderMapActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            mMap.setMyLocationEnabled(true);
+        }
         mMap.setPadding(0, 0, 14, 0);
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -901,6 +906,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         fl.removeAllViews();
 
         //set curRequest to null
+        fragWatingDriver = new RiderWaitingDriverFragment();
         curRequest = null;
         saveCurrentRequestLocal(null);
         baseFare = 0.00;
@@ -926,18 +932,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRequestDeleteFailure() {}
-
-    @Override
-    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {}
-
-    @Override
-    public void onGetRequiredRequestsFailure() {}
-
-    @Override
-    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {}
-
-    @Override
-    public void onAllRequestsUpdateError() {}
 
     @Override
     public void onLocationChanged(Location location) {
@@ -975,7 +969,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 finish();
                 break;
         }
-
         return true;
     }
 }
