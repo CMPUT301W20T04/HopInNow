@@ -72,9 +72,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             cameraPermission();
         }
 
-        cameraView.setOnClickListener(v -> {
-            cameraPermission();
-        });
+        cameraView.setOnClickListener(v -> cameraPermission());
 
     }
 
