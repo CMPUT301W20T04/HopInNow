@@ -26,7 +26,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 

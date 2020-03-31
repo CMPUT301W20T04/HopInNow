@@ -32,13 +32,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
-import com.example.hopinnow.database.RequestDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.database.RiderRequestDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
@@ -81,7 +79,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -114,13 +111,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private double baseFare;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
-    private RiderDatabaseAccessor riderDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
     private RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
 
     // progress bar here:
     private ProgressbarDialog progressbarDialog;
-    private NavigationView navigationView;
     private UserDatabaseAccessor userDatabaseAccessor;
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
@@ -158,15 +153,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     .subscribe(granted -> {
                         if (granted) {
                             lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                                    0, 0, this);
+                            Objects.requireNonNull(lm).requestLocationUpdates(LocationManager
+                                            .GPS_PROVIDER, 0, 0, this);
                             mMap.setMyLocationEnabled(true);
                         }
                     });
         } else {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    0, 0, this);
+            if (lm != null) {
+                Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        0, 0, this);
+            }
         }
         // sets map
         pickUpLoc = new LatLng(53.5258, -113.5207);
@@ -174,13 +171,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(RiderMapActivity.this);
         // assign logged in rider to local variable
-        this.riderDatabaseAccessor = new RiderDatabaseAccessor();
+        RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
         // let the progress bar show:
         this.progressbarDialog = new ProgressbarDialog(this);
         this.progressbarDialog.startProgressbarDialog();
-        this.riderDatabaseAccessor.getRiderProfile(this);
+        riderDatabaseAccessor.getRiderProfile(this);
         this.userDatabaseAccessor = new UserDatabaseAccessor();
     }
 
@@ -232,7 +229,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         });
 
         drawerLayout = findViewById(R.id.rider_drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -308,7 +305,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String address = addresses.get(0).getAddressLine(0);
+                String address = Objects.requireNonNull(addresses).get(0).getAddressLine(0);
 
                 if (m.getTitle().equals("Pick Up Location")){
                     pickUpLoc = newLatLng;
@@ -394,7 +391,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
-        dropOffAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+        Objects.requireNonNull(dropOffAutoComplete.getView())
+                .findViewById(R.id.places_autocomplete_clear_button)
                 .setOnClickListener(v -> {
                     dropOffAutoComplete.setText("");
                     dropOffLoc = null;
