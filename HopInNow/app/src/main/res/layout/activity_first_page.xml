@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/roadImage"
-        android:layout_width="435dp"
+        android:layout_width="wrap_content"
         android:layout_height="326dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,12 +33,12 @@
 
     <ImageView
         android:id="@+id/titleImage"
-        android:layout_width="362dp"
-        android:layout_height="161dp"
+        android:layout_width="349dp"
+        android:layout_height="148dp"
         android:layout_marginTop="81dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/hop" />
+        app:srcCompat="@drawable/hopinnow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
