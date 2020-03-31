@@ -259,7 +259,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onRequestDeclinedByRider() {
         this.progressbarDialog.dismissDialog();
-        Toast.makeText(context,"Rider has rejected your offer.",Toast.LENGTH_SHORT)
+        Toast.makeText(context,"Please find a new request.",Toast.LENGTH_SHORT)
                 .show();
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
 

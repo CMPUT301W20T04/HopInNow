@@ -91,12 +91,12 @@
             android:id="@+id/editProfileBtn"
             android:layout_width="280sp"
             android:layout_height="48sp"
-            android:layout_marginStart="64dp"
+            android:layout_marginTop="35dp"
             android:background="@drawable/orange_all_round_corner_login"
             android:text="@string/profile_edit_btn"
             android:textColor="@color/ColorOrange"
             android:textSize="20sp"
-            android:layout_marginTop="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/proPhoneET" />
 
@@ -104,12 +104,13 @@
             android:id="@+id/proUpdateBtn"
             android:layout_width="280dp"
             android:layout_height="48dp"
+            android:layout_marginTop="35dp"
             android:background="@drawable/orange_all_round_corner_login"
             android:text="@string/profile_update_btn"
             android:textColor="@color/ColorOrange"
-            android:layout_marginTop="35dp"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/proPhoneET" />
 
@@ -140,7 +141,6 @@
             android:id="@+id/proLogoutBtn"
             android:layout_width="280dp"
             android:layout_height="48dp"
-            android:layout_marginStart="64dp"
             android:layout_marginTop="35dp"
             android:layout_marginBottom="64dp"
             android:background="@drawable/orange_all_round_corner_login"
@@ -148,9 +148,11 @@
             android:textColor="@color/ColorOrange"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/proUpdateBtn"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/proDepositTxt"
