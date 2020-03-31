@@ -534,7 +534,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      *      driver information from firebase
      */
     public Driver retrieveOfferedDriver(){
-        return driver;
+        return this.driver;
     }
 
 
@@ -757,6 +757,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     public void updateFare(Double newFare){
         curRequest.setEstimatedFare(newFare);
+        if (!driverDecided){
+            curRequest.setDriverEmail(null);
+            curRequest.setCar(null);
+        }
         saveCurrentRequestLocal(curRequest);
         riderRequestDatabaseAccessor.addUpdateRequest(curRequest,RiderMapActivity.this);
     }
@@ -810,12 +814,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderRequestAcceptedNotify(Request mRequest) {
         curRequest = mRequest;
         String dEmail = curRequest.getDriverEmail();
-        if (newOffer) {
-            driverDatabaseAccessor.getDriverObject(dEmail,this);
-            newOffer = false;
-        } else {
-            this.driver = null;
-        }
+
+        driverDatabaseAccessor.getDriverObject(dEmail,this);
+        //newOffer = false;
     }
 
     @Override
@@ -830,12 +831,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderDeclineDriverRequest() {
-        if (!driverDecided){
+        if (!this.driverDecided){
             switchFragment(-1);
             riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(0,
                     RiderMapActivity.this);
-            riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
             this.driver = null;
+            curRequest.setDriverEmail(null);
+            curRequest.setCar(null);
+            saveCurrentRequestLocal(curRequest);
         }
     }
 
@@ -913,6 +916,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         saveCurrentRequestLocal(null);
         baseFare = 0.00;
         driverDecided = false;
+        newOffer = false;
         pickUpLocName = null;
         dropOffLocName= null;
         switchMarkerDraggable();

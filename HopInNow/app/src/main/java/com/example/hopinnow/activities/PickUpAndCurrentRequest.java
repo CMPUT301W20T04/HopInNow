@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -86,14 +87,15 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
         request = driver.getCurRequest();
-        requestFromText.setText("From: " + request.getPickUpLocName());
-        requestToText.setText("To: " + request.getDropOffLocName());
-        requestTimeText.setText("Time: " + request.getPickUpDateTime());
-        requestCostText.setText("Estimate Fare: " + request.getEstimatedFare());
+        requestFromText.setText(request.getPickUpLocName());
+        requestToText.setText( request.getDropOffLocName());
+        requestTimeText.setText(request.getPickUpDateTime().toString());
+        requestCostText.setText(request.getEstimatedFare().toString());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
 
         if (!request.isPickedUp()) {
