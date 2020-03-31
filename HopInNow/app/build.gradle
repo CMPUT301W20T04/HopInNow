@@ -67,6 +67,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-
+    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+    implementation  'org.apache.commons:commons-lang3:3.0'
 
 }
