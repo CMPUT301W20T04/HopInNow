@@ -1,6 +1,7 @@
 package com.example.hopinnow.activities;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private LatLong Loc2 = new LatLong(53.591611, -113.323975);
     private LatLong pickUp;
     private LatLong dropOff;
+    private Location current;
+    private LatLng startUp;
     private Context context;
     private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
@@ -96,7 +99,14 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
         // TODO
         // later need to fix the new LatLong(10, 20) to current location of the driver:
-        driverRequestDatabaseAccessor.getAllRequest(new LatLong(10, 20), this);
+        if (((DriverMapActivity)getActivity()).isUseCurrent()){
+            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+            driverRequestDatabaseAccessor.getAllRequest(new LatLong(current.getLatitude(), current.getLongitude()), this);
+        }
+        else {
+            this.startUp = ((DriverMapActivity)getActivity()).getStartUpLoc();
+            driverRequestDatabaseAccessor.getAllRequest(new LatLong(startUp.latitude, startUp.longitude), this);
+        }
     }
 
     @Override
@@ -144,7 +154,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         // I assume this is to setup the request list:
         this.requestList = requests;
         final FragmentActivity fragmentActivity = getActivity();
-        ((DriverMapActivity) Objects.requireNonNull(context)).setButtonInvisible();
+//        ((DriverMapActivity) Objects.requireNonNull(context)).setButtonInvisible();
         this.requestListAdapter = new RequestListAdapter(requestList, fragmentActivity);
         this.requestListView.setAdapter(this.requestListAdapter);
 
@@ -201,8 +211,16 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         });
         // Shway added this following lines:
         this.progressbarDialog.dismissDialog();
-        this.driverRequestDatabaseAccessor
-                .listenOnAllRequests(new LatLong(10, 20), this);
+        if (((DriverMapActivity)getActivity()).isUseCurrent()){
+            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+            this.driverRequestDatabaseAccessor
+                    .listenOnAllRequests(new LatLong(current.getLatitude(), current.getLongitude()), this);
+        }
+        else {
+            this.startUp = ((DriverMapActivity)getActivity()).getStartUpLoc();
+            this.driverRequestDatabaseAccessor
+                    .listenOnAllRequests(new LatLong(startUp.latitude, startUp.longitude), this);        }
+
     }
 
     @Override
