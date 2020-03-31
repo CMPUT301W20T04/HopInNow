@@ -115,7 +115,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void setCurrentRequestPageCounter(int value){
         this.currentRequestPageCounter = value;
     }
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult", "CutPasteId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,20 +189,24 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
-                            mMap.setMyLocationEnabled(true);
                         }
                     });
         } else {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     0, 0, this);
-            mMap.setMyLocationEnabled(true);
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                && (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            mMap.setMyLocationEnabled(true);
+        }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(edmonton) //set to current location later on pickUpLoc
