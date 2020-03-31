@@ -81,9 +81,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
-
-        String qrDriverEmail = StringUtils.substringBetween("<driverEmail>","</driverEmail>");
-        String qrPayment = StringUtils.substringBetween("<totalPayment>","</totalPayment>");
+        String qrDriverEmail = StringUtils.substringBetween("driverEmail","DriverEmail");
+        String qrPayment = StringUtils.substringBetween("totalPayment","TotalPayment");
         System.out.println(qrDriverEmail);
         System.out.println(driver.getEmail());
         System.out.println(qrPayment);
