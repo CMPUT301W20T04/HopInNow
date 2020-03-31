@@ -49,6 +49,7 @@ import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.android.gms.common.api.Status;
@@ -88,7 +89,7 @@ import java.util.Objects;
  */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback,
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
-        AvailRequestListListener, LocationListener,
+        LocationListener, RequestAddDeleteListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "RiderMapActivity";
@@ -929,18 +930,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRequestDeleteFailure() {}
 
     @Override
-    public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {}
-
-    @Override
-    public void onGetRequiredRequestsFailure() {}
-
-    @Override
-    public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {}
-
-    @Override
-    public void onAllRequestsUpdateError() {}
-
-    @Override
     public void onLocationChanged(Location location) {
         this.current = location;
     }
@@ -976,7 +965,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 finish();
                 break;
         }
-
         return true;
     }
 }

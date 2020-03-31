@@ -20,6 +20,7 @@ import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -37,7 +38,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
  */
 public class DriverScanPaymentActivity extends AppCompatActivity
         implements ZXingScannerView.ResultHandler, DriverRequestListener,
-        DriverProfileStatusListener, AvailRequestListListener {
+        DriverProfileStatusListener, AvailRequestListListener, RequestAddDeleteListener {
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
