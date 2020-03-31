@@ -75,6 +75,14 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             emergencyCallButton = view.findViewById(R.id.EmergencyCall);
             driverDatabaseAccessor.getDriverProfile(this);
         }
+
+        if (request==null){
+            requestFromText.setText("From: pick up location ui test" );
+            requestToText.setText("To: drop off location ui test");
+            requestTimeText.setText("Time: right now ui test" );
+            requestCostText.setText("Estimate Fare: fare ui test");
+        }
+
         return view;
     }
 

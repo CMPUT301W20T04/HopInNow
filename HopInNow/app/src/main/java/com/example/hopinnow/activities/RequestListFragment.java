@@ -164,6 +164,12 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                         Toast.LENGTH_SHORT).show();
                 return;
             }
+            //ui test
+            Button nextBtn = itemView.findViewById(R.id.mock_next_pickUpRider);
+            nextBtn.setOnClickListener(v -> {
+                ((DriverMapActivity) Objects.requireNonNull(context))
+                        .switchFragment(R.layout.fragment_driver_pick_rider_up);
+            });
             pickUp = chooseRequest.getPickUpLoc();
             LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
 
