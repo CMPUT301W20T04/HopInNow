@@ -1,6 +1,7 @@
 package com.example.hopinnow.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -51,6 +52,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -113,12 +115,17 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void setCurrentRequestPageCounter(int value){
         this.currentRequestPageCounter = value;
     }
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_map);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(DriverMapActivity.this);
+        // initialize places
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
+        }
 
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
@@ -132,6 +139,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         });
         startUpAutoComplete = ((AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.start_up_auto_complete));
+        setupAutoCompleteFragment();
         drawerLayout = findViewById(R.id.driver_drawer_layout);
         this.userDatabaseAccessor = new DriverDatabaseAccessor();
         navigationView = findViewById(R.id.nav_view_driver);
@@ -198,6 +206,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(edmonton) //set to current location later on pickUpLoc
                 .title("Edmonton")
+                .visible(false)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
