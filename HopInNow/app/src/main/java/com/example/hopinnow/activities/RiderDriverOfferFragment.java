@@ -106,17 +106,17 @@ public class RiderDriverOfferFragment extends Fragment {
         this.emailBtn.setOnClickListener(v -> ((RiderMapActivity) Objects
                 .requireNonNull(getActivity()))
                 .emailDriver(driver.getEmail()));
+        // this is the accept button:
         this.acceptBtn.setOnClickListener(v -> {
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .saveCurrentRequestLocal(curRequest);
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .respondDriverOffer(1);
-            //((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(R.layout.fragment_rider_waiting_pickup);
         });
+        // this is the decline button:
         this.declineBtn.setOnClickListener(v -> {
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .respondDriverOffer(-1);
-            //((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(-1);
         });
     }
 }

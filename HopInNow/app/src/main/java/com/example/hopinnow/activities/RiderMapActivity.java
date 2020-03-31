@@ -208,6 +208,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         // sets button for adding new request
         Button addRequestBtn = findViewById(R.id.add_request_button);
+        // this is the HopinNow button:
         addRequestBtn.setOnClickListener(v -> {
             //mock, for UI test
             if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
@@ -220,6 +221,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             if ((pickUpLocName!=null)&&(dropOffLocName!=null)){
                 if (validLocations()){
                     switchMarkerDraggable();
+                    // this method adds a new request:
                     setNewRequest();
                 }
             } else {
@@ -270,6 +272,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             saveCurrentRequestLocal(curRequest);
             // save current Request to firebase
             this.progressbarDialog.startProgressbarDialog();
+            // this add a new request:
             riderRequestDatabaseAccessor.addUpdateRequest(curRequest,this);
         } else {
             Toast.makeText(this, "Sorry, you do not have enough deposit for this " +

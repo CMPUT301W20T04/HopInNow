@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,12 +31,11 @@ import static java.util.Objects.requireNonNull;
  */
 public class RequestDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
-    protected final String referenceName = "availableRequests";
-
+    final String referenceName = "availableRequests";
     /**
      * Default constructor, calls super();
      */
-    public RequestDatabaseAccessor() {
+    RequestDatabaseAccessor() {
         super();
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }

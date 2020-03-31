@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,10 +35,10 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      */
     public void riderWaitForRequestAcceptance(final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        this.firestore
-                .collection(this.referenceName)
-                .document(this.currentUser.getUid())
-                .addSnapshotListener((snapshot, e) -> {
+        DocumentReference ref = this.firestore.collection(this.referenceName)
+                .document(this.currentUser.getUid());
+        // this function can help remove the snapshot listeners
+        ListenerRegistration listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                     if (e != null) {
                         Log.v(TAG, "riderWaitForRequestAcceptance failed.", e);

@@ -41,7 +41,8 @@ public class  RiderWaitingDriverFragment extends Fragment {
                              @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_rider_waiting_driver, container,
                 false);
-        lowest_price = Double.valueOf((Double) getArguments().getSerializable("baseFare"));
+        lowest_price = (Double) Objects.requireNonNull(getArguments())
+                .getSerializable("baseFare");
         Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequestLocal();
         Rider rider = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
@@ -76,7 +77,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
             }
 
         });
-
+        // this is the cancel request button:
         Button cancel_request = view.findViewById(R.id.cancel_button);
         // the action after the cancel request button is clicked:
         cancel_request.setOnClickListener(v -> {
@@ -105,13 +106,13 @@ public class  RiderWaitingDriverFragment extends Fragment {
     private void addFare(){
         estimate_fare += 1;
         fare_amount.setText(df2.format(estimate_fare));
-        ((RiderMapActivity)getActivity()).updateFare(estimate_fare);
+        ((RiderMapActivity) Objects.requireNonNull(getActivity())).updateFare(estimate_fare);
     }
 
     private void reduceFare(){
         estimate_fare -= 1;
         fare_amount.setText(df2.format(estimate_fare));
-        ((RiderMapActivity)getActivity()).updateFare(estimate_fare);
+        ((RiderMapActivity) Objects.requireNonNull(getActivity())).updateFare(estimate_fare);
     }
 
     private void startChronometer(){
