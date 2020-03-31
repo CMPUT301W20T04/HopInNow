@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="Estimated Fare:  "
+            android:text="Estimated Fare:  $"
             android:textColor="@color/quantum_black_100"
             android:textSize="18sp"
             android:textStyle="bold"/>
