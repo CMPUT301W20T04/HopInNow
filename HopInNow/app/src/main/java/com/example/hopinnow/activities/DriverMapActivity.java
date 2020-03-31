@@ -8,12 +8,16 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,7 +67,7 @@ import java.util.Objects;
  * This is the main page for driver where is shows the map, online and menu button
  */
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener {
+        NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener, LocationListener {
     private GoogleMap mMap;
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
@@ -74,17 +78,19 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Driver driver;
     private LatLng pickUpLoc, startUpLoc, dropOffLoc;
     private String pickUpLocName, startUpLocName;
-    private Marker pickUpMarker, dropOffMarker;
+    private Marker pickUpMarker, dropOffMarker, startUpMarker;
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
     private int currentRequestPageCounter = 0;
-
+    private Location current;
+    private Button myLocStartUpBtn;
     private ProgressbarDialog progressbarDialog;
     private NavigationView navigationView;
     private DriverDatabaseAccessor userDatabaseAccessor;
     public static final String TAG = "DriverMenuActivity";
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
+    private boolean useCurrent;
     /**
      * set the visibility of goOnline button into invisible
      */
@@ -129,6 +135,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
+        myLocStartUpBtn = findViewById(R.id.my_loc_startup_button);
         // a button listener
         driverMenuBtn = findViewById(R.id.driverMenuBtn);
         driverMenuBtn.setOnClickListener(v -> {
@@ -137,7 +144,28 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             // If the navigation drawer is not open then open it, if its already open then close it.
             drawerLayout.openDrawer(GravityCompat.START);
         });
+        final EditText startUpMock = findViewById(R.id.mock_startUp);
+        Button driverSearchBtn = findViewById(R.id.driver_search_button);
+        driverSearchBtn.setOnClickListener(v -> {
+            //mock, for UI test
+            if (!startUpMock.getText().toString().equals("")){
+                setUseCurrent(false);
+                startUpLocName = startUpMock.getText().toString();
+                startUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
+            }
 
+            if ((pickUpLocName!=null)){
+                switchFragment(R.layout.fragment_driver_requests);
+                //TODO: add and move marker
+            } else {
+                String msg = "Please enter your start up location.";
+                Toast.makeText(DriverMapActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+        myLocStartUpBtn.setOnClickListener(v -> {
+            setUseCurrent(true);
+            switchFragment(R.layout.fragment_driver_requests);
+        });
     }
 
     @Override
@@ -249,7 +277,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .visible(false)
                 .icon(toBitmapMarkerIcon(getResources().getDrawable(R.drawable.marker_drop_off)))
                 .draggable(true));
-
     }
 
     public void setBothMarker(LatLng pickUpLoc, LatLng dropOffLoc){
@@ -259,6 +286,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         dropOffMarker.setPosition(dropOffLoc);
         adjustMapFocus();
     }
+
 
 
     /**
@@ -335,6 +363,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void setDropOffLoc(LatLng dropOffLoc){
         this.dropOffLoc = dropOffLoc;
     }
+    public Location getCurrentLoc(){
+        return current;
+    }
+    public LatLng getStartUpLoc(){
+        return this.startUpLoc;
+    }
     public void adjustMapFocus(){
         LatLngBounds.Builder bound = new LatLngBounds.Builder();
 
@@ -349,6 +383,25 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             return;
         }
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
+    }
+    @Override
+    public void onLocationChanged(Location location) {
+        this.current = location;
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
     @Override
@@ -417,6 +470,14 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onDriverProfileUpdateFailure() {
 
+    }
+
+    public boolean isUseCurrent() {
+        return useCurrent;
+    }
+
+    public void setUseCurrent(boolean useCurrent) {
+        this.useCurrent = useCurrent;
     }
 
 //    @Override
