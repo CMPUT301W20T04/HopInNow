@@ -116,8 +116,8 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                             if (request.getDriverEmail() == null) {
                                 LatLong tempLatLong = request.getPickUpLoc();
                                 // calculate the manhattan distance:
-                                request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                        + (latLong.getLng() - tempLatLong.getLng()));
+                                request.setMdToDriver(Math.abs((latLong.getLat() - tempLatLong.getLat())
+                                        + (latLong.getLng() - tempLatLong.getLng())));
                                 requests.add(request);
                             }
                         }
@@ -156,9 +156,9 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                             Request request = doc.toObject(Request.class);
                             Log.v(TAG, (String) requireNonNull(doc.get("riderEmail")));
                             LatLong tempLatLong = request.getPickUpLoc();
-                            // calculate manhattan distance:
-                            request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                    + (latLong.getLng() - tempLatLong.getLng()));
+                            // calculate manhattan distance(the distance needs to be absolute):
+                            request.setMdToDriver(Math.abs((latLong.getLat() - tempLatLong.getLat())
+                                    + (latLong.getLng() - tempLatLong.getLng())));
                             requests.add(request);
                         }
                     }
