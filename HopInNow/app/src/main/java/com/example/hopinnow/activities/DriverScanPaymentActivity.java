@@ -21,6 +21,7 @@ import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
+import com.google.gson.Gson;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -79,6 +80,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void handleResult(Result rawResult){
+        //Gson gson = new Gson();
         encoded = rawResult.getText();
         String qrDriverEmail = StringUtils.substringBetween("driverEmail","DriverEmail");
         String qrPayment = StringUtils.substringBetween("totalPayment","TotalPayment");

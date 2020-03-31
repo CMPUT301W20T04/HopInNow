@@ -114,6 +114,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
+    private RiderDatabaseAccessor riderDatabaseAccessor;
     private RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
 
     // progress bar here:
@@ -175,6 +176,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
+        this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         // let the progress bar show:
         this.progressbarDialog = new ProgressbarDialog(this);
         this.progressbarDialog.startProgressbarDialog();
@@ -241,6 +243,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             menuUserName.setText(rider.getName());
             drawerLayout.openDrawer(GravityCompat.START);
         });
+        riderDatabaseAccessor.getRiderProfile(this);
+
 
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
@@ -815,7 +819,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderRequestAcceptedNotify(Request mRequest) {
         curRequest = mRequest;
         String dEmail = curRequest.getDriverEmail();
-
         driverDatabaseAccessor.getDriverObject(dEmail,this);
         //newOffer = false;
     }

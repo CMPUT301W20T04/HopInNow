@@ -200,6 +200,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     @Override
+    protected void onStart(){
+        super.onStart();
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
@@ -492,6 +497,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         // when retrieve the driver profile successful,
         // open vehicle view activity to display the car information
         Log.v(TAG, "Driver info retrieved!");
+        this.driver = driver;
         Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("DriverObject", driver);
