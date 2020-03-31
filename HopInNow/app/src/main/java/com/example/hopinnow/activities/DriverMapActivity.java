@@ -187,13 +187,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     .subscribe(granted -> {
                         if (granted) {
                             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                            Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
                         }
                     });
         } else {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+            Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     0, 0, this);
         }
     }

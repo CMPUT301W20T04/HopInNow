@@ -99,13 +99,15 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
         // TODO
         // later need to fix the new LatLong(10, 20) to current location of the driver:
-        if (((DriverMapActivity)getActivity()).isUseCurrent()){
+        if (((DriverMapActivity) requireNonNull(getActivity())).isUseCurrent()){
             this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
-            driverRequestDatabaseAccessor.getAllRequest(new LatLong(current.getLatitude(), current.getLongitude()), this);
+            driverRequestDatabaseAccessor.getAllRequest(new LatLong(current.getLatitude(),
+                    current.getLongitude()), this);
         }
         else {
             this.startUp = ((DriverMapActivity)getActivity()).getStartUpLoc();
-            driverRequestDatabaseAccessor.getAllRequest(new LatLong(startUp.latitude, startUp.longitude), this);
+            driverRequestDatabaseAccessor.getAllRequest(
+                    new LatLong(startUp.latitude, startUp.longitude), this);
         }
     }
 
@@ -211,16 +213,18 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         });
         // Shway added this following lines:
         this.progressbarDialog.dismissDialog();
-        if (((DriverMapActivity)getActivity()).isUseCurrent()){
+        if (((DriverMapActivity) requireNonNull(getActivity())).isUseCurrent()){
             this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
             this.driverRequestDatabaseAccessor
-                    .listenOnAllRequests(new LatLong(current.getLatitude(), current.getLongitude()), this);
+                    .listenOnAllRequests(new LatLong(current.getLatitude(),
+                            current.getLongitude()), this);
         }
         else {
             this.startUp = ((DriverMapActivity)getActivity()).getStartUpLoc();
             this.driverRequestDatabaseAccessor
-                    .listenOnAllRequests(new LatLong(startUp.latitude, startUp.longitude), this);        }
-
+                    .listenOnAllRequests(
+                            new LatLong(startUp.latitude, startUp.longitude),this);
+        }
     }
 
     @Override
@@ -329,7 +333,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         this.context = context;
         super.onAttach(context);
     }

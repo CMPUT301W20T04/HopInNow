@@ -99,7 +99,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
     /**
      * Get all available requests as an ArrayList object from collection availableRequests
      * @param latLong
-     *      the latitude and longitude of the current user
+     *      the latitude and longitude of the current user(usually the driver)
      * @param listener
      *      if all requests are retrieved successfully, call the onSuccess method,
      *      otherwise, onFailure.
@@ -115,8 +115,9 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                             Request request = document.toObject(Request.class);
                             if (request.getDriverEmail() == null) {
                                 LatLong tempLatLong = request.getPickUpLoc();
-                                request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                        + (latLong.getLng() - tempLatLong.getLng()));
+                                // calculate the manhattan distance:
+                                request.setMdToDriver(Math.abs((latLong.getLat() - tempLatLong.getLat())
+                                        + (latLong.getLng() - tempLatLong.getLng())));
                                 requests.add(request);
                             }
                         }
@@ -155,8 +156,9 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                             Request request = doc.toObject(Request.class);
                             Log.v(TAG, (String) requireNonNull(doc.get("riderEmail")));
                             LatLong tempLatLong = request.getPickUpLoc();
-                            request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                    + (latLong.getLng() - tempLatLong.getLng()));
+                            // calculate manhattan distance(the distance needs to be absolute):
+                            request.setMdToDriver(Math.abs((latLong.getLat() - tempLatLong.getLat())
+                                    + (latLong.getLng() - tempLatLong.getLng())));
                             requests.add(request);
                         }
                     }
