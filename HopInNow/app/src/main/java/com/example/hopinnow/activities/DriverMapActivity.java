@@ -152,7 +152,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
-            public void onMarkerDragStart(Marker m) {  }
+            public void onMarkerDragStart(Marker m) {
+            }
 
             @Override
             public void onMarkerDrag(Marker m) {
@@ -181,6 +182,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     e.printStackTrace();
                 }
                 String address = Objects.requireNonNull(addresses).get(0).getAddressLine(0);
+            }
+        });
     }
 
 
@@ -326,7 +329,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
      * adjust focus of the map according to the markers
      */
 
-
+    public void setPickUpLoc(LatLng pickUpLoc) {
+        this.pickUpLoc = pickUpLoc;
+    }
+    public void setDropOffLoc(LatLng dropOffLoc){
+        this.dropOffLoc = dropOffLoc;
+    }
     public void adjustMapFocus(){
         LatLngBounds.Builder bound = new LatLngBounds.Builder();
 
