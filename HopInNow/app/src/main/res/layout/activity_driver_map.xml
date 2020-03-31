@@ -98,37 +98,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/onlineBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:backgroundTint="@color/ColorOrange"
-            app:fabCustomSize="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/onlineBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            app:backgroundTint="@color/ColorOrange"-->
+<!--            app:fabCustomSize="100dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
-        <TextView
-            android:id="@+id/onlineButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fragment_place"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="52dp"
-            android:elevation="30dp"
-            android:text="ONLINE"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/map"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/onlineButtonText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignBottom="@+id/fragment_place"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="52dp"-->
+<!--            android:elevation="30dp"-->
+<!--            android:text="ONLINE"-->
+<!--            android:textAppearance="?android:attr/textAppearanceMedium"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:textSize="24sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/map"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.498"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
         <FrameLayout
             android:id="@+id/fragment_place"

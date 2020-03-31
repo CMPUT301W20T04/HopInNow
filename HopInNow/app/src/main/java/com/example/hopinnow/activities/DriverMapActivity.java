@@ -76,7 +76,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private GoogleMap mMap;
     MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
-    private FloatingActionButton goOnline;
+//    private FloatingActionButton goOnline;
     private AutocompleteSupportFragment startUpAutoComplete;
 
     private Rider rider;
@@ -99,9 +99,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     /**
      * set the visibility of goOnline button into invisible
      */
-    public void setButtonInvisible(){
-        goOnline.setVisibility(View.INVISIBLE);
-    }
+//    public void setButtonInvisible(){
+//        goOnline.setVisibility(View.INVISIBLE);
+//    }
 
     /**
      * get the appear time of the fragment that display the current request
@@ -132,11 +132,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", 12.0, null, car, null);
 
-        goOnline = findViewById(R.id.onlineBtn);
-        goOnline.setOnClickListener(v -> {
-            findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
-            switchFragment(R.layout.fragment_driver_requests);
-        });
+//        goOnline = findViewById(R.id.onlineBtn);
+//        goOnline.setOnClickListener(v -> {
+//            findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
+//            switchFragment(R.layout.fragment_driver_requests);
+//        });
         startUpAutoComplete = ((AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.start_up_auto_complete));
         setupAutoCompleteFragment();
@@ -165,7 +165,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 startUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
             }
 
-            if ((pickUpLocName!=null)){
+            if ((startUpLocName!=null)){
                 switchFragment(R.layout.fragment_driver_requests);
                 //TODO: add and move marker
             } else {
@@ -275,7 +275,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             case -1:
                 FrameLayout fl = findViewById(R.id.fragment_place);
                 fl.removeAllViews();
-                goOnline.performClick();
+//                goOnline.performClick();
                 break;
 
         }
