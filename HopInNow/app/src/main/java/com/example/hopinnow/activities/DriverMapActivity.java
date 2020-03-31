@@ -189,19 +189,20 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
+                            mMap.setMyLocationEnabled(true);
                         }
                     });
         } else {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     0, 0, this);
+            mMap.setMyLocationEnabled(true);
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setMyLocationEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(edmonton) //set to current location later on pickUpLoc
