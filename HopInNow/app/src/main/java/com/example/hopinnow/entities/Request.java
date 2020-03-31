@@ -11,7 +11,7 @@ public class Request extends Ride implements Comparable<Request>{
     private Double estimatedFare;
     private String requestID;
     private boolean pickedUp;
-    // manhatton distance to driver
+    // manhattan distance to driver
     private double mdToDriver;
     // is arrived at destination
     private boolean arrivedAtDest;
@@ -113,6 +113,7 @@ public class Request extends Ride implements Comparable<Request>{
         this.mdToDriver = mdToDriver;
     }
 
+    // this function helps to support the sort function:
     @Override
     public int compareTo(Request request) {
         return (Double.compare(this.getMdToDriver(), request.getMdToDriver()));
