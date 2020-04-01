@@ -82,8 +82,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     public void handleResult(Result rawResult){
         //Gson gson = new Gson();
         encoded = rawResult.getText();
-        String qrDriverEmail = StringUtils.substringBetween("driverEmail","DriverEmail");
-        String qrPayment = StringUtils.substringBetween("totalPayment","TotalPayment");
+        String qrDriverEmail = StringUtils.substringBetween(encoded,"driverEmail","DriverEmail");
+        String qrPayment = StringUtils.substringBetween(encoded,"totalPayment","TotalPayment");
         System.out.println(qrDriverEmail);
         System.out.println(driver.getEmail());
         System.out.println(qrPayment);
