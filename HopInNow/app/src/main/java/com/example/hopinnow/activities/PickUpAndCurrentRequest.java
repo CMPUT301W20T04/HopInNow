@@ -98,16 +98,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         this.driver = driver;
         this.request = this.driver.getCurRequest();
         if (this.request == null) {
-            Log.v(TAG, "Request is null!!!!!!!!!!");
             return;
         }
-        Log.v(TAG, "Request is not null!!!");
         requestFromText.setText(this.request.getPickUpLocName());
         requestToText.setText(this.request.getDropOffLocName());
         requestTimeText.setText(this.request.getPickUpDateTime().toString());
         requestCostText.setText(this.request.getEstimatedFare().toString());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
-        this.driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(this.request,this);
         if (!request.isPickedUp()) {
             // the fragment that display the pickup button and request information
             pickUpButton.setVisibility(View.VISIBLE);
@@ -122,12 +119,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             //((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
         }
         if (!request.isPickedUp()) {
+            driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+            driverRequestDatabaseAccessor.driverListenOnCancelRequestBeforeArrive(request,this);
             //set pick up button on click listener
             pickUpButton.setOnClickListener(v -> {
                 // switch to a fragment that display the request information and pick up button.
                 String rider_email = driver.getCurRequest().getRiderEmail();
 
-                driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                 request.setPickedUp(true);
                 driver.setCurRequest(request);
                 driverRequestDatabaseAccessor.driverPickupRider(request,
@@ -269,11 +267,12 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestAcceptedByRider(Request request) {
-
+        //driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(request,this);
     }
 
     @Override
     public void onRequestDeclinedByRider() {
+        System.out.println("declined");
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
     }
 
