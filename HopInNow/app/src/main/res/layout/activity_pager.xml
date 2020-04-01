@@ -19,17 +19,6 @@
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <Button
-            android:id="@+id/nextButton"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:textAllCaps="false"
-            android:textColor="@color/ColorOrange"
-            android:visibility="visible"
-            android:text="Next Page" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -85,6 +74,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
             android:text="FINISH"
+            android:textAllCaps="false"
+            android:textColor="@color/ColorOrange"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/nextButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:text="Next Page"
             android:textAllCaps="false"
             android:textColor="@color/ColorOrange"
             android:visibility="visible" />

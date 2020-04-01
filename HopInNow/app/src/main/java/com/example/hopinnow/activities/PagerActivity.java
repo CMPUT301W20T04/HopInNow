@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.hopinnow.R;
 import com.example.hopinnow.helperclasses.SharedPreference;
 
-
+//https://guides.codepath.com/android/viewpager-with-fragmentpageradapter
 public class PagerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button finishButton;
     private Button nextPageButton;
