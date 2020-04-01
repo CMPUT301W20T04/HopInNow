@@ -189,7 +189,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     // if the request is complete, stops listening:
                     super.listenerRegistration.remove();
                 } else {
-                    Log.v(TAG, "Listen failed.", e);
+                    Log.v(TAG, "Listen failed, not complete", e);
                     listener.onRiderRequestCompletionError();
                     // if the request fails to complete, stops listening:
                     super.listenerRegistration.remove();
