@@ -491,11 +491,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         .replace(R.id.fragment_place, new RiderPickedUpFragment())
                         .commitAllowingStateLoss();
                 break;
-            case R.layout.fragment_rider_confirm_dropoff:
-                t.beginTransaction()
-                        .replace(R.id.fragment_place, new RiderConfirmDropOffFragment())
-                        .commitAllowingStateLoss();
-                break;
             case 1:
                 Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
