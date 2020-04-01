@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:background="@drawable/orange_top_round_corner">
 
@@ -37,9 +37,10 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            android:textStyle="bold"
             android:text="@string/sample_text"
-            android:textColor="@color/quantum_black_100"
-            android:textSize="24sp" />
+            android:textColor="@color/ColorBlack"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/rider_offer_call_button"
@@ -69,12 +70,11 @@
         android:id="@+id/rider_driver_offer_rating"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_marginTop="6dp"
         android:layout_marginLeft="20dp"
         android:drawableLeft="@android:drawable/star_big_on"
         android:text="rating"
-        android:textColor="@color/quantum_black_100"
-        android:textSize="18sp" />
+        android:textColor="@color/ColorBlack"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,16 +85,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Car:  "
-            android:textColor="@color/quantum_black_100"
-            android:textSize="18sp" />
+            android:textStyle="bold"
+            android:textColor="@color/ColorBlack"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rider_driver_offer_car"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="color and make and model"
-            android:textColor="@color/quantum_black_100"
-            android:textSize="18sp" />
+            android:textColor="@color/ColorBlack"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -102,56 +103,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="License Plate:  "
-            android:textColor="@color/quantum_black_100"
-            android:textSize="18sp" />
+            android:textStyle="bold"
+            android:textColor="@color/ColorBlack"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rider_driver_offer_plate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="plate number"
-            android:textColor="@color/quantum_black_100"
-            android:textSize="18sp" />
+            android:textColor="@color/ColorBlack"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/rider_driver_offer_accept_button"
             android:layout_width="100dp"
-            android:layout_height="32dp"
+            android:layout_height="30dp"
             android:background="@drawable/orange_all_round_corner"
             android:text="ACCEPT"
-            android:textColor="@color/ColorOrange"
-            android:textSize="18sp"/>
+            android:textColor="@color/ColorOrange" />
 
         <Button
             android:id="@+id/rider_driver_offer_decline_button"
             android:layout_width="100dp"
-            android:layout_height="32dp"
+            android:layout_height="30dp"
             android:layout_marginStart="70dp"
             android:background="@drawable/orange_all_round_corner"
             android:text="DECLINE"
-            android:textColor="@color/ColorOrange"
-            android:textSize="18sp"/>
+            android:textColor="@color/ColorOrange" />
 
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>

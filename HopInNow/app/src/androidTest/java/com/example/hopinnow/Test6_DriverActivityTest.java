@@ -66,12 +66,11 @@ public class Test6_DriverActivityTest {
      */
     private void loginUser() throws InterruptedException {
         // Log in To Activity
-        String userEmail = "driver@ui.test";
+        String userEmail = "driver@testing.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
         solo.clickOnView(solo.getView(R.id.loginButton));
-
         Thread.sleep(2000);
     }
 
@@ -97,7 +96,7 @@ public class Test6_DriverActivityTest {
         loginUser();
         solo.assertCurrentActivity("Wrong Activity", DriverMapActivity.class);
 
-        solo.clickOnButton("Online");
+        solo.clickOnView(solo.getView(R.id.my_loc_startup_button));
         assertTrue(solo.waitForText("requests", 1, 2000));
         solo.clickInList(1);
         assertTrue(solo.waitForText("ACCEPT", 1, 2000));

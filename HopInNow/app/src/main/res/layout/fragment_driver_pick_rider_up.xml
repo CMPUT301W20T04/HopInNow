@@ -23,7 +23,7 @@
             android:text="@string/request_info_title"
             android:textAlignment="center"
             android:textColor="@color/ColorWhite"
-            android:textSize="20sp"
+            android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,17 +31,17 @@
         <Button
             android:id="@+id/PickUpRiderButton"
             android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="124dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="124dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/orange_all_round_corner"
             android:text="@string/pick_up_rider_button_text"
             android:textColor="@color/ColorOrange"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:layout_constraintVertical_bias="0.0" />
@@ -49,9 +49,9 @@
         <Button
             android:id="@+id/dropOffRiderButton"
             android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="28dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/orange_all_round_corner"
             android:text="@string/drop_off_rider_button_text"
             android:textColor="@color/ColorOrange"
@@ -64,9 +64,9 @@
         <Button
             android:id="@+id/EmergencyCall"
             android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginEnd="28dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/red_all_round_corner"
             android:text="@string/emergency_call_button_text"
             android:textColor="@android:color/holo_red_light"
@@ -78,7 +78,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="328dp"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_marginStart="130dp"
@@ -93,7 +93,6 @@
 
             <LinearLayout
                 android:layout_width="328dp"
-                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -103,21 +102,20 @@
                     android:text="Time:  "
                     android:textStyle="bold"
                     android:textColor="@color/ColorBlack"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/requestTimeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Time"
+                    android:text=""
                     android:textColor="@color/ColorBlack"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="328dp"
-                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -127,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:text="From:  "
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/requestFromText"
@@ -135,14 +133,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="From"
-                    android:textSize="18sp" />
+                    android:text=""
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="328dp"
-                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
@@ -151,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:text="To:  "
                     android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="75dp" />
                 <TextView
@@ -160,15 +157,14 @@
                     android:textColor="@color/ColorBlack"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="To  "
-                    android:textSize="18sp"
+                    android:text=""
+                    android:textSize="15sp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="75dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="328dp"
-                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
@@ -176,7 +172,7 @@
                     android:textColor="@color/ColorBlack"
                     android:layout_height="wrap_content"
                     android:text="Estimated Fare:   "
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="94dp" />
@@ -185,7 +181,7 @@
                     android:textColor="@color/ColorBlack"
                     android:layout_height="wrap_content"
                     android:text="$"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="94dp" />
                 <TextView
@@ -193,8 +189,8 @@
                     android:layout_width="match_parent"
                     android:textColor="@color/ColorBlack"
                     android:layout_height="wrap_content"
-                    android:text="Estimated Fare"
-                    android:textSize="18sp"
+                    android:text=""
+                    android:textSize="15sp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="94dp" />
 

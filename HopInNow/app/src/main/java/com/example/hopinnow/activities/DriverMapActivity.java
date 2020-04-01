@@ -82,6 +82,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private Rider rider;
     private Driver driver;
+    private EditText startUpMock;
     private LatLng pickUpLoc, startUpLoc, dropOffLoc;
     private String pickUpLocName, startUpLocName;
     private Marker pickUpMarker, dropOffMarker, startUpMarker;
@@ -92,7 +93,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Button myLocStartUpBtn;
     private ProgressbarDialog progressbarDialog;
     private NavigationView navigationView;
-    private DriverDatabaseAccessor userDatabaseAccessor;
+    private DriverDatabaseAccessor driverDatabaseAccessor;
     public static final String TAG = "DriverMenuActivity";
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
@@ -128,6 +129,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
         }
 
+        driverDatabaseAccessor = new DriverDatabaseAccessor();
         rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
@@ -142,21 +144,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 getSupportFragmentManager().findFragmentById(R.id.start_up_auto_complete));
         setupAutoCompleteFragment();
         drawerLayout = findViewById(R.id.driver_drawer_layout);
-        this.userDatabaseAccessor = new DriverDatabaseAccessor();
         navigationView = findViewById(R.id.nav_view_driver);
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         myLocStartUpBtn = findViewById(R.id.my_loc_startup_button);
         // a button listener
-        driverMenuBtn = findViewById(R.id.driverMenuBtn);
-        driverMenuBtn.setOnClickListener(v -> {
-            menuUserName = findViewById(R.id.menuUserNameTextView);
-            menuUserName.setText(driver.getName());
-            // If the navigation drawer is not open then open it, if its already open then close it.
-            drawerLayout.openDrawer(GravityCompat.START);
-        });
-        final EditText startUpMock = findViewById(R.id.mock_startUp);
+        startUpMock = findViewById(R.id.mock_startUp);
         Button driverSearchBtn = findViewById(R.id.driver_search_button);
         driverSearchBtn.setOnClickListener(v -> {
             //mock, for UI test
@@ -190,6 +184,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
+                            if (mMap!=null){
+                                mMap.setMyLocationEnabled(true);
+                            }
                         }
                     });
         } else {
@@ -202,6 +199,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     protected void onStart(){
         super.onStart();
+        driverMenuBtn = findViewById(R.id.driverMenuBtn);
+        driverMenuBtn.setOnClickListener(v -> {
+            menuUserName = findViewById(R.id.menuUserNameTextView);
+            menuUserName.setText(driver.getName());
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+        driverDatabaseAccessor.getDriverProfile(this);
     }
 
     @Override
@@ -213,6 +217,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             mMap.setMyLocationEnabled(true);
         }
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(edmonton) //set to current location later on pickUpLoc
@@ -220,6 +225,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .visible(false)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        Button zoomIn = findViewById(R.id.map_zoom_in);
+        zoomIn.setOnClickListener(v -> mMap.animateCamera(CameraUpdateFactory.zoomIn()));
+
+        Button zoomOut = findViewById(R.id.map_zoom_out);
+        zoomOut.setOnClickListener(v -> mMap.animateCamera(CameraUpdateFactory.zoomOut()));
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
@@ -272,6 +283,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             // request and the pickup user button
             case R.layout.fragment_driver_pick_rider_up:
                 findViewById(R.id.search_layout).setVisibility(View.GONE);
+                startUpMock.setVisibility(View.GONE);
                 myLocStartUpBtn.setVisibility(View.GONE);
                 t.beginTransaction().replace(R.id.fragment_place, new PickUpAndCurrentRequest())
                         .commit();
@@ -280,13 +292,16 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+                startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
-                t.beginTransaction().replace(R.id.fragment_place, new RequestListFragment())
-                        .commit();
+                t.beginTransaction()
+                        .replace(R.id.fragment_place, new RequestListFragment())
+                        .commitAllowingStateLoss();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case -1:
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+                startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
                 FrameLayout fl = findViewById(R.id.fragment_place);
                 fl.removeAllViews();
@@ -468,7 +483,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 break;
             case R.id.car_info:
                 Log.d(TAG, "Car info btn clicked!");
-                userDatabaseAccessor.getDriverProfile(DriverMapActivity.this);
+                Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("DriverObject", driver);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case R.id.go_offline:
                 Intent intent3 = new Intent(getApplicationContext(), DriverMapActivity.class);
@@ -478,7 +497,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 finish();
                 break;
             case R.id.driver_logout:
-                userDatabaseAccessor.logoutUser();
+                driverDatabaseAccessor.logoutUser();
                 // go to the login activity again:
                 Toast.makeText(getApplicationContext(),
                         "You are Logged out!", Toast.LENGTH_LONG).show();
@@ -498,11 +517,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         // open vehicle view activity to display the car information
         Log.v(TAG, "Driver info retrieved!");
         this.driver = driver;
-        Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("DriverObject", driver);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     @Override
@@ -512,7 +526,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-
+        this.driver = driver;
     }
 
     @Override

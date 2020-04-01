@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,11 +13,12 @@
         android:background="@color/ColorWhite"
         tools:context=".activities.RegisterVehicleInfoActivity">
 
+
         <TextView
             android:id="@+id/vehicleInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="52dp"
             android:layout_marginTop="60dp"
             android:text="@string/vehicle_info_header"
             android:textColor="@color/ColorOrange"
@@ -25,112 +26,119 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView3"
+        <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:text="Make:"
-            android:textColor="@color/ColorBlack"
-            android:textSize="14dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.468"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vehicleInfoTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/vehicleInfoTextView"
+            app:layout_constraintVertical_bias="0.178">
 
-        <EditText
-            android:id="@+id/vehicleMakeEditText"
-            android:layout_width="280dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="28.5dp"
-            android:ems="10"
-            android:hint="@string/vehicle_make_hint"
-            android:inputType="textPersonName"
-            android:textColor="@color/ColorBlack"
-            android:theme="@style/EditTextHint"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginTop="20dp"
+                android:text="Make:"
+                android:textColor="@color/ColorBlack"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleInfoTextView" />
+
+            <EditText
+                android:id="@+id/vehicleMakeEditText"
+                android:layout_width="300dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/vehicle_make_hint"
+                android:inputType="textPersonName"
+                android:textColor="@color/ColorBlack"
+                android:theme="@style/EditTextHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="17dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:text="Model:"
-            android:textColor="@color/ColorBlack"
-            android:textSize="14dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vehicleMakeEditText" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginTop="20dp"
+                android:text="Model:"
+                android:textColor="@color/ColorBlack"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleMakeEditText" />
 
-        <EditText
-            android:id="@+id/vehicleModelEditText"
-            android:layout_width="280dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="28.5dp"
-            android:ems="10"
-            android:hint="@string/vehicle_model_hint"
-            android:inputType="textPersonName"
-            android:textColor="@color/ColorBlack"
-            android:theme="@style/EditTextHint"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            <EditText
+                android:id="@+id/vehicleModelEditText"
+                android:layout_width="300dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/vehicle_model_hint"
+                android:inputType="textPersonName"
+                android:textColor="@color/ColorBlack"
+                android:theme="@style/EditTextHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="17dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:text="Color:"
-            android:textColor="@color/ColorBlack"
-            android:textSize="14dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vehicleModelEditText" />
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginTop="20dp"
+                android:text="Color:"
+                android:textColor="@color/ColorBlack"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleModelEditText" />
 
-        <EditText
-            android:id="@+id/vehicleColorEditText"
-            android:layout_width="280dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="28.5dp"
-            android:ems="10"
-            android:hint="@string/vehicle_color_hint"
-            android:inputType="textPersonName"
-            android:textColor="@color/ColorBlack"
-            android:theme="@style/EditTextHint"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            <EditText
+                android:id="@+id/vehicleColorEditText"
+                android:layout_width="300dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/vehicle_color_hint"
+                android:inputType="textPersonName"
+                android:textColor="@color/ColorBlack"
+                android:theme="@style/EditTextHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="17dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:text="Plate Number:"
-            android:textColor="@color/ColorBlack"
-            android:textSize="14dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vehicleColorEditText" />
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginTop="20dp"
+                android:text="Plate Number:"
+                android:textColor="@color/ColorBlack"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleColorEditText" />
 
-        <EditText
-            android:id="@+id/vehiclePlateEditText"
-            android:layout_width="280dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="28.5dp"
-            android:ems="10"
-            android:hint="@string/vehicle_platenum_hint"
-            android:inputType="textPersonName"
-            android:textColor="@color/ColorBlack"
-            android:theme="@style/EditTextHint"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            <EditText
+                android:id="@+id/vehiclePlateEditText"
+                android:layout_width="300dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="@string/vehicle_platenum_hint"
+                android:inputType="textPersonName"
+                android:textColor="@color/ColorBlack"
+                android:theme="@style/EditTextHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/vehicleUpdateBtn"
             android:layout_width="240dp"
             android:layout_height="56dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="64dp"
             android:background="@drawable/orange_all_round_corner_login"
             android:text="Update"
             android:textColor="@color/ColorOrange"
@@ -138,6 +146,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vehiclePlateEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</LinearLayout>
