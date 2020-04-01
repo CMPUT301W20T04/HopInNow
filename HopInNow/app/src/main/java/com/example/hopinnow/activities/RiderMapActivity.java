@@ -110,7 +110,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private boolean driverDecided = false;
     private boolean pickedUp = false;
     private boolean tripCompleted = false;
-    private boolean newOffer = true;
+    private boolean uiSwitch = false;
     private double baseFare;
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
@@ -227,6 +227,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 pickUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
                 dropOffLocName = dropOffMock.getText().toString();
                 dropOffLoc = new LatLng(current.getLatitude(),current.getLongitude());
+                uiSwitch = true;
             }
 
             if ((pickUpLocName!=null)&&(dropOffLocName!=null)){
@@ -888,7 +889,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             saveCurrentRequestLocal(curRequest);
         }
         riderRequestDatabaseAccessor.addUpdateRequest(curRequest,this);
-        riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
+        if (!uiSwitch){
+            riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
+        }
     }
 
     @Override

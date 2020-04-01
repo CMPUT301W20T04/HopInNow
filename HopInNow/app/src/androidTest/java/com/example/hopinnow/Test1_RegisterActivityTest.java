@@ -130,7 +130,7 @@ public class Test1_RegisterActivityTest {
      * @throws InterruptedException
      *           throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case2_registerRider() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", RegisterActivity.class);
 

@@ -167,7 +167,7 @@ public class Test4_RiderActivityTest {
      * @throws NumberFormatException
      *      throws exception if string is converted to a number
      */
-    @Test
+    //@Test
     public void Case2() throws InterruptedException, NumberFormatException {
         loginUser();
         addNewRequest();
@@ -194,7 +194,7 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    @Test
+    //@Test
     public void Case3() throws InterruptedException {
         loginUser();
         addNewRequest();
