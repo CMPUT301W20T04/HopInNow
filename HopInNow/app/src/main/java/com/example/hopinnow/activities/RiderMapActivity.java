@@ -932,7 +932,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         //clear all fragments
         FrameLayout fl = findViewById(R.id.fragment_place);
         fl.removeAllViews();
-
         //set curRequest to null
         fragWatingDriver = new RiderWaitingDriverFragment();
         curRequest = null;
@@ -956,10 +955,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         myLocPickUpBtn.setVisibility(View.VISIBLE);
         this.progressbarDialog.dismissDialog();
         if (!tripCompleted){
-            Toast.makeText(this,"The request is cancelled successfully!",Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this,"The request is cancelled successfully!",
+                    Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override

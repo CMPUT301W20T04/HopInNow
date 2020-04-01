@@ -80,10 +80,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             // here call getDriverProfile method
             driverDatabaseAccessor.getDriverProfile(this);
         }
-
-
-
-
         return view;
     }
 
@@ -101,6 +97,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             requestToText.setText("To: drop off location ui test");
             requestTimeText.setText("Time: right now ui test" );
             requestCostText.setText("Estimate Fare: fare ui test");
+            return;
         }
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
         if (!request.isPickedUp()) {
@@ -109,14 +106,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             dropOffButton.setVisibility(View.INVISIBLE);
             emergencyCallButton.setVisibility(View.INVISIBLE);
             //((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(1);
-        } else {
-            // the fragment that display the drop off button and request information
-            pickUpButton.setVisibility(View.INVISIBLE);
-            dropOffButton.setVisibility(View.VISIBLE);
-            emergencyCallButton.setVisibility(View.VISIBLE);
-            //((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
-        }
-        if (!request.isPickedUp()) {
             driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
             driverRequestDatabaseAccessor.driverListenOnCancelRequestBeforeArrive(request,this);
             //set pick up button on click listener
@@ -132,6 +121,11 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
             });
         } else {
+            // the fragment that display the drop off button and request information
+            pickUpButton.setVisibility(View.INVISIBLE);
+            dropOffButton.setVisibility(View.VISIBLE);
+            emergencyCallButton.setVisibility(View.VISIBLE);
+            //((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
             // switch to a fragment that display the request information and drop off button.
             dropOffButton.setOnClickListener(v -> {
                 //((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
@@ -146,12 +140,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 request.setArrivedAtDest(true);
                 driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                 driverRequestDatabaseAccessor.driverDropoffRider(request, PickUpAndCurrentRequest.this);
-                Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
+                Intent intent = new Intent(
+                        (Objects.requireNonNull(getActivity())).getApplicationContext(),
+                        DriverScanPaymentActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Driver", driver);
                 intent.putExtras(bundle);
                 startActivity(intent);
-
                 // moved to onDriverDropoffSuccess
                     /*Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
                     Bundle bundle = new Bundle();
