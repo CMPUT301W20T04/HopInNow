@@ -82,6 +82,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private Rider rider;
     private Driver driver;
+    private EditText startUpMock;
     private LatLng pickUpLoc, startUpLoc, dropOffLoc;
     private String pickUpLocName, startUpLocName;
     private Marker pickUpMarker, dropOffMarker, startUpMarker;
@@ -149,7 +150,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         myLocStartUpBtn = findViewById(R.id.my_loc_startup_button);
         // a button listener
-        final EditText startUpMock = findViewById(R.id.mock_startUp);
+        startUpMock = findViewById(R.id.mock_startUp);
         Button driverSearchBtn = findViewById(R.id.driver_search_button);
         driverSearchBtn.setOnClickListener(v -> {
             //mock, for UI test
@@ -183,6 +184,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
+                            if (mMap!=null){
+                                mMap.setMyLocationEnabled(true);
+                            }
                         }
                     });
         } else {
@@ -213,6 +217,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             mMap.setMyLocationEnabled(true);
         }
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(edmonton) //set to current location later on pickUpLoc
@@ -220,6 +225,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .visible(false)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        Button zoomIn = findViewById(R.id.map_zoom_in);
+        zoomIn.setOnClickListener(v -> mMap.animateCamera(CameraUpdateFactory.zoomIn()));
+
+        Button zoomOut = findViewById(R.id.map_zoom_out);
+        zoomOut.setOnClickListener(v -> mMap.animateCamera(CameraUpdateFactory.zoomOut()));
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
@@ -272,6 +283,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             // request and the pickup user button
             case R.layout.fragment_driver_pick_rider_up:
                 findViewById(R.id.search_layout).setVisibility(View.GONE);
+                startUpMock.setVisibility(View.GONE);
                 myLocStartUpBtn.setVisibility(View.GONE);
                 t.beginTransaction().replace(R.id.fragment_place, new PickUpAndCurrentRequest())
                         .commit();
@@ -280,13 +292,16 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+                startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
-                t.beginTransaction().replace(R.id.fragment_place, new RequestListFragment())
-                        .commit();
+                t.beginTransaction()
+                        .replace(R.id.fragment_place, new RequestListFragment())
+                        .commitAllowingStateLoss();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case -1:
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+                startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
                 FrameLayout fl = findViewById(R.id.fragment_place);
                 fl.removeAllViews();

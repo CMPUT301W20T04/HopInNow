@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +31,7 @@ import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -39,6 +42,7 @@ import java.util.Objects;
  */
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener {
+    public static final String TAG = "PickUpAndCurrentRequest";
     private Driver driver;
     private Request request;
     private TextView requestTitleText;
@@ -75,16 +79,9 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             pickUpButton = view.findViewById(R.id.PickUpRiderButton);
             dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             emergencyCallButton = view.findViewById(R.id.EmergencyCall);
+            // here call getDriverProfile method
             driverDatabaseAccessor.getDriverProfile(this);
         }
-
-        if (request==null){
-            requestFromText.setText("From: pick up location ui test" );
-            requestToText.setText("To: drop off location ui test");
-            requestTimeText.setText("Time: right now ui test" );
-            requestCostText.setText("Estimate Fare: fare ui test");
-        }
-
         return view;
     }
 
@@ -96,30 +93,29 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         requestFromText.setText(request.getPickUpLocName());
         requestToText.setText( request.getDropOffLocName());
         requestTimeText.setText(request.getPickUpDateTime().toString());
-        requestCostText.setText(request.getEstimatedFare().toString());
+        requestCostText.setText(String.format(Locale.CANADA,
+                "%.2f", request.getEstimatedFare()));
+        if (request==null){
+            requestFromText.setText("From: pick up location ui test" );
+            requestToText.setText("To: drop off location ui test");
+            requestTimeText.setText("Time: right now ui test" );
+            requestCostText.setText("Estimate Fare: fare ui test");
+            return;
+        }
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
-
         if (!request.isPickedUp()) {
-
             // the fragment that display the pickup button and request information
             pickUpButton.setVisibility(View.VISIBLE);
             dropOffButton.setVisibility(View.INVISIBLE);
             emergencyCallButton.setVisibility(View.INVISIBLE);
             //((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(1);
-        } else {
-            // the fragment that display the drop off button and request information
-            pickUpButton.setVisibility(View.INVISIBLE);
-            dropOffButton.setVisibility(View.VISIBLE);
-            emergencyCallButton.setVisibility(View.VISIBLE);
-            //((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
-        }
-        if (!request.isPickedUp()) {
+            driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+            driverRequestDatabaseAccessor.driverListenOnCancelRequestBeforeArrive(request,this);
             //set pick up button on click listener
             pickUpButton.setOnClickListener(v -> {
                 // switch to a fragment that display the request information and pick up button.
                 String rider_email = driver.getCurRequest().getRiderEmail();
 
-                driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                 request.setPickedUp(true);
                 driver.setCurRequest(request);
                 driverRequestDatabaseAccessor.driverPickupRider(request,
@@ -128,8 +124,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
             });
         } else {
+            // the fragment that display the drop off button and request information
+            pickUpButton.setVisibility(View.INVISIBLE);
+            dropOffButton.setVisibility(View.VISIBLE);
+            emergencyCallButton.setVisibility(View.VISIBLE);
+            //((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
             // switch to a fragment that display the request information and drop off button.
-            dropOffButton.setOnClickListener((View.OnClickListener) v -> {
+            dropOffButton.setOnClickListener(v -> {
                 //((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                 // move this request from curRequest to trip
                 //request parameters:
@@ -139,18 +140,16 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 //trip paras:
                 //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                 //                Date dropOffTime, int duration, Car car, Double cost, Double rating
-                // fixme, page with picked up button need to be press twice to enter page with drop off button
-
-                // fixme, is request or listener null in driverDropoffRider()?
                 request.setArrivedAtDest(true);
                 driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                 driverRequestDatabaseAccessor.driverDropoffRider(request, PickUpAndCurrentRequest.this);
-                Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
+                Intent intent = new Intent(
+                        (Objects.requireNonNull(getActivity())).getApplicationContext(),
+                        DriverScanPaymentActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Driver", driver);
                 intent.putExtras(bundle);
                 startActivity(intent);
-
                 // moved to onDriverDropoffSuccess
                     /*Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
                     Bundle bundle = new Bundle();
@@ -189,6 +188,11 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
     public void onDriverProfileRetrieveFailure() {
 
     }
@@ -215,7 +219,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestDeleteSuccess() {
-
     }
 
     @Override
@@ -225,7 +228,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        driverDatabaseAccessor.updateDriverProfile(driver, PickUpAndCurrentRequest.this);
+        this.driverDatabaseAccessor.updateDriverProfile(driver, PickUpAndCurrentRequest.this);
     }
 
     @Override
@@ -265,16 +268,18 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestAcceptedByRider(Request request) {
-
+        //driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(request,this);
     }
 
     @Override
     public void onRequestDeclinedByRider() {
-
+        ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
     }
 
     @Override
     public void onDriverPickupSuccess() {
+        Toast.makeText(context,"Request is cancelled by " +
+                "rider. Please find a new request.", Toast.LENGTH_SHORT).show();
         driverDatabaseAccessor.updateDriverProfile(driver,this);
         ((DriverMapActivity) Objects.requireNonNull(context))
                 .switchFragment(R.layout.fragment_driver_pick_rider_up);
@@ -287,7 +292,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverDropoffSuccess(Request request) {
-
     }
 
     @Override

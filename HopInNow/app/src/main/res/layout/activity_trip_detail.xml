@@ -60,44 +60,29 @@
                 android:id="@+id/otherName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="52dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:drawableLeft="@drawable/guy"
+                android:drawableTint="@color/ColorOrange"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center_vertical"
-                android:text="Name:"
+                android:text="    Name:"
                 android:textStyle="bold"
                 android:typeface="sans"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/otherPhoneNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
-                android:layout_marginTop="20dp"
-                android:drawableLeft="@drawable/phone"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center_vertical"
-                android:text="Phone:"
-                android:textStyle="bold"
-                android:typeface="sans"
-                app:layout_constraintStart_toEndOf="@+id/otherName"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <RatingBar
                 android:id="@+id/ratingBar2"
-                android:layout_width="241dp"
+                android:theme="@style/RatingBar"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="69dp"
-                android:layout_marginEnd="69dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="36dp"
                 android:numStars="5"
                 android:rating="3.5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -123,19 +108,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/TripTitle"
+            <LinearLayout
+                android:id="@+id/trip_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="Trip Detail"
-                android:textAlignment="center"
-                android:textColor="@color/ColorBlack"
-                android:textSize="40sp"
-                android:textStyle="bold"
+                android:background="@color/ColorOrange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/TripTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="Trip Detail"
+                    android:textAlignment="center"
+                    android:textColor="@color/ColorWhite"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView4"
@@ -151,7 +148,7 @@
                 app:cardMaxElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TripTitle">
+                app:layout_constraintTop_toBottomOf="@+id/trip_title_layout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -167,10 +164,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:drawableLeft="@drawable/email"
+                        android:drawableTint="@color/ColorOrange"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center_vertical"
-                        android:text="RiderEmail:"
-                        android:textAlignment="textStart"
+                        android:text="  RiderEmail:"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
@@ -206,10 +203,11 @@
                         android:id="@+id/DriverEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableTint="@color/ColorOrange"
                         android:drawableLeft="@drawable/email"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center_vertical"
-                        android:text="DriverEmail"
+                        android:text="  DriverEmail"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -247,10 +245,12 @@
                         android:id="@+id/dropoffLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:drawableTint="@color/ColorOrange"
                         android:drawableLeft="@drawable/position"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center_vertical"
-                        android:text="dropoffLocation"
+                        android:text="   To:"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -288,9 +288,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/money"
+                        android:drawableTint="@color/ColorOrange"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center_horizontal|center_vertical"
-                        android:text="Cost:"
+                        android:layout_marginLeft="6dp"
+                        android:text="  Cost:"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -327,10 +329,11 @@
                         android:id="@+id/rating2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableTint="@color/ColorOrange"
                         android:drawableLeft="@drawable/rate"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center_vertical"
-                        android:text="Rating:"
+                        android:text=" Rating:"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -371,7 +374,8 @@
                         android:drawableLeft="@drawable/dest"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center_vertical"
-                        android:text="PickUpLocation"
+                        android:drawableTint="@color/ColorOrange"
+                        android:text="   From:"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
                         android:textStyle="bold"

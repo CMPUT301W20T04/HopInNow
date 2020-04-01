@@ -24,7 +24,6 @@ import java.util.Objects;
  * Co-author: Shway Wang
  * Version: 1.0.2
  * This class defines the fargment while rider is waiting for driver pickup.
- * TODO: This class is triggered by rider accepting driver's offer, acceptance not connected to fire base yet.
  */
 public class RiderWaitingPickupFragment extends Fragment {
     private Driver driver;
@@ -86,7 +85,7 @@ public class RiderWaitingPickupFragment extends Fragment {
 
             });
 
-            //TODO TEMPORARY
+            //for ui test
             Button nextBtn = view.findViewById(R.id.rider_waiting_next_button);
             nextBtn.setOnClickListener(v -> ((RiderMapActivity) Objects.requireNonNull(getActivity())).
                     switchFragment(R.layout.fragment_rider_pickedup));

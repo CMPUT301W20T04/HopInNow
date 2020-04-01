@@ -14,8 +14,7 @@
         android:gravity="center"
         android:text="@string/trip_history_header"
         android:textColor="@color/ColorWhite"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textSize="30sp" />
 
     <ListView
         android:id="@+id/trip_list"
