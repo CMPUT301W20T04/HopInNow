@@ -70,13 +70,10 @@ public class RiderPickedUpFragment extends Fragment {
 
             //TODO actual switch triggered by driver confirming arriving destination
             Button nextBtn = view.findViewById(R.id.rider_pickedup_next_button);
-            nextBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            nextBtn.setOnClickListener(v ->  {
                     //change fragment
                     ((RiderMapActivity) Objects.requireNonNull(getActivity())).
                             switchFragment(1);
-                }
             });
         }
 
