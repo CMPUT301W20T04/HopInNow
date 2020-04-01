@@ -62,8 +62,10 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
         this.currentDriver = driver;
         this.tripDataList = this.currentDriver.getDriverTripList();
         // DEBUG:
-        for (Trip trip : this.tripDataList) {
-            Log.v(TAG, trip.getDropOffLocName());
+        if (this.tripDataList != null) {
+            for (Trip trip : this.tripDataList) {
+                Log.v(TAG, trip.getDropOffLocName());
+            }
         }
         if (this.tripDataList != null) {
             tripAdapter = new CustomTripList(this.getApplicationContext(), this.tripDataList);
