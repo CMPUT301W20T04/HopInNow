@@ -23,10 +23,9 @@
             android:layout_height="40dp"
             android:gravity="center"
             android:background="@drawable/orange_top_round_corner"
-            android:text="We have found the requests"
+            android:text="We have found these requests"
             android:textColor="@color/ColorWhite"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:textSize="22sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp" />
 

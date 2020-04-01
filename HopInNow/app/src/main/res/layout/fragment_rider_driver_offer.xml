@@ -135,8 +135,7 @@
             android:layout_height="32dp"
             android:background="@drawable/orange_all_round_corner"
             android:text="ACCEPT"
-            android:textColor="@color/ColorOrange"
-            android:textSize="18sp"/>
+            android:textColor="@color/ColorOrange" />
 
         <Button
             android:id="@+id/rider_driver_offer_decline_button"
@@ -145,8 +144,7 @@
             android:layout_marginStart="70dp"
             android:background="@drawable/orange_all_round_corner"
             android:text="DECLINE"
-            android:textColor="@color/ColorOrange"
-            android:textSize="18sp"/>
+            android:textColor="@color/ColorOrange" />
 
     </LinearLayout>
 

@@ -39,7 +39,6 @@
         android:textColor="@color/quantum_black_100"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/payment_linear" />
 
@@ -48,10 +47,11 @@
         android:layout_width="240dp"
         android:layout_height="240dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:background="#F3E4CB"
         app:layout_constraintBottom_toTopOf="@+id/tips_layout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/qr_description" />
 
@@ -59,11 +59,11 @@
         android:id="@+id/tips_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="52dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintHorizontal_bias="0.567"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rider_payment_qr">
 
@@ -145,13 +145,12 @@
 
     <LinearLayout
         android:id="@+id/total_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tips_layout">
 
@@ -165,17 +164,17 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/rider_payment_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample"
+            android:text="  $"
             android:textColor="@color/quantum_black_100"
             android:textSize="19sp" />
 
         <TextView
+            android:id="@+id/rider_payment_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  QR Bucks"
+            android:text="Sample"
             android:textColor="@color/quantum_black_100"
             android:textSize="19sp" />
 
@@ -184,6 +183,7 @@
             android:layout_width="60dp"
             android:layout_height="32dp"
             android:layout_gravity="center"
+            android:layout_marginStart="40dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/orange_all_round_corner"
             android:text="Sum"
@@ -197,7 +197,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/orange_full_all_round_corner"
         android:text="CONFIRM"
         android:textColor="@color/ColorWhite"

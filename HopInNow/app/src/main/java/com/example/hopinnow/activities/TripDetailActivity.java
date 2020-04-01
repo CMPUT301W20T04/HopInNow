@@ -146,44 +146,64 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
      * Shows driver information and contact means on a dialog
      */
     @SuppressLint("CheckResult")
-    public void showDriverInfo(Driver dri){
+    public void showInfo(Driver d,Rider r){
 
-        final Driver d = dri;
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
 
-        //set driver name
-        TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
-        driverName.setText(d.getName());
+        if (d==null && r!=null){
+            //set rider name
+            TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
+            driverName.setText(r.getName());
 
-        //set driver rating
-        TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
-        String rating;
-        if (d.getRating()==0){
-            rating = "not yet rated";
-        } else {
-            rating = Double.toString(d.getRating());
+            dialog.findViewById(R.id.dialog_driver_rating).setVisibility(View.GONE);
+            dialog.findViewById(R.id.dialog_driver_car).setVisibility(View.GONE);
+            dialog.findViewById(R.id.dialog_driver_plate).setVisibility(View.GONE);
+
+            //call rider
+            Button callBtn= dialog.findViewById(R.id.dialog_call_button);
+            callBtn.setOnClickListener(v -> callNumber(r.getPhoneNumber()));
+
+            //email rider
+            Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
+            emailBtn.setOnClickListener(v -> emailDriver(r.getEmail()));
+
+        } else if (d!=null && r==null){
+            //set driver name
+            TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
+            driverName.setText(d.getName());
+
+            //set driver rating
+            TextView driverRating = dialog.findViewById(R.id.dialog_driver_rating);
+            String rating;
+            if (d.getRating()==0){
+                rating = "not yet rated";
+            } else {
+                rating = Double.toString(d.getRating());
+            }
+            driverRating.setText(rating);
+
+            //set driver car
+            TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
+            String carInfo = d.getCar().getColor() + " " + d.getCar().getMake() + " " + d.getCar().getModel();
+            driverCar.setText(carInfo);
+
+            //set driver license
+            TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
+            driverLicense.setText(d.getCar().getPlateNumber());
+
+            //call driver
+            Button callBtn= dialog.findViewById(R.id.dialog_call_button);
+            callBtn.setOnClickListener(v -> callNumber(d.getPhoneNumber()));
+
+            //email driver
+            Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
+            emailBtn.setOnClickListener(v -> emailDriver(d.getEmail()));
         }
-        driverRating.setText(rating);
 
-        //set driver car
-        TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
-        String carInfo = d.getCar().getColor() + " " + d.getCar().getMake() + " " + d.getCar().getModel();
-        driverCar.setText(carInfo);
-
-        //set driver license
-        TextView driverLicense = dialog.findViewById(R.id.dialog_driver_plate);
-        driverLicense.setText(d.getCar().getPlateNumber());
-
-        //call driver
-        Button callBtn= dialog.findViewById(R.id.dialog_call_button);
-        callBtn.setOnClickListener(v -> callNumber(d.getPhoneNumber()));
-
-        //email driver
-        Button emailBtn= dialog.findViewById(R.id.dialog_email_button);
-        emailBtn.setOnClickListener(v -> emailDriver(d.getEmail()));
 
         dialog.show();
+
     }
 
     /**
@@ -282,12 +302,12 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.otherDriver = driver;
         otherName.setText("Driver Name: "+this.otherDriver.getName());
+        otherName.setOnClickListener(v -> showInfo(this.otherDriver,null));
         otherRating.setNumStars(5);
         float rating3 = (float)this.otherDriver.getRating().doubleValue();
         otherRating.setRating(rating3);
         otherRating.setVisibility(View.VISIBLE);
         otherRating.setIsIndicator(true);
-        otherPhone.setText("Driver Phone Number: "+this.otherDriver.getPhoneNumber());
     }
 
     @Override
@@ -299,7 +319,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     public void onRiderObjRetrieveSuccess(Rider rider) {
         this.otherRider = rider;
         otherName.setText("Rider Name: "+this.otherRider.getName());
-        otherPhone.setText("Rider Phone Number: "+this.otherRider.getPhoneNumber());
+        otherName.setOnClickListener(v -> showInfo(null,this.otherRider));
     }
 
     @Override

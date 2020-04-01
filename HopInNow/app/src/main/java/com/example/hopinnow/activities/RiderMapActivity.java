@@ -305,6 +305,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             mMap.setMyLocationEnabled(true);
         }
         mMap.setPadding(0, 0, 14, 0);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
@@ -488,11 +489,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             case R.layout.fragment_rider_pickedup:
                 t.beginTransaction()
                         .replace(R.id.fragment_place, new RiderPickedUpFragment())
-                        .commit();
-                break;
-            case R.layout.fragment_rider_confirm_dropoff:
-                t.beginTransaction()
-                        .replace(R.id.fragment_place, new RiderConfirmDropOffFragment())
                         .commit();
                 break;
             case 1:
@@ -863,12 +859,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
-        if (!pickedUp){
-            switchFragment(R.layout.fragment_rider_pickedup);
-            riderRequestDatabaseAccessor.riderWaitForDropoff(this);
-            pickedUp = true;
-        }
-
+        switchFragment(R.layout.fragment_rider_pickedup);
+        riderRequestDatabaseAccessor.riderWaitForDropoff(this);
     }
 
     @Override
