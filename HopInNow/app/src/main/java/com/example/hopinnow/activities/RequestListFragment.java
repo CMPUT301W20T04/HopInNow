@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.RequestListAdapter;
-import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
@@ -56,7 +56,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     // Shway added this:
-    private ProgressbarDialog progressbarDialog;
+    private ProgressDialog progressDialog;
     private RequestListAdapter requestListAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
@@ -69,8 +69,9 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         //read request from database
         driverDatabaseAccessor = new DriverDatabaseAccessor();
         // Shway added this:
-        this.progressbarDialog = new ProgressbarDialog(getContext());
-        this.progressbarDialog.startProgressbarDialog();
+        this.progressDialog = new ProgressDialog(getContext());
+        this.progressDialog.setContentView(R.layout.custom_progress_bar);
+        this.progressDialog.show();
         driverDatabaseAccessor.getDriverProfile(this);
         return view;
     }
@@ -201,7 +202,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                         RequestListFragment.this);
                 driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(chooseRequest,
                             RequestListFragment.this);
-                this.progressbarDialog.startProgressbarDialog();
+                this.progressDialog.show();
 
             });
 
@@ -213,7 +214,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             });*/
         });
         // Shway added this following lines:
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         if (((DriverMapActivity) requireNonNull(context)).isUseCurrent()){
             this.current = ((DriverMapActivity)context).getCurrentLoc();
             this.driverRequestDatabaseAccessor
@@ -276,7 +277,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     @Override
     public void onRequestAcceptedByRider(Request request) {
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         Toast.makeText(context,"Rider has accepted your offer!",Toast.LENGTH_SHORT)
                 .show();
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(R.layout.fragment_driver_pick_rider_up);
@@ -286,7 +287,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onRequestDeclinedByRider() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         Toast.makeText(context,"Please find a new request.",Toast.LENGTH_SHORT)
                 .show();
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);

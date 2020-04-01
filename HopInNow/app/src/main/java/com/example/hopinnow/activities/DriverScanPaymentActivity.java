@@ -56,7 +56,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
     private DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
 
-
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -250,19 +249,17 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-        if (!rated){
-            Log.v(TAG, "driver request completed.");
-            Log.v(TAG, "now driver is WAITING ON RATING!!!!");
-            driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
-        } else {
+        if (rated){
             rated = false;Log.v(TAG, "driver profile updated.");
             Log.v(TAG, "now to go to driver map activity...");
             driverRequestDatabaseAccessor.deleteRequest(this);
             Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
             startActivity(intent);
+        } else {
+            Log.v(TAG, "driver request completed.");
+            Log.v(TAG, "now driver is WAITING ON RATING!!!!");
+            driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
         }
-
-
     }
 
     @Override

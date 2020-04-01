@@ -2,6 +2,7 @@ package com.example.hopinnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,6 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.User;
-import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
 /**
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
     private Button loginButton;
     private TextView register;
     // alert progress dialog:
-    private ProgressbarDialog progressbarDialog;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +44,12 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
         setContentView(R.layout.activity_login);
         // initialize the userDatabaseAccessor to use the login function within it:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
-        progressbarDialog = new ProgressbarDialog(LoginActivity.this);
+        // Shway's progress bar:
+        this.progressDialog = new ProgressDialog(LoginActivity.this);
+        this.progressDialog.setContentView(R.layout.custom_progress_bar);
         // if user already logged in, go to the profile activity
         if (this.userDatabaseAccessor.isLoggedin()) {
-            progressbarDialog.startProgressbarDialog();
+            progressDialog.show();
             userDatabaseAccessor.getUserProfile(this);
         }
         // here, the database accessor is already initialized
@@ -74,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
             // alert progress dialog:
 
 
-            progressbarDialog.startProgressbarDialog();
+            progressDialog.show();
             // access database:
             String emailData = email.getText().toString();
             String passwordData = password.getText().toString();
@@ -107,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
 
     @Override
     public void onLoginFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Login Failed, try again later.", Toast.LENGTH_SHORT).show();
@@ -132,8 +134,8 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
             intent = new Intent(getApplicationContext(), RiderMapActivity.class);
         }
         startActivity(intent);
-        if (!LoginActivity.this.isFinishing() && progressbarDialog!=null) {
-            this.progressbarDialog.dismissDialog();
+        if (!LoginActivity.this.isFinishing() && progressDialog!=null) {
+            this.progressDialog.dismiss();
         }
         finish();
     }

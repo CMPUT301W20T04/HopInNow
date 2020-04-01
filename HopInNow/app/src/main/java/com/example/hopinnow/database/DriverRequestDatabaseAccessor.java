@@ -237,7 +237,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
         super.listenerRegistration = ref.addSnapshotListener((documentSnapshot, e) -> {
             Request req = Objects.requireNonNull(documentSnapshot).toObject(Request.class);
             Log.v(TAG, "driver wait for rating caught snapshot");
-            if (e == null) {
+            if (e != null) {
                 Log.v(TAG, "Listen failed.", e);
                 listener.onWaitOnRatingError();
                 // if an error happened during the rating, stop listening:
