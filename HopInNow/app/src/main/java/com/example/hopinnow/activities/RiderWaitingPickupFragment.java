@@ -24,7 +24,6 @@ import java.util.Objects;
  * Co-author: Shway Wang
  * Version: 1.0.2
  * This class defines the fargment while rider is waiting for driver pickup.
- * TODO: This class is triggered by rider accepting driver's offer, acceptance not connected to fire base yet.
  */
 public class RiderWaitingPickupFragment extends Fragment {
     private Driver driver;

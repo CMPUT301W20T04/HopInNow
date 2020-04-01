@@ -85,6 +85,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             requestCostText.setText("Estimate Fare: fare ui test");
         }
 
+
         return view;
     }
 
@@ -98,9 +99,9 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         requestTimeText.setText(request.getPickUpDateTime().toString());
         requestCostText.setText(request.getEstimatedFare().toString());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
+        driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(request,this);
 
         if (!request.isPickedUp()) {
-
             // the fragment that display the pickup button and request information
             pickUpButton.setVisibility(View.VISIBLE);
             dropOffButton.setVisibility(View.INVISIBLE);
@@ -139,9 +140,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 //trip paras:
                 //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                 //                Date dropOffTime, int duration, Car car, Double cost, Double rating
-                // fixme, page with picked up button need to be press twice to enter page with drop off button
-
-                // fixme, is request or listener null in driverDropoffRider()?
                 request.setArrivedAtDest(true);
                 driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                 driverRequestDatabaseAccessor.driverDropoffRider(request, PickUpAndCurrentRequest.this);
@@ -215,7 +213,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestDeleteSuccess() {
-
     }
 
     @Override
@@ -270,7 +267,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestDeclinedByRider() {
-
+        ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
     }
 
     @Override
@@ -287,7 +284,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverDropoffSuccess(Request request) {
-
     }
 
     @Override
