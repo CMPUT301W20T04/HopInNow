@@ -215,7 +215,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onWaitOnRatingError() {
-
+        driverRequestDatabaseAccessor.driverWaitOnRating(this.curRequest, this);
     }
 
     @Override
@@ -254,8 +254,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             rated = false;Log.v(TAG, "driver profile updated.");
             Log.v(TAG, "now to go to driver map activity...");
             driverRequestDatabaseAccessor.deleteRequest(this);
-            Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
-            startActivity(intent);
         } else {
             Log.v(TAG, "driver request completed.");
             Log.v(TAG, "now driver is WAITING ON RATING!!!!");
@@ -280,7 +278,9 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onRequestDeleteSuccess() {
-
+        Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

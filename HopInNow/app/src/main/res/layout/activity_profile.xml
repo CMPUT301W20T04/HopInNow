@@ -58,6 +58,20 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/driver_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="66dp"
+            android:drawableLeft="@android:drawable/star_big_on"
+            android:text="rating"
+            android:textColor="@color/ColorBlack"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/profileHeader"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/profileEmailTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -179,6 +193,7 @@
             android:text="@string/profile_logout_btn"
             android:textColor="@color/ColorOrange"
             android:textSize="20sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"

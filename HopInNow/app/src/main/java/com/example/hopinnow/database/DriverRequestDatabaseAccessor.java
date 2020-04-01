@@ -245,13 +245,14 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
             }
             if (documentSnapshot.exists()) {
                 // see if the rating actually has changed:
-                if (Objects.requireNonNull(req).getRating() != -1.0) {
+                if (requireNonNull(req).isRated() &&
+                        Objects.requireNonNull(req).getRating() != -1.0) {
                     Log.v(TAG, "request rated: ");
                     listener.onWaitOnRatingSuccess();
                     // if the rating is complete, remove the listener:
                     super.listenerRegistration.remove();
                 } else {
-                    Log.v(TAG, "request rated failed.", e);
+                    Log.v(TAG, "request rated -1.0 stars.");
                     listener.onWaitOnRatingError();
                     // if an error happens here, stops listening:
                     super.listenerRegistration.remove();
