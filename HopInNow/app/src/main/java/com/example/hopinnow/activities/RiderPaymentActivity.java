@@ -226,7 +226,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
 
         Trip newTrip = toTrip();
-        ArrayList<Trip> riderTripList = this.rider.getRiderTripList();
+        ArrayList<Trip> riderTripList = rider.getRiderTripList();
+        if (riderTripList==null){
+            riderTripList = new ArrayList<>();
+        }
         riderTripList.add(newTrip);
         this.rider.setRiderTripList(riderTripList);
         riderDatabaseAccessor.updateRiderProfile(this.rider,RiderPaymentActivity.this);

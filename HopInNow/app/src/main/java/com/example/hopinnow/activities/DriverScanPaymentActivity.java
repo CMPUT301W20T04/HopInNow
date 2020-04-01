@@ -93,14 +93,12 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             //todo trigger rider rating by removing request from firebase
             double prevDeposit = driver.getDeposit();
             driver.setDeposit(prevDeposit + Double.parseDouble(qrPayment));
+            driverDatabaseAccessor.updateDriverProfile(driver,this);
             Toast.makeText(this, "You have successfully received " + qrPayment +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
 
             //driver complete the request and trigger the rider to rate.
             driverRequestDatabaseAccessor.driverCompleteRequest(curRequest,this);
-
-            Intent intent = new Intent(DriverScanPaymentActivity.this, DriverMapActivity.class);
-            startActivity(intent);
         } else {
             Toast.makeText(this, "This QR code does not belong to the trip " +
                     "that you have completed.", Toast.LENGTH_SHORT).show();
@@ -243,6 +241,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
         driverRequestDatabaseAccessor.deleteRequest(this);
+        Intent intent = new Intent(DriverScanPaymentActivity.this, DriverMapActivity.class);
+        startActivity(intent);
     }
 
     @Override
