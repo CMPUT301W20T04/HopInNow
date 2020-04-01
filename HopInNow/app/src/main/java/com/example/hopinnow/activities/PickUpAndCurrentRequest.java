@@ -151,7 +151,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 bundle.putSerializable("Driver", driver);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                getActivity().finish();
 
                 // moved to onDriverDropoffSuccess
                     /*Intent intent = new Intent((getActivity()).getApplicationContext(), DriverScanPaymentActivity.class);
@@ -188,6 +187,11 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                         .callNumber("7806041057");//shway number
             });
         }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
     }
 
     @Override

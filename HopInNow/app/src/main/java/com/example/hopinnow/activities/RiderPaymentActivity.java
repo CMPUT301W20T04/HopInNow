@@ -313,7 +313,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String pickUpName = curRequest.getPickUpLocName();
         Date pickUpTime = curRequest.getPickUpDateTime();
         Car car = driver.getCar();
-        return new Trip(driver.getEmail(),rider.getEmail(),mpickUpLoc,mdropOffLoc,pickUpName,
+        return new Trip(curRequest.getDriverEmail(),rider.getEmail(),mpickUpLoc,mdropOffLoc,pickUpName,
                 dropOffName,pickUpTime, dropOffDateTime, duration, car,totalPayment,myRating);
     }
 
