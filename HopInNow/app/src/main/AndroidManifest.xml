@@ -43,20 +43,22 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name=".activities.TripDetailActivity" />
-        <activity android:name=".activities.TripListActivity" />
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.DriverMapActivity" />
-        <activity android:name=".activities.VehicleViewActivity" />
-        <activity android:name=".activities.RiderMapActivity" />
-        <activity android:name=".activities.RiderMenuActivity" />
-        <activity android:name=".activities.RiderPaymentActivity" />
-        <activity android:name=".activities.RegisterVehicleInfoActivity" />
-        <activity android:name=".activities.DriverMenuActivity" />
-        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.TripDetailActivity"
+            android:label="@string/app_name"/>
+        <activity android:name=".activities.TripListActivity" android:label="@string/app_name" android:screenOrientation="unspecified"/>
+        <activity android:name=".activities.RegisterActivity" android:label="@string/app_name"/>
+        <activity android:name=".activities.ProfileActivity" android:label="@string/app_name" android:screenOrientation="unspecified"/>
+        <activity android:name=".activities.DriverMapActivity" android:label="@string/app_name"/>
+        <activity android:name=".activities.VehicleViewActivity" android:label="@string/app_name"/>
+        <activity android:name=".activities.RiderMapActivity" android:label="@string/app_name"/>
+        <activity android:name=".activities.RiderMenuActivity" android:label="@string/app_name"/>
+        <activity android:name=".activities.RiderPaymentActivity" android:label="@string/app_name"/>
+        <activity android:name=".activities.RegisterVehicleInfoActivity" android:label="@string/app_name"/>
+        <activity android:name=".activities.DriverMenuActivity" android:label="@string/app_name"/>
+        <activity android:name=".activities.LoginActivity" android:label="@string/app_name"/>
         <activity
             android:name=".activities.FirstPageActivity"
+            android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden|screenSize"
             >
             <intent-filter>
@@ -68,10 +70,10 @@
 
         </activity>
 
-        <activity android:name=".activities.PagerActivity">
+        <activity android:name=".activities.PagerActivity" android:label="@string/app_name">
 
         </activity>
-        <activity android:name=".activities.DriverScanPaymentActivity" />
+        <activity android:name=".activities.DriverScanPaymentActivity" android:label="@string/app_name"/>
     </application>
 
 </manifest>
