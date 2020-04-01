@@ -5,16 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
-import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -29,36 +26,29 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
     /**
      * create the activity
      * @param savedInstanceState
+     *      this is the saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_menu);
         //initialize buttons
-        Button driverMyProfileBtn = (Button) findViewById(R.id.driverMyProfileBtn);
-        Button driverMyTripsBtn = (Button) findViewById(R.id.driverMyTripsBtn);
-        Button vehicleInfoBtn = (Button) findViewById(R.id.vehicleInfoBtn);
-        FloatingActionButton offlineBtn = (FloatingActionButton) findViewById(R.id.offlineBtn);
+        Button driverMyProfileBtn = findViewById(R.id.driverMyProfileBtn);
+        Button driverMyTripsBtn = findViewById(R.id.driverMyTripsBtn);
+        Button vehicleInfoBtn = findViewById(R.id.vehicleInfoBtn);
+        FloatingActionButton offlineBtn = findViewById(R.id.offlineBtn);
         this.userDatabaseAccessor = new DriverDatabaseAccessor();
 
-        driverMyProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // set driver check my profile button listener
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(intent);
-
-            }
+        driverMyProfileBtn.setOnClickListener(v -> {
+            // set driver check my profile button listener
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
         });
 
-        driverMyTripsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //set driver check trip button listener
-                Intent intent = new Intent(getApplicationContext(), TripListActivity.class);
-
-                startActivity(intent);
-            }
+        driverMyTripsBtn.setOnClickListener(v -> {
+            //set driver check trip button listener
+            Intent intent = new Intent(getApplicationContext(), TripListActivity.class);
+            startActivity(intent);
         });
         //
         vehicleInfoBtn.setOnClickListener(v -> {
