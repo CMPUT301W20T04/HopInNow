@@ -415,12 +415,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRiderProfileRetrieveFailure() {}
 
     @Override
-    public void onRiderProfileUpdateSuccess(Rider rider) {
-        // change activity
-        Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
-        intent.putExtra("Current_Request_To_Null", "cancel");
-        startActivity(intent);
-    }
+    public void onRiderProfileUpdateSuccess(Rider rider) {}
 
     @Override
     public void onRiderProfileUpdateFailure() {}
@@ -488,6 +483,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         riderTripList.add(newTrip);
         this.rider.setRiderTripList(riderTripList);
         riderDatabaseAccessor.updateRiderProfile(this.rider,RiderPaymentActivity.this);
+        // change activity
+        Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
+        intent.putExtra("Current_Request_To_Null", "cancel");
+        startActivity(intent);
     }
 
     @Override
