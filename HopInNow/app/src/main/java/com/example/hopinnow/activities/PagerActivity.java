@@ -32,12 +32,18 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Immersive status bar
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        // Change the status bar color
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorDark));
+        // set the view to full screen
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
         setContentView(R.layout.activity_pager);
         // Enter the App for the first time and show the guide page
         whether_first_use = SharedPreference.readSetting(PagerActivity.this, false,"page_settings");
@@ -102,16 +108,30 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 currentPage = position;
                 updateSwitcher(currentPage);
-                finishButton.setVisibility(position == 4 ? View.VISIBLE : View.GONE);
-                nextPageButton.setVisibility(position == 4 ? View.GONE : View.VISIBLE);
+                if (position == 4){
+                    finishButton.setVisibility(View.VISIBLE);
+                    nextPageButton.setVisibility(View.GONE);
+                }
+                else{
+                    finishButton.setVisibility(View.GONE);
+                    nextPageButton.setVisibility(View.VISIBLE);
+                }
+
+
             }
 
             @Override
             public void onPageSelected(int position) {
                 currentPage = position;
                 updateSwitcher(currentPage);
-                finishButton.setVisibility(position == 4 ? View.VISIBLE : View.GONE);
-                nextPageButton.setVisibility(position == 4 ? View.GONE : View.VISIBLE);
+                if (position == 4){
+                    finishButton.setVisibility(View.VISIBLE);
+                    nextPageButton.setVisibility(View.GONE);
+                }
+                else{
+                    finishButton.setVisibility(View.GONE);
+                    nextPageButton.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -123,9 +143,14 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
     }
     public void updateSwitcher(int index){
         for(int i=0;i<switchers.length;i++){
-            switchers[i].setBackgroundResource(
-                    i== index ? R.drawable.pager_point : R.drawable.pager_point_inactive
-            );
+            if(i == index){
+                switchers[i].setBackgroundResource(R.drawable.pager_point);
+            }
+            else{
+                switchers[i].setBackgroundResource(R.drawable.pager_point_inactive);
+            }
+
+
         }
 
     }

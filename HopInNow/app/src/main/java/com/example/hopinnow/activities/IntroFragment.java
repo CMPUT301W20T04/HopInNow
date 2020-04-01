@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
-
+//https://guides.codepath.com/android/viewpager-with-fragmentpageradapter
 public class IntroFragment extends Fragment {
     private ImageView imageView;
     private static final String SectionNumber = "number";
@@ -33,9 +33,6 @@ public class IntroFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pager_fragment, container, false);
-        TextView textView = view.findViewById(R.id.guidePageText);
-        String textString = "Page "+(getArguments().getInt(SectionNumber)-1);
-        textView.setText(textString);
         imageView = (ImageView) view.findViewById(R.id.image);
         imageView.setBackgroundResource(drawable_array[getArguments().getInt(SectionNumber)-1]);
         return view;
