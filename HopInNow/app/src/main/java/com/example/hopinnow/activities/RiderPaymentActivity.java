@@ -152,7 +152,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     /**
      * Shows dialog that prompts rider to rate the driver of corresponding trip.
      */
-    public void showRatingDialog(){
+    public void showRatingDialog() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_rider_rating);
 
@@ -195,8 +195,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                         Toast.LENGTH_SHORT).show();
                 completeRequest(-1.00);
             }
-    }.start();
-
+        }.start();
     }
 
 
@@ -283,7 +282,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
 
         String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
-        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
 
         //todo for testing auto show rating dialog
         showRatingDialog();
@@ -482,7 +481,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     }
 
     @Override
-    public void onRiderRequestCompletionError() {}
+    public void onRiderRequestCompletionError() {
+        riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
+    }
 
     @Override
     public void onRequestRatedSuccess() {}
