@@ -60,23 +60,16 @@ public class RiderPickedUpFragment extends Fragment {
 
             // Click this button to call 911
             Button emergencyCallBtn = view.findViewById(R.id.rider_pickedup_emergency_button);
-            emergencyCallBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).
-                            callNumber("0000911");
-                }
-            });
+            emergencyCallBtn.setOnClickListener(v -> ((RiderMapActivity) Objects
+                    .requireNonNull(getActivity())).
+                    callNumber("0000911"));
 
             //TODO actual switch triggered by driver confirming arriving destination
             Button nextBtn = view.findViewById(R.id.rider_pickedup_next_button);
-            nextBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //change fragment
-                    ((RiderMapActivity) Objects.requireNonNull(getActivity())).
-                            switchFragment(R.layout.fragment_rider_confirm_dropoff);
-                }
+            nextBtn.setOnClickListener(v -> {
+                //change fragment
+                ((RiderMapActivity) Objects.requireNonNull(getActivity())).
+                        switchFragment(R.layout.fragment_rider_confirm_dropoff);
             });
         }
 

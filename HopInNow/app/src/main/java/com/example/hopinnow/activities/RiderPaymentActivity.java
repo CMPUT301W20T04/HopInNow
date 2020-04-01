@@ -130,8 +130,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 Toast.makeText(RiderPaymentActivity.this,msg,Toast.LENGTH_SHORT).show();
             } else {
                 curRequest.setEstimatedFare(totalPayment);
-
-
                 Gson gsonPay = new Gson();
                 String encodedMsg= "driverEmail" + driver.getEmail() + "DriverEmail" +
                         "totalPayment" + totalPayment + "TotalPayment";
