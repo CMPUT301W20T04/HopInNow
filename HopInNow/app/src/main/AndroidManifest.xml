@@ -17,7 +17,6 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <!-- Author: Shway Wang -->
     <supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
@@ -45,9 +44,9 @@
 
         <activity android:name=".activities.TripDetailActivity"
             android:label="@string/app_name"/>
-        <activity android:name=".activities.TripListActivity" android:label="@string/app_name" android:screenOrientation="unspecified"/>
+        <activity android:name=".activities.TripListActivity" android:label="@string/app_name"/>
         <activity android:name=".activities.RegisterActivity" android:label="@string/app_name"/>
-        <activity android:name=".activities.ProfileActivity" android:label="@string/app_name" android:screenOrientation="unspecified"/>
+        <activity android:name=".activities.ProfileActivity" android:label="@string/app_name"/>
         <activity android:name=".activities.DriverMapActivity" android:label="@string/app_name"/>
         <activity android:name=".activities.VehicleViewActivity" android:label="@string/app_name"/>
         <activity android:name=".activities.RiderMapActivity" android:label="@string/app_name"/>
@@ -59,20 +58,14 @@
         <activity
             android:name=".activities.FirstPageActivity"
             android:label="@string/app_name"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            >
+            android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".activities.PagerActivity" android:label="@string/app_name">
-
-        </activity>
+        <activity android:name=".activities.PagerActivity" android:label="@string/app_name"/>
         <activity android:name=".activities.DriverScanPaymentActivity" android:label="@string/app_name"/>
     </application>
 
