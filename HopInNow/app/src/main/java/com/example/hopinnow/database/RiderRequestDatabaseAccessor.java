@@ -106,7 +106,6 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
         DocumentReference ref = this.firestore.collection(this.referenceName)
                 .document(this.currentUser.getUid());
         super.listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
-                    Log.v(TAG, "riderWaitForPickup snapshot listener added.");
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                     if (e != null) {
                         Log.v(TAG, "Listen failed.", e);
@@ -116,7 +115,6 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                         super.listenerRegistration.remove();
                     }
                     if (snapshot.exists()) {
-                        Log.v(TAG, "riderWaitForPickup snapshot exists.");
                         if (Objects.requireNonNull(request).isPickedUp()) {
                             Log.v(TAG, "rider picked up: ");
                             listener.onRiderPickedupSuccess(snapshot.toObject(Request.class));
