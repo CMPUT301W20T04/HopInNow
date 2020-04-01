@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/time_elapsed"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/orange_top_round_corner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
