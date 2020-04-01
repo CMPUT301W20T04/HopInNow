@@ -11,7 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
@@ -25,13 +29,15 @@ import java.util.Objects;
  * Version: 1.0.0
  * show and edit user profile for both rider and driver
  */
-public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener {
+public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener, DriverProfileStatusListener {
     // establish the TAG of this activity:
     public static final String TAG = "ProfileActivity";
     // declare database accessor:
     private UserDatabaseAccessor userDatabaseAccessor;
+    private DriverDatabaseAccessor driverDatabaseAccessor;
     // Global User object:
     private User currentUser;
+    private Driver driver;
     // UI Components:
     private EditText name;
     private EditText phoneNumber;
@@ -41,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     private Button editBtn;
     private Button updateBtn;
     private Button logoutButton;
+    private TextView driverRating;
     // alert progress dialog:
     private ProgressbarDialog progressbarDialog;
     @Override
@@ -49,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         setContentView(R.layout.activity_profile);
         // init the userDatabaseAccessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
+        this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         // check the login status:
         if (!this.userDatabaseAccessor.isLoggedin()) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -68,6 +76,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.updateBtn.setEnabled(false);
         this.updateBtn.setVisibility(View.INVISIBLE);
         this.logoutButton = findViewById(R.id.proLogoutBtn);
+        this.driverRating = findViewById(R.id.driver_rating);
         // alert progress dialog:
         progressbarDialog = new ProgressbarDialog(ProfileActivity.this);
         progressbarDialog.startProgressbarDialog();
@@ -98,8 +107,11 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                     String.format(Locale.CANADA, "%.2f", currentUser.getDeposit()));
             if (this.currentUser.isUserType()) {    // if true, then the user is driver
                 this.userType.setText(R.string.usertype_driver);
+                this.driverDatabaseAccessor.getDriverProfile(this);
+
             } else {    // or else, the user is a rider
                 this.userType.setText(R.string.usertype_rider);
+                this.driverRating.setVisibility(View.INVISIBLE);
             }
         }
         this.progressbarDialog.dismissDialog();
@@ -186,5 +198,39 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.progressbarDialog.dismissDialog();
         Toast.makeText(getApplicationContext(),
                 "Update failed, check network connection.", Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+        this.driver = driver;
+        this.driverRating.setVisibility(View.VISIBLE);
+        String rating;
+        if (driver != null){
+            if (driver.getRating()==0){
+                rating = "not yet rated";
+            } else {
+                rating = Double.toString(driver.getRating());
+            }
+        }
+        else{
+            rating = "no result";
+        }
+        driverRating.setText(rating);
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+
     }
 }
