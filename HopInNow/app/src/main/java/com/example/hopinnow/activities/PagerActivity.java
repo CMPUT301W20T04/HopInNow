@@ -41,14 +41,14 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_pager);
         // Enter the App for the first time and show the guide page
         whether_first_use = SharedPreference.readSetting(PagerActivity.this, false,"page_settings");
-    /*
+
         if (whether_first_use) {
             finish();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        }*/
+        }
         viewPager = findViewById(R.id.container);
         switcher0 = findViewById(R.id.switch_0);
         switcher1 = findViewById(R.id.switch_1);
