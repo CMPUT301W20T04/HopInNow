@@ -214,7 +214,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onWaitOnRatingError() {
-
+        driverRequestDatabaseAccessor.driverWaitOnRating(this.curRequest, this);
     }
 
     @Override

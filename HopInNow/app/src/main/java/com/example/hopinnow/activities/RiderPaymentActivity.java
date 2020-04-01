@@ -149,7 +149,32 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (this.dialog != null) {
+            this.dialog.dismiss();
+            this.dialog = null;
+        }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (this.dialog != null) {
+            this.dialog.dismiss();
+            this.dialog = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (this.dialog != null) {
+            this.dialog.dismiss();
+            this.dialog = null;
+        }
+    }
 
     /**
      * Determines the rider selected tip amount.
@@ -211,8 +236,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
         Button submitBtn= dialog.findViewById(R.id.dialog_rating_submit);
         submitBtn.setOnClickListener(v -> {
+            Log.v(TAG, "submit button listener is added");
             myRating = (double) ratingBar.getRating();
-            if (myRating!= -1.0){
+            if (myRating != -1.0){
                 finishRequest(myRating);
             } else {
                 Toast.makeText(RiderPaymentActivity.this, "Please select your " +
@@ -252,11 +278,11 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private void setNewDriverRating(double r) {
         Double prevRating = driver.getRating();
         int counts = driver.getRatingCounts();
-        Double newRating = (prevRating + r)/(counts+1);
-        driver.setRatingCounts(counts+1);
+        Double newRating = (prevRating + r) / (counts + 1);
+        driver.setRatingCounts(counts + 1);
         driver.setRating(newRating);
-        Log.v(TAG,"rider setting driver rating..."+newRating);
-        driverDatabaseAccessor.updateDriverProfile(driver,RiderPaymentActivity.this);
+        Log.v(TAG,"rider setting driver rating..." + newRating);
+        driverDatabaseAccessor.updateDriverProfile(driver, RiderPaymentActivity.this);
     }
 
     /**
@@ -268,6 +294,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
         curRequest.setRating(rating);
         curRequest.setEstimatedFare(totalPayment);
+        Log.v(TAG, "rider RATED THE REQUEST HERE!!!!!!!!!!!");
         riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
     }
 
@@ -416,6 +443,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 Log.v(TAG, "this.driver is null !!!!!!!!!!!");
             }
             if (this.myRating != null && this.driver != null) {
+                Log.v(TAG, "call setNewDriverRating()");
                 setNewDriverRating(myRating);
             }
         } else {
@@ -518,6 +546,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         startActivity(intent);
         if (this.dialog != null) {
             this.dialog.dismiss();
+            this.dialog = null;
         }
         finish();
     }

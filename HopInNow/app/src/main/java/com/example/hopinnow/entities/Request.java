@@ -17,6 +17,7 @@ public class Request extends Ride implements Comparable<Request>{
     private boolean arrivedAtDest;
     private boolean complete;
     private Double rating;
+    private boolean rated;
     private int acceptStatus;
 
     /**
@@ -56,6 +57,7 @@ public class Request extends Ride implements Comparable<Request>{
             this.complete = false;
             this.rating = -1.0;
             this.acceptStatus = 0;
+            this.rated = false;
         } catch(Exception e){
             throw e;
         }
@@ -175,5 +177,13 @@ public class Request extends Ride implements Comparable<Request>{
 
     public void setArrivedAtDest(boolean arrivedAtDest) {
         this.arrivedAtDest = arrivedAtDest;
+    }
+
+    public boolean isRated() {
+        return rated;
+    }
+
+    public void setRated(boolean rated) {
+        this.rated = rated;
     }
 }
