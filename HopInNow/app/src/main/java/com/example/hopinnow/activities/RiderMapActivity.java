@@ -198,6 +198,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (Objects.equals(caseCancel, "cancel")) {
             tripCompleted = true;
             cancelRequestLocal();
+        } else {
+            tripCompleted = true;
+            cancelRequestLocal();
+            riderRequestDatabaseAccessor.deleteRequest(this);
         }
         // MOCK FOR INTENT TESTING
         final EditText pickUpMock = findViewById(R.id.mock_pickUp);
@@ -508,7 +512,35 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void cancelRequestLocal(){
         this.progressbarDialog.dismissDialog();
         this.progressbarDialog.startProgressbarDialog();
-        this.riderRequestDatabaseAccessor.deleteRequest(this);
+        //clear all fragments
+        FrameLayout fl = findViewById(R.id.fragment_place);
+        fl.removeAllViews();
+        //set curRequest to null
+        fragWatingDriver = new RiderWaitingDriverFragment();
+        curRequest = null;
+        saveCurrentRequestLocal(null);
+        baseFare = 0.00;
+        driverDecided = false;
+        pickedUp = false;
+        pickUpLocName = null;
+        dropOffLocName= null;
+        switchMarkerDraggable();
+        if ((pickUpMarker!=null) && (dropOffMarker!=null)){
+            pickUpMarker.setVisible(false);
+            dropOffMarker.setVisible(false);
+        }
+        //return to initial prompt of location searching
+        View searchFragment = findViewById(R.id.search_layout);
+        findViewById(R.id.mock).setVisibility(View.INVISIBLE);
+        searchFragment.setVisibility(View.VISIBLE);
+        pickUpAutoComplete.setText("");
+        dropOffAutoComplete.setText("");
+        myLocPickUpBtn.setVisibility(View.VISIBLE);
+        this.progressbarDialog.dismissDialog();
+        if (!tripCompleted){
+            Toast.makeText(this,"The request is cancelled successfully!",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -855,6 +887,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             curRequest.setCar(null);
             saveCurrentRequestLocal(curRequest);
         }
+        riderRequestDatabaseAccessor.addUpdateRequest(curRequest,this);
         riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
     }
 
@@ -922,35 +955,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRequestDeleteSuccess() {
-        //clear all fragments
-        FrameLayout fl = findViewById(R.id.fragment_place);
-        fl.removeAllViews();
-        //set curRequest to null
-        fragWatingDriver = new RiderWaitingDriverFragment();
-        curRequest = null;
-        saveCurrentRequestLocal(null);
-        baseFare = 0.00;
-        driverDecided = false;
-        pickedUp = false;
-        pickUpLocName = null;
-        dropOffLocName= null;
-        switchMarkerDraggable();
-        if ((pickUpMarker!=null) && (dropOffMarker!=null)){
-            pickUpMarker.setVisible(false);
-            dropOffMarker.setVisible(false);
-        }
-        //return to initial prompt of location searching
-        View searchFragment = findViewById(R.id.search_layout);
-        findViewById(R.id.mock).setVisibility(View.INVISIBLE);
-        searchFragment.setVisibility(View.VISIBLE);
-        pickUpAutoComplete.setText("");
-        dropOffAutoComplete.setText("");
-        myLocPickUpBtn.setVisibility(View.VISIBLE);
-        this.progressbarDialog.dismissDialog();
-        if (!tripCompleted){
-            Toast.makeText(this,"The request is cancelled successfully!",
-                    Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     @Override

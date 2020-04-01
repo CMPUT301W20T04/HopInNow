@@ -278,8 +278,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverPickupSuccess() {
-        Toast.makeText(context,"Request is cancelled by " +
-                "rider. Please find a new request.", Toast.LENGTH_SHORT).show();
         driverDatabaseAccessor.updateDriverProfile(driver,this);
         ((DriverMapActivity) Objects.requireNonNull(context))
                 .switchFragment(R.layout.fragment_driver_pick_rider_up);

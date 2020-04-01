@@ -59,6 +59,7 @@ import java.util.TimerTask;
 public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener,
         DriverObjectRetreieveListener, RiderRequestListener,
         DriverProfileStatusListener {
+    public static final String TAG = "RiderPaymentA";
     private Request curRequest;
     private Driver driver;
     private Rider rider;
@@ -230,7 +231,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         //cancel rating and complete request
         Button cancelBtn = dialog.findViewById(R.id.dialog_rating_cancel);
-        cancelBtn.setOnClickListener(v -> completeRequest(-1.00));
+        cancelBtn.setOnClickListener(v -> completeRequest(0));
 
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
@@ -255,11 +256,13 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      *      the new rating
      */
     private void setNewDriverRating(double r){
+
         Double prevRating = driver.getRating();
         int counts = driver.getRatingCounts();
         Double newRating = (prevRating + r)/(counts+1);
         driver.setRatingCounts(counts+1);
         driver.setRating(newRating);
+        Log.v(TAG,"rider setting driver rating..."+newRating);
         driverDatabaseAccessor.updateDriverProfile(driver,RiderPaymentActivity.this);
     }
 
@@ -268,6 +271,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      */
     private void completeRequest(double rating){
         String msg = "Your trip is completed!";
+        Log.v(TAG,"rider completing request...");
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
         curRequest.setRating(rating);
         curRequest.setEstimatedFare(totalPayment);
@@ -499,6 +503,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver){
+        Log.v(TAG,"Driver rating updated");
         String driverName = driver.getName();
         Toast.makeText(getApplicationContext(),
                 driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
@@ -506,5 +511,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     }
 
     @Override
-    public void onDriverProfileUpdateFailure() {}
+    public void onDriverProfileUpdateFailure() {
+        Log.v(TAG,"Driver rating update failed");
+    }
 }
