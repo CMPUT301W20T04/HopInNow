@@ -82,6 +82,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private Rider rider;
     private Driver driver;
+    private EditText startUpMock;
     private LatLng pickUpLoc, startUpLoc, dropOffLoc;
     private String pickUpLocName, startUpLocName;
     private Marker pickUpMarker, dropOffMarker, startUpMarker;
@@ -149,7 +150,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         myLocStartUpBtn = findViewById(R.id.my_loc_startup_button);
         // a button listener
-        final EditText startUpMock = findViewById(R.id.mock_startUp);
+        startUpMock = findViewById(R.id.mock_startUp);
         Button driverSearchBtn = findViewById(R.id.driver_search_button);
         driverSearchBtn.setOnClickListener(v -> {
             //mock, for UI test
@@ -275,6 +276,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             // request and the pickup user button
             case R.layout.fragment_driver_pick_rider_up:
                 findViewById(R.id.search_layout).setVisibility(View.GONE);
+                startUpMock.setVisibility(View.GONE);
                 myLocStartUpBtn.setVisibility(View.GONE);
                 t.beginTransaction().replace(R.id.fragment_place, new PickUpAndCurrentRequest())
                         .commit();
@@ -283,6 +285,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 //change the fragment to the one that display the available list.
             case R.layout.fragment_driver_requests:
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+                startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
                 t.beginTransaction().replace(R.id.fragment_place, new RequestListFragment())
                         .commit();
@@ -290,6 +293,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 break;
             case -1:
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+                startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
                 FrameLayout fl = findViewById(R.id.fragment_place);
                 fl.removeAllViews();
