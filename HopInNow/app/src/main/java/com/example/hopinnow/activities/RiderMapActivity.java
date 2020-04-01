@@ -509,6 +509,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     public void cancelRequestLocal(){
         this.progressbarDialog.startProgressbarDialog();
+        //this.riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(-1,this);
         this.riderRequestDatabaseAccessor.deleteRequest(this);
     }
 

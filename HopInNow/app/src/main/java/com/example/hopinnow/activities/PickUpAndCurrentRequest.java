@@ -99,7 +99,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         requestTimeText.setText(request.getPickUpDateTime().toString());
         requestCostText.setText(request.getEstimatedFare().toString());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
-        driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(request,this);
 
         if (!request.isPickedUp()) {
             // the fragment that display the pickup button and request information
@@ -115,12 +114,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             //((DriverMapActivity)getActivity()).setCurrentRequestPageCounter(0);
         }
         if (!request.isPickedUp()) {
+            driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
+            driverRequestDatabaseAccessor.driverListenOnCancelRequestBeforeArrive(request,this);
             //set pick up button on click listener
             pickUpButton.setOnClickListener(v -> {
                 // switch to a fragment that display the request information and pick up button.
                 String rider_email = driver.getCurRequest().getRiderEmail();
 
-                driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                 request.setPickedUp(true);
                 driver.setCurRequest(request);
                 driverRequestDatabaseAccessor.driverPickupRider(request,
@@ -262,11 +262,12 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestAcceptedByRider(Request request) {
-
+        //driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(request,this);
     }
 
     @Override
     public void onRequestDeclinedByRider() {
+        System.out.println("declined");
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
     }
 

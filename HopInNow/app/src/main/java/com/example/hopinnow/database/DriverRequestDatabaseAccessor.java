@@ -72,6 +72,23 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     }
                 });
     }
+    public void driverListenOnCancelRequestBeforeArrive(Request request, final DriverRequestListener listener) {
+        String requestID = request.getRequestID();
+        DocumentReference ref = this.firestore
+                .collection(super.referenceName)
+                .document(requestID);
+        super.listenerRegistration = ref.addSnapshotListener((documentSnapshot, e) -> {
+                    Request req = requireNonNull(documentSnapshot).toObject(Request.class);
+                    if (req == null || !requireNonNull(documentSnapshot).exists()) {
+                        Log.v(TAG, "The request is declined by" +
+                                "the rider before the driver arrives");
+                        listener.onRequestDeclinedByRider();
+                        // if the request is canceled here, then stop listening:
+                        super.listenerRegistration.remove();
+                        return;
+                    }
+                });
+    }
     /**
      * Called for the driver to listen on the request he or she just accepted,
      * the listener method invokes if the rider accepts or declines the request before the driver
