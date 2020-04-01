@@ -300,8 +300,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case -1:
-                Toast.makeText(this,"Request is cancelled by rider. Please find" +
-                        "a new request.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Current request disappeared.", Toast.LENGTH_SHORT).show();
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
                 startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
@@ -374,7 +373,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private void setupAutoCompleteFragment() {
         assert startUpAutoComplete != null;
         startUpAutoComplete.setHint("Pick Up Location");
-        startUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
+        startUpAutoComplete.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.ADDRESS,
+                Place.Field.NAME,Place.Field.LAT_LNG));
         startUpAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
@@ -387,7 +387,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 Log.e("An error occurred: ", status.toString());
             }
         });
-        startUpAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+        Objects.requireNonNull(startUpAutoComplete.getView())
+                .findViewById(R.id.places_autocomplete_clear_button)
                 .setOnClickListener(v -> {
                     startUpAutoComplete.setText("");
                     startUpLoc = null;
