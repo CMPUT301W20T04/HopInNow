@@ -48,7 +48,7 @@ public class DriverTest {
         ArrayList<Trip> mockTripList = new ArrayList<Trip>();
         mockTripList.add(mockTrip);
         return new Driver("driver@gmail.com", "abc123456",
-                "driver", "7801230000", true, 0.0,
+                "driver", "7801230000", 0.0,
                 mockRequest, mockCar, mockTripList);
     }
 
@@ -58,8 +58,6 @@ public class DriverTest {
     @Test
     public void testEmpty(){
         Driver driver = new Driver();
-        assertThrows(NullPointerException.class, driver::getDriverTripList);
-        assertThrows(NullPointerException.class, driver::getCar);
         assertThrows(NullPointerException.class, driver::getDeposit);
         assertThrows(NullPointerException.class, driver::getName);
         assertThrows(NullPointerException.class, driver::getPhoneNumber);
