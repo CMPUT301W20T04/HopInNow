@@ -2,26 +2,18 @@ package com.example.hopinnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.User;
-import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
-import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
-
-import java.util.Locale;
-import java.util.Objects;
 
 /**
  * Author: Peter Zhou
@@ -37,7 +29,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
     private EditText vehicleColorEditText;
     private EditText vehiclePlateEditText;
     private DriverDatabaseAccessor driverDatabaseAccessor;
-    private ProgressbarDialog progressbarDialog;
+    private ProgressDialog progressDialog;
     private Driver currentDriver;
 
     @Override
@@ -50,8 +42,9 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
         this.vehicleModelEditText = findViewById(R.id.vehicleModelEditText);
         this.vehicleColorEditText = findViewById(R.id.vehicleColorEditText);
         this.vehiclePlateEditText = findViewById(R.id.vehiclePlateEditText);
-        progressbarDialog = new ProgressbarDialog(VehicleViewActivity.this);
-        progressbarDialog.startProgressbarDialog();
+        progressDialog = new ProgressDialog(VehicleViewActivity.this);
+        progressDialog.setContentView(R.layout.custom_progress_bar);
+        progressDialog.show();
 
         Intent intent = this.getIntent();
         this.currentDriver = (Driver) intent.getSerializableExtra("DriverObject");
@@ -64,14 +57,14 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
                 this.vehicleModelEditText.setText("");
                 this.vehicleColorEditText.setText("");
                 this.vehiclePlateEditText.setText("");
-                this.progressbarDialog.dismissDialog();
+                this.progressDialog.dismiss();
             } else {
                 // set all text fields according to the retrieved user object:
                 this.vehicleMakeEditText.setText(currentDriver.getCar().getMake());
                 this.vehicleModelEditText.setText(currentDriver.getCar().getModel());
                 this.vehicleColorEditText.setText(currentDriver.getCar().getColor());
                 this.vehiclePlateEditText.setText(currentDriver.getCar().getPlateNumber());
-                this.progressbarDialog.dismissDialog();
+                this.progressDialog.dismiss();
             }
         }
 
@@ -107,17 +100,17 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.setCarInfo(driver.getCar());
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 
     @Override
     public void onDriverProfileRetrieveFailure() {
         if (this.currentDriver.getCar() == null) {
             this.setCarInfo(null);
-            this.progressbarDialog.dismissDialog();
+            this.progressDialog.dismiss();
         } else {
             this.setCarInfo(this.currentDriver.getCar());
-            this.progressbarDialog.dismissDialog();
+            this.progressDialog.dismiss();
         }
     }
 
@@ -125,7 +118,7 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
     public void onDriverProfileUpdateSuccess(Driver driver) {
         this.currentDriver = driver;
         this.setCarInfo(this.currentDriver.getCar());
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         Toast.makeText(getApplicationContext(),
                 "Your info is updated!", Toast.LENGTH_LONG).show();
     }

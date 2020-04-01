@@ -48,13 +48,13 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     // Shway added this:
     private String qrPayment;
 
+    private boolean rated = false;
     private String encoded;
     private RxPermissions rxPermissions;
     private int permissionCount = 0;
     private TextView permissionMsg;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
     private DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
-
 
     @SuppressLint("CheckResult")
     @Override
@@ -206,6 +206,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onWaitOnRatingSuccess() {
         //means the rider update the rating successfully.
+        rated = true;
         driverDatabaseAccessor.getDriverProfile(this);
         Log.v(TAG, "Rider has rated the trip!!!!");
         Log.v(TAG, "now to get driver profile...");
@@ -219,6 +220,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
+        this.curRequest = driver.getCurRequest();
         Date current_time = new Date();
         Log.v(TAG, "trying to add in the new trip...");
         ArrayList<Trip> driverTripList = this.driver.getDriverTripList();
@@ -247,14 +249,17 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-        driverRequestDatabaseAccessor.deleteRequest(this);
-        Log.v(TAG, "driver profile updated.");
-        Log.v(TAG, "now to go to driver map activity...");
-        Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
-        startActivity(intent);
-        Log.v(TAG, "driver request completed.");
-        Log.v(TAG, "now driver is WAITING ON RATING!!!!");
-        driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
+        if (rated){
+            rated = false;Log.v(TAG, "driver profile updated.");
+            Log.v(TAG, "now to go to driver map activity...");
+            driverRequestDatabaseAccessor.deleteRequest(this);
+            Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
+            startActivity(intent);
+        } else {
+            Log.v(TAG, "driver request completed.");
+            Log.v(TAG, "now driver is WAITING ON RATING!!!!");
+            driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
+        }
     }
 
     @Override
