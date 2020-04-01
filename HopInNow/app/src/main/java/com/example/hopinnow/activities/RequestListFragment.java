@@ -26,6 +26,7 @@ import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import static java.util.Objects.requireNonNull;
  * show the current available request for driver to choose to take
  */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener, DriverRequestListener {
+        AvailRequestListListener, DriverRequestListener, RequestAddDeleteListener {
     public static final String TAG = "RequestListFragment";
     private ListView requestListView;
     private ArrayList<Request> requestList;
@@ -99,8 +100,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
         // TODO
         // later need to fix the new LatLong(10, 20) to current location of the driver:
-        if (((DriverMapActivity) requireNonNull(getActivity())).isUseCurrent()){
-            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+        if (((DriverMapActivity) requireNonNull(context)).isUseCurrent()){
+            this.current = ((DriverMapActivity)context).getCurrentLoc();
             driverRequestDatabaseAccessor.getAllRequest(new LatLong(current.getLatitude(),
                     current.getLongitude()), this);
         }
@@ -213,8 +214,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         });
         // Shway added this following lines:
         this.progressbarDialog.dismissDialog();
-        if (((DriverMapActivity) requireNonNull(getActivity())).isUseCurrent()){
-            this.current = ((DriverMapActivity)getActivity()).getCurrentLoc();
+        if (((DriverMapActivity) requireNonNull(context)).isUseCurrent()){
+            this.current = ((DriverMapActivity)context).getCurrentLoc();
             this.driverRequestDatabaseAccessor
                     .listenOnAllRequests(new LatLong(current.getLatitude(),
                             current.getLongitude()), this);

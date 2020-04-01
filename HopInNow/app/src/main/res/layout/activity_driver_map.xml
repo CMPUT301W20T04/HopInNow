@@ -138,6 +138,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
+
         <Button
             android:id="@+id/my_loc_startup_button"
             android:layout_width="160dp"
@@ -150,7 +151,7 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/mock"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.749"
+            app:layout_constraintHorizontal_bias="0.697"
 
             app:layout_constraintStart_toStartOf="parent" />
 

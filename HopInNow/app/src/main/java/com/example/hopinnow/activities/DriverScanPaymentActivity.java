@@ -20,6 +20,8 @@ import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
+import com.google.gson.Gson;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -37,7 +39,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
  */
 public class DriverScanPaymentActivity extends AppCompatActivity
         implements ZXingScannerView.ResultHandler, DriverRequestListener,
-        DriverProfileStatusListener, AvailRequestListListener {
+        DriverProfileStatusListener, AvailRequestListListener, RequestAddDeleteListener {
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
@@ -71,9 +73,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             cameraPermission();
         }
 
-        cameraView.setOnClickListener(v -> {
-            cameraPermission();
-        });
+        cameraView.setOnClickListener(v -> cameraPermission());
 
     }
 
@@ -81,14 +81,14 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
-
-        String qrDriverEmail = StringUtils.substringBetween("<driverEmail>","</driverEmail>");
-        String qrPayment = StringUtils.substringBetween("<totalPayment>","</totalPayment>");
+        String qrDriverEmail = StringUtils.substringBetween(encoded,"driverEmail","DriverEmail");
+        String qrPayment = StringUtils.substringBetween(encoded,"totalPayment","TotalPayment");
         System.out.println(qrDriverEmail);
         System.out.println(driver.getEmail());
         System.out.println(qrPayment);
 
         if (driver.getEmail().equals(qrDriverEmail)){ //
+            System.out.println("scan success");
 
             //todo trigger rider rating by removing request from firebase
             double prevDeposit = driver.getDeposit();

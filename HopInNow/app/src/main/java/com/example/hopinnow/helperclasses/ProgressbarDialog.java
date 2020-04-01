@@ -41,6 +41,9 @@ public class ProgressbarDialog {
     }
 
     public void dismissDialog() {
-        this.dialog.dismiss();
+        if (dialog!=null && dialog.isShowing()) {
+            this.dialog.dismiss();
+        }
     }
+
 }

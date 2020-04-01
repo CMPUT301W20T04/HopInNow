@@ -43,6 +43,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,15 +80,12 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_payment);
 
-        //TODO set current Request
         SharedPreferences mPrefs = getSharedPreferences("LocalRequest", MODE_PRIVATE);
         Gson gsonRequest = new Gson();
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
 
-        //TODO for testing without interaction
-        //driver = (Driver) getIntent().getSerializableExtra("Driver");
-        //rider = (Rider) getIntent().getSerializableExtra("Rider");
+        // for ui testing
         if (driver == null){
             Car car = new Car("Auburn","Speedster","Cream","111111");
             driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
@@ -97,7 +96,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.driverDatabaseAccessor.getDriverProfile(this);
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
-        riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
 
         // set local variables
         baseFare = curRequest.getEstimatedFare();
@@ -130,22 +128,21 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 Toast.makeText(RiderPaymentActivity.this,msg,Toast.LENGTH_SHORT).show();
             } else {
                 curRequest.setEstimatedFare(totalPayment);
-
-
                 Gson gsonPay = new Gson();
-                String encodedMsg= "<driverEmail>" + driver.getEmail() + "</driverEmail>" +
-                        "<totalPayment>" + totalPayment + "</totalPayment>";
+                String encodedMsg= "driverEmail" + curRequest.getDriverEmail() + "DriverEmail" +
+                        "totalPayment" + totalPayment + "TotalPayment";
                 String serializePay = gsonPay.toJson(encodedMsg);
                 Bitmap bitmap = QRCodeHelper
                         .newInstance(RiderPaymentActivity.this)
-                        .setContent(serializePay)
+                        .setContent(encodedMsg)
                         .setMargin(1)
                         .generateQR();
                 qrImage.setImageBitmap(bitmap);
                 qrImage.setBackgroundResource(R.color.ColorBlack);
                 confirmPaymentBtn.setVisibility(View.GONE);
                 showTotalBtn.setEnabled(false);
-                onScanningCompleted();
+                riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
+                //onScanningCompleted();
             }
             });
 
@@ -169,7 +166,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Button submitBtn= dialog.findViewById(R.id.dialog_rating_submit);
         submitBtn.setOnClickListener(v -> {
             myRating = (double) ratingBar.getRating();
-            System.out.println("myrating:"+myRating);
             if (myRating!= -1.0){
                 setNewDriverRating(myRating);
                 completeRequest(myRating);
@@ -290,7 +286,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
 
         //todo for testing auto show rating dialog
-        //showRatingDialog();
+        showRatingDialog();
     }
 
 
@@ -481,7 +477,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRiderRequestComplete() {
-        showRatingDialog();
+        onScanningCompleted();
+        //showRatingDialog();
     }
 
     @Override

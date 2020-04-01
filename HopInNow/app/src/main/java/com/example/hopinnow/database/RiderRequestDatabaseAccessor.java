@@ -2,16 +2,17 @@ package com.example.hopinnow.database;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.RiderRequestListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -27,6 +28,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
         super();
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
+
     /**
      * invoke the listener when request is accepted by a driver
      * @param listener
@@ -34,26 +36,32 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      */
     public void riderWaitForRequestAcceptance(final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        this.firestore
-                .collection(this.referenceName)
-                .document(this.currentUser.getUid())
-                .addSnapshotListener((snapshot, e) -> {
-                    Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
-                    if (e != null) {
-                        Log.v(TAG, "riderWaitForRequestAcceptance failed.", e);
-                        listener.onRiderRequestTimeoutOrFail();
-                    }
-                    if (snapshot.exists()) {
-                        if (Objects.requireNonNull(request).getDriverEmail() != null) {
-                            Log.v(TAG, "riderWaitForRequestAcceptance" +
-                                    "driver accepted request.");
-                            listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
-                        }
-                    } else {
-                        Log.v(TAG, "riderWaitForRequestAcceptance data: null");
-                        listener.onRiderRequestTimeoutOrFail();
-                    }
-                });
+        DocumentReference ref = this.firestore.collection(this.referenceName)
+                .document(this.currentUser.getUid());
+        // this function can help remove the snapshot listeners
+        super.listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
+            Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
+            if (e != null) {
+                Log.v(TAG, "riderWaitForRequestAcceptance failed.", e);
+                listener.onRiderRequestTimeoutOrFail();
+                // if an error happens, stops listening:
+                super.listenerRegistration.remove();
+            }
+            if (snapshot.exists()) {
+                if (Objects.requireNonNull(request).getDriverEmail() != null) {
+                    Log.v(TAG, "riderWaitForRequestAcceptance: " +
+                            "driver accepted request.");
+                    listener.onRiderRequestAcceptedNotify(snapshot.toObject(Request.class));
+                    // if the driver accepts the rider's request, then stops listening:
+                    super.listenerRegistration.remove();
+                }
+            } else {
+                Log.v(TAG, "riderWaitForRequestAcceptance data: null");
+                listener.onRiderRequestTimeoutOrFail();
+                // if there is an error while listening to the request, then stops listening:
+                super.listenerRegistration.remove();
+            }
+        });
     }
 
     /**
@@ -81,7 +89,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     if (acceptStatus == 1) {
                         Log.v(TAG, "the request is accepted by the rider.");
                         listener.onRiderAcceptDriverRequest();
-                    } else {
+                    } else if (acceptStatus == -1) {
                         Log.v(TAG, "the request is declined by the rider.");
                         listener.onRiderDeclineDriverRequest();
                     }
@@ -95,25 +103,30 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      */
     public void riderWaitForPickup(final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        this.firestore
-                .collection(this.referenceName)
-                .document(this.currentUser.getUid())
-                .addSnapshotListener((snapshot, e) -> {
-                    Log.v(TAG, "riderWaitForPickup snapshot listener added.");
+        DocumentReference ref = this.firestore.collection(this.referenceName)
+                .document(this.currentUser.getUid());
+        super.listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                     if (e != null) {
                         Log.v(TAG, "Listen failed.", e);
                         listener.onRiderPickedupTimeoutOrFail();
+                        // if there is an error while driver is trying to pick up the rider, then
+                        // stops listening to the snapshot:
+                        super.listenerRegistration.remove();
                     }
                     if (snapshot.exists()) {
-                        Log.v(TAG, "riderWaitForPickup snapshot exists.");
                         if (Objects.requireNonNull(request).isPickedUp()) {
                             Log.v(TAG, "rider picked up: ");
                             listener.onRiderPickedupSuccess(snapshot.toObject(Request.class));
+                            // if the rider is now picked up, then stops listening:
+                            super.listenerRegistration.remove();
                         }
                     } else {
                         Log.v(TAG, "Current data: null");
                         listener.onRiderPickedupTimeoutOrFail();
+                        // if there is an error while driver is trying to pick up the rider, then
+                        // stops listening to the snapshot:
+                        super.listenerRegistration.remove();
                     }
                 });
     }
@@ -125,23 +138,28 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      */
     public void riderWaitForDropoff(final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        this.firestore
-                .collection(this.referenceName)
-                .document(this.currentUser.getUid())
-                .addSnapshotListener((snapshot, e) -> {
+        DocumentReference ref = this.firestore.collection(this.referenceName)
+                .document(this.currentUser.getUid());
+        super.listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
                     Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                     if (e != null) {
                         Log.v(TAG, "Listen failed.", e);
                         listener.onRiderDropoffFail();
+                        // if there is an error while driver is dropping off, then stop listening:
+                        super.listenerRegistration.remove();
                     }
                     if (snapshot.exists()) {
                         if (Objects.requireNonNull(request).isArrivedAtDest()) {
                             Log.v(TAG, "rider dropped off: ");
                             listener.onRiderDropoffSuccess(snapshot.toObject(Request.class));
+                            // if the rider is dropped off successfully, stops listening:
+                            super.listenerRegistration.remove();
                         }
                     } else {
                         Log.v(TAG, "Current data: null");
                         listener.onRiderDropoffFail();
+                        // if the dropping off fails, stops listening:
+                        super.listenerRegistration.remove();
                     }
                 });
     }
@@ -153,22 +171,28 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      */
     public void riderWaitForRequestComplete(final RiderRequestListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        DocumentReference dr = this.firestore.collection(this.referenceName)
+        DocumentReference ref = this.firestore.collection(this.referenceName)
                 .document(this.currentUser.getUid());
-        dr.addSnapshotListener((snapshot, e) -> {
+        super.listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
             Log.v(TAG, "rider complete caught snapshot");
-            if (e == null) {
+            if (e != null) {
                 Log.v(TAG, "Listen failed.", e);
                 listener.onRiderRequestCompletionError();
+                // if there is an error while the ride is completing, stops listening:
+                super.listenerRegistration.remove();
             }
             if (Objects.requireNonNull(snapshot).exists()) {
                 Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
                 if (Objects.requireNonNull(request).isComplete()) {
                     Log.v(TAG, "ride completed: ");
                     listener.onRiderRequestComplete();
+                    // if the request is complete, stops listening:
+                    super.listenerRegistration.remove();
                 } else {
                     Log.v(TAG, "Listen failed.", e);
                     listener.onRiderRequestCompletionError();
+                    // if the request fails to complete, stops listening:
+                    super.listenerRegistration.remove();
                 }
             }
         });

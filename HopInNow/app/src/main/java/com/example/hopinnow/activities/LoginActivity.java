@@ -132,7 +132,9 @@ public class LoginActivity extends AppCompatActivity implements LoginStatusListe
             intent = new Intent(getApplicationContext(), RiderMapActivity.class);
         }
         startActivity(intent);
-        this.progressbarDialog.dismissDialog();
+        if (!LoginActivity.this.isFinishing() && progressbarDialog!=null) {
+            this.progressbarDialog.dismissDialog();
+        }
         finish();
     }
 

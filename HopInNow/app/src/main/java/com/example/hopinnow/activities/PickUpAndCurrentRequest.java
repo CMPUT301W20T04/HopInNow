@@ -1,5 +1,6 @@
 package com.example.hopinnow.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +38,7 @@ import java.util.Objects;
  * show the current request that driver has accepted
  */
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener, DriverRequestListener {
+        AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener {
     private Driver driver;
     private Request request;
     private TextView requestTitleText;
@@ -83,21 +85,23 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             requestCostText.setText("Estimate Fare: fare ui test");
         }
 
+
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
         request = driver.getCurRequest();
-        requestFromText.setText("From: " + request.getPickUpLocName());
-        requestToText.setText("To: " + request.getDropOffLocName());
-        requestTimeText.setText("Time: " + request.getPickUpDateTime());
-        requestCostText.setText("Estimate Fare: " + request.getEstimatedFare());
+        requestFromText.setText(request.getPickUpLocName());
+        requestToText.setText( request.getDropOffLocName());
+        requestTimeText.setText(request.getPickUpDateTime().toString());
+        requestCostText.setText(request.getEstimatedFare().toString());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
+        driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(request,this);
 
         if (!request.isPickedUp()) {
-
             // the fragment that display the pickup button and request information
             pickUpButton.setVisibility(View.VISIBLE);
             dropOffButton.setVisibility(View.INVISIBLE);
@@ -136,9 +140,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 //trip paras:
                 //String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                 //                Date dropOffTime, int duration, Car car, Double cost, Double rating
-                // fixme, page with picked up button need to be press twice to enter page with drop off button
-
-                // fixme, is request or listener null in driverDropoffRider()?
                 request.setArrivedAtDest(true);
                 driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
                 driverRequestDatabaseAccessor.driverDropoffRider(request, PickUpAndCurrentRequest.this);
@@ -212,7 +213,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestDeleteSuccess() {
-
     }
 
     @Override
@@ -267,7 +267,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onRequestDeclinedByRider() {
-
+        ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(-1);
     }
 
     @Override
@@ -284,7 +284,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onDriverDropoffSuccess(Request request) {
-
     }
 
     @Override

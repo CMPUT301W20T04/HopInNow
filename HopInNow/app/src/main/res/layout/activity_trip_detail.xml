@@ -60,14 +60,14 @@
                 android:id="@+id/otherName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="49dp"
+                android:layout_marginStart="52dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="289dp"
+                android:drawableLeft="@drawable/guy"
                 android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
                 android:text="Name:"
                 android:textStyle="bold"
                 android:typeface="sans"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,24 +75,24 @@
                 android:id="@+id/otherPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="46dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="289dp"
+                android:layout_marginStart="84dp"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/phone"
                 android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
                 android:text="Phone:"
                 android:textStyle="bold"
                 android:typeface="sans"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/otherName" />
+                app:layout_constraintStart_toEndOf="@+id/otherName"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <RatingBar
                 android:id="@+id/ratingBar2"
                 android:layout_width="241dp"
-                android:layout_height="38dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="69dp"
                 android:layout_marginEnd="69dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="32dp"
                 android:numStars="5"
                 android:rating="3.5"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -161,21 +161,14 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-
-                        android:layout_marginStart="3sp"
-                        android:layout_marginEnd="3sp"
-                        app:srcCompat="@drawable/email" />
 
                     <TextView
                         android:id="@+id/riderEmail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="3dp"
+                        android:drawableLeft="@drawable/email"
                         android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
                         android:text="RiderEmail:"
                         android:textAlignment="textStart"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -209,20 +202,13 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/imageView6"
-                        android:layout_width="27dp"
-                        android:layout_height="wrap_content"
-
-                        android:layout_marginStart="3sp"
-                        android:layout_marginEnd="3sp"
-                        app:srcCompat="@drawable/email" />
-
                     <TextView
                         android:id="@+id/DriverEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/email"
                         android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
                         android:text="DriverEmail"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
@@ -256,21 +242,14 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="27dp"
-
-                        android:layout_marginStart="3sp"
-                        android:layout_marginEnd="3sp"
-                        app:srcCompat="@drawable/position" />
 
                     <TextView
                         android:id="@+id/dropoffLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
+                        android:drawableLeft="@drawable/position"
                         android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
                         android:text="dropoffLocation"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
@@ -303,21 +282,14 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="26dp"
-
-                        android:layout_marginStart="3sp"
-                        android:layout_marginEnd="3sp"
-                        app:srcCompat="@drawable/money" />
 
                     <TextView
                         android:id="@+id/cost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
+                        android:drawableLeft="@drawable/money"
                         android:fontFamily="sans-serif-light"
+                        android:gravity="center_horizontal|center_vertical"
                         android:text="Cost:"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
@@ -350,21 +322,14 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="31dp"
-                        android:layout_height="28dp"
-
-                        android:layout_marginStart="3sp"
-                        android:layout_marginEnd="3sp"
-                        app:srcCompat="@drawable/rate" />
 
                     <TextView
                         android:id="@+id/rating2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
+                        android:drawableLeft="@drawable/rate"
                         android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
                         android:text="Rating:"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"
@@ -398,20 +363,14 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="25dp"
-                        android:layout_height="26dp"
-
-                        android:layout_marginStart="3sp"
-                        android:layout_marginEnd="3sp"
-                        app:srcCompat="@drawable/dest" />
 
                     <TextView
                         android:id="@+id/pickUpLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/dest"
                         android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
                         android:text="PickUpLocation"
                         android:textColor="#F06F6F6F"
                         android:textSize="16sp"

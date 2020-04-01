@@ -72,13 +72,13 @@ public class RiderDriverOfferFragment extends Fragment {
 
             //set driver car
             TextView driverCar = view.findViewById(R.id.rider_driver_offer_car);
-            //set driver license
-            TextView driverLicense = view.findViewById(R.id.rider_driver_offer_plate);
             if (this.driver.getCar() != null) {
                 String carInfo = this.driver.getCar().getColor() + " "
                         + this.driver.getCar().getMake() + " "
                         + this.driver.getCar().getModel();
                 driverCar.setText(carInfo);
+                //set driver license
+                TextView driverLicense = view.findViewById(R.id.rider_driver_offer_plate);
                 driverLicense.setText(driver.getCar().getPlateNumber());
             }
             //call driver
@@ -106,17 +106,17 @@ public class RiderDriverOfferFragment extends Fragment {
         this.emailBtn.setOnClickListener(v -> ((RiderMapActivity) Objects
                 .requireNonNull(getActivity()))
                 .emailDriver(driver.getEmail()));
+        // this is the accept button:
         this.acceptBtn.setOnClickListener(v -> {
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .saveCurrentRequestLocal(curRequest);
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .respondDriverOffer(1);
-            //((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(R.layout.fragment_rider_waiting_pickup);
         });
+        // this is the decline button:
         this.declineBtn.setOnClickListener(v -> {
             ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                     .respondDriverOffer(-1);
-            //((RiderMapActivity) Objects.requireNonNull(getActivity())).switchFragment(-1);
         });
     }
 }

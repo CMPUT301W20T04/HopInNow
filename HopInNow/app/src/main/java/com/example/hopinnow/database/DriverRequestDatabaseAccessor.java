@@ -39,15 +39,15 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Request request1 =
+                        Request req =
                                 requireNonNull(task.getResult()).toObject(Request.class);
-                        if (request1 == null) {
+                        if (req == null) {
                             Log.v(TAG, "Request did not accept successfully!");
                             listener.onDriverRequestTimeoutOrFail();
                             return;
                         }
                         // check the driverEmail of the request see if it already exists:
-                        if (request1.getDriverEmail() != null) {
+                        if (req.getDriverEmail() != null) {
                             Log.v(TAG, "Request is already taken!");
                             // if it is, invoke the appropriate listener and return:
                             listener.onRequestAlreadyTaken();
@@ -67,7 +67,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                                     listener.onDriverRequestTimeoutOrFail();
                                 });
                     } else {
-                        Log.v(TAG, "Request did not save successfully!");
+                        Log.v(TAG, "Request did not store into the database successfully!");
                         listener.onDriverRequestTimeoutOrFail();
                     }
                 });
@@ -83,30 +83,36 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      */
     public void driverListenOnRequestBeforeArrive(Request request, final DriverRequestListener listener) {
         String requestID = request.getRequestID();
-        this.firestore
+        DocumentReference ref = this.firestore
                 .collection(super.referenceName)
-                .document(requestID)
-                .addSnapshotListener((documentSnapshot, e) -> {
+                .document(requestID);
+        super.listenerRegistration = ref.addSnapshotListener((documentSnapshot, e) -> {
                     Request req = requireNonNull(documentSnapshot).toObject(Request.class);
                     if (req == null || !requireNonNull(documentSnapshot).exists()) {
                         Log.v(TAG, "The request is declined by" +
                                 "the rider before the driver arrives");
                         listener.onRequestDeclinedByRider();
+                        // if the request is canceled here, then stop listening:
+                        super.listenerRegistration.remove();
                         return;
                     }
                     if (requireNonNull(req).getAcceptStatus() == 1) {
                         // acceptStatus is 1 means request is accepted
                         Log.v(TAG, "The request is accepted by the rider.");
                         listener.onRequestAcceptedByRider(req);
+                        // if the request is accepted by the rider, stops listening:
+                        super.listenerRegistration.remove();
                     } else if (req.getAcceptStatus() == -1 || req.getRiderEmail() == null) {
                         // acceptStatus is -1 means request is declined
-                        Log.v(TAG, "The request is declined by" +
-                                "the rider before the driver arrives");
+                        Log.v(TAG, "The request is declined by the rider");
                         listener.onRequestDeclinedByRider();
+                        // if the request is declined by the rider:
+                        super.listenerRegistration.remove();
                     } else {
                         // acceptStatus is 0 means request is neither accepted nor declined yet
                         Log.v(TAG, "The request info is changed.");
                         listener.onRequestInfoChange(req);
+                        // keep listening...
                     }
                 });
     }
@@ -197,23 +203,29 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      *      if the request is rated successfully, call the onSuccess method, otherwise, onFailure.
      */
     public void driverWaitOnRating(Request request, final DriverRequestListener listener) {
-        DocumentReference dr = this.firestore.collection(super.referenceName)
+        DocumentReference ref = this.firestore.collection(super.referenceName)
                 .document(request.getRequestID());
-        dr.addSnapshotListener((snapshot, e) -> {
+        super.listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
             Request req = Objects.requireNonNull(snapshot).toObject(Request.class);
             Log.v(TAG, "driver wait for rating caught snapshot");
             if (e == null) {
                 Log.v(TAG, "Listen failed.", e);
                 listener.onWaitOnRatingError();
+                // if an error happened during the rating, stop listening:
+                super.listenerRegistration.remove();
             }
             if (snapshot.exists()) {
                 // see if the rating actually has changed:
                 if (Objects.requireNonNull(req).getRating() != -1.0) {
                     Log.v(TAG, "request rated: ");
                     listener.onWaitOnRatingSuccess();
+                    // if the rating is complete, remove the listener:
+                    super.listenerRegistration.remove();
                 } else {
                     Log.v(TAG, "request rated failed.", e);
                     listener.onWaitOnRatingError();
+                    // if an error happens here, stops listening:
+                    super.listenerRegistration.remove();
                 }
             }
         });
