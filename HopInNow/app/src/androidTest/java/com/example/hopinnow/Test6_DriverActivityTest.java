@@ -71,7 +71,6 @@ public class Test6_DriverActivityTest {
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
         solo.clickOnView(solo.getView(R.id.loginButton));
-
         Thread.sleep(2000);
     }
 

@@ -149,95 +149,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     }
 
 
-    /**
-     * Shows dialog that prompts rider to rate the driver of corresponding trip.
-     */
-    public void showRatingDialog(){
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_rider_rating);
-
-        // set driver name
-        final TextView driverName= dialog.findViewById(R.id.dialog_rider_rating_driver);
-        driverName.setText(driver.getName());
-        driverName.setOnClickListener(v -> showDriverInfo(driver));
-
-        //submit rating and complete request
-        final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
-        Button submitBtn= dialog.findViewById(R.id.dialog_rating_submit);
-        submitBtn.setOnClickListener(v -> {
-            myRating = (double) ratingBar.getRating();
-            if (myRating!= -1.0){
-                setNewDriverRating(myRating);
-                completeRequest(myRating);
-            } else {
-                Toast.makeText(RiderPaymentActivity.this, "Please select your " +
-                        "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-        });
-
-        //cancel rating and complete request
-        Button cancelBtn = dialog.findViewById(R.id.dialog_rating_cancel);
-        cancelBtn.setOnClickListener(v -> completeRequest(-1.00));
-
-        dialog.show();
-        dialog.setCanceledOnTouchOutside(false);
-
-        // if no response on rating for three minutes, then no rating would be available for the trip
-        new CountDownTimer(180000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {}
-            @Override
-            public void onFinish() {
-                Toast.makeText(RiderPaymentActivity.this,"Rating cancelled due to " +
-                                "inactivity over 3 minutes.",
-                        Toast.LENGTH_SHORT).show();
-                completeRequest(-1.00);
-            }
-    }.start();
-
-    }
-
-
-    /**
-     * Calculates new average rating for driver.
-     * @param r
-     *      the new rating
-     */
-    private void setNewDriverRating(double r){
-        Double prevRating = driver.getRating();
-        int counts = driver.getRatingCounts();
-        Double newRating = (prevRating + r)/(counts+1);
-        driver.setRatingCounts(counts+1);
-        driver.setRating(newRating);
-        driverDatabaseAccessor.updateDriverProfile(driver,RiderPaymentActivity.this);
-    }
-
-
-    /**
-     * Completes current request and returns rider to the new request prompt page.
-     */
-    private void completeRequest(double rating){
-        String msg = "Your trip is completed!";
-        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
-
-        curRequest.setRating(rating);
-        curRequest.setEstimatedFare(totalPayment);
-        riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
-
-        Trip newTrip = toTrip();
-        ArrayList<Trip> riderTripList = rider.getRiderTripList();
-        riderTripList.add(newTrip);
-        rider.setRiderTripList(riderTripList);
-        riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
-
-        // change activity
-        Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
-        intent.putExtra("Current_Request_To_Null", "cancel");
-        startActivity(intent);
-    }
-
 
     /**
      * Determines the rider selected tip amount.
@@ -283,12 +194,85 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
 
         String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
-        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
 
         //todo for testing auto show rating dialog
         showRatingDialog();
     }
 
+    /**
+     * Shows dialog that prompts rider to rate the driver of corresponding trip.
+     */
+    public void showRatingDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_rider_rating);
+
+        // set driver name
+        final TextView driverName= dialog.findViewById(R.id.dialog_rider_rating_driver);
+        driverName.setText(driver.getName());
+        driverName.setOnClickListener(v -> showDriverInfo(driver));
+
+        //submit rating and complete request
+        final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
+        Button submitBtn= dialog.findViewById(R.id.dialog_rating_submit);
+        submitBtn.setOnClickListener(v -> {
+            myRating = (double) ratingBar.getRating();
+            if (myRating!= -1.0){
+                completeRequest(myRating);
+                setNewDriverRating(myRating);
+            } else {
+                Toast.makeText(RiderPaymentActivity.this, "Please select your " +
+                        "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+        });
+
+        //cancel rating and complete request
+        Button cancelBtn = dialog.findViewById(R.id.dialog_rating_cancel);
+        cancelBtn.setOnClickListener(v -> completeRequest(-1.00));
+
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+
+        // if no response on rating for three minutes, then no rating would be available for the trip
+        new CountDownTimer(180000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {}
+            @Override
+            public void onFinish() {
+                Toast.makeText(RiderPaymentActivity.this,"Rating cancelled due to " +
+                                "inactivity over 3 minutes.",
+                        Toast.LENGTH_SHORT).show();
+                completeRequest(-1.00);
+            }
+        }.start();
+    }
+
+    /**
+     * Calculates new average rating for driver.
+     * @param r
+     *      the new rating
+     */
+    private void setNewDriverRating(double r){
+        Double prevRating = driver.getRating();
+        int counts = driver.getRatingCounts();
+        Double newRating = (prevRating + r)/(counts+1);
+        driver.setRatingCounts(counts+1);
+        driver.setRating(newRating);
+        driverDatabaseAccessor.updateDriverProfile(driver,RiderPaymentActivity.this);
+    }
+
+    /**
+     * Completes current request and returns rider to the new request prompt page.
+     */
+    private void completeRequest(double rating){
+        String msg = "Your trip is completed!";
+        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
+        curRequest.setRating(rating);
+        curRequest.setEstimatedFare(totalPayment);
+        riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
+    }
 
     /**
      * Get rider's customized tip amount.
@@ -325,7 +309,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String pickUpName = curRequest.getPickUpLocName();
         Date pickUpTime = curRequest.getPickUpDateTime();
         Car car = driver.getCar();
-        return new Trip(driver.getEmail(),rider.getEmail(),mpickUpLoc,mdropOffLoc,pickUpName,
+        return new Trip(curRequest.getDriverEmail(),rider.getEmail(),mpickUpLoc,mdropOffLoc,pickUpName,
                 dropOffName,pickUpTime, dropOffDateTime, duration, car,totalPayment,myRating);
     }
 
@@ -478,14 +462,29 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderRequestComplete() {
         onScanningCompleted();
-        //showRatingDialog();
     }
 
     @Override
-    public void onRiderRequestCompletionError() {}
+    public void onRiderRequestCompletionError() {
+        riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
+    }
 
     @Override
-    public void onRequestRatedSuccess() {}
+    public void onRequestRatedSuccess() {
+        Trip newTrip = toTrip();
+        ArrayList<Trip> riderTripList = rider.getRiderTripList();
+        if (riderTripList==null){
+            riderTripList = new ArrayList<>();
+        }
+        riderTripList.add(newTrip);
+        this.rider.setRiderTripList(riderTripList);
+        riderDatabaseAccessor.updateRiderProfile(this.rider,this);
+        // change activity
+        Intent intent = new Intent(this.getApplicationContext(), RiderMapActivity.class);
+        intent.putExtra("Current_Request_To_Null", "cancel");
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     public void onRequestRatedError() {}
@@ -499,7 +498,12 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onDriverProfileRetrieveFailure() {}
 
     @Override
-    public void onDriverProfileUpdateSuccess(Driver driver){}
+    public void onDriverProfileUpdateSuccess(Driver driver){
+        String driverName = driver.getName();
+        Toast.makeText(getApplicationContext(),
+                driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
+
+    }
 
     @Override
     public void onDriverProfileUpdateFailure() {}

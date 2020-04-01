@@ -217,6 +217,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             mMap.setMyLocationEnabled(true);
         }
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 8.5f));
         pickUpMarker = mMap.addMarker(new MarkerOptions()
                 .position(edmonton) //set to current location later on pickUpLoc
@@ -224,6 +225,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .visible(false)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        Button zoomIn = findViewById(R.id.map_zoom_in);
+        zoomIn.setOnClickListener(v -> mMap.animateCamera(CameraUpdateFactory.zoomIn()));
+
+        Button zoomOut = findViewById(R.id.map_zoom_out);
+        zoomOut.setOnClickListener(v -> mMap.animateCamera(CameraUpdateFactory.zoomOut()));
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
@@ -287,8 +294,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
                 startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
-                t.beginTransaction().replace(R.id.fragment_place, new RequestListFragment())
-                        .commit();
+                t.beginTransaction()
+                        .replace(R.id.fragment_place, new RequestListFragment())
+                        .commitAllowingStateLoss();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case -1:
