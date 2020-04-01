@@ -108,6 +108,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private AutocompleteSupportFragment dropOffAutoComplete, pickUpAutoComplete;
     private Button myLocPickUpBtn;
     private boolean driverDecided = false;
+    private boolean pickedUp = false;
     private boolean newOffer = true;
     private double baseFare;
 
@@ -421,7 +422,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 && (ActivityCompat.checkSelfPermission(RiderMapActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             //lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    //0, 0, RiderMapActivity.this);
+            //0, 0, RiderMapActivity.this);
             Geocoder gc = new Geocoder(RiderMapActivity.this, Locale.getDefault());
             List<Address> addresses = gc.getFromLocation(current.getLatitude(),
                     current.getLongitude(),1);
@@ -492,6 +493,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         .replace(R.id.fragment_place, new RiderConfirmDropOffFragment())
                         .commit();
                 break;
+            case 1:
+                Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), RiderPaymentActivity.class);
+                intent.putExtra("Driver", driver);
+                intent.putExtra("Rider", rider);
+                startActivity(intent);
+                finish();
         }
     }
 
@@ -613,11 +621,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * @param latLng
      *      location information for where the given marker object is to be set on the map
      */
-     public void setMapMarker(Marker m, LatLng latLng){
-         m.setVisible(true);
-         m.setPosition(latLng);
-         adjustMapFocus();
-     }
+    public void setMapMarker(Marker m, LatLng latLng){
+        m.setVisible(true);
+        m.setPosition(latLng);
+        adjustMapFocus();
+    }
 
 
     /**
@@ -640,24 +648,24 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-     /**
-      * Adjust focus of the map according to the markers.
-      */
-     public void adjustMapFocus(){
-         LatLngBounds.Builder bound = new LatLngBounds.Builder();
+    /**
+     * Adjust focus of the map according to the markers.
+     */
+    public void adjustMapFocus(){
+        LatLngBounds.Builder bound = new LatLngBounds.Builder();
 
-         if ((pickUpLoc != null)&&(dropOffLoc != null)) {
-             bound.include(pickUpLoc);
-             bound.include(dropOffLoc);
-         } else if (pickUpLoc != null) {
-             bound.include(pickUpLoc);
-         } else if (dropOffLoc != null) {
-             bound.include(dropOffLoc);
-         } else {
-             return;
-         }
-         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
-     }
+        if ((pickUpLoc != null)&&(dropOffLoc != null)) {
+            bound.include(pickUpLoc);
+            bound.include(dropOffLoc);
+        } else if (pickUpLoc != null) {
+            bound.include(pickUpLoc);
+        } else if (dropOffLoc != null) {
+            bound.include(dropOffLoc);
+        } else {
+            return;
+        }
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 300));
+    }
 
     /**
      * Shows driver information and contact means on a dialog
@@ -748,7 +756,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             if (distance>3){
                 Toast.makeText(getApplicationContext(),"Your pick up location is too far" +
                         " from your current location. Please reselect.", Toast.LENGTH_SHORT)
-                .show();
+                        .show();
                 return false;
             }
         }
@@ -757,7 +765,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (distance>150){
             Toast.makeText(getApplicationContext(),"Your drop off location is too far" +
                     " from your pick up location. Please reselect.", Toast.LENGTH_SHORT)
-            .show();
+                    .show();
             return false;
         }
 
@@ -852,8 +860,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderPickedupSuccess(Request request) {
-        switchFragment(R.layout.fragment_rider_pickedup);
-        riderRequestDatabaseAccessor.riderWaitForDropoff(this);
+        if (!pickedUp){
+            switchFragment(R.layout.fragment_rider_pickedup);
+            riderRequestDatabaseAccessor.riderWaitForDropoff(this);
+            pickedUp = true;
+        }
+
     }
 
     @Override
@@ -872,7 +884,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRiderDropoffFail() {}
 
-     @Override
+    @Override
     public void onRiderRequestComplete() {}
 
     @Override
@@ -924,7 +936,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         saveCurrentRequestLocal(null);
         baseFare = 0.00;
         driverDecided = false;
-        newOffer = false;
+        pickedUp = false;
         pickUpLocName = null;
         dropOffLocName= null;
         switchMarkerDraggable();

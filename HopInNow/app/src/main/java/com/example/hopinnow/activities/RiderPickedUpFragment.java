@@ -72,9 +72,6 @@ public class RiderPickedUpFragment extends Fragment {
                         switchFragment(R.layout.fragment_rider_confirm_dropoff);
             });
         }
-
         return view;
     }
-
-
 }
