@@ -73,7 +73,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
-
+    private Dialog dialog;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +195,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
-
         //todo for testing auto show rating dialog
         showRatingDialog();
     }
@@ -318,7 +317,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      */
     public void showDriverInfo(Driver myDriver){
         final Driver d = myDriver;
-        Dialog dialog = new Dialog(this);
+        dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
 
         //set driver name
@@ -399,7 +398,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/html");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
-
         startActivity(Intent.createChooser(intent, "Send Email"));
     }
 
@@ -479,11 +477,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         riderTripList.add(newTrip);
         this.rider.setRiderTripList(riderTripList);
         riderDatabaseAccessor.updateRiderProfile(this.rider,this);
-        // change activity
-        Intent intent = new Intent(this.getApplicationContext(), RiderMapActivity.class);
-        intent.putExtra("Current_Request_To_Null", "cancel");
-        startActivity(intent);
-        finish();
     }
 
     @Override
@@ -502,7 +495,14 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String driverName = driver.getName();
         Toast.makeText(getApplicationContext(),
                 driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
-
+        // change activity
+        Intent intent = new Intent(this.getApplicationContext(), RiderMapActivity.class);
+        intent.putExtra("Current_Request_To_Null", "cancel");
+        startActivity(intent);
+        if (this.dialog != null) {
+            this.dialog.dismiss();
+        }
+        finish();
     }
 
     @Override

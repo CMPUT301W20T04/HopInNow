@@ -55,6 +55,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
     private DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
 
+    // Shway Added this:
+    private boolean isRated = false;
 
     @SuppressLint("CheckResult")
     @Override
@@ -249,12 +251,16 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     public void onDriverProfileUpdateSuccess(Driver driver) {
         driverRequestDatabaseAccessor.deleteRequest(this);
         Log.v(TAG, "driver profile updated.");
-        Log.v(TAG, "now to go to driver map activity...");
-        Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
-        startActivity(intent);
-        Log.v(TAG, "driver request completed.");
         Log.v(TAG, "now driver is WAITING ON RATING!!!!");
-        driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
+        if (isRated) {
+            Log.v(TAG, "now to go to driver map activity...");
+            Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            this.isRated = true;
+            driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
+        }
     }
 
     @Override

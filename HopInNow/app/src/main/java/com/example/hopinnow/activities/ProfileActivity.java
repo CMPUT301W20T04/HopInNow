@@ -70,6 +70,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.logoutButton = findViewById(R.id.proLogoutBtn);
         // alert progress dialog:
         progressDialog = new ProgressDialog(ProfileActivity.this);
+        progressDialog.setContentView(R.layout.custom_progress_bar);
         progressDialog.show();
         // retrieve the current user information
         Intent intent = this.getIntent();
