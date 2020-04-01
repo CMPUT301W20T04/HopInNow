@@ -102,7 +102,7 @@ public class Test6_DriverActivityTest {
         assertTrue(solo.waitForText("ACCEPT", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.mock_next_pickUpRider));
-        assertTrue(solo.waitForText("PICKED", 1, 2000));
+        assertTrue(solo.waitForText("Information", 1, 2000));
 
         solo.clickOnButton("PICKED UP RIDER");
         assertTrue(solo.waitForText("EMERGENCY", 1, 2000));

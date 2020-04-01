@@ -69,6 +69,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private ImageView qrImage;
     private Boolean other = false;
     private TextView totalPaymentTextView;
+    private Button uiTestNextBtn;
     private Date dropOffDateTime;
     private Double myRating;
     private RiderDatabaseAccessor riderDatabaseAccessor;
@@ -91,6 +92,14 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             Car car = new Car("Auburn","Speedster","Cream","111111");
             driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                     "12345678", 10.0,  null, car, null);
+            uiTestNextBtn = findViewById(R.id.mock_next_complete_trip);
+            uiTestNextBtn.setOnClickListener(v -> {
+                // change activity
+                Intent intent = new Intent(this.getApplicationContext(), RiderMapActivity.class);
+                intent.putExtra("Current_Request_To_Null", "cancel");
+                startActivity(intent);
+                finish();
+            });
         }
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.riderDatabaseAccessor.getRiderProfile(this);

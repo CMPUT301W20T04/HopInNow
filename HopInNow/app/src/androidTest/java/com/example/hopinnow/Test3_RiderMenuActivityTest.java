@@ -53,7 +53,7 @@ public class Test3_RiderMenuActivityTest {
      * Gets the Activity
      * @throws Exception
      */
-    @Test
+    //@Test
     public void start() throws Exception {
         Activity activity = rule.getActivity();
     }
