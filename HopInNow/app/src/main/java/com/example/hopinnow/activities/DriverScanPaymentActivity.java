@@ -45,6 +45,9 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
+    // Shway added this:
+    private String qrPayment;
+
     private String encoded;
     private RxPermissions rxPermissions;
     private int permissionCount = 0;
@@ -84,19 +87,16 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
         String qrDriverEmail = StringUtils.substringBetween(encoded,"driverEmail","DriverEmail");
-        String qrPayment = StringUtils.substringBetween(encoded,"totalPayment","TotalPayment");
-        System.out.println(qrDriverEmail);
-        System.out.println(driver.getEmail());
-        System.out.println(qrPayment);
+        this.qrPayment = StringUtils.substringBetween(encoded,"totalPayment","TotalPayment");
 
         if (driver.getEmail().equals(qrDriverEmail)){ //
             Log.v(TAG, "scan success");
             //todo trigger rider rating by removing request from firebase
-            double prevDeposit = driver.getDeposit();
+            /*double prevDeposit = driver.getDeposit();
             driver.setDeposit(prevDeposit + Double.parseDouble(qrPayment));
             driverDatabaseAccessor.updateDriverProfile(driver,this);
             Toast.makeText(this, "You have successfully received " + qrPayment +
-                    " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
+                    " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();*/
 
             //driver complete the request and trigger the rider to rate.
             Log.v(TAG, "handleResult, driverCompleteRequest() is called...");
@@ -133,8 +133,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
                 Toast.makeText(DriverScanPaymentActivity.this, "Guess you " +
                                 "decided to donate your earning to the HopInNow Team, thanks! :D"
                         , Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(DriverScanPaymentActivity.this,
-                        DriverMapActivity.class);
+                Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
                 startActivity(intent);
             }
         }
@@ -192,9 +191,11 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverRequestCompleteSuccess() {
-        Log.v(TAG, "driver request completed.");
-        Log.v(TAG, "now driver is WAITING ON RATING!!!!");
-        driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
+        double prevDeposit = driver.getDeposit();
+        driver.setDeposit(prevDeposit + Double.parseDouble(this.qrPayment));
+        driverDatabaseAccessor.updateDriverProfile(driver,this);
+        Toast.makeText(this, "You have successfully received " + this.qrPayment +
+                " QR bucks for your completed ride!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -219,20 +220,20 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
         Date current_time = new Date();
-
-
+        Log.v(TAG, "trying to add in the new trip...");
         ArrayList<Trip> driverTripList = this.driver.getDriverTripList();
         if(driverTripList == null){
+            Log.v(TAG, "driverTripList is null");
             driverTripList = new ArrayList<>();
-
         }
         driverTripList.add(new Trip(curRequest.getDriverEmail(),curRequest.getRiderEmail(),
                 curRequest.getPickUpLoc(),curRequest.getDropOffLoc(),
                 curRequest.getPickUpLocName(),curRequest.getDropOffLocName(),
-                (Date)curRequest.getPickUpDateTime(),  (Date)current_time,
+                curRequest.getPickUpDateTime(), current_time,
                 (int)Math.abs(current_time.getTime() -
                         curRequest.getPickUpDateTime().getTime()),
                 curRequest.getCar(),curRequest.getEstimatedFare(),curRequest.getRating()));
+        Log.v(TAG, "driver trip added!!!!!!!");
         this.driver.setDriverTripList(driverTripList);
         driverDatabaseAccessor.updateDriverProfile(this.driver,this);
         Log.v(TAG, "driver profile retrieved.");
@@ -251,7 +252,9 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         Log.v(TAG, "now to go to driver map activity...");
         Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
         startActivity(intent);
-        finish();
+        Log.v(TAG, "driver request completed.");
+        Log.v(TAG, "now driver is WAITING ON RATING!!!!");
+        driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.hopinnow.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,6 +36,7 @@ import java.util.Date;
  */
 public class TripListActivity extends AppCompatActivity implements DriverProfileStatusListener,
         UserProfileStatusListener, RiderProfileStatusListener {
+    public static final String TAG = "TripListActivity";
     ListView tripList;
     ArrayAdapter<Trip> tripAdapter;;
     ArrayList<Trip> tripDataList = new ArrayList<>();
@@ -57,7 +59,14 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
 
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
-        this.tripDataList = driver.getDriverTripList();
+        this.currentDriver = driver;
+        this.tripDataList = this.currentDriver.getDriverTripList();
+        // DEBUG:
+        if (this.tripDataList != null) {
+            for (Trip trip : this.tripDataList) {
+                Log.v(TAG, trip.getDropOffLocName());
+            }
+        }
         if (this.tripDataList != null) {
             tripAdapter = new CustomTripList(this.getApplicationContext(), this.tripDataList);
             tripList.setAdapter(tripAdapter);
