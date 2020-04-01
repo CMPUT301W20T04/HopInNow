@@ -219,7 +219,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             myRating = (double) ratingBar.getRating();
             if (myRating!= -1.0){
                 completeRequest(myRating);
-                setNewDriverRating(myRating);
             } else {
                 Toast.makeText(RiderPaymentActivity.this, "Please select your " +
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
@@ -254,8 +253,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * @param r
      *      the new rating
      */
-    private void setNewDriverRating(double r){
-
+    private void setNewDriverRating(double r) {
         Double prevRating = driver.getRating();
         int counts = driver.getRatingCounts();
         Double newRating = (prevRating + r)/(counts+1);
@@ -413,7 +411,17 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRiderProfileRetrieveFailure() {}
 
     @Override
-    public void onRiderProfileUpdateSuccess(Rider rider) {}
+    public void onRiderProfileUpdateSuccess(Rider rider) {
+        if (this.myRating == null) {
+            Log.v(TAG, "this.myRating is null !!!!!!!!!!!");
+        }
+        if (this.driver == null) {
+            Log.v(TAG, "this.driver is null !!!!!!!!!!!");
+        }
+        if (this.myRating != null && this.driver != null) {
+            setNewDriverRating(myRating);
+        }
+    }
 
     @Override
     public void onRiderProfileUpdateFailure() {}
