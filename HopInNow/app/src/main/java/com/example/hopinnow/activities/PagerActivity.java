@@ -15,6 +15,8 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.helperclasses.SharedPreference;
 
 //https://guides.codepath.com/android/viewpager-with-fragmentpageradapter
+//use code in Layout ViewPager, Define Fragments, Setup FragmentPagerAdapter,Apply the Adapter
+//Setup OnPageChangeListener
 /**
  * Author: Qianxi Li
  * This is introduction page for the user.
