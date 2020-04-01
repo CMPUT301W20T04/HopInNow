@@ -470,30 +470,30 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
                 fragWatingDriver.setArguments(bundle);
                 t.beginTransaction().replace(R.id.fragment_place, fragWatingDriver)
-                        .commit();
+                        .commitAllowingStateLoss();
                 break;
             case R.layout.fragment_rider_driver_offer:
                 fragWatingDriver.endChronometer();
                 t.beginTransaction().replace(R.id.fragment_place, new RiderDriverOfferFragment())
-                        .commit();
+                        .commitAllowingStateLoss();
                 break;
             case -1:
-                t.beginTransaction().replace(R.id.fragment_place, fragWatingDriver).commit();
+                t.beginTransaction().replace(R.id.fragment_place, fragWatingDriver).commitAllowingStateLoss();
                 break;
             case R.layout.fragment_rider_waiting_pickup:
                 t.beginTransaction()
                         .replace(R.id.fragment_place, new RiderWaitingPickupFragment())
-                        .commit();
+                        .commitAllowingStateLoss();
                 break;
             case R.layout.fragment_rider_pickedup:
                 t.beginTransaction()
                         .replace(R.id.fragment_place, new RiderPickedUpFragment())
-                        .commit();
+                        .commitAllowingStateLoss();
                 break;
             case R.layout.fragment_rider_confirm_dropoff:
                 t.beginTransaction()
                         .replace(R.id.fragment_place, new RiderConfirmDropOffFragment())
-                        .commit();
+                        .commitAllowingStateLoss();
                 break;
             case 1:
                 Toast.makeText(getApplicationContext(), "You have arrived!", Toast.LENGTH_SHORT).show();
