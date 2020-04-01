@@ -110,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Time"
+                    android:text=""
                     android:textColor="@color/ColorBlack"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="From"
+                    android:text=""
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -160,7 +160,7 @@
                     android:textColor="@color/ColorBlack"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="To  "
+                    android:text=""
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="75dp" />
@@ -193,7 +193,7 @@
                     android:layout_width="match_parent"
                     android:textColor="@color/ColorBlack"
                     android:layout_height="wrap_content"
-                    android:text="Estimated Fare"
+                    android:text=""
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="94dp" />
