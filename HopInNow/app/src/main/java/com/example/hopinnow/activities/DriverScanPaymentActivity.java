@@ -255,7 +255,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             Log.v(TAG, "now driver is WAITING ON RATING!!!!");
             driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
         } else {
-            rated = false;Log.v(TAG, "driver profile updated.");
+            rated = false;
+            Log.v(TAG, "driver profile updated.");
             Log.v(TAG, "now to go to driver map activity...");
             driverRequestDatabaseAccessor.deleteRequest(this);
             Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
