@@ -93,19 +93,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="My Request: "
-                android:textColor="@color/ColorBlack"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="From "
                 android:textColor="@color/ColorBlack"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/rider_waiting_pickUp"
@@ -121,6 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="To "
+                android:textStyle="bold"
                 android:textColor="@color/ColorBlack"
                 android:textSize="15sp" />
 
@@ -141,10 +135,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Estimated Fare:          $"
+                    android:textStyle="bold"
+                    android:text="Estimated Fare:          "
                     android:textColor="@color/quantum_black_100"
                     android:textSize="15sp" />
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$"
+                    android:textColor="@color/quantum_black_100"
+                    android:textSize="15sp" />
                 <TextView
                     android:id="@+id/rider_waiting_fare"
                     android:layout_width="wrap_content"

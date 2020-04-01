@@ -300,8 +300,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case -1:
-                Toast.makeText(this,"Request is cancelled by rider. Please find" +
-                        "a new request.", Toast.LENGTH_SHORT).show();
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
                 startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
