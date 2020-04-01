@@ -93,6 +93,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             //todo trigger rider rating by removing request from firebase
             double prevDeposit = driver.getDeposit();
             driver.setDeposit(prevDeposit + Double.parseDouble(qrPayment));
+            driverDatabaseAccessor.updateDriverProfile(driver,this);
             Toast.makeText(this, "You have successfully received " + qrPayment +
                     " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();
 
