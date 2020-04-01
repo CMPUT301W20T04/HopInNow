@@ -224,20 +224,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         curRequest.setRating(rating);
         curRequest.setEstimatedFare(totalPayment);
         riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
-
-        Trip newTrip = toTrip();
-        ArrayList<Trip> riderTripList = rider.getRiderTripList();
-        if (riderTripList==null){
-            riderTripList = new ArrayList<>();
-        }
-        riderTripList.add(newTrip);
-        this.rider.setRiderTripList(riderTripList);
-        riderDatabaseAccessor.updateRiderProfile(this.rider,RiderPaymentActivity.this);
-
-        // change activity
-        Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
-        intent.putExtra("Current_Request_To_Null", "cancel");
-        startActivity(intent);
     }
 
 
@@ -429,7 +415,12 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRiderProfileRetrieveFailure() {}
 
     @Override
-    public void onRiderProfileUpdateSuccess(Rider rider) {}
+    public void onRiderProfileUpdateSuccess(Rider rider) {
+        // change activity
+        Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
+        intent.putExtra("Current_Request_To_Null", "cancel");
+        startActivity(intent);
+    }
 
     @Override
     public void onRiderProfileUpdateFailure() {}
@@ -488,7 +479,16 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     }
 
     @Override
-    public void onRequestRatedSuccess() {}
+    public void onRequestRatedSuccess() {
+        Trip newTrip = toTrip();
+        ArrayList<Trip> riderTripList = rider.getRiderTripList();
+        if (riderTripList==null){
+            riderTripList = new ArrayList<>();
+        }
+        riderTripList.add(newTrip);
+        this.rider.setRiderTripList(riderTripList);
+        riderDatabaseAccessor.updateRiderProfile(this.rider,RiderPaymentActivity.this);
+    }
 
     @Override
     public void onRequestRatedError() {}
