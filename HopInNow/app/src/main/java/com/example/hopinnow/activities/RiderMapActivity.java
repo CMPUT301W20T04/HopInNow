@@ -3,6 +3,7 @@ package com.example.hopinnow.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,7 +47,6 @@ import com.example.hopinnow.entities.EstimateFare;
 import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
-import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
@@ -119,7 +119,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
 
     // progress bar here:
-    private ProgressbarDialog progressbarDialog;
+    private ProgressDialog progressDialog;
     private UserDatabaseAccessor userDatabaseAccessor;
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
@@ -181,8 +181,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         // let the progress bar show:
-        this.progressbarDialog = new ProgressbarDialog(this);
-        this.progressbarDialog.startProgressbarDialog();
+        this.progressDialog = new ProgressDialog(this);
+        this.progressDialog.show();
         riderDatabaseAccessor.getRiderProfile(this);
         this.userDatabaseAccessor = new UserDatabaseAccessor();
     }
@@ -284,7 +284,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     dropOffLocName, dateTime,null, estimatedFare);
             saveCurrentRequestLocal(curRequest);
             // save current Request to firebase
-            this.progressbarDialog.startProgressbarDialog();
+            this.progressDialog.show();
             // this add a new request:
             riderRequestDatabaseAccessor.addUpdateRequest(curRequest,this);
         } else {
@@ -510,6 +510,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * Cancels current request of the rider and return to initial location search prompt page.
      */
     public void cancelRequestLocal(){
+<<<<<<< HEAD
+        this.progressDialog.dismiss();
+        this.progressDialog.show();
+        this.riderRequestDatabaseAccessor.deleteRequest(this);
+=======
         this.progressbarDialog.dismissDialog();
         this.progressbarDialog.startProgressbarDialog();
         //clear all fragments
@@ -541,6 +546,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             Toast.makeText(this,"The request is cancelled successfully!",
                     Toast.LENGTH_SHORT).show();
         }
+>>>>>>> 0b53a54a154beda2991b1dddd510bd2b653fbcf6
     }
 
     /**
@@ -835,7 +841,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         this.rider = rider;
     }
 
@@ -927,7 +933,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         this.driver = driver;
         if (!driverDecided){
             switchFragment(R.layout.fragment_rider_driver_offer);
@@ -946,7 +952,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         searchFragment.setVisibility(View.GONE);
         //Mock
         findViewById(R.id.mock).setVisibility(View.GONE);
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
     }
 
@@ -955,7 +961,39 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRequestDeleteSuccess() {
+<<<<<<< HEAD
+        //clear all fragments
+        FrameLayout fl = findViewById(R.id.fragment_place);
+        fl.removeAllViews();
+        //set curRequest to null
+        fragWatingDriver = new RiderWaitingDriverFragment();
+        curRequest = null;
+        saveCurrentRequestLocal(null);
+        baseFare = 0.00;
+        driverDecided = false;
+        pickedUp = false;
+        pickUpLocName = null;
+        dropOffLocName= null;
+        switchMarkerDraggable();
+        if ((pickUpMarker!=null) && (dropOffMarker!=null)){
+            pickUpMarker.setVisible(false);
+            dropOffMarker.setVisible(false);
+        }
+        //return to initial prompt of location searching
+        View searchFragment = findViewById(R.id.search_layout);
+        findViewById(R.id.mock).setVisibility(View.INVISIBLE);
+        searchFragment.setVisibility(View.VISIBLE);
+        pickUpAutoComplete.setText("");
+        dropOffAutoComplete.setText("");
+        myLocPickUpBtn.setVisibility(View.VISIBLE);
+        this.progressDialog.dismiss();
+        if (!tripCompleted){
+            Toast.makeText(this,"The request is cancelled successfully!",
+                    Toast.LENGTH_SHORT).show();
+        }
+=======
 
+>>>>>>> 0b53a54a154beda2991b1dddd510bd2b653fbcf6
     }
 
     @Override

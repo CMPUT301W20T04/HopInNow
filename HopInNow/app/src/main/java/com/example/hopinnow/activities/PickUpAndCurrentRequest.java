@@ -1,16 +1,15 @@
 package com.example.hopinnow.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,17 +19,13 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
-import com.example.hopinnow.entities.Trip;
-import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -53,7 +48,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     // Shway Wang added this:
-    private ProgressbarDialog progressbarDialog;
+    private ProgressDialog progressDialog;
     private Context context;
     Button pickUpButton;
     Button dropOffButton;
@@ -63,7 +58,8 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        this.progressbarDialog = new ProgressbarDialog(this.getContext());
+        this.progressDialog = new ProgressDialog(this.getContext());
+        this.progressDialog.setContentView(R.layout.custom_progress_bar);
         driverDatabaseAccessor = new DriverDatabaseAccessor();
         int display_mode;
         //here get the driver from database
