@@ -75,6 +75,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
     private Dialog dialog;
+    private boolean dialogShown = false;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +144,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 confirmPaymentBtn.setVisibility(View.GONE);
                 showTotalBtn.setEnabled(false);
                 riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
-                //onScanningCompleted();
             }
             });
 
@@ -193,11 +193,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         double newDepositAmount = rider.getDeposit()-totalPayment;
         rider.setDeposit(newDepositAmount);
         riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
-
-        String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
-        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
-        //todo for testing auto show rating dialog
-        showRatingDialog();
     }
 
     /**
@@ -218,7 +213,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         submitBtn.setOnClickListener(v -> {
             myRating = (double) ratingBar.getRating();
             if (myRating!= -1.0){
-                completeRequest(myRating);
+                finishRequest(myRating);
             } else {
                 Toast.makeText(RiderPaymentActivity.this, "Please select your " +
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
@@ -229,8 +224,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         //cancel rating and complete request
         Button cancelBtn = dialog.findViewById(R.id.dialog_rating_cancel);
-        cancelBtn.setOnClickListener(v -> completeRequest(0));
-
+        cancelBtn.setOnClickListener(v -> finishRequest(0));
+        // Shway Added This:
+        this.dialogShown = true;
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
 
@@ -243,7 +239,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 Toast.makeText(RiderPaymentActivity.this,"Rating cancelled due to " +
                                 "inactivity over 3 minutes.",
                         Toast.LENGTH_SHORT).show();
-                completeRequest(-1.00);
+                finishRequest(-1.00);
             }
         }.start();
     }
@@ -266,7 +262,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     /**
      * Completes current request and returns rider to the new request prompt page.
      */
-    private void completeRequest(double rating){
+    private void finishRequest(double rating){
         String msg = "Your trip is completed!";
         Log.v(TAG,"rider completing request...");
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
@@ -412,14 +408,22 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRiderProfileUpdateSuccess(Rider rider) {
-        if (this.myRating == null) {
-            Log.v(TAG, "this.myRating is null !!!!!!!!!!!");
-        }
-        if (this.driver == null) {
-            Log.v(TAG, "this.driver is null !!!!!!!!!!!");
-        }
-        if (this.myRating != null && this.driver != null) {
-            setNewDriverRating(myRating);
+        if (dialogShown) {
+            if (this.myRating == null) {
+                Log.v(TAG, "this.myRating is null !!!!!!!!!!!");
+            }
+            if (this.driver == null) {
+                Log.v(TAG, "this.driver is null !!!!!!!!!!!");
+            }
+            if (this.myRating != null && this.driver != null) {
+                setNewDriverRating(myRating);
+            }
+        } else {
+            String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
+            Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
+            //todo for testing auto show rating dialog
+            this.dialogShown = true;
+            showRatingDialog();
         }
     }
 
