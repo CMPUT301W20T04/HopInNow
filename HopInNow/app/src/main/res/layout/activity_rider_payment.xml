@@ -23,8 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="Payment"
+            android:layout_marginTop="5dp"
             android:textColor="@color/ColorWhite"
-            android:textSize="40sp" />
+            android:textSize="35sp" />
 
     </LinearLayout>
 
@@ -36,7 +37,7 @@
         android:layout_marginTop="96dp"
         android:gravity="center"
         android:text="Please press confirm to show your QR bucks! "
-        android:textColor="@color/quantum_black_100"
+        android:textColor="@color/ColorBlack"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Tips: "
-            android:textColor="@color/quantum_black_100"
+            android:textColor="@color/ColorBlack"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -159,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Total Payment:    "
-            android:textColor="@color/quantum_black_100"
+            android:textColor="@color/ColorBlack"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -167,7 +168,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="  $"
-            android:textColor="@color/quantum_black_100"
+            android:textColor="@color/ColorBlack"
             android:textSize="19sp" />
 
         <TextView
@@ -175,7 +176,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sample"
-            android:textColor="@color/quantum_black_100"
+            android:textColor="@color/ColorBlack"
             android:textSize="19sp" />
 
         <Button

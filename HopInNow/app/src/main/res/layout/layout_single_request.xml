@@ -113,7 +113,7 @@
                 <Button
                     android:id="@+id/accept_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="22dp"
+                    android:layout_height="23dp"
                     android:layout_marginRight="6dp"
                     android:layout_marginBottom="6dp"
                     android:background="@drawable/orange_full_all_round_corner"
