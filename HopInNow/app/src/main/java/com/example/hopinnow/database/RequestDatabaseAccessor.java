@@ -11,10 +11,12 @@ import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -32,6 +34,10 @@ import static java.util.Objects.requireNonNull;
 public class RequestDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
     final String referenceName = "availableRequests";
+    // this is for all snapshot listeners to share:
+    ListenerRegistration listenerRegistration;
+    // this is just for the requestlist snapshot listener:
+    private ListenerRegistration requestListListenerRegistration;
     /**
      * Default constructor, calls super();
      */
@@ -142,10 +148,9 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      *      otherwise, onFailure.
      */
     public void listenOnAllRequests(LatLong latLong, final AvailRequestListListener listener) {
-        this.firestore
-                .collection(referenceName)
-                .whereEqualTo("driverEmail", null)
-                .addSnapshotListener((value, e) -> {
+        Query query = this.firestore.collection(this.referenceName)
+                .whereEqualTo("driverEmail", null);
+        this.requestListListenerRegistration = query.addSnapshotListener((value, e) -> {
                     Log.v(TAG, "an event happened!");
                     if (e != null) {
                         Log.v(TAG, "event listening failed.", e);
@@ -169,6 +174,12 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     Collections.sort(requests);
                     listener.onAllRequestsUpdateSuccess(requests);
                 });
+    }
 
+    /**
+     * This method removes the requestListListenerRegistration:
+     */
+    public void removeRequestListListenerRegistration() {
+        this.requestListListenerRegistration.remove();
     }
 }

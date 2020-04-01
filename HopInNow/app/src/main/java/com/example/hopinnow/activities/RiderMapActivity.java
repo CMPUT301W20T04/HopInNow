@@ -47,7 +47,6 @@ import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
-import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
@@ -69,11 +68,11 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -123,6 +122,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
 
+    // Shway added ListenerRegistration:
+    ListenerRegistration listenerRegistration;
     @SuppressLint({"CheckResult", "MissingPermission"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
