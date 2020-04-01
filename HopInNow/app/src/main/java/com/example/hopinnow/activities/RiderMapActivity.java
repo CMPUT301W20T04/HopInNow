@@ -182,7 +182,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         // let the progress bar show:
         this.progressbarDialog = new ProgressbarDialog(this);
-        //this.progressbarDialog.startProgressbarDialog();
+        this.progressbarDialog.startProgressbarDialog();
         riderDatabaseAccessor.getRiderProfile(this);
         this.userDatabaseAccessor = new UserDatabaseAccessor();
     }
