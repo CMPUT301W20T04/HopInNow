@@ -109,6 +109,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Button myLocPickUpBtn;
     private boolean driverDecided = false;
     private boolean pickedUp = false;
+    private boolean tripCompleted = false;
     private boolean newOffer = true;
     private double baseFare;
 
@@ -181,7 +182,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         // let the progress bar show:
         this.progressbarDialog = new ProgressbarDialog(this);
-        this.progressbarDialog.startProgressbarDialog();
+        //this.progressbarDialog.startProgressbarDialog();
         riderDatabaseAccessor.getRiderProfile(this);
         this.userDatabaseAccessor = new UserDatabaseAccessor();
     }
@@ -195,6 +196,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onStart();
         String caseCancel = getIntent().getStringExtra("Current_Request_To_Null");
         if (Objects.equals(caseCancel, "cancel")) {
+            tripCompleted = true;
             cancelRequestLocal();
         }
         // MOCK FOR INTENT TESTING
@@ -509,7 +511,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      */
     public void cancelRequestLocal(){
         this.progressbarDialog.startProgressbarDialog();
-        //this.riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(-1,this);
         this.riderRequestDatabaseAccessor.deleteRequest(this);
     }
 
@@ -953,8 +954,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         dropOffAutoComplete.setText("");
         myLocPickUpBtn.setVisibility(View.VISIBLE);
         this.progressbarDialog.dismissDialog();
-        Toast.makeText(this,"The request is cancelled succesfully!",Toast.LENGTH_SHORT)
-                .show();
+        if (!tripCompleted){
+            Toast.makeText(this,"The request is cancelled successfully!",Toast.LENGTH_SHORT)
+                    .show();
+        }
+
     }
 
     @Override

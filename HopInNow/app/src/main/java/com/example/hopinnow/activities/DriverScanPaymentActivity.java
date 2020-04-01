@@ -99,9 +99,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
             //driver complete the request and trigger the rider to rate.
             driverRequestDatabaseAccessor.driverCompleteRequest(curRequest,this);
-
-            Intent intent = new Intent(DriverScanPaymentActivity.this, DriverMapActivity.class);
-            startActivity(intent);
         } else {
             Toast.makeText(this, "This QR code does not belong to the trip " +
                     "that you have completed.", Toast.LENGTH_SHORT).show();
@@ -244,6 +241,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
         driverRequestDatabaseAccessor.deleteRequest(this);
+        Intent intent = new Intent(DriverScanPaymentActivity.this, DriverMapActivity.class);
+        startActivity(intent);
     }
 
     @Override
