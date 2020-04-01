@@ -31,6 +31,7 @@ import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -92,7 +93,8 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         requestFromText.setText(request.getPickUpLocName());
         requestToText.setText( request.getDropOffLocName());
         requestTimeText.setText(request.getPickUpDateTime().toString());
-        requestCostText.setText(request.getEstimatedFare().toString());
+        requestCostText.setText(String.format(Locale.CANADA,
+                "%.2f", request.getEstimatedFare()));
         if (request==null){
             requestFromText.setText("From: pick up location ui test" );
             requestToText.setText("To: drop off location ui test");

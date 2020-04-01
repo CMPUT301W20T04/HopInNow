@@ -855,6 +855,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             curRequest.setCar(null);
             saveCurrentRequestLocal(curRequest);
         }
+        riderRequestDatabaseAccessor.riderWaitForRequestAcceptance(this);
     }
 
     @Override
