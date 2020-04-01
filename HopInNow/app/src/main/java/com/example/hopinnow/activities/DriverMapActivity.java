@@ -183,6 +183,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                     0, 0, this);
+                            if (mMap!=null){
+                                mMap.setMyLocationEnabled(true);
+                            }
                         }
                     });
         } else {
