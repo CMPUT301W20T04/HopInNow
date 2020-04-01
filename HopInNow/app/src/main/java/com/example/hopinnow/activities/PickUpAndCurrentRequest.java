@@ -81,12 +81,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             driverDatabaseAccessor.getDriverProfile(this);
         }
 
-        if (request==null){
-            requestFromText.setText("From: pick up location ui test" );
-            requestToText.setText("To: drop off location ui test");
-            requestTimeText.setText("Time: right now ui test" );
-            requestCostText.setText("Estimate Fare: fare ui test");
-        }
+
 
 
         return view;
@@ -96,14 +91,17 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
-        this.request = this.driver.getCurRequest();
-        if (this.request == null) {
-            return;
+        request = driver.getCurRequest();
+        requestFromText.setText(request.getPickUpLocName());
+        requestToText.setText( request.getDropOffLocName());
+        requestTimeText.setText(request.getPickUpDateTime().toString());
+        requestCostText.setText(request.getEstimatedFare().toString());
+        if (request==null){
+            requestFromText.setText("From: pick up location ui test" );
+            requestToText.setText("To: drop off location ui test");
+            requestTimeText.setText("Time: right now ui test" );
+            requestCostText.setText("Estimate Fare: fare ui test");
         }
-        requestFromText.setText(this.request.getPickUpLocName());
-        requestToText.setText(this.request.getDropOffLocName());
-        requestTimeText.setText(this.request.getPickUpDateTime().toString());
-        requestCostText.setText(this.request.getEstimatedFare().toString());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
         if (!request.isPickedUp()) {
             // the fragment that display the pickup button and request information
