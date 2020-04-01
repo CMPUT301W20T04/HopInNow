@@ -2,26 +2,16 @@ package com.example.hopinnow;
 
 import android.app.Activity;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 
-import android.os.SystemClock;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.hopinnow.activities.LoginActivity;
-import com.example.hopinnow.activities.RiderConfirmDropOffFragment;
-import com.example.hopinnow.activities.RiderDriverOfferFragment;
 import com.example.hopinnow.activities.RiderMapActivity;
 
-import com.example.hopinnow.activities.RiderPickedUpFragment;
-import com.example.hopinnow.activities.RiderWaitingDriverFragment;
-import com.example.hopinnow.activities.RiderWaitingPickupFragment;
-import com.google.android.gms.maps.model.Marker;
 import com.robotium.solo.Solo;
 import org.junit.After;
 import org.junit.Before;
