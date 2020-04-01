@@ -287,8 +287,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
                 startUpMock.setVisibility(View.VISIBLE);
                 myLocStartUpBtn.setVisibility(View.VISIBLE);
-                t.beginTransaction().replace(R.id.fragment_place, new RequestListFragment())
-                        .commit();
+                t.beginTransaction()
+                        .replace(R.id.fragment_place, new RequestListFragment())
+                        .commitAllowingStateLoss();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case -1:
