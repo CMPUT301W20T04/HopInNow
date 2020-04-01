@@ -2,10 +2,9 @@ package com.example.hopinnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,7 +14,6 @@ import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.User;
-import com.example.hopinnow.helperclasses.ProgressbarDialog;
 import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.RegisterStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
@@ -39,7 +37,7 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
     // finish registration button:
     private Button finishBtn;
     // alert progress dialog:
-    private ProgressbarDialog progressbarDialog;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +53,14 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
         this.plateNumber = findViewById(R.id.vehPlateEt);
         this.finishBtn = findViewById(R.id.vehicleToFinishBtn);
         // init progress bar:
-        this.progressbarDialog = new ProgressbarDialog(this);
+        this.progressDialog = new ProgressDialog(this);
+        this.progressDialog.setContentView(R.layout.custom_progress_bar);
     }
     @Override
     protected void onStart() {
         super.onStart();
         this.finishBtn.setOnClickListener(view -> {
-            progressbarDialog.startProgressbarDialog();
+            progressDialog.show();
             String makeData = make.getText().toString();
             String modelData = model.getText().toString();
             String colorData = color.getText().toString();
@@ -75,7 +74,7 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
     @Override
     public void onLoginSuccess() {
         // first dismiss the progress bar:
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         // initialize intent to go to the ProfileActivity:
         Intent intent = new Intent(getApplicationContext(), DriverMapActivity.class);
         Bundle bundle = new Bundle();
@@ -92,7 +91,7 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
 
     @Override
     public void onLoginFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         Toast.makeText(getApplicationContext(),
                 "Driver login failed, try again later!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -109,7 +108,7 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
 
     @Override
     public void onRegisterFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         Toast.makeText(getApplicationContext(),
                 "Register failed, try again later!", Toast.LENGTH_SHORT).show();
     }
@@ -137,26 +136,26 @@ public class RegisterVehicleInfoActivity extends AppCompatActivity implements Lo
 
     @Override
     public void onProfileStoreFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 
     @Override
     public void onProfileRetrieveSuccess(User user) {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 
     @Override
     public void onProfileRetrieveFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 
     @Override
     public void onProfileUpdateSuccess(User user) {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 
     @Override
     public void onProfileUpdateFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 }
