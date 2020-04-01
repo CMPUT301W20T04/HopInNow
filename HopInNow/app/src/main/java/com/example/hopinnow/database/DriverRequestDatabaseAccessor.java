@@ -81,7 +81,8 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      * @param listener
      *      the listener for the request
      */
-    public void driverListenOnRequestBeforeArrive(Request request, final DriverRequestListener listener) {
+    public void driverListenOnRequestBeforeArrive(Request request,
+                                                  final DriverRequestListener listener) {
         String requestID = request.getRequestID();
         DocumentReference ref = this.firestore
                 .collection(super.referenceName)

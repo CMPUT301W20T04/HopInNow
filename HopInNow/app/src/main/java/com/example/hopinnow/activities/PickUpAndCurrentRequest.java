@@ -129,7 +129,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             });
         } else {
             // switch to a fragment that display the request information and drop off button.
-            dropOffButton.setOnClickListener((View.OnClickListener) v -> {
+            dropOffButton.setOnClickListener(v -> {
                 //((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                 // move this request from curRequest to trip
                 //request parameters:
