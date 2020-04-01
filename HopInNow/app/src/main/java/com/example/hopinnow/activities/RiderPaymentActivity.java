@@ -3,6 +3,7 @@ package com.example.hopinnow.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -149,33 +151,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (this.dialog != null) {
-            this.dialog.dismiss();
-            this.dialog = null;
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (this.dialog != null) {
-            this.dialog.dismiss();
-            this.dialog = null;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (this.dialog != null) {
-            this.dialog.dismiss();
-            this.dialog = null;
-        }
-    }
-
     /**
      * Determines the rider selected tip amount.
      * @param view
@@ -224,6 +199,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * Shows dialog that prompts rider to rate the driver of corresponding trip.
      */
     public void showRatingDialog() {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setContentView(R.layout.custom_progress_bar);
+        progressDialog.show();
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_rider_rating);
 
@@ -268,6 +246,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 finishRequest(-1.00);
             }
         }.start();
+        progressDialog.dismiss();
     }
 
     /**
@@ -545,7 +524,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         intent.putExtra("Current_Request_To_Null", "cancel");
         startActivity(intent);
         if (this.dialog != null) {
+            this.dialog.hide();
             this.dialog.dismiss();
+            this.dialog.cancel();
             this.dialog = null;
         }
         finish();
