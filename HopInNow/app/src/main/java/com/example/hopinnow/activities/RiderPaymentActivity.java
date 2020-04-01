@@ -135,10 +135,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 Gson gsonPay = new Gson();
                 String encodedMsg= "driverEmail" + driver.getEmail() + "DriverEmail" +
                         "totalPayment" + totalPayment + "TotalPayment";
-                String serializePay = gsonPay.toJson(encodedMsg);
+                //String serializePay = gsonPay.toJson(encodedMsg);
                 Bitmap bitmap = QRCodeHelper
                         .newInstance(RiderPaymentActivity.this)
-                        .setContent(serializePay)
+                        .setContent(encodedMsg)
                         .setMargin(1)
                         .generateQR();
                 qrImage.setImageBitmap(bitmap);

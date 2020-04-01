@@ -47,7 +47,6 @@ import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.helperclasses.ProgressbarDialog;
-import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
@@ -69,11 +68,11 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -114,6 +113,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
+    private RiderDatabaseAccessor riderDatabaseAccessor;
     private RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
 
     // progress bar here:
@@ -122,6 +122,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
 
+    // Shway added ListenerRegistration:
+    ListenerRegistration listenerRegistration;
     @SuppressLint({"CheckResult", "MissingPermission"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +177,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
+        this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         // let the progress bar show:
         this.progressbarDialog = new ProgressbarDialog(this);
         this.progressbarDialog.startProgressbarDialog();
@@ -209,6 +212,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         // sets button for adding new request
         Button addRequestBtn = findViewById(R.id.add_request_button);
+        // this is the HopinNow button:
         addRequestBtn.setOnClickListener(v -> {
             //mock, for UI test
             if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
@@ -221,6 +225,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             if ((pickUpLocName!=null)&&(dropOffLocName!=null)){
                 if (validLocations()){
                     switchMarkerDraggable();
+                    // this method adds a new request:
                     setNewRequest();
                 }
             } else {
@@ -241,6 +246,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             menuUserName.setText(rider.getName());
             drawerLayout.openDrawer(GravityCompat.START);
         });
+        riderDatabaseAccessor.getRiderProfile(this);
+
 
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
@@ -271,6 +278,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             saveCurrentRequestLocal(curRequest);
             // save current Request to firebase
             this.progressbarDialog.startProgressbarDialog();
+            // this add a new request:
             riderRequestDatabaseAccessor.addUpdateRequest(curRequest,this);
         } else {
             Toast.makeText(this, "Sorry, you do not have enough deposit for this " +
@@ -815,7 +823,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderRequestAcceptedNotify(Request mRequest) {
         curRequest = mRequest;
         String dEmail = curRequest.getDriverEmail();
-
         driverDatabaseAccessor.getDriverObject(dEmail,this);
         //newOffer = false;
     }
@@ -832,7 +839,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRiderDeclineDriverRequest() {
-        if (!this.driverDecided){
+        if (!this.driverDecided) {
             switchFragment(-1);
             riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(0,
                     RiderMapActivity.this);
