@@ -36,6 +36,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 /**
  * Author: Tianyu Bai
+ * Co-author: Qianxi Li
  * This class deals with the QR code and the payment process:
  */
 public class DriverScanPaymentActivity extends AppCompatActivity

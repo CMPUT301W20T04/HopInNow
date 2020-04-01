@@ -13,6 +13,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
 //https://guides.codepath.com/android/viewpager-with-fragmentpageradapter
+
+/**
+ * Author: Qianxi Li
+ * This is introduction page for the user.
+ * state the content of the activity
+ */
 public class IntroFragment extends Fragment {
     private ImageView imageView;
     private static final String SectionNumber = "number";
@@ -21,6 +27,12 @@ public class IntroFragment extends Fragment {
       R.drawable.shway2,
       R.drawable.shway3, R.drawable.shway4, R.drawable.zhiqi
     };
+
+    /**
+     * initralize the Introfragment with certain sectionNumber
+     * @param sectionNumber
+     * @return a fragment
+     */
     public static IntroFragment newInstance(int sectionNumber) {
         IntroFragment fragment = new IntroFragment();
         Bundle args = new Bundle();
@@ -29,6 +41,13 @@ public class IntroFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * create view for the IntroFragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return a view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

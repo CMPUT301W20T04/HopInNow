@@ -15,6 +15,11 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.helperclasses.SharedPreference;
 
 //https://guides.codepath.com/android/viewpager-with-fragmentpageradapter
+/**
+ * Author: Qianxi Li
+ * This is introduction page for the user.
+ * Appear when the first time you use the app
+ */
 public class PagerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button finishButton;
     private Button nextPageButton;
