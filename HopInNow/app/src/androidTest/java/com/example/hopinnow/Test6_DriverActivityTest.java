@@ -104,20 +104,18 @@ public class Test6_DriverActivityTest {
         solo.clickOnView(solo.getView(R.id.mock_next_pickUpRider));
         assertTrue(solo.waitForText("Information", 1, 2000));
 
-        solo.clickOnButton("PICKED UP RIDER");
+        solo.clickOnView(solo.getView(R.id.PickUpRiderButton));
         assertTrue(solo.waitForText("EMERGENCY", 1, 2000));
 
-        solo.clickOnButton("EMERGENCY CALL");
+        solo.clickOnView(solo.getView(R.id.EmergencyCall));
         solo.goBack();
 
-        solo.clickOnButton("TRIP FINISHED");
+        solo.clickOnView(solo.getView(R.id.dropOffRiderButton));
         if (solo.waitForText("Allow", 1, 2000)){
             solo.clickOnButton("Allow");
         } else {
             assertTrue(solo.waitForText("QR", 1, 2000));
         }
-
-        logoutUser();
 
         Thread.sleep(2000);
     }

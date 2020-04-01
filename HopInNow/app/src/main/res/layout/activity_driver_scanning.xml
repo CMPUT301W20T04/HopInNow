@@ -36,7 +36,9 @@
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.366" />
+        app:layout_constraintVertical_bias="0.366" >
+
+    </me.dm7.barcodescanner.zxing.ZXingScannerView>
 
     <TextView
         android:id="@+id/scanning_description"

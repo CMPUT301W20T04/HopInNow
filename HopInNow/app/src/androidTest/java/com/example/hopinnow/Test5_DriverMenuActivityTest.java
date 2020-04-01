@@ -53,7 +53,7 @@ public class Test5_DriverMenuActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case1_checkMenu() throws InterruptedException {
         Thread.sleep(2000);
 
@@ -116,7 +116,7 @@ public class Test5_DriverMenuActivityTest {
 
         //test offline
         solo.clickOnMenuItem("Offline");
-        assertTrue(solo.waitForText("HOP",1,2000));
+        assertTrue(solo.waitForText("SEARCH",1,2000));
 
         // log out
         solo.clickOnView(solo.getView(R.id.driverMenuBtn));

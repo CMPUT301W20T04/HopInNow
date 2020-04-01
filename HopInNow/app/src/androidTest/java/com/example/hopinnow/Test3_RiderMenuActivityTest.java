@@ -49,14 +49,7 @@ public class Test3_RiderMenuActivityTest {
     }
 
 
-    /**
-     * Gets the Activity
-     * @throws Exception
-     */
-    //@Test
-    public void start() throws Exception {
-        Activity activity = rule.getActivity();
-    }
+
 
 
     /**
@@ -64,7 +57,7 @@ public class Test3_RiderMenuActivityTest {
       * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-   // @Test
+    @Test
     public void Case1_checkMenu() throws InterruptedException {
         Thread.sleep(2000);
 
@@ -96,8 +89,9 @@ public class Test3_RiderMenuActivityTest {
         assertTrue(solo.waitForText("updated!",1,2000));
 
         // log out
-        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+        solo.goBack();
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnMenuItem("Log Out");
     }
 
 

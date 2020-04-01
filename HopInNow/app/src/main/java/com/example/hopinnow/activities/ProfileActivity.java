@@ -2,19 +2,27 @@ package com.example.hopinnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hopinnow.R;
+import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
+import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
+import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
+import com.google.api.Distribution;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -38,6 +46,9 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     private TextView email;
     private TextView deposit;
     private TextView userType;
+    private TextView rating;
+    private LinearLayout ratingLayout;
+    private String driverRating;
     private Button editBtn;
     private Button updateBtn;
     private Button logoutButton;
@@ -49,6 +60,8 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         setContentView(R.layout.activity_profile);
         // init the userDatabaseAccessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
+        Intent intentR = this.getIntent();
+        this.driverRating = (String) intentR.getSerializableExtra("DriverRating");
         // check the login status:
         if (!this.userDatabaseAccessor.isLoggedin()) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -62,6 +75,8 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.phoneNumber = findViewById(R.id.proPhoneET);
         this.phoneNumber.setEnabled(false);
         this.deposit = findViewById(R.id.proDeposit);
+        this.rating = findViewById(R.id.proRating);
+        this.ratingLayout = findViewById(R.id.proRatingLayout);
         this.userType = findViewById(R.id.proUserType);
         this.editBtn = findViewById(R.id.editProfileBtn);
         this.updateBtn = findViewById(R.id.proUpdateBtn);
@@ -83,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     }
 
     // wrapper function to fill in the text fields the information from the user object:
+    @SuppressLint("SetTextI18n")
     private void fillUserInfo(User user) {
         if (user == null) {
             this.name.setText("");
@@ -99,8 +115,14 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                     String.format(Locale.CANADA, "%.2f", currentUser.getDeposit()));
             if (this.currentUser.isUserType()) {    // if true, then the user is driver
                 this.userType.setText(R.string.usertype_driver);
+                if (this.driverRating!=null){
+                    this.rating.setText(driverRating);
+                } else {
+                    this.rating.setText(" yet been rated");
+                }
             } else {    // or else, the user is a rider
                 this.userType.setText(R.string.usertype_rider);
+                this.ratingLayout.setVisibility(View.GONE);
             }
         }
         this.progressDialog.dismiss();
@@ -139,6 +161,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
         });
+
     }
 
 
@@ -189,4 +212,6 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         Toast.makeText(getApplicationContext(),
                 "Update failed, check network connection.", Toast.LENGTH_LONG).show();
     }
+
+
 }
