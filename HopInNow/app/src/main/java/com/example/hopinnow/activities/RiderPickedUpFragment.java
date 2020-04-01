@@ -68,7 +68,7 @@ public class RiderPickedUpFragment extends Fragment {
             nextBtn.setOnClickListener(v -> {
                 //change fragment
                 ((RiderMapActivity) Objects.requireNonNull(getActivity())).
-                        switchFragment(R.layout.fragment_rider_confirm_dropoff);
+                        switchFragment(1);
             });
         }
         return view;

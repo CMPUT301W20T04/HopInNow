@@ -78,12 +78,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             driverDatabaseAccessor.getDriverProfile(this);
         }
 
-        if (request==null){
-            requestFromText.setText("From: pick up location ui test" );
-            requestToText.setText("To: drop off location ui test");
-            requestTimeText.setText("Time: right now ui test" );
-            requestCostText.setText("Estimate Fare: fare ui test");
-        }
+
 
 
         return view;
@@ -98,6 +93,12 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         requestToText.setText( request.getDropOffLocName());
         requestTimeText.setText(request.getPickUpDateTime().toString());
         requestCostText.setText(request.getEstimatedFare().toString());
+        if (request==null){
+            requestFromText.setText("From: pick up location ui test" );
+            requestToText.setText("To: drop off location ui test");
+            requestTimeText.setText("Time: right now ui test" );
+            requestCostText.setText("Estimate Fare: fare ui test");
+        }
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
 
         if (!request.isPickedUp()) {
