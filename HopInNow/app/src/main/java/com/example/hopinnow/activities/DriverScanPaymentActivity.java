@@ -241,8 +241,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
         driverRequestDatabaseAccessor.deleteRequest(this);
-        Intent intent = new Intent(DriverScanPaymentActivity.this, DriverMapActivity.class);
-        startActivity(intent);
     }
 
     @Override
