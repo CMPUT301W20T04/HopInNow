@@ -39,15 +39,15 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Request request1 =
+                        Request req =
                                 requireNonNull(task.getResult()).toObject(Request.class);
-                        if (request1 == null) {
+                        if (req == null) {
                             Log.v(TAG, "Request did not accept successfully!");
                             listener.onDriverRequestTimeoutOrFail();
                             return;
                         }
                         // check the driverEmail of the request see if it already exists:
-                        if (request1.getDriverEmail() != null) {
+                        if (req.getDriverEmail() != null) {
                             Log.v(TAG, "Request is already taken!");
                             // if it is, invoke the appropriate listener and return:
                             listener.onRequestAlreadyTaken();
@@ -67,7 +67,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                                     listener.onDriverRequestTimeoutOrFail();
                                 });
                     } else {
-                        Log.v(TAG, "Request did not save successfully!");
+                        Log.v(TAG, "Request did not store into the database successfully!");
                         listener.onDriverRequestTimeoutOrFail();
                     }
                 });
