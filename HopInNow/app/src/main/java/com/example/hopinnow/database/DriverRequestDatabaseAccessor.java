@@ -15,6 +15,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Author: Shway Wang
+ * Co-author: Viola Bai
  * Version: 1.0.4
  */
 public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
@@ -72,7 +73,18 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                     }
                 });
     }
-    public void driverListenOnCancelRequestBeforeArrive(Request request, final DriverRequestListener listener) {
+
+    /**
+     * Author: Viola Bai
+     * Deals with the fact that rider might cancel the request while driver is on the way to
+     * the rider.
+     * @param request
+     *      the request the rider wants to cancel
+     * @param listener
+     *      the listener to call when the request is canceled successfully or if it fails
+     */
+    public void driverListenOnCancelRequestBeforeArrive(Request request,
+                                                        final DriverRequestListener listener) {
         String requestID = request.getRequestID();
         DocumentReference ref = this.firestore
                 .collection(super.referenceName)
@@ -80,12 +92,11 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
         super.listenerRegistration = ref.addSnapshotListener((documentSnapshot, e) -> {
                     Request req = requireNonNull(documentSnapshot).toObject(Request.class);
                     if (req == null || !requireNonNull(documentSnapshot).exists()) {
-                        Log.v(TAG, "The request is declined by" +
-                                "the rider before the driver arrives");
+                        Log.v(TAG, "driverListenOnCancelRequestBeforeArrive The request is" +
+                                "declined by the rider before the driver arrives");
                         listener.onRequestDeclinedByRider();
                         // if the request is canceled here, then stop listening:
                         super.listenerRegistration.remove();
-                        return;
                     }
                 });
     }
@@ -98,7 +109,8 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      * @param listener
      *      the listener for the request
      */
-    public void driverListenOnRequestBeforeArrive(Request request, final DriverRequestListener listener) {
+    public void driverListenOnRequestBeforeArrive(Request request,
+                                                  final DriverRequestListener listener) {
         String requestID = request.getRequestID();
         DocumentReference ref = this.firestore
                 .collection(super.referenceName)

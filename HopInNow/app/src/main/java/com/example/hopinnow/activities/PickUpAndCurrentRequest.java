@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import java.util.Objects;
  */
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener {
+    public static final String TAG = "PickUpAndCurrentRequest";
     private Driver driver;
     private Request request;
     private TextView requestTitleText;
@@ -75,6 +77,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             pickUpButton = view.findViewById(R.id.PickUpRiderButton);
             dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             emergencyCallButton = view.findViewById(R.id.EmergencyCall);
+            // here call getDriverProfile method
             driverDatabaseAccessor.getDriverProfile(this);
         }
 
@@ -100,7 +103,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             requestCostText.setText("Estimate Fare: fare ui test");
         }
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
-
         if (!request.isPickedUp()) {
             // the fragment that display the pickup button and request information
             pickUpButton.setVisibility(View.VISIBLE);
@@ -131,7 +133,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             });
         } else {
             // switch to a fragment that display the request information and drop off button.
-            dropOffButton.setOnClickListener((View.OnClickListener) v -> {
+            dropOffButton.setOnClickListener(v -> {
                 //((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_requests);
                 // move this request from curRequest to trip
                 //request parameters:
@@ -223,7 +225,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        driverDatabaseAccessor.updateDriverProfile(driver, PickUpAndCurrentRequest.this);
+        this.driverDatabaseAccessor.updateDriverProfile(driver, PickUpAndCurrentRequest.this);
     }
 
     @Override
