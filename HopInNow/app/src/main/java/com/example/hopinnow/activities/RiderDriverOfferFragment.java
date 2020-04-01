@@ -77,10 +77,10 @@ public class RiderDriverOfferFragment extends Fragment {
                         + this.driver.getCar().getMake() + " "
                         + this.driver.getCar().getModel();
                 driverCar.setText(carInfo);
+                //set driver license
+                TextView driverLicense = view.findViewById(R.id.rider_driver_offer_plate);
+                driverLicense.setText(driver.getCar().getPlateNumber());
             }
-            //set driver license
-            TextView driverLicense = view.findViewById(R.id.rider_driver_offer_plate);
-            driverLicense.setText(driver.getCar().getPlateNumber());
             //call driver
             this.callBtn = view.findViewById(R.id.rider_offer_call_button);
             //email driver
