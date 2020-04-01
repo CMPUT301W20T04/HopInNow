@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import java.util.Objects;
  */
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener {
+    public static final String TAG = "PickUpAndCurrentRequest";
     private Driver driver;
     private Request request;
     private TextView requestTitleText;
@@ -75,6 +77,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             pickUpButton = view.findViewById(R.id.PickUpRiderButton);
             dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             emergencyCallButton = view.findViewById(R.id.EmergencyCall);
+            // here call getDriverProfile method
             driverDatabaseAccessor.getDriverProfile(this);
         }
 
@@ -93,14 +96,18 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
-        request = driver.getCurRequest();
-        requestFromText.setText(request.getPickUpLocName());
-        requestToText.setText( request.getDropOffLocName());
-        requestTimeText.setText(request.getPickUpDateTime().toString());
-        requestCostText.setText(request.getEstimatedFare().toString());
+        this.request = this.driver.getCurRequest();
+        if (this.request == null) {
+            Log.v(TAG, "Request is null!!!!!!!!!!");
+            return;
+        }
+        Log.v(TAG, "Request is not null!!!");
+        requestFromText.setText(this.request.getPickUpLocName());
+        requestToText.setText(this.request.getDropOffLocName());
+        requestTimeText.setText(this.request.getPickUpDateTime().toString());
+        requestCostText.setText(this.request.getEstimatedFare().toString());
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
-        driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(request,this);
-
+        this.driverRequestDatabaseAccessor.driverListenOnRequestBeforeArrive(this.request,this);
         if (!request.isPickedUp()) {
             // the fragment that display the pickup button and request information
             pickUpButton.setVisibility(View.VISIBLE);
@@ -222,7 +229,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
 
     @Override
     public void onGetRequiredRequestsSuccess(ArrayList<Request> requests) {
-        driverDatabaseAccessor.updateDriverProfile(driver, PickUpAndCurrentRequest.this);
+        this.driverDatabaseAccessor.updateDriverProfile(driver, PickUpAndCurrentRequest.this);
     }
 
     @Override
