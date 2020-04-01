@@ -80,7 +80,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void handleResult(Result rawResult){
-        //Gson gson = new Gson();
         encoded = rawResult.getText();
         String qrDriverEmail = StringUtils.substringBetween(encoded,"driverEmail","DriverEmail");
         String qrPayment = StringUtils.substringBetween(encoded,"totalPayment","TotalPayment");
@@ -89,6 +88,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         System.out.println(qrPayment);
 
         if (driver.getEmail().equals(qrDriverEmail)){ //
+            System.out.println("scan success");
 
             //todo trigger rider rating by removing request from firebase
             double prevDeposit = driver.getDeposit();
