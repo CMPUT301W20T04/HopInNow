@@ -301,6 +301,9 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.otherDriver = driver;
+        if (this.otherDriver.getRating() == null){
+            this.otherDriver.setRating(0.0);
+        }
         otherName.setText("Driver Name:  "+this.otherDriver.getName());
         otherName.setOnClickListener(v -> showInfo(this.otherDriver,null));
         otherRating.setNumStars(5);
