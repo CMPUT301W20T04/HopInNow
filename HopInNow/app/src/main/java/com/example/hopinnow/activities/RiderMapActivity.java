@@ -508,6 +508,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * Cancels current request of the rider and return to initial location search prompt page.
      */
     public void cancelRequestLocal(){
+        this.progressbarDialog.dismissDialog();
         this.progressbarDialog.startProgressbarDialog();
         //this.riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(-1,this);
         this.riderRequestDatabaseAccessor.deleteRequest(this);

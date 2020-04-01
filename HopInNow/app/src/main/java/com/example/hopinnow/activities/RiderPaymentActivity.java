@@ -219,17 +219,17 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      */
     private void completeRequest(double rating){
         String msg = "Your trip is completed!";
-        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
 
         curRequest.setRating(rating);
         curRequest.setEstimatedFare(totalPayment);
         riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
 
         Trip newTrip = toTrip();
-        ArrayList<Trip> riderTripList = rider.getRiderTripList();
+        ArrayList<Trip> riderTripList = this.rider.getRiderTripList();
         riderTripList.add(newTrip);
-        rider.setRiderTripList(riderTripList);
-        riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
+        this.rider.setRiderTripList(riderTripList);
+        riderDatabaseAccessor.updateRiderProfile(this.rider,RiderPaymentActivity.this);
 
         // change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
@@ -477,7 +477,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderRequestComplete() {
         onScanningCompleted();
-        //showRatingDialog();
     }
 
     @Override
@@ -500,7 +499,11 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onDriverProfileRetrieveFailure() {}
 
     @Override
-    public void onDriverProfileUpdateSuccess(Driver driver){}
+    public void onDriverProfileUpdateSuccess(Driver driver){
+        String driverName = driver.getName();
+        Toast.makeText(getApplicationContext(),
+                driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onDriverProfileUpdateFailure() {}
