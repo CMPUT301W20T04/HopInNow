@@ -189,19 +189,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
-
-        // if no response on rating for three minutes, then no rating would be available for the trip
-        /*new CountDownTimer(180000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {}
-            @Override
-            public void onFinish() {
-                Toast.makeText(RiderPaymentActivity.this,"Rating cancelled due to " +
-                                "inactivity over 3 minutes.",
-                        Toast.LENGTH_SHORT).show();
-                completeRequest(-1.00);
-            }
-        }.start();*/
     }
 
 
@@ -279,7 +266,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
 
-        //todo for testing auto show rating dialog
         showRatingDialog();
     }
 
