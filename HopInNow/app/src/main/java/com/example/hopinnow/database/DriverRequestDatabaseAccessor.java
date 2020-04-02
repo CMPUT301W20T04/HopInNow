@@ -243,6 +243,7 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 // if an error happened during the rating, stop listening:
                 super.listenerRegistration.remove();
             }
+            // logic adjusted by Viola
             if (Objects.requireNonNull(documentSnapshot).exists()) {
                 // see if the rating actually has changed:
                 if (requireNonNull(req).isRated()){

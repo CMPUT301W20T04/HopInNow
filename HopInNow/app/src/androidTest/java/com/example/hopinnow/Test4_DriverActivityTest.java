@@ -135,9 +135,6 @@ public class Test4_DriverActivityTest {
         solo.clickOnView(solo.getView(R.id.PickUpRiderButton));
         assertTrue(solo.waitForText("EMERGENCY", 1, 2000));
 
-        solo.clickOnView(solo.getView(R.id.EmergencyCall));
-        solo.goBack();
-
         solo.clickOnView(solo.getView(R.id.dropOffRiderButton));
         if (solo.waitForText("Allow", 1, 2000)){
             solo.clickOnButton("Allow");

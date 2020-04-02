@@ -90,7 +90,7 @@ public class Test2_LoginActivityTest {
 
         // test email
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText),"rider2@rider.com");
-        assertTrue(solo.waitForText("v@v.com",
+        assertTrue(solo.waitForText("rider2@rider.com",
                 1, 2000));
 
         // test password

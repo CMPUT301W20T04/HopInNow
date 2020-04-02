@@ -82,6 +82,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
@@ -126,6 +127,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onProfileRetrieveSuccess(User user) {
 
@@ -134,7 +136,6 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         riderDatabaseAccessor = new RiderDatabaseAccessor();
         if(type){
             //driver
-            //function that get the certain trip from the database
             driverDatabaseAccessor.getDriverProfile(this);
             ((TextView)findViewById(R.id.textView8)).setText("Rider Information");
         }
@@ -148,9 +149,9 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     }
 
     /**
-     * Shows driver information and contact means on a dialog - Viola
+     * Shows driver information and contact means on a dialog - Added By Viola
      */
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult", "SetTextI18n"})
     public void showInfo(Driver d,Rider r){
 
         Dialog dialog = new Dialog(this);
@@ -218,7 +219,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     }
 
     /**
-     * Starts phone calling.
+     * Starts phone calling. - Added By Viola
      * @param phoneNumber
      *      the phone number to be called
      */
@@ -253,7 +254,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
      */
     /**
      * Prompts email app selection and directs to email drafting page with auto0filled email address
-     * of the driver.
+     * of the driver. - Added By Viola
      * @param email
      *      the driver's email address
      */
@@ -279,12 +280,13 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
         this.rider = rider;
         trip = this.rider.getRiderTripList().get(search_key);
         driverEmail.setText(" Driver Email:  "+trip.getDriverEmail());
-        riderEmail.setText(" ider Email:  "+trip.getRiderEmail());
+        riderEmail.setText(" Rider Email:  "+trip.getRiderEmail());
         pickUpLocation.setText(String.format(" From: %s",trip.getPickUpLocName()));
         dropOffLocation.setText(String.format(" To: %s",trip.getDropOffLocName()));
         if (trip.getRating()==0){
@@ -312,6 +314,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDriverObjRetrieveSuccess(Driver driver) {
         this.otherDriver = driver;
@@ -332,6 +335,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onRiderObjRetrieveSuccess(Rider rider) {
         this.otherRider = rider;

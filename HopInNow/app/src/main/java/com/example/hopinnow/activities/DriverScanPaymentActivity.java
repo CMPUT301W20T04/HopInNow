@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +22,11 @@ import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
-import com.google.gson.Gson;
 import com.google.zxing.Result;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -117,7 +114,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         Log.v(TAG,"starts new rating");
         Double prevRating = this.driver.getRating();
         int counts = this.driver.getRatingCounts();
-        Double newRating =((prevRating*counts) + r)/(counts+1);
+        double newRating =((prevRating*counts) + r)/(counts+1);
         newRating = Math.round(newRating * 100.0) / 100.0;
         this.driver.setRatingCounts(counts+1);
         this.driver.setRating(newRating);

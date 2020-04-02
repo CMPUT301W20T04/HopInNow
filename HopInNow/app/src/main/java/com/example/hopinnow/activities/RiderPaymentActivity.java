@@ -182,9 +182,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
                         .show();
             }
-
         });
-
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
     }
