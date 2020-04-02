@@ -140,8 +140,17 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
         myLocStartUpBtn.setOnClickListener(v -> {
-            setUseCurrent(true);
-            switchFragment(R.layout.fragment_driver_requests);
+            if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                    && (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+                setUseCurrent(true);
+                switchFragment(R.layout.fragment_driver_requests);
+            } else {
+                Toast.makeText(this,"Please enable location first.",Toast.LENGTH_SHORT)
+                        .show();
+            }
+
         });
         if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)

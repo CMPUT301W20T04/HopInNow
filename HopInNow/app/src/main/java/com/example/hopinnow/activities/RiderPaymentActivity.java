@@ -178,6 +178,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             if (myRating!= -1.0){
                 progressDialog.show();
                 completeRequest(myRating);
+                //dialog.dismiss();
             } else {
                 Toast.makeText(RiderPaymentActivity.this, "Please select your " +
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
@@ -249,8 +250,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             driverRatingUpdated = true;
             Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
         }
+        if (!((RiderPaymentActivity.this).isFinishing())){
+            showRatingDialog();
+        }
 
-        showRatingDialog();
     }
 
 
