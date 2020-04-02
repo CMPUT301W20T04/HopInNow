@@ -19,7 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  * This class helps show the driver's menu when clicking the menu button on the top left cornor
  */
 public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
-    public static final String TAG = "DriverMenuActivity";
+    private static final String TAG = "DriverMenuActivity";
     private TextView driverMenuTextView;
     private DriverDatabaseAccessor userDatabaseAccessor;
 

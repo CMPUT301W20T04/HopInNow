@@ -250,10 +250,13 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
+        System.out.println("321321321");
         if (rated){
-            rated = false;Log.v(TAG, "driver profile updated.");
+            rated = false;
+            Log.v(TAG, "driver profile updated.");
             Log.v(TAG, "now to go to driver map activity...");
             driverRequestDatabaseAccessor.deleteRequest(this);
+            finish();
             Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
             startActivity(intent);
         } else {

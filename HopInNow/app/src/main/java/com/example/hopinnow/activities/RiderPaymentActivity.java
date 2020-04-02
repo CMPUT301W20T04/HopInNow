@@ -59,7 +59,7 @@ import java.util.TimerTask;
 public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener,
         DriverObjectRetreieveListener, RiderRequestListener,
         DriverProfileStatusListener {
-    public static final String TAG = "RiderPaymentA";
+    private static final String TAG = "RiderPaymentA";
     private Request curRequest;
     private Driver driver;
     private Rider rider;

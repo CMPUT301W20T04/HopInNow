@@ -91,7 +91,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         LocationListener, RequestAddDeleteListener,
         NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String TAG = "RiderMapActivity";
+    private static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
     private SharedPreferences mPrefs;
     private LocationManager lm;

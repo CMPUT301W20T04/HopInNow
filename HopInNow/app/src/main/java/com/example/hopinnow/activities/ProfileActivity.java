@@ -27,7 +27,7 @@ import java.util.Objects;
  */
 public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener {
     // establish the TAG of this activity:
-    public static final String TAG = "ProfileActivity";
+    private static final String TAG = "ProfileActivity";
     // declare database accessor:
     private UserDatabaseAccessor userDatabaseAccessor;
     // Global User object:
