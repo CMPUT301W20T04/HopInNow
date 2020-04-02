@@ -63,6 +63,7 @@ import java.util.TimerTask;
 public class RiderPaymentActivity extends AppCompatActivity implements RiderProfileStatusListener,
         DriverObjectRetreieveListener, RiderRequestListener, RequestAddDeleteListener,
         DriverProfileStatusListener {
+    public static final String TAG = "RiderPaymentA";
     private Request curRequest;
     private Driver driver;
     private Rider rider;
@@ -469,7 +470,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         }
         riderTripList.add(newTrip);
         this.rider.setRiderTripList(riderTripList);
-        riderDatabaseAccessor.updateRiderProfile(this.rider,RiderPaymentActivity.this);
+        Log.v(TAG, "rider's current request is now deleted.");
+        this.rider.setCurRequest(null);
+        riderDatabaseAccessor.updateRiderProfile(this.rider,this);
     }
 
     @Override
