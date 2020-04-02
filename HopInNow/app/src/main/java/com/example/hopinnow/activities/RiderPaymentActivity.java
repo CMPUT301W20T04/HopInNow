@@ -173,7 +173,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         submitBtn.setOnClickListener(v -> {
             myRating = (double) ratingBar.getRating();
             if (myRating!= -1.0){
-                //setNewDriverRating(myRating);
                 completeRequest(myRating);
                 dialog.dismiss();
             } else {
@@ -186,23 +185,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
-    }
-
-
-    /**
-     * Calculates new average rating for driver.
-     * @param r
-     *      the new rating
-     */
-    private void setNewDriverRating(double r){
-        Double prevRating = this.driver.getRating();
-        int counts = this.driver.getRatingCounts();
-        Double newRating = (prevRating + r)/(counts+1);
-        this.driver.setRatingCounts(counts+1);
-        this.driver.setRating(newRating);
-        driverDatabaseAccessor.updateDriverProfile(this.driver,RiderPaymentActivity.this);
-        //progressDialog = new ProgressDialog(this);
-        //progressDialog.show();
     }
 
 
@@ -496,16 +478,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver){
-        /*driverRatingUpdated = true;
-        String driverName = driver.getName();
-        String rc = String.valueOf(driver.getRatingCounts());
-        Log.v("DriverRatingCounts",rc);
-        Toast.makeText(getApplicationContext(),
-                driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
-        intent.putExtra("Current_Request_To_Null", "cancel");
-        startActivity(intent);*/
-
     }
 
     @Override

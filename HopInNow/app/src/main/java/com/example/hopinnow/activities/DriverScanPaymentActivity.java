@@ -82,22 +82,22 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     }
 
 
+    /**
+     * This class handles the qr code result and transform it into readable string.
+     * @param rawResult
+     *     raw result from camera
+     */
     @Override
     public void handleResult(Result rawResult){
         encoded = rawResult.getText();
-        String qrDriverEmail = StringUtils.substringBetween(encoded,"driverEmail","DriverEmail");
-        this.qrPayment = StringUtils.substringBetween(encoded,"totalPayment","TotalPayment");
+        String qrDriverEmail = StringUtils.substringBetween(encoded,"driverEmail"
+                ,"DriverEmail");
+        this.qrPayment = StringUtils.substringBetween(encoded,"totalPayment"
+                ,"TotalPayment");
 
-        if (driver.getEmail().equals(qrDriverEmail)){ //
+        // checks if the correct driver is scanning the payment
+        if (driver.getEmail().equals(qrDriverEmail)){
             Log.v(TAG, "scan success");
-            //todo trigger rider rating by removing request from firebase
-            /*double prevDeposit = driver.getDeposit();
-            driver.setDeposit(prevDeposit + Double.parseDouble(qrPayment));
-            driverDatabaseAccessor.updateDriverProfile(driver,this);
-            Toast.makeText(this, "You have successfully received " + qrPayment +
-                    " QR bucks for you completed ride!", Toast.LENGTH_SHORT).show();*/
-
-            //driver complete the request and trigger the rider to rate.
             Log.v(TAG, "handleResult, driverCompleteRequest() is called...");
             driverRequestDatabaseAccessor.driverCompleteRequest(curRequest,this);
         } else {
@@ -106,6 +106,26 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         }
     }
 
+
+    /**
+     * Calculates new average rating for driver.
+     * @param r
+     *      the new rating
+     */
+    private void setNewDriverRating(double r){
+        Log.v(TAG,"starts new rating");
+        Double prevRating = this.driver.getRating();
+        int counts = this.driver.getRatingCounts();
+        Double newRating = (prevRating + r)/(counts+1);
+        this.driver.setRatingCounts(counts+1);
+        this.driver.setRating(newRating);
+        Log.v(TAG,"done new rating");
+    }
+
+
+    /**
+     * This class handles permission of camera before scanning.
+     */
     @SuppressLint("CheckResult")
     private void cameraPermission(){
         if (ActivityCompat.checkSelfPermission(DriverScanPaymentActivity.this,
@@ -190,11 +210,13 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverRequestCompleteSuccess() {
+        // waits for rider rating
         double prevDeposit = driver.getDeposit();
         this.driver.setDeposit(prevDeposit + Double.parseDouble(this.qrPayment));
-        //driverDatabaseAccessor.updateDriverProfile(driver,this);
         Toast.makeText(this, "You have successfully received " + this.qrPayment +
                 " QR bucks for your completed ride!", Toast.LENGTH_SHORT).show();
+        driverRequestDatabaseAccessor.driverWaitOnRating(this.curRequest, this);
+        Log.v(TAG,"starts waiting rating");
     }
 
     @Override
@@ -204,27 +226,11 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onWaitOnRatingSuccess(Request request) {
-        //means the rider update the rating successfully.
-        rated = true;
+        // means the rider has finished rating
         this.curRequest = request;
         driverDatabaseAccessor.getDriverProfile(this);
         Log.v(TAG, "Rider has rated the trip!!!!");
         Log.v(TAG, "now to get driver profile...");
-    }
-
-    /**
-     * Calculates new average rating for driver.
-     * @param r
-     *      the new rating
-     */
-    private void setNewDriverRating(double r){
-        Double prevRating = this.driver.getRating();
-        int counts = this.driver.getRatingCounts();
-        Double newRating = (prevRating + r)/(counts+1);
-        this.driver.setRatingCounts(counts+1);
-        this.driver.setRating(newRating);
-        //progressDialog = new ProgressDialog(this);
-        //progressDialog.show();
     }
 
     @Override
@@ -235,7 +241,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
-        //this.curRequest = driver.getCurRequest();
         if (this.curRequest.getRating()!=0){
             setNewDriverRating(this.curRequest.getRating());
         }
@@ -255,7 +260,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
                 curRequest.getCar(),curRequest.getEstimatedFare(),curRequest.getRating()));
         Log.v(TAG, "driver trip added!!!!!!!");
         this.driver.setDriverTripList(driverTripList);
-        driverDatabaseAccessor.updateDriverProfile(this.driver,this);
+        //driverDatabaseAccessor.updateDriverProfile(this.driver,this);
         Log.v(TAG, "driver profile retrieved.");
         Log.v(TAG, "now to update driver profile...");
         driverDatabaseAccessor.updateDriverProfile(this.driver,DriverScanPaymentActivity.this);
@@ -268,15 +273,12 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-        if (rated){
-            rated = false;Log.v(TAG, "driver profile updated.");
-            Log.v(TAG, "now to go to driver map activity...");
-            driverRequestDatabaseAccessor.deleteRequest(this);
-        } else {
-            Log.v(TAG, "driver request completed.");
-            Log.v(TAG, "now driver is WAITING ON RATING!!!!");
-            driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
-        }
+        // driver profile updated, go back to map activity
+        rated = false;Log.v(TAG, "driver profile updated.");
+        Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
+        startActivity(intent);
+        finish();
+        Log.v(TAG, "now to go to driver map activity...");
     }
 
     @Override
@@ -296,9 +298,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onRequestDeleteSuccess() {
-        Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     @Override

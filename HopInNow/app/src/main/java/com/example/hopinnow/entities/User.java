@@ -15,6 +15,8 @@ public class User implements Serializable {
     private String phoneNumber;
     private Double deposit;
     private boolean userType;
+    private Double rating = 0.0;
+    private int ratingCounts = 0;
 
     /**
      * empty constructor
@@ -185,5 +187,41 @@ public class User implements Serializable {
         catch (Exception e){
             throw e;
         }
+    }
+
+    /**
+     * get the driver rating
+     * @return
+     *      get the rating of this driver:
+     */
+    public Double getRating() {
+        return rating;
+    }
+
+    /**
+     * set driver rating
+     * @param rating
+     *      set the rating of this driver:
+     */
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * get number of ratings
+     * @return
+     *      get the number of ratings of this driver:
+     */
+    public int getRatingCounts(){
+        return ratingCounts;
+    }
+
+    /**
+     * set the number of ratings
+     * @param ratingCounts
+     *      set the numbre of ratings of this driver:
+     */
+    public void setRatingCounts(int ratingCounts){
+        this.ratingCounts = ratingCounts;
     }
 }
