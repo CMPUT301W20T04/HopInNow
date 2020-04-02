@@ -39,16 +39,12 @@ public class RiderDriverOfferFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rider_driver_offer, container
                 ,false);
 
+        // retrieve information
         curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequest();
-
-
-        //TODO get curRequest from firebase, driver email is empty, means not accepted yet
-        //curRequest
-        //curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveCurrentRequest();
-
         driver =  ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
 
+        // ui mock
         if (driver==null){
             Car car = new Car("Auburn","Speedster","Cream","111111");
             driver = new Driver("111@gmail.com", "12345678",
@@ -60,6 +56,7 @@ public class RiderDriverOfferFragment extends Fragment {
             //set driver name
             this.driverName = view.findViewById(R.id.rider_driver_offer_name);
             this.driverName.setText(driver.getName());
+
             //set driver rating
             TextView driverRating = view.findViewById(R.id.rider_driver_offer_rating);
             String rating;
@@ -81,6 +78,7 @@ public class RiderDriverOfferFragment extends Fragment {
                 TextView driverLicense = view.findViewById(R.id.rider_driver_offer_plate);
                 driverLicense.setText(driver.getCar().getPlateNumber());
             }
+
             //call driver
             this.callBtn = view.findViewById(R.id.rider_offer_call_button);
             //email driver

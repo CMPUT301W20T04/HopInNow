@@ -71,7 +71,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private ImageView qrImage;
     private Boolean other = false;
     private TextView totalPaymentTextView;
-    private Button uiTestNextBtn;
     private Date dropOffDateTime;
     private Double myRating;
     private RiderDatabaseAccessor riderDatabaseAccessor;
@@ -95,15 +94,16 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             Car car = new Car("Auburn","Speedster","Cream","111111");
             driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                     "12345678", 10.0,  null, car, null);
-            uiTestNextBtn = findViewById(R.id.mock_next_complete_trip);
+            Button uiTestNextBtn = findViewById(R.id.mock_next_complete_trip);
             uiTestNextBtn.setOnClickListener(v -> {
-                // change activity
                 Intent intent = new Intent(this.getApplicationContext(), RiderMapActivity.class);
                 intent.putExtra("Current_Request_To_Null", "cancel");
                 startActivity(intent);
                 finish();
             });
         }
+
+        // sets up data bases
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.riderDatabaseAccessor.getRiderProfile(this);
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
@@ -155,6 +155,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 confirmPaymentBtn.setVisibility(View.GONE);
                 showTotalBtn.setEnabled(false);
                 riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
+
             }
             });
 
@@ -167,7 +168,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      */
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
-
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.rider_payment_ten:
@@ -426,20 +426,12 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderProfileUpdateSuccess(Rider rider) {
         if (dialogShown) {
-            if (this.myRating == null) {
-                Log.v(TAG, "this.myRating is null !!!!!!!!!!!");
-            }
-            if (this.driver == null) {
-                Log.v(TAG, "this.driver is null !!!!!!!!!!!");
-            }
             if (this.myRating != null && this.driver != null) {
-                Log.v(TAG, "call setNewDriverRating()");
                 setNewDriverRating(myRating);
             }
         } else {
             String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
             Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
-            //todo for testing auto show rating dialog
             this.dialogShown = true;
             showRatingDialog();
         }
@@ -452,9 +444,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onBackPressed(){}
 
     @Override
-    public void onDriverObjRetrieveSuccess(Driver driver) {
-        this.driver = driver;
-    }
+    public void onDriverObjRetrieveSuccess(Driver driver) { this.driver = driver; }
 
     @Override
     public void onDriverObjRetrieveFailure() {}
@@ -466,14 +456,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRiderRequestTimeoutOrFail() {}
 
     @Override
-    public void onRiderAcceptDriverRequest() {
-
-    }
+    public void onRiderAcceptDriverRequest() { }
 
     @Override
-    public void onRiderDeclineDriverRequest() {
-
-    }
+    public void onRiderDeclineDriverRequest() { }
 
     @Override
     public void onRiderPickedupSuccess(Request request) {}
@@ -482,19 +468,13 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRiderPickedupTimeoutOrFail() {}
 
     @Override
-    public void onRiderDropoffSuccess(Request request) {
-
-    }
+    public void onRiderDropoffSuccess(Request request) {}
 
     @Override
-    public void onRiderDropoffFail() {
-
-    }
+    public void onRiderDropoffFail() {}
 
     @Override
-    public void onRiderRequestComplete() {
-        onScanningCompleted();
-    }
+    public void onRiderRequestComplete() { onScanningCompleted(); }
 
     @Override
     public void onRiderRequestCompletionError() {
@@ -503,6 +483,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRequestRatedSuccess() {
+        // transform request to trip and add it to rider's trip list
         Trip newTrip = toTrip();
         ArrayList<Trip> riderTripList = rider.getRiderTripList();
         if (riderTripList==null){
@@ -517,9 +498,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRequestRatedError() {}
 
     @Override
-    public void onDriverProfileRetrieveSuccess(Driver driver) {
-        this.driver = driver;
-    }
+    public void onDriverProfileRetrieveSuccess(Driver driver) { this.driver = driver; }
 
     @Override
     public void onDriverProfileRetrieveFailure() {}
@@ -530,7 +509,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         String driverName = driver.getName();
         Toast.makeText(getApplicationContext(),
                 driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
-        // change activity
+        // complete payment activity and goes back to map activity
         Intent intent = new Intent(this.getApplicationContext(), RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", "cancel");
         startActivity(intent);
@@ -544,7 +523,5 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     }
 
     @Override
-    public void onDriverProfileUpdateFailure() {
-        Log.v(TAG,"Driver rating update failed");
-    }
+    public void onDriverProfileUpdateFailure() { }
 }

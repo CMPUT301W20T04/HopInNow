@@ -29,7 +29,7 @@ import static org.junit.Assert.assertFalse;
  * UI tests on rider side activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
-public class Test6_DriverActivityTest {
+public class Test4_DriverActivityTest {
     private Solo solo;
 
 
@@ -85,6 +85,33 @@ public class Test6_DriverActivityTest {
         Thread.sleep(2000);
     }
 
+    /**
+     * Logs in rider and create new request.
+     * @throws InterruptedException
+     *      throws exception if thread is interrupted
+     */
+    private void loginRiderAddRequest() throws InterruptedException {
+        // Log in To Activity
+        String userEmail = "v@v.com";
+        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
+        String userPassword = "1111111";
+        solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
+        solo.goBack();
+        solo.clickOnView(solo.getView(R.id.loginButton));
+
+        solo.clickOnButton("Pick Up at My Location");
+        String address = solo.getView(R.id.pick_up_auto_complete).toString();
+
+        solo.enterText((EditText) solo.getView(R.id.mock_pickUp), address);
+        solo.enterText((EditText) solo.getView(R.id.mock_dropOff), address);
+        solo.clickOnButton("HOP IN NOW!");
+        Thread.sleep(2000);
+
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnMenuItem("Log Out");
+        Thread.sleep(2000);
+    }
+
 
     /**
      * Mock case that goes through status of a request accepted by driver.
@@ -93,6 +120,7 @@ public class Test6_DriverActivityTest {
      */
     @Test
     public void Case1() throws InterruptedException {
+        loginRiderAddRequest();
         loginUser();
         solo.assertCurrentActivity("Wrong Activity", DriverMapActivity.class);
 

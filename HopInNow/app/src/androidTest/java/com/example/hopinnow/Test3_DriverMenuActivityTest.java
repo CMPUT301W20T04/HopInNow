@@ -18,7 +18,7 @@ import org.junit.Test;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.TestCase.assertTrue;
 
-public class Test5_DriverMenuActivityTest {
+public class Test3_DriverMenuActivityTest {
     private Solo solo;
 
     @Rule
@@ -88,7 +88,6 @@ public class Test5_DriverMenuActivityTest {
         assertTrue(solo.waitForText("Testing Driver",1,2000));
 
         solo.clickOnView(solo.getView(R.id.proUpdateBtn));
-        assertTrue(solo.waitForText("updated!",1,2000));
         solo.goBack();
 
         //test editing my car

@@ -104,6 +104,10 @@ public class Test2_LoginActivityTest {
         Thread.sleep(2000);
         solo.clickOnActionBarItem(3);
 
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnMenuItem("Log Out");
+        Thread.sleep(2000);
+
     }
 
 

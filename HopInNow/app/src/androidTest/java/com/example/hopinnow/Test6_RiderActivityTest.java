@@ -32,8 +32,9 @@ import static org.junit.Assert.assertFalse;
  * permission of location and call. Please set location of emulator/testing device to Edmonton, AB.
  */
 @RunWith(AndroidJUnit4.class)
-public class Test4_RiderActivityTest {
+public class Test6_RiderActivityTest {
     private Solo solo;
+    private String address;
 
 
     @Rule
@@ -85,7 +86,6 @@ public class Test4_RiderActivityTest {
      *      throws exception if thread is interrupted
      */
     private void logoutUser() throws InterruptedException {
-
         solo.clickOnView(solo.getView(R.id.riderMenuBtn));
         solo.clickOnMenuItem("Log Out");
         Thread.sleep(2000);
@@ -98,11 +98,13 @@ public class Test4_RiderActivityTest {
      *      throws exception if thread is interrupted
      */
     private void addNewRequest() throws InterruptedException {
-        solo.clickOnButton("Pick Up at My Location");
-        String address = solo.getView(R.id.pick_up_auto_complete).toString();
+        if (address==null){
+            solo.clickOnButton("Pick Up at My Location");
+            address = solo.getView(R.id.pick_up_auto_complete).toString();
+        }
+
         solo.enterText((EditText) solo.getView(R.id.mock_pickUp), address);
         solo.enterText((EditText) solo.getView(R.id.mock_dropOff), address);
-        Thread.sleep(2000);
         solo.clickOnButton("HOP IN NOW!");
         Thread.sleep(2000);
     }
@@ -167,11 +169,10 @@ public class Test4_RiderActivityTest {
      * @throws NumberFormatException
      *      throws exception if string is converted to a number
      */
-    //@Test
+    @Test
     public void Case2() throws InterruptedException, NumberFormatException {
         loginUser();
         addNewRequest();
-
 
         assertTrue(solo.waitForText("Time Elapsed", 1, 2000));
 
@@ -194,7 +195,7 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case3() throws InterruptedException {
         loginUser();
         addNewRequest();
@@ -249,15 +250,11 @@ public class Test4_RiderActivityTest {
         solo.clickOnView(solo.getView(R.id.rider_pickedup_arrived_button));
         assertTrue(solo.waitForText("Payment",1,2000));
 
-        //test tips and payment
-        checkPayment();
-
         solo.clickOnView(solo.getView(R.id.mock_next_complete_trip));
-        addNewRequest();
-        logoutUser();
 
         Thread.sleep(2000);
     }
+
 
 
     /**
