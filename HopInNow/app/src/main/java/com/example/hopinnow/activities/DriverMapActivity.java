@@ -306,16 +306,33 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         }
     }
+    /**
+     * Starts phone calling.
+     * @param phoneNumber
+     *      the phone number to be called
+     */
+    @SuppressLint("CheckResult")
     public void callNumber(String phoneNumber){
-
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+phoneNumber));
 
         if (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions
+                    .request(Manifest.permission.CALL_PHONE)
+                    .subscribe(granted -> {
+                        if (granted) {
+                            startActivity(callIntent);
+                        } else {
+                            String driverNumber = driver.getPhoneNumber();
+                            Toast.makeText(this,"Driver's Phone Number: " + driverNumber,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+        } else {
+            startActivity(callIntent);
         }
-        startActivity(callIntent);
     }
 
     public void clearMap(){

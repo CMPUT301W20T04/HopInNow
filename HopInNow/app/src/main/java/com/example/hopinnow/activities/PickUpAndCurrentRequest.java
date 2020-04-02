@@ -194,16 +194,14 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                             PickUpAndCurrentRequest.this);*/
             });
             // set emergency button on click listener
-            emergencyCallButton.setOnClickListener(v -> {
-                // call call number method to make a phone call
-                ((DriverMapActivity) getActivity())
-                        .callNumber("7806041057");//shway number
-            });
+            emergencyCallButton.setOnClickListener(v -> ((DriverMapActivity) Objects
+                    .requireNonNull(getActivity())).
+                    callNumber("0000911"));
         }
     }
 
     /**
-     * Shows driver information and contact means on a dialog - Viola
+     * Shows driver information and contact means on a dialog - Added By Viola
      */
     @SuppressLint({"CheckResult", "SetTextI18n"})
     private void showInfo() {
@@ -239,7 +237,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     /**
-     * Starts phone calling.
+     * Starts phone calling. -Added by Viola
      * @param phoneNumber
      *      the phone number to be called
      */
@@ -274,7 +272,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
      */
     /**
      * Prompts email app selection and directs to email drafting page with auto0filled email address
-     * of the driver.
+     * of the driver. - Added by Viola
      * @param email
      *      the driver's email address
      */
@@ -398,9 +396,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onDriverRequestCompleteSuccess() {
         driver.setCurRequest(null);
-
-        //this.driverRequestDatabaseAccessor.getAllRequest(new LatLong(), this);
-
     }
 
     @Override
@@ -409,9 +404,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
-    public void onWaitOnRatingSuccess() {
+    public void onWaitOnRatingSuccess(Request request) {
 
     }
+
 
     @Override
     public void onWaitOnRatingError() {

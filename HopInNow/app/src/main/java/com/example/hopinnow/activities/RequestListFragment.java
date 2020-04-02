@@ -325,7 +325,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     }
 
     @Override
-    public void onWaitOnRatingSuccess() {
+    public void onWaitOnRatingSuccess(Request request) {
 
     }
 
