@@ -238,6 +238,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
                 curRequest.getCar(),curRequest.getEstimatedFare(),curRequest.getRating()));
         Log.v(TAG, "driver trip added!!!!!!!");
         this.driver.setDriverTripList(driverTripList);
+        Log.v(TAG, "driver current request is now deleted.");
+        this.driver.setCurRequest(null);
         driverDatabaseAccessor.updateDriverProfile(this.driver,this);
         Log.v(TAG, "driver profile retrieved.");
         Log.v(TAG, "now to update driver profile...");
@@ -251,8 +253,10 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
         if (rated){
-            rated = false;Log.v(TAG, "driver profile updated.");
+            rated = false;
+            Log.v(TAG, "driver profile updated.");
             Log.v(TAG, "now to go to driver map activity...");
+            Log.v(TAG, "request DELETE HERE::::::");
             driverRequestDatabaseAccessor.deleteRequest(this);
         } else {
             Log.v(TAG, "driver request completed.");
@@ -278,6 +282,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onRequestDeleteSuccess() {
+        Log.v(TAG, "curRequest is now deleted, go to DriverMapActivity");
         Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
         startActivity(intent);
         finish();

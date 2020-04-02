@@ -221,7 +221,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         final TextView driverName= dialog.findViewById(R.id.dialog_rider_rating_driver);
         driverName.setText(driver.getName());
         driverName.setOnClickListener(v -> showDriverInfo(driver));
-
         //submit rating and complete request
         final RatingBar ratingBar = dialog.findViewById(R.id.dialog_rating_bar);
         Button submitBtn= dialog.findViewById(R.id.dialog_rating_submit);
@@ -236,7 +235,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
                         .show();
             }
-
         });
 
         //cancel rating and complete request
@@ -246,8 +244,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             dialog.dismiss();
         });
 
-        // Shway Added This:
-        //this.dialogShown = true;
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
 
@@ -276,7 +272,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Double prevRating = driver.getRating();
         int counts = driver.getRatingCounts();
         String newRating = new DecimalFormat("#.##")
-                .format(Double.valueOf(prevRating + r) / (counts + 1));
+                .format((prevRating + r) / (counts + 1));
         driver.setRatingCounts(counts + 1);
         driver.setRating(Double.parseDouble(newRating));
         Log.v(TAG,"rider setting driver rating..." + newRating);
@@ -511,6 +507,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 curRequest.getCar(),curRequest.getEstimatedFare(),curRequest.getRating()));*/
         riderTripList.add(newTrip);
         this.rider.setRiderTripList(riderTripList);
+        Log.v(TAG, "rider's current request is now deleted.");
+        this.rider.setCurRequest(null);
         riderDatabaseAccessor.updateRiderProfile(this.rider,this);
     }
 
