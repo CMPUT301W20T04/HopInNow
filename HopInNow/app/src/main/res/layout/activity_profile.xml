@@ -17,13 +17,45 @@
             android:id="@+id/profileHeader"
             android:layout_width="117dp"
             android:layout_height="43dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
             android:text="@string/profile_header"
             android:textColor="@color/ColorOrange"
             android:textSize="40sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/proRatingLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/profileEmailTxt"
+            app:layout_constraintTop_toBottomOf="@+id/profileEmailTxt">
+
+            <TextView
+                android:id="@+id/profileRatingTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating:"
+                android:textColor="@color/ColorBlack"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/proRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:drawableLeft="@android:drawable/star_big_on"
+                android:text="Rating"
+                android:textColor="@color/ColorBlack"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/driver_rating"
@@ -43,8 +75,8 @@
             android:id="@+id/profileEmailTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="24dp"
             android:text="@string/prompt_email"
             android:textColor="@color/ColorBlack"
             android:textSize="20sp"
@@ -53,7 +85,7 @@
 
         <EditText
             android:id="@+id/proNameET"
-            android:layout_width="282dp"
+            android:layout_width="330dp"
             android:layout_height="47dp"
             android:layout_marginTop="16dp"
             android:ems="10"
@@ -66,7 +98,7 @@
 
         <EditText
             android:id="@+id/proPhoneET"
-            android:layout_width="274dp"
+            android:layout_width="330dp"
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:ems="10"
@@ -81,13 +113,13 @@
             android:id="@+id/profileNameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="324dp"
             android:text="@string/prompt_username"
             android:textColor="@color/ColorBlack"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileEmailTxt" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView4"
@@ -132,8 +164,8 @@
             android:id="@+id/proUsertypeTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="24dp"
             android:text="@string/profile_userType_txt"
             android:textColor="@color/ColorBlack"
             android:textSize="20sp"
@@ -155,7 +187,7 @@
             android:id="@+id/proLogoutBtn"
             android:layout_width="280dp"
             android:layout_height="48dp"
-            android:layout_marginTop="105dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="64dp"
             android:background="@drawable/orange_all_round_corner_login"
             android:text="@string/profile_logout_btn"
@@ -164,17 +196,17 @@
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.513"
+            app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/proUpdateBtn"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/proDepositTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="32dp"
             android:text="@string/promp_deposit_txt"
             android:textColor="@color/ColorBlack"
             android:textSize="20sp"

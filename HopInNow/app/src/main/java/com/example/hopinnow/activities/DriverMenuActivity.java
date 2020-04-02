@@ -19,8 +19,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  * This class helps show the driver's menu when clicking the menu button on the top left cornor
  */
 public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
-    public static final String TAG = "DriverMenuActivity";
+    private static final String TAG = "DriverMenuActivity";
     private TextView driverMenuTextView;
+    private String rating;
     private DriverDatabaseAccessor userDatabaseAccessor;
 
     /**
@@ -42,6 +43,9 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
         driverMyProfileBtn.setOnClickListener(v -> {
             // set driver check my profile button listener
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("DriverRating", rating);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 
@@ -75,6 +79,12 @@ public class DriverMenuActivity extends AppCompatActivity implements DriverProfi
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         // when retrieve the driver profile successful,
         // open vehicle view activity to display the car information
+        if (driver.getRating()!=null){
+            this.rating = driver.getRating().toString();
+        } else {
+            this.rating = null;
+        }
+
         Log.v(TAG, "Driver info retrieved!");
         Intent intent = new Intent(getApplicationContext(),  VehicleViewActivity.class);
         Bundle bundle = new Bundle();

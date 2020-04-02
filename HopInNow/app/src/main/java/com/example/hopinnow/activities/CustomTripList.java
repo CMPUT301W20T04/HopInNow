@@ -54,9 +54,9 @@ public class CustomTripList extends ArrayAdapter<Trip> {
         TextView fromText = view.findViewById(R.id.fromText);
         TextView toText = view.findViewById(R.id.ToText);
         TextView dateText = view.findViewById(R.id.DateText);
-        fromText.setText(String.format("From: "+trip.getPickUpLocName()));
-        toText.setText(String.format("To: "+trip.getDropOffLocName()));
-        dateText.setText("date: "+trip.getPickUpDateTime().toString());
+        fromText.setText(String.format(trip.getPickUpLocName()));
+        toText.setText(String.format(trip.getDropOffLocName()));
+        dateText.setText(trip.getPickUpDateTime().toString());
         return view;
     }
 }

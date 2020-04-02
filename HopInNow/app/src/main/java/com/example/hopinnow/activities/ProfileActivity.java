@@ -2,12 +2,15 @@ package com.example.hopinnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.User;
+import com.google.api.Distribution;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -29,25 +33,25 @@ import java.util.Objects;
  * Version: 1.0.0
  * show and edit user profile for both rider and driver
  */
-public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener, DriverProfileStatusListener {
+public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener {
     // establish the TAG of this activity:
-    public static final String TAG = "ProfileActivity";
+    private static final String TAG = "ProfileActivity";
     // declare database accessor:
     private UserDatabaseAccessor userDatabaseAccessor;
-    private DriverDatabaseAccessor driverDatabaseAccessor;
     // Global User object:
     private User currentUser;
-    private Driver driver;
     // UI Components:
     private EditText name;
     private EditText phoneNumber;
     private TextView email;
     private TextView deposit;
     private TextView userType;
+    private TextView rating;
+    private LinearLayout ratingLayout;
+    private String driverRating;
     private Button editBtn;
     private Button updateBtn;
     private Button logoutButton;
-    private TextView driverRating;
     // alert progress dialog:
     private ProgressDialog progressDialog;
     @Override
@@ -56,7 +60,8 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         setContentView(R.layout.activity_profile);
         // init the userDatabaseAccessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
-        this.driverDatabaseAccessor = new DriverDatabaseAccessor();
+        Intent intentR = this.getIntent();
+        this.driverRating = (String) intentR.getSerializableExtra("DriverRating");
         // check the login status:
         if (!this.userDatabaseAccessor.isLoggedin()) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -70,13 +75,14 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         this.phoneNumber = findViewById(R.id.proPhoneET);
         this.phoneNumber.setEnabled(false);
         this.deposit = findViewById(R.id.proDeposit);
+        this.rating = findViewById(R.id.proRating);
+        this.ratingLayout = findViewById(R.id.proRatingLayout);
         this.userType = findViewById(R.id.proUserType);
         this.editBtn = findViewById(R.id.editProfileBtn);
         this.updateBtn = findViewById(R.id.proUpdateBtn);
         this.updateBtn.setEnabled(false);
         this.updateBtn.setVisibility(View.INVISIBLE);
         this.logoutButton = findViewById(R.id.proLogoutBtn);
-        this.driverRating = findViewById(R.id.driver_rating);
         // alert progress dialog:
         progressDialog = new ProgressDialog(ProfileActivity.this);
         progressDialog.setContentView(R.layout.custom_progress_bar);
@@ -92,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     }
 
     // wrapper function to fill in the text fields the information from the user object:
+    @SuppressLint("SetTextI18n")
     private void fillUserInfo(User user) {
         if (user == null) {
             this.name.setText("");
@@ -108,11 +115,14 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
                     String.format(Locale.CANADA, "%.2f", currentUser.getDeposit()));
             if (this.currentUser.isUserType()) {    // if true, then the user is driver
                 this.userType.setText(R.string.usertype_driver);
-                this.driverDatabaseAccessor.getDriverProfile(this);
-
+                if (this.driverRating!=null){
+                    this.rating.setText(driverRating);
+                } else {
+                    this.rating.setText(" yet been rated");
+                }
             } else {    // or else, the user is a rider
                 this.userType.setText(R.string.usertype_rider);
-                this.driverRating.setVisibility(View.INVISIBLE);
+                this.ratingLayout.setVisibility(View.GONE);
             }
         }
         this.progressDialog.dismiss();
@@ -151,6 +161,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
         });
+
     }
 
 
@@ -203,36 +214,4 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     }
 
 
-    @Override
-    public void onDriverProfileRetrieveSuccess(Driver driver) {
-        this.driver = driver;
-        this.driverRating.setVisibility(View.VISIBLE);
-        String rating;
-        if (driver != null){
-            if (driver.getRating()==0){
-                rating = "not yet rated";
-            } else {
-                rating = Double.toString(driver.getRating());
-            }
-        }
-        else{
-            rating = "no result";
-        }
-        driverRating.setText(rating);
-    }
-
-    @Override
-    public void onDriverProfileRetrieveFailure() {
-
-    }
-
-    @Override
-    public void onDriverProfileUpdateSuccess(Driver driver) {
-
-    }
-
-    @Override
-    public void onDriverProfileUpdateFailure() {
-
-    }
 }

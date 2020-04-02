@@ -30,7 +30,7 @@
 
         <Button
             android:id="@+id/PickUpRiderButton"
-            android:layout_width="140dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="124dp"
             android:layout_marginTop="15dp"
@@ -106,9 +106,34 @@
 
                 <TextView
                     android:id="@+id/requestTimeText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:text=""
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="328dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rider:  "
+                    android:textStyle="bold"
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/requestRiderText"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
                     android:text=""
                     android:textColor="@color/ColorBlack"
                     android:textSize="15sp" />
@@ -130,9 +155,10 @@
                 <TextView
                     android:id="@+id/requestFromText"
                     android:textColor="@color/ColorBlack"
-                    android:layout_width="wrap_content"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textAlignment="center"
                     android:text=""
                     android:textSize="15sp" />
 
@@ -153,12 +179,13 @@
                     tools:layout_editor_absoluteY="75dp" />
                 <TextView
                     android:id="@+id/requestToText"
-                    android:layout_width="wrap_content"
                     android:textColor="@color/ColorBlack"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text=""
                     android:textSize="15sp"
+                    android:textAlignment="center"
                     tools:layout_editor_absoluteX="130dp"
                     tools:layout_editor_absoluteY="75dp" />
             </LinearLayout>
