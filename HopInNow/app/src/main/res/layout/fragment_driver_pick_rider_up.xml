@@ -121,6 +121,30 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rider:  "
+                    android:textStyle="bold"
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/requestRiderText"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:text=""
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="328dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
                     android:textColor="@color/ColorBlack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
