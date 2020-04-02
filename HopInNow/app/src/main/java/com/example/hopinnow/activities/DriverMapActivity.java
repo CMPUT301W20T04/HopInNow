@@ -165,8 +165,17 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
         myLocStartUpBtn.setOnClickListener(v -> {
-            setUseCurrent(true);
-            switchFragment(R.layout.fragment_driver_requests);
+            if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                    && (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+                setUseCurrent(true);
+                switchFragment(R.layout.fragment_driver_requests);
+            } else {
+                Toast.makeText(this,"Please enable location first.",Toast.LENGTH_SHORT)
+                        .show();
+            }
+
         });
         if ((ActivityCompat.checkSelfPermission(DriverMapActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -306,16 +315,33 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         }
     }
+    /**
+     * Starts phone calling.
+     * @param phoneNumber
+     *      the phone number to be called
+     */
+    @SuppressLint("CheckResult")
     public void callNumber(String phoneNumber){
-
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+phoneNumber));
 
         if (ActivityCompat.checkSelfPermission(DriverMapActivity.this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions
+                    .request(Manifest.permission.CALL_PHONE)
+                    .subscribe(granted -> {
+                        if (granted) {
+                            startActivity(callIntent);
+                        } else {
+                            String driverNumber = driver.getPhoneNumber();
+                            Toast.makeText(this,"Driver's Phone Number: " + driverNumber,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+        } else {
+            startActivity(callIntent);
         }
-        startActivity(callIntent);
     }
 
     public void clearMap(){

@@ -71,7 +71,7 @@ public interface DriverRequestListener {
     /**
      * Called when the request is successfully rated by the rider:
      */
-    void onWaitOnRatingSuccess();
+    void onWaitOnRatingSuccess(Request request);
 
     /**
      * Called when the request receives an error while waiting for the rating:

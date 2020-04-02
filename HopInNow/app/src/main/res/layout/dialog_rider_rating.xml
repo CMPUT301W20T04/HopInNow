@@ -45,21 +45,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="1dp"
         android:layout_marginBottom="15dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/dialog_rating_cancel"
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center|center_vertical"
-            android:layout_marginRight="30sp"
+            android:layout_marginBottom="10dp"
+            android:alpha="0.7"
             android:background="@color/ColorWhite"
-            android:text="Cancel"
-            android:textColor="@color/ColorOrange"
-            android:textSize="16sp" />
+            android:text="Zero stars would be treated as not rated."
+            android:textColor="@color/ColorBlack"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/dialog_rating_submit"

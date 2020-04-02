@@ -22,14 +22,13 @@ import java.util.Objects;
 /**
  * Author: Franky He
  * This class defines the fragment while rider is waiting for driver offer.
- * This class is triggered by by rider creating a new current request.
  */
 public class  RiderWaitingDriverFragment extends Fragment {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private Chronometer chronometer;
     private boolean running;
     private double lowest_price;
-    private Double estimate_fare;
+    private double estimate_fare;
     private TextView fare_amount;
     private long savedTime = 0;
 
@@ -105,12 +104,14 @@ public class  RiderWaitingDriverFragment extends Fragment {
 
     private void addFare(){
         estimate_fare += 1;
+        estimate_fare = (double) Math.round(estimate_fare*100)/100;
         fare_amount.setText(df2.format(estimate_fare));
         ((RiderMapActivity) Objects.requireNonNull(getActivity())).updateFare(estimate_fare);
     }
 
     private void reduceFare(){
         estimate_fare -= 1;
+        estimate_fare = (double) Math.round(estimate_fare*100)/100;
         fare_amount.setText(df2.format(estimate_fare));
         ((RiderMapActivity) Objects.requireNonNull(getActivity())).updateFare(estimate_fare);
     }

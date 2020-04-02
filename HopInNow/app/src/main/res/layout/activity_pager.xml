@@ -83,7 +83,7 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
+            android:layout_gravity="center|end"
             android:text="Next Page"
             android:textAllCaps="false"
             android:textColor="@color/ColorOrange"

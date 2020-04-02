@@ -19,11 +19,7 @@ import java.util.Objects;
 
 /**
  * Author: Tianyu Bai
- * Editor: Shway Wang
  * This class defines the fragment that prompts rider's decision on the driver offer.
- *
- * todo: This class is to be triggered by driver sending an offer on rider's current request.
- * todo: accept and decline currently are disabled
  */
 public class RiderDriverOfferFragment extends Fragment {
     private Request curRequest;

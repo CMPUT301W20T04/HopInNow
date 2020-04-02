@@ -92,7 +92,7 @@ public class Test4_DriverActivityTest {
      */
     private void loginRiderAddRequest() throws InterruptedException {
         // Log in To Activity
-        String userEmail = "v@v.com";
+        String userEmail = "rider2@rider.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
@@ -134,9 +134,6 @@ public class Test4_DriverActivityTest {
 
         solo.clickOnView(solo.getView(R.id.PickUpRiderButton));
         assertTrue(solo.waitForText("EMERGENCY", 1, 2000));
-
-        solo.clickOnView(solo.getView(R.id.EmergencyCall));
-        solo.goBack();
 
         solo.clickOnView(solo.getView(R.id.dropOffRiderButton));
         if (solo.waitForText("Allow", 1, 2000)){

@@ -243,20 +243,23 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 // if an error happened during the rating, stop listening:
                 super.listenerRegistration.remove();
             }
-            if (documentSnapshot.exists()) {
+            // logic adjusted by Viola
+            if (Objects.requireNonNull(documentSnapshot).exists()) {
                 // see if the rating actually has changed:
-                if (requireNonNull(req).isRated() &&
-                        Objects.requireNonNull(req).getRating() != -1.0) {
-                    Log.v(TAG, "request rated: ");
-                    listener.onWaitOnRatingSuccess();
-                    // if the rating is complete, remove the listener:
-                    super.listenerRegistration.remove();
-                } else {
-                    Log.v(TAG, "request rated -1.0 stars.");
-                    listener.onWaitOnRatingError();
-                    // if an error happens here, stops listening:
-                    super.listenerRegistration.remove();
+                if (requireNonNull(req).isRated()){
+                    if (Objects.requireNonNull(req).getRating() >= 0){
+                        Log.v(TAG, "request rated: ");
+                        listener.onWaitOnRatingSuccess(req);
+                        // if the rating is complete, remove the listener:
+                        super.listenerRegistration.remove();
+                    } else {
+                        Log.v(TAG, "request rating filed");
+                        listener.onWaitOnRatingError();
+                        // if an error happens here, stops listening:
+                        super.listenerRegistration.remove();
+                    }
                 }
+
             }
         });
     }
