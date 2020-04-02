@@ -194,11 +194,9 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                             PickUpAndCurrentRequest.this);*/
             });
             // set emergency button on click listener
-            emergencyCallButton.setOnClickListener(v -> {
-                // call call number method to make a phone call
-                ((DriverMapActivity) getActivity())
-                        .callNumber("7806041057");//shway number
-            });
+            emergencyCallButton.setOnClickListener(v -> ((DriverMapActivity) Objects
+                    .requireNonNull(getActivity())).
+                    callNumber("0000911"));
         }
     }
 

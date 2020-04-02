@@ -160,6 +160,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                             lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                             Objects.requireNonNull(lm).requestLocationUpdates(LocationManager
                                             .GPS_PROVIDER, 0, 0, this);
+                            mMap.setMyLocationEnabled(true);
                         }
                     });
         } else {
@@ -860,6 +861,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderAcceptDriverRequest() {
         // rider begins waiting driver pickup
         this.driverDecided = true;
+        RiderRequestDatabaseAccessor riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
+        riderRequestDatabaseAccessor.riderWaitForPickup(this);
         switchFragment(R.layout.fragment_rider_waiting_pickup);
         riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
         riderRequestDatabaseAccessor.riderWaitForPickup(this);
