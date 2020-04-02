@@ -12,7 +12,7 @@ public class Driver extends User {
     private Car car;
     private ArrayList<Trip> driverTripList;
     private Double rating = 0.0;
-    private Integer ratingCounts = 0;
+    private int ratingCounts = 0;
 
     /**
      * Empty constructor

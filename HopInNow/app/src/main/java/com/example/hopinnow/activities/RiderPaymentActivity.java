@@ -3,6 +3,7 @@ package com.example.hopinnow.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
@@ -68,12 +71,15 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private Double baseFare;
     private ImageView qrImage;
     private Boolean other = false;
+    private boolean driverRatingUpdated = false;
+    private boolean riderTripUpdated = false;
     private TextView totalPaymentTextView;
     private Date dropOffDateTime;
     private Double myRating;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
+    private ProgressDialog progressDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -85,7 +91,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Gson gsonRequest = new Gson();
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
-        Log.v("emailCurquqest",curRequest.getDriverEmail());
+        progressDialog = new ProgressDialog(this);
 
         // for ui testing
         if (driver == null){
@@ -144,9 +150,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 confirmPaymentBtn.setVisibility(View.GONE);
                 showTotalBtn.setEnabled(false);
                 riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
-                //onScanningCompleted();
             }
         });
+
 
     }
 
@@ -169,41 +175,16 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         submitBtn.setOnClickListener(v -> {
             myRating = (double) ratingBar.getRating();
             if (myRating!= -1.0){
-                setNewDriverRating(myRating);
-                dialog.dismiss();
+                progressDialog.show();
                 completeRequest(myRating);
             } else {
                 Toast.makeText(RiderPaymentActivity.this, "Please select your " +
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
                         .show();
             }
-
         });
-
-        //cancel rating and complete request
-        Button cancelBtn = dialog.findViewById(R.id.dialog_rating_cancel);
-        cancelBtn.setOnClickListener(v -> {
-            dialog.dismiss();
-            completeRequest(0);
-        });
-
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
-    }
-
-
-    /**
-     * Calculates new average rating for driver.
-     * @param r
-     *      the new rating
-     */
-    private void setNewDriverRating(double r){
-        Double prevRating = driver.getRating();
-        int counts = driver.getRatingCounts();
-        Double newRating = (prevRating + r)/(counts+1);
-        driver.setRatingCounts(counts+1);
-        driver.setRating(newRating);
-        driverDatabaseAccessor.updateDriverProfile(driver,RiderPaymentActivity.this);
     }
 
 
@@ -213,10 +194,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private void completeRequest(double rating){
         String msg = "Your trip is completed!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
-
-        curRequest.setRating(rating);
-        curRequest.setEstimatedFare(totalPayment);
-        riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
+        this.curRequest.setRating(rating);
+        this.curRequest.setEstimatedFare(totalPayment);
+        this.riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
     }
 
 
@@ -259,12 +239,15 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * This method is trigger by driver finishing the scanning of the QR.
      */
     public void onScanningCompleted(){
+
         double newDepositAmount = rider.getDeposit()-totalPayment;
         this.rider.setDeposit(newDepositAmount);
         //riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
-
-        String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
-        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
+        if (!driverRatingUpdated){
+            String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
+            driverRatingUpdated = true;
+            Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
+        }
 
         showRatingDialog();
     }
@@ -296,12 +279,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * Change current request from class Request to class Trip.
      */
     private Trip toTrip(){
-        Log.v("testD",driver.getEmail());
         int duration = (int) (curRequest.getPickUpDateTime().getTime() - dropOffDateTime.getTime());
         LatLong mpickUpLoc = curRequest.getPickUpLoc();
-        //LatLng pickUpLoc = new LatLng(mpickUpLoc.getLat(), mpickUpLoc.getLng());
         LatLong mdropOffLoc = curRequest.getDropOffLoc();
-        //LatLng dropOffLoc = new LatLng(mdropOffLoc.getLat(), mdropOffLoc.getLng());
         String dropOffName = curRequest.getDropOffLocName();
         String pickUpName = curRequest.getPickUpLocName();
         Date pickUpTime = curRequest.getPickUpDateTime();
@@ -409,10 +389,13 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRiderProfileUpdateSuccess(Rider rider) {
-        // change activity
+        riderTripUpdated = true;
+        progressDialog.dismiss();
+        //change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", "cancel");
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -473,6 +456,11 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRequestRatedSuccess() {
+        Toast.makeText(RiderPaymentActivity.this, "Rating successful!", Toast.LENGTH_SHORT)
+                .show();
+        curRequest.setAcceptStatus(1);
+        curRequest.setArrivedAtDest(true);
+        curRequest.setComplete(true);
         riderRequestDatabaseAccessor.addUpdateRequest(curRequest,RiderPaymentActivity.this);
         Trip newTrip = toTrip();
         ArrayList<Trip> riderTripList = this.rider.getRiderTripList();
@@ -496,9 +484,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver){
-        String driverName = driver.getName();
-        Toast.makeText(getApplicationContext(),
-                driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
     }
 
     @Override

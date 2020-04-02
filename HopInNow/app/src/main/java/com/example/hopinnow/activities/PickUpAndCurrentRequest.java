@@ -201,7 +201,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     /**
-     * Shows driver information and contact means on a dialog - Viola
+     * Shows driver information and contact means on a dialog - Added By Viola
      */
     @SuppressLint({"CheckResult", "SetTextI18n"})
     private void showInfo() {
@@ -237,7 +237,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     /**
-     * Starts phone calling.
+     * Starts phone calling. -Added by Viola
      * @param phoneNumber
      *      the phone number to be called
      */
@@ -272,7 +272,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
      */
     /**
      * Prompts email app selection and directs to email drafting page with auto0filled email address
-     * of the driver.
+     * of the driver. - Added by Viola
      * @param email
      *      the driver's email address
      */
@@ -396,9 +396,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public void onDriverRequestCompleteSuccess() {
         driver.setCurRequest(null);
-
-        //this.driverRequestDatabaseAccessor.getAllRequest(new LatLong(), this);
-
     }
 
     @Override
@@ -407,9 +404,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
-    public void onWaitOnRatingSuccess() {
+    public void onWaitOnRatingSuccess(Request request) {
 
     }
+
 
     @Override
     public void onWaitOnRatingError() {

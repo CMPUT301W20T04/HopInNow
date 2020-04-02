@@ -22,7 +22,6 @@ import java.util.Objects;
 /**
  * Author: Franky He
  * This class defines the fragment while rider is waiting for driver offer.
- * This class is triggered by by rider creating a new current request.
  */
 public class  RiderWaitingDriverFragment extends Fragment {
     private static DecimalFormat df2 = new DecimalFormat("#.##");

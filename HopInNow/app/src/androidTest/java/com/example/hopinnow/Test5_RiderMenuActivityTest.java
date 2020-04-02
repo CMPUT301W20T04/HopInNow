@@ -49,38 +49,13 @@ public class Test5_RiderMenuActivityTest {
     }
 
     /**
-     * Logs in user.
-     * @throws InterruptedException
-     *      throws exception if thread is interrupted
-     */
-    private void loginUser() throws InterruptedException {
-        // Log in To Activity
-        String userEmail = "v@v.com";
-        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
-        String userPassword = "1111111";
-        solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
-        solo.goBack();
-        solo.clickOnView(solo.getView(R.id.loginButton));
-
-        Thread.sleep(2000);
-    }
-
-
-
-    /**
      * Check menu button, my trip list view and updating user information in my profile
       * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
     @Test
     public void Case1_checkMenu() throws InterruptedException {
-        Thread.sleep(2000);
-
-        solo.clickOnView(solo.getView(R.id.driverMenuBtn));
-        solo.clickOnMenuItem("Log Out");
-        Thread.sleep(2000);
-
-        loginUser();
+        Thread.sleep(8000);
 
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
         solo.clickOnView(solo.getView(R.id.riderMenuBtn));

@@ -21,7 +21,6 @@ import java.util.Objects;
 
 /**
  * Authoer: Tianyu Bai
- * Co-author: Shway Wang
  * Version: 1.0.2
  * This class defines the fargment while rider is waiting for driver pickup.
  */
@@ -39,6 +38,7 @@ public class RiderWaitingPickupFragment extends Fragment {
         Request curRequest = ((RiderMapActivity) Objects.requireNonNull(getActivity()))
                 .retrieveCurrentRequestLocal();
         driver = ((RiderMapActivity) Objects.requireNonNull(getActivity())).retrieveOfferedDriver();
+        // ui mock up
         if ((curRequest==null)||(driver==null)){
             Car car = new Car("Auburn","Speedster","Cream","111111");
             driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
