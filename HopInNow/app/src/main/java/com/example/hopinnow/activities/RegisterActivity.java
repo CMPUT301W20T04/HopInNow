@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class RegisterActivity extends AppCompatActivity implements LoginStatusListener,
         RegisterStatusListener, UserProfileStatusListener {
     // establish the TAG of this activity:
-    public static final String TAG = "RegisterActivity";
+    private static final String TAG = "RegisterActivity";
     // current user information:
     private User user;
     // Database methods:

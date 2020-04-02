@@ -41,7 +41,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, DriverRequestListener, RequestAddDeleteListener {
-    public static final String TAG = "RequestListFragment";
+    private static final String TAG = "RequestListFragment";
     private ListView requestListView;
     private ArrayList<Request> requestList;
     private Request chooseRequest;

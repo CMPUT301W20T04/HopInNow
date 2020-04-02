@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.DecimalFormat;
 import java.util.Date;
 
-import static com.example.hopinnow.activities.RiderMapActivity.TAG;
+
 
 /**
  * Author: Tianyu Bai

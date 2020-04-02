@@ -71,7 +71,7 @@ import java.util.Objects;
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,
         NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener, LocationListener {
     private GoogleMap mMap;
-    MapFragment mapFragment;
+    private MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
 //    private FloatingActionButton goOnline;
     private AutocompleteSupportFragment startUpAutoComplete;
@@ -90,7 +90,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Button myLocStartUpBtn;
     private NavigationView navigationView;
     private DriverDatabaseAccessor driverDatabaseAccessor;
-    public static final String TAG = "DriverMenuActivity";
+    private static final String TAG = "DriverMenuActivity";
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
     private boolean useCurrent;

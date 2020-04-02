@@ -91,7 +91,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         LocationListener, RequestAddDeleteListener,
         NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String TAG = "RiderMapActivity";
+    private static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
     private SharedPreferences mPrefs;
     private LocationManager lm;
@@ -860,8 +860,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderAcceptDriverRequest() {
         // rider begins waiting driver pickup
         this.driverDecided = true;
-        riderRequestDatabaseAccessor.riderWaitForPickup(this);
         switchFragment(R.layout.fragment_rider_waiting_pickup);
+        riderRequestDatabaseAccessor.riderWaitForPickup(this);
+
     }
 
     @Override
