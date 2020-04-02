@@ -207,7 +207,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         //means the rider update the rating successfully.
         rated = true;
         this.curRequest = request;
-        Log.v("WaitingCurrequest",this.curRequest.getRating().toString());
         driverDatabaseAccessor.getDriverProfile(this);
         Log.v(TAG, "Rider has rated the trip!!!!");
         Log.v(TAG, "now to get driver profile...");
@@ -222,7 +221,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
         //this.curRequest = driver.getCurRequest();
-        Log.v("ProfileCurrequest",this.curRequest.getRating().toString());
         Date current_time = new Date();
         Log.v(TAG, "trying to add in the new trip...");
         ArrayList<Trip> driverTripList = this.driver.getDriverTripList();

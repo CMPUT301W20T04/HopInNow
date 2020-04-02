@@ -184,13 +184,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         });
 
-        //cancel rating and complete request
-        Button cancelBtn = dialog.findViewById(R.id.dialog_rating_cancel);
-        cancelBtn.setOnClickListener(v -> {
-            completeRequest(0);
-            dialog.dismiss();
-        });
-
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
     }

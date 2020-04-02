@@ -198,9 +198,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (Objects.equals(caseCancel, "cancel")) {
             tripCompleted = true;
             cancelRequestLocal();
-        } else {
-            tripCompleted = true;
-            cancelRequestLocal();
             riderRequestDatabaseAccessor.deleteRequest(this);
         }
         // MOCK FOR INTENT TESTING
