@@ -7,23 +7,26 @@
 
 
     <FrameLayout
-        android:layout_width="375dp"
-        android:layout_height="813dp"
+        android:id="@+id/guideFragment"
+        android:layout_width="368dp"
+        android:layout_height="646dp"
         android:layout_centerHorizontal="true">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="270dp"
             android:layout_height="555dp"
-            android:layout_marginTop="40dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp" />
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/guidePageLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/guideFragment"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
