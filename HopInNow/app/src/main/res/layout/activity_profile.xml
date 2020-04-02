@@ -87,12 +87,10 @@
             android:id="@+id/proNameET"
             android:layout_width="330dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
             android:ems="10"
+            android:layout_marginStart="34dp"
             android:inputType="textPersonName"
             android:textColor="@color/ColorBlack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.459"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileNameTxt" />
 
@@ -100,12 +98,10 @@
             android:id="@+id/proPhoneET"
             android:layout_width="330dp"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="34dp"
             android:ems="10"
             android:inputType="phone"
             android:textColor="@color/ColorBlack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -125,7 +121,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="28dp"
             android:text="@string/prompt_phone_number"
             android:textColor="@color/ColorBlack"
