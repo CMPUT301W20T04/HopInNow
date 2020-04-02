@@ -21,7 +21,7 @@ public class EmergencyCallTest {
     }
 
     /**
-     * test on empty driver
+     * test on empty entity
      */
     @Test
     public void testEmpty(){
