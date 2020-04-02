@@ -302,7 +302,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
-                android:layout_width="358dp"
+                android:layout_width="0dp"
                 android:layout_height="43dp"
                 android:layout_margin="15dp"
                 android:layout_marginStart="13dp"
@@ -329,8 +329,8 @@
                         android:id="@+id/rating2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableTint="@color/ColorOrange"
                         android:drawableLeft="@drawable/rate"
+                        android:drawableTint="@color/ColorOrange"
                         android:fontFamily="sans-serif-light"
                         android:gravity="center_vertical"
                         android:text=" Rating:"

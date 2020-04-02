@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+/**
+ * Author: Qianxi Li
+ *
+ */
 public class PagerAdapter extends FragmentPagerAdapter {
     public PagerAdapter(FragmentManager fm) {
         super(fm);
@@ -13,14 +17,14 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     /**
-     * Get item according to the position
-     * and return the item
+     * Get item at the position
+     * then return the item
      */
     public Fragment getItem(int position) {
         return IntroFragment.newInstance(position+1);
     }
     /**
-     * Get the count of the guide pages
+     * Get the amount of pages
      * @return 5
      */
     @Override

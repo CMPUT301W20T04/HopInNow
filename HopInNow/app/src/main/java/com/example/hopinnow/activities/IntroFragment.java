@@ -17,9 +17,16 @@ public class IntroFragment extends Fragment {
     private ImageView imageView;
     private static final String SectionNumber = "number";
     private int[] drawable_array = new int[]{
-      R.drawable.shway,
-      R.drawable.shway2,
-      R.drawable.shway3, R.drawable.shway4, R.drawable.zhiqi
+      R.drawable.sign_up,
+      R.drawable.allow_location,
+      R.drawable.click_menu, R.drawable.waiting, R.drawable.payment
+    };
+    private String[] guide = new String[] {
+            "Make sure the user type (rider/driver) when signing up.",
+            "Make sure to allow access to the current location.",
+            "Check out the menu by clicking the menu button on top left.",
+            "While waiting, increase the fare to encourage drivers.",
+            "Choose tips, sum up and click confirm to get QR to scan."
     };
     public static IntroFragment newInstance(int sectionNumber) {
         IntroFragment fragment = new IntroFragment();
@@ -34,7 +41,7 @@ public class IntroFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pager_fragment, container, false);
         TextView textView = view.findViewById(R.id.guidePageText);
-        String textString = "Page "+(getArguments().getInt(SectionNumber)-1);
+        String textString = guide[(getArguments().getInt(SectionNumber)-1)];
         textView.setText(textString);
         imageView = (ImageView) view.findViewById(R.id.image);
         imageView.setBackgroundResource(drawable_array[getArguments().getInt(SectionNumber)-1]);

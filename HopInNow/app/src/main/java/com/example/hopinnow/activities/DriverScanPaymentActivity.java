@@ -42,13 +42,11 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class DriverScanPaymentActivity extends AppCompatActivity
         implements ZXingScannerView.ResultHandler, DriverRequestListener,
         DriverProfileStatusListener, AvailRequestListListener, RequestAddDeleteListener {
-    public static final String TAG = "DriverScanPaymentA";
+    private static final String TAG = "DriverScanPaymentA";
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
-    // Shway added this:
     private String qrPayment;
-
     private boolean rated = false;
     private String encoded;
     private RxPermissions rxPermissions;

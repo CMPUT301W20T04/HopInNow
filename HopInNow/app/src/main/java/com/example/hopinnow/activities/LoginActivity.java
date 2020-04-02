@@ -26,7 +26,7 @@ import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
         UserProfileStatusListener {
 // establish the TAG of this activity:
-    public static final String TAG = "LoginActivity";
+    private static final String TAG = "LoginActivity";
     // initialize Database helper:
     private UserDatabaseAccessor userDatabaseAccessor;
     // UI components:

@@ -48,7 +48,7 @@ import java.util.Objects;
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener,
         RiderObjectRetrieveListener {
-    public static final String TAG = "PickUpAndCurrentRequest";
+    private static final String TAG = "PickUpAndCurrentRequest";
     private Driver driver;
     private Rider rider;
     private Request request;
@@ -63,9 +63,9 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     // Shway Wang added this:
     private ProgressDialog progressDialog;
     private Context context;
-    Button pickUpButton;
-    Button dropOffButton;
-    Button emergencyCallButton;
+    private Button pickUpButton;
+    private Button dropOffButton;
+    private Button emergencyCallButton;
 
     @Nullable
     @Override

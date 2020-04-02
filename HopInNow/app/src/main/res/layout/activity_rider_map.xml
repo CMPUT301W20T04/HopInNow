@@ -64,9 +64,11 @@
 
         <LinearLayout
             android:id="@+id/search_layout"
-            android:layout_width="380dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="60dp"
+            android:layout_marginEnd="10dp"
             android:background="@color/ColorWhite"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
