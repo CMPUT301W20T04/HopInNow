@@ -860,6 +860,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onRiderAcceptDriverRequest() {
         // rider begins waiting driver pickup
         this.driverDecided = true;
+        RiderRequestDatabaseAccessor riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
         riderRequestDatabaseAccessor.riderWaitForPickup(this);
         switchFragment(R.layout.fragment_rider_waiting_pickup);
     }
