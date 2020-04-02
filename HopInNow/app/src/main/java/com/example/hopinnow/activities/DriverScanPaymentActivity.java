@@ -191,8 +191,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverRequestCompleteSuccess() {
         double prevDeposit = driver.getDeposit();
-        driver.setDeposit(prevDeposit + Double.parseDouble(this.qrPayment));
-        driverDatabaseAccessor.updateDriverProfile(driver,this);
+        this.driver.setDeposit(prevDeposit + Double.parseDouble(this.qrPayment));
+        //driverDatabaseAccessor.updateDriverProfile(driver,this);
         Toast.makeText(this, "You have successfully received " + this.qrPayment +
                 " QR bucks for your completed ride!", Toast.LENGTH_SHORT).show();
     }
@@ -212,6 +212,21 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         Log.v(TAG, "now to get driver profile...");
     }
 
+    /**
+     * Calculates new average rating for driver.
+     * @param r
+     *      the new rating
+     */
+    private void setNewDriverRating(double r){
+        Double prevRating = this.driver.getRating();
+        int counts = this.driver.getRatingCounts();
+        Double newRating = (prevRating + r)/(counts+1);
+        this.driver.setRatingCounts(counts+1);
+        this.driver.setRating(newRating);
+        //progressDialog = new ProgressDialog(this);
+        //progressDialog.show();
+    }
+
     @Override
     public void onWaitOnRatingError() {
         driverRequestDatabaseAccessor.driverWaitOnRating(this.curRequest, this);
@@ -221,6 +236,9 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
         //this.curRequest = driver.getCurRequest();
+        if (this.curRequest.getRating()!=0){
+            setNewDriverRating(this.curRequest.getRating());
+        }
         Date current_time = new Date();
         Log.v(TAG, "trying to add in the new trip...");
         ArrayList<Trip> driverTripList = this.driver.getDriverTripList();
@@ -240,6 +258,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
         driverDatabaseAccessor.updateDriverProfile(this.driver,this);
         Log.v(TAG, "driver profile retrieved.");
         Log.v(TAG, "now to update driver profile...");
+        driverDatabaseAccessor.updateDriverProfile(this.driver,DriverScanPaymentActivity.this);
     }
 
     @Override

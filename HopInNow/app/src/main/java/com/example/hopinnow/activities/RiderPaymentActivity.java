@@ -173,7 +173,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         submitBtn.setOnClickListener(v -> {
             myRating = (double) ratingBar.getRating();
             if (myRating!= -1.0){
-                setNewDriverRating(myRating);
+                //setNewDriverRating(myRating);
                 completeRequest(myRating);
                 dialog.dismiss();
             } else {
@@ -406,10 +406,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderProfileUpdateSuccess(Rider rider) {
         riderTripUpdated = true;
-        /* change activity
+        //change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", "cancel");
-        startActivity(intent);*/
+        startActivity(intent);
     }
 
     @Override
@@ -496,7 +496,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver){
-        driverRatingUpdated = true;
+        /*driverRatingUpdated = true;
         String driverName = driver.getName();
         String rc = String.valueOf(driver.getRatingCounts());
         Log.v("DriverRatingCounts",rc);
@@ -504,7 +504,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", "cancel");
-        startActivity(intent);
+        startActivity(intent);*/
 
     }
 

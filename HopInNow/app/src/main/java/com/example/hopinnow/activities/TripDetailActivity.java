@@ -86,17 +86,17 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
         trip = driver.getDriverTripList().get(search_key);
-        driverEmail.setText("Driver Email: "+trip.getDriverEmail());
-        riderEmail.setText("Rider Email: "+trip.getRiderEmail());
-        pickUpLocation.setText(String.format("Pick Up Location: %s",trip.getPickUpLocName()));
-        dropOffLocation.setText(String.format("Drop Off Location: %s",trip.getDropOffLocName()));
+        driverEmail.setText(" Driver Email: "+trip.getDriverEmail());
+        riderEmail.setText(" Rider Email: "+trip.getRiderEmail());
+        pickUpLocation.setText(String.format(" From: %s",trip.getPickUpLocName()));
+        dropOffLocation.setText(String.format(" To: %s",trip.getDropOffLocName()));
         if (trip.getRating()==0){
-            rating.setText("Rating: not rated");
+            rating.setText(" Rating: not rated");
         } else {
-            rating.setText("Rating: "+trip.getRating().toString());
+            rating.setText(" Rating: "+trip.getRating().toString());
         }
 
-        cost.setText("Revenue: "+trip.getCost().toString());
+        cost.setText(" Revenue: "+trip.getCost().toString());
         riderDatabaseAccessor.getRiderObject(trip.getRiderEmail(),this);
 
     }
@@ -283,16 +283,16 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     public void onRiderProfileRetrieveSuccess(Rider rider) {
         this.rider = rider;
         trip = this.rider.getRiderTripList().get(search_key);
-        driverEmail.setText("Driver Email:  "+trip.getDriverEmail());
-        riderEmail.setText("Rider Email:  "+trip.getRiderEmail());
-        pickUpLocation.setText(String.format("From: %s",trip.getPickUpLocName()));
-        dropOffLocation.setText(String.format("To: %s",trip.getDropOffLocName()));
+        driverEmail.setText(" Driver Email:  "+trip.getDriverEmail());
+        riderEmail.setText(" ider Email:  "+trip.getRiderEmail());
+        pickUpLocation.setText(String.format(" From: %s",trip.getPickUpLocName()));
+        dropOffLocation.setText(String.format(" To: %s",trip.getDropOffLocName()));
         if (trip.getRating()==0){
-            rating.setText("Rating: not rated");
+            rating.setText(" Rating: not rated");
         } else {
-            rating.setText("Rating: "+trip.getRating().toString());
+            rating.setText(" Rating: "+trip.getRating().toString());
         }
-        cost.setText("Cost:  "+trip.getCost().toString());
+        cost.setText(" Cost:  "+trip.getCost().toString());
         driverDatabaseAccessor.getDriverObject(trip.getDriverEmail(),this);
 
     }
@@ -318,7 +318,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         if (this.otherDriver.getRating() == null){
             this.otherDriver.setRating(0.0);
         }
-        otherName.setText("Driver Name:  "+this.otherDriver.getName());
+        otherName.setText(" Driver Name:  "+this.otherDriver.getName());
         otherName.setOnClickListener(v -> showInfo(this.otherDriver,null));
         otherRating.setNumStars(5);
         float rating3 = (float)this.otherDriver.getRating().doubleValue();
@@ -335,7 +335,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     @Override
     public void onRiderObjRetrieveSuccess(Rider rider) {
         this.otherRider = rider;
-        otherName.setText("Rider Name:  "+this.otherRider.getName());
+        otherName.setText(" Rider Name:  "+this.otherRider.getName());
         otherName.setOnClickListener(v -> showInfo(null,this.otherRider));
     }
 
