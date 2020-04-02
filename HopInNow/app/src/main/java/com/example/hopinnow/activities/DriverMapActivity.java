@@ -73,10 +73,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private GoogleMap mMap;
     private MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
-//    private FloatingActionButton goOnline;
     private AutocompleteSupportFragment startUpAutoComplete;
     private boolean showSearch;
-
     private Rider rider;
     private Driver driver;
     private EditText startUpMock;
@@ -85,7 +83,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Marker pickUpMarker, dropOffMarker, startUpMarker;
     private FloatingActionButton driverMenuBtn;
     private LatLng myPosition;
-    private int currentRequestPageCounter = 0;
     private Location current;
     private Button myLocStartUpBtn;
     private NavigationView navigationView;
@@ -94,25 +91,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
     private boolean useCurrent;
-    /**
-     * set the visibility of goOnline button into invisible
-     */
-//    public void setButtonInvisible(){
-//        goOnline.setVisibility(View.INVISIBLE);
-//    }
 
-    /**
-     * get the appear time of the fragment that display the current request
-     * if it's the first time then display the pickup button
-     * else display the emergency button and dropoff button
-     * @return
-     */
-    public int getCurrentRequestPageCounter(){
-        return this.currentRequestPageCounter;
-    }
-    public void setCurrentRequestPageCounter(int value){
-        this.currentRequestPageCounter = value;
-    }
+
     @SuppressLint({"CheckResult", "CutPasteId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,11 +111,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", 12.0, null, car, null);
 
-//        goOnline = findViewById(R.id.onlineBtn);
-//        goOnline.setOnClickListener(v -> {
-//            findViewById(R.id.onlineButtonText).setVisibility(View.INVISIBLE);
-//            switchFragment(R.layout.fragment_driver_requests);
-//        });
         startUpAutoComplete = ((AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.start_up_auto_complete));
         setupAutoCompleteFragment();
