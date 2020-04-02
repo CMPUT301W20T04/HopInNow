@@ -33,7 +33,8 @@ import java.util.Objects;
  * Version: 1.0.0
  * show and edit user profile for both rider and driver
  */
-public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener {
+public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener,
+        DriverProfileStatusListener {
     // establish the TAG of this activity:
     private static final String TAG = "ProfileActivity";
     // declare database accessor:
@@ -61,7 +62,8 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         // init the userDatabaseAccessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
         Intent intentR = this.getIntent();
-        this.driverRating = (String) intentR.getSerializableExtra("DriverRating");
+        DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
+        driverDatabaseAccessor.getDriverProfile(this);
         // check the login status:
         if (!this.userDatabaseAccessor.isLoggedin()) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -214,4 +216,23 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
     }
 
 
+    @Override
+    public void onDriverProfileRetrieveSuccess(Driver driver) {
+        this.driverRating = driver.getRating().toString();
+    }
+
+    @Override
+    public void onDriverProfileRetrieveFailure() {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateSuccess(Driver driver) {
+
+    }
+
+    @Override
+    public void onDriverProfileUpdateFailure() {
+
+    }
 }

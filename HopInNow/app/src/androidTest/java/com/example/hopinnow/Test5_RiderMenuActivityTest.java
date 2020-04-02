@@ -55,7 +55,7 @@ public class Test5_RiderMenuActivityTest {
      */
     private void loginUser() throws InterruptedException {
         // Log in To Activity
-        String userEmail = "v@v.com";
+        String userEmail = "rider2@rider.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
