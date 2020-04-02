@@ -4,7 +4,7 @@ Welcome to HopInNow, a uber clone project.
 
 ### About
 
-![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/ReadMeBanner.png)
+![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/ReadMeBanner2.png)
 
 
 ### Credits
