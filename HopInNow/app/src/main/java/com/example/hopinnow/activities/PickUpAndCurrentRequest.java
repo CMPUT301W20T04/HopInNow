@@ -1,29 +1,39 @@
 package com.example.hopinnow.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
+import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Request;
+import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
+import com.example.hopinnow.statuslisteners.RiderObjectRetrieveListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -36,23 +46,26 @@ import java.util.Objects;
  * show the current request that driver has accepted
  */
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
-        AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener {
-    private static final String TAG = "PickUpAndCurrentRequest";
+        AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener,
+        RiderObjectRetrieveListener {
+    public static final String TAG = "PickUpAndCurrentRequest";
     private Driver driver;
+    private Rider rider;
     private Request request;
     private TextView requestTitleText;
     private TextView requestFromText;
     private TextView requestToText;
     private TextView requestTimeText;
     private TextView requestCostText;
+    private TextView requestRiderText;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     // Shway Wang added this:
     private ProgressDialog progressDialog;
     private Context context;
-    private Button pickUpButton;
-    private Button dropOffButton;
-    private Button emergencyCallButton;
+    Button pickUpButton;
+    Button dropOffButton;
+    Button emergencyCallButton;
 
     @Nullable
     @Override
@@ -61,6 +74,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         this.progressDialog = new ProgressDialog(this.getContext());
         this.progressDialog.setContentView(R.layout.custom_progress_bar);
         driverDatabaseAccessor = new DriverDatabaseAccessor();
+
         int display_mode;
         //here get the driver from database
 
@@ -72,6 +86,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             requestToText = view.findViewById(R.id.requestToText);
             requestTimeText = view.findViewById(R.id.requestTimeText);
             requestCostText = view.findViewById(R.id.requestCostText);
+            requestRiderText = view.findViewById(R.id.requestRiderText);
             pickUpButton = view.findViewById(R.id.PickUpRiderButton);
             dropOffButton = view.findViewById(R.id.dropOffRiderButton);
             emergencyCallButton = view.findViewById(R.id.EmergencyCall);
@@ -86,11 +101,15 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
         request = driver.getCurRequest();
+        RiderDatabaseAccessor rDA = new RiderDatabaseAccessor();
+        rDA.getRiderObject(request.getRiderEmail(), this);
         requestFromText.setText(request.getPickUpLocName());
         requestToText.setText( request.getDropOffLocName());
         requestTimeText.setText(request.getPickUpDateTime().toString());
         requestCostText.setText(String.format(Locale.CANADA,
                 "%.2f", request.getEstimatedFare()));
+
+        requestRiderText.setOnClickListener(v -> showInfo());
         if (request==null){
             requestFromText.setText("From: pick up location ui test" );
             requestToText.setText("To: drop off location ui test");
@@ -181,6 +200,89 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                         .callNumber("7806041057");//shway number
             });
         }
+    }
+
+    /**
+     * Shows driver information and contact means on a dialog - Viola
+     */
+    @SuppressLint({"CheckResult", "SetTextI18n"})
+    private void showInfo() {
+
+        Dialog dialog = new Dialog(Objects.requireNonNull(getActivity()));
+        dialog.setContentView(R.layout.dialog_driver_info);
+
+        if (rider != null) {
+            //set rider name
+            TextView driverName = dialog.findViewById(R.id.dialog_driver_name);
+            driverName.setText(rider.getName());
+
+            //set driver specific information gone
+            dialog.findViewById(R.id.dialog_driver_plate_label).setVisibility(View.GONE);
+            dialog.findViewById(R.id.dialog_driver_car_label).setVisibility(View.GONE);
+            TextView ra = dialog.findViewById(R.id.dialog_driver_rating);
+            ra.setCompoundDrawables(null, null, null, null);
+            ra.setText("Contact Rider By: ");
+            ra.setTextSize(18);
+            dialog.findViewById(R.id.dialog_driver_car).setVisibility(View.GONE);
+            dialog.findViewById(R.id.dialog_driver_plate).setVisibility(View.GONE);
+
+            //call rider
+            Button callBtn = dialog.findViewById(R.id.dialog_call_button);
+            callBtn.setOnClickListener(v -> callNumber(rider.getPhoneNumber()));
+
+            //email rider
+            Button emailBtn = dialog.findViewById(R.id.dialog_email_button);
+            emailBtn.setOnClickListener(v -> emailDriver(rider.getEmail()));
+
+            dialog.show();
+        }
+    }
+
+    /**
+     * Starts phone calling.
+     * @param phoneNumber
+     *      the phone number to be called
+     */
+    @SuppressLint("CheckResult")
+    private void callNumber(String phoneNumber){
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:"+phoneNumber));
+
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            RxPermissions rxPermissions = new RxPermissions(Objects.requireNonNull(getActivity()));
+            rxPermissions
+                    .request(Manifest.permission.CALL_PHONE)
+                    .subscribe(granted -> {
+                        if (granted) {
+                            startActivity(callIntent);
+                        } else {
+                            Toast.makeText(getActivity(),"User's Phone Number: " + phoneNumber,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+        } else {
+            startActivity(callIntent);
+        }
+    }
+
+
+    /*
+    Stackoverflow post by Dira
+    https://stackoverflow.com/questions/8701634/send-email-intent
+    Answer by Dira (code from the question itself)
+     */
+    /**
+     * Prompts email app selection and directs to email drafting page with auto0filled email address
+     * of the driver.
+     * @param email
+     *      the driver's email address
+     */
+    private void emailDriver(String email){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
+        startActivity(Intent.createChooser(intent, "Send Email"));
     }
 
     @Override
@@ -320,5 +422,16 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     public void onAttach(Context context) {
         this.context = context;
         super.onAttach(context);
+    }
+
+    @Override
+    public void onRiderObjRetrieveSuccess(Rider rider) {
+        this.rider = rider;
+        this.requestRiderText.setText(rider.getName());
+    }
+
+    @Override
+    public void onRiderObjRetrieveFailure() {
+
     }
 }

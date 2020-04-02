@@ -57,8 +57,9 @@
             android:id="@+id/dialog_call_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginBottom="6dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="60dp"
+            android:layout_marginRight="70dp"
             android:background="@drawable/button_round"
             android:drawableTop="@android:drawable/ic_menu_call"
             android:textColor="@color/quantum_black_100"
@@ -68,10 +69,9 @@
             android:id="@+id/dialog_email_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="6dp"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginEnd="25dp"
             android:background="@drawable/button_round"
             android:drawableTop="@android:drawable/sym_action_email"
             android:textColor="@color/ColorWhite"
@@ -83,18 +83,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rating_layout">
 
         <TextView
+            android:id="@+id/dialog_driver_car_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Car:  "
             android:textColor="@color/quantum_black_100"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/dialog_driver_car"
@@ -102,7 +101,7 @@
             android:layout_height="wrap_content"
             android:text="color make model"
             android:textColor="@color/quantum_black_100"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -110,7 +109,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="30dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,11 +116,12 @@
         app:layout_constraintTop_toBottomOf="@+id/car_layout">
 
         <TextView
+            android:id="@+id/dialog_driver_plate_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="License Plate:  "
             android:textColor="@color/quantum_black_100"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/dialog_driver_plate"
@@ -131,7 +130,7 @@
             android:layout_marginBottom="10dp"
             android:text="plate number"
             android:textColor="@color/quantum_black_100"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 

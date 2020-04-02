@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,191 +7,197 @@
     android:orientation="vertical"
     android:background="@color/ColorWhite">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/orange_top_round_corner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="8dp"
-            android:text="Driver's on the way ..."
-            android:textColor="@color/ColorWhite"
-            android:textSize="22sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Driver:  "
-            android:textColor="@color/ColorBlack"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/rider_waiting_driver_name"
-                android:layout_width="135dp"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/sample_text"
-                android:textColor="@color/ColorBlack"
-                android:textSize="15sp" />
-
-            <Button
-                android:id="@+id/rider_waiting_call_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="65dp"
-                android:background="@drawable/button_round"
-                android:drawableTop="@android:drawable/ic_menu_call"
-                android:textColor="@color/ColorWhite"
-                android:textSize="18dp" />
-
-            <Button
-                android:id="@+id/rider_waiting_email_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/button_round"
-                android:drawableTop="@android:drawable/sym_action_email"
-                android:textColor="@color/ColorWhite"
-                android:textSize="18dp" />
-
-        </RelativeLayout>
-
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:orientation="vertical">
+            android:background="@drawable/orange_top_round_corner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:text="Driver's on the way ..."
+                android:textColor="@color/ColorWhite"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="From "
+                android:text="My Driver:  "
                 android:textColor="@color/ColorBlack"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/rider_waiting_pickUp"
-                android:layout_width="300dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/sample_text"
-                android:textAlignment="center"
-                android:textColor="@color/ColorBlack"
-                android:textSize="15sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="To "
-                android:textStyle="bold"
-                android:textColor="@color/ColorBlack"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/rider_waiting_driver_name"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/sample_text"
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/rider_waiting_dropOff"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/sample_text"
-                android:textAlignment="center"
-                android:textColor="@color/ColorBlack"
-                android:textSize="15sp" />
+                <Button
+                    android:id="@+id/rider_waiting_call_button"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="65dp"
+                    android:background="@drawable/button_round"
+                    android:drawableTop="@android:drawable/ic_menu_call"
+                    android:textColor="@color/ColorWhite"
+                    android:textSize="18dp" />
+
+                <Button
+                    android:id="@+id/rider_waiting_email_button"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/button_round"
+                    android:drawableTop="@android:drawable/sym_action_email"
+                    android:textColor="@color/ColorWhite"
+                    android:textSize="18dp" />
+
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="Estimated Fare:          "
-                    android:textColor="@color/quantum_black_100"
-                    android:textSize="15sp" />
+                    android:text="From :"
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$"
-                    android:textColor="@color/quantum_black_100"
-                    android:textSize="15sp" />
-                <TextView
-                    android:id="@+id/rider_waiting_fare"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rider_waiting_pickUp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/sample_text"
+                    android:textAlignment="center"
                     android:textColor="@color/ColorBlack"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To: "
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rider_waiting_dropOff"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/sample_text"
+                    android:textAlignment="center"
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Estimated Fare:          "
+                        android:textColor="@color/ColorBlack"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$"
+                        android:textColor="@color/quantum_black_100"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/rider_waiting_fare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/sample_text"
+                        android:textColor="@color/ColorBlack"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/rider_waiting_cancel_button"
+                    android:layout_width="200dp"
+                    android:layout_height="34dp"
+                    android:background="@drawable/orange_all_round_corner"
+                    android:text="CANCEL REQUEST"
+                    android:textColor="@color/ColorOrange"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <Button
+                    android:id="@+id/rider_waiting_next_button"
+                    android:layout_width="8dp"
+                    android:layout_height="2dp"
+                    android:alpha="0"
+                    android:background="@drawable/orange_all_round_corner"
+                    android:text=">"
+                    android:textColor="@color/ColorOrange"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/rider_waiting_cancel_button"
-                android:layout_width="200dp"
-                android:layout_height="34dp"
-                android:background="@drawable/orange_all_round_corner"
-                android:text="CANCEL REQUEST"
-                android:textColor="@color/ColorOrange"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/rider_waiting_next_button"
-                android:layout_width="8dp"
-                android:layout_height="2dp"
-                android:alpha="0"
-                android:background="@drawable/orange_all_round_corner"
-                android:text=">"
-                android:textColor="@color/ColorOrange"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -18,7 +18,7 @@ import org.junit.Test;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.TestCase.assertTrue;
 
-public class Test5_DriverMenuActivityTest {
+public class Test3_DriverMenuActivityTest {
     private Solo solo;
 
     @Rule
@@ -53,7 +53,7 @@ public class Test5_DriverMenuActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case1_checkMenu() throws InterruptedException {
         Thread.sleep(2000);
 
@@ -88,7 +88,6 @@ public class Test5_DriverMenuActivityTest {
         assertTrue(solo.waitForText("Testing Driver",1,2000));
 
         solo.clickOnView(solo.getView(R.id.proUpdateBtn));
-        assertTrue(solo.waitForText("updated!",1,2000));
         solo.goBack();
 
         //test editing my car
@@ -116,7 +115,7 @@ public class Test5_DriverMenuActivityTest {
 
         //test offline
         solo.clickOnMenuItem("Offline");
-        assertTrue(solo.waitForText("HOP",1,2000));
+        assertTrue(solo.waitForText("SEARCH",1,2000));
 
         // log out
         solo.clickOnView(solo.getView(R.id.driverMenuBtn));

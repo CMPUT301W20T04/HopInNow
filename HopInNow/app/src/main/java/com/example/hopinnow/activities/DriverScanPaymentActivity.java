@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +37,12 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 /**
  * Author: Tianyu Bai
- * Co-author: Qianxi Li
  * This class deals with the QR code and the payment process:
  */
 public class DriverScanPaymentActivity extends AppCompatActivity
         implements ZXingScannerView.ResultHandler, DriverRequestListener,
         DriverProfileStatusListener, AvailRequestListListener, RequestAddDeleteListener {
-    private static final String TAG = "DriverScanPaymentA";
+    public static final String TAG = "DriverScanPaymentA";
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
@@ -215,7 +215,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onWaitOnRatingError() {
-
+        driverRequestDatabaseAccessor.driverWaitOnRating(this.curRequest, this);
     }
 
     @Override
@@ -250,15 +250,10 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-        System.out.println("321321321");
         if (rated){
-            rated = false;
-            Log.v(TAG, "driver profile updated.");
+            rated = false;Log.v(TAG, "driver profile updated.");
             Log.v(TAG, "now to go to driver map activity...");
             driverRequestDatabaseAccessor.deleteRequest(this);
-            finish();
-            Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
-            startActivity(intent);
         } else {
             Log.v(TAG, "driver request completed.");
             Log.v(TAG, "now driver is WAITING ON RATING!!!!");
@@ -283,7 +278,9 @@ public class DriverScanPaymentActivity extends AppCompatActivity
 
     @Override
     public void onRequestDeleteSuccess() {
-
+        Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
