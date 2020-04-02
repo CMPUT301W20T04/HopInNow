@@ -107,7 +107,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.riderDatabaseAccessor.getRiderProfile(this);
         this.driverDatabaseAccessor = new DriverDatabaseAccessor();
-        this.driverDatabaseAccessor.getDriverProfile(this);
+        this.driverDatabaseAccessor.getDriverObject(curRequest.getDriverEmail(),this);
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
 
         // set local variables
@@ -339,7 +339,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * Shows driver information and contact means on a dialog
      */
     public void showDriverInfo(Driver myDriver){
-        final Driver d = myDriver;
+        Driver d = myDriver;
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_driver_info);
 
@@ -359,7 +359,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
         //set driver car
         TextView driverCar = dialog.findViewById(R.id.dialog_driver_car);
-        String carInfo = d.getCar().getColor() + " " + d.getCar().getMake() + " " + d.getCar().getModel();
+        String carInfo = d.getCar().getColor() + " " + d.getCar().getMake() +
+                " " + d.getCar().getModel();
         driverCar.setText(carInfo);
 
         //set driver license
@@ -501,14 +502,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             Log.v(TAG, "riderTripList is null");
             riderTripList = new ArrayList<>();
         }
-        /*Date current_time = new Date();
-        riderTripList.add(new Trip(curRequest.getDriverEmail(),curRequest.getRiderEmail(),
-                curRequest.getPickUpLoc(),curRequest.getDropOffLoc(),
-                curRequest.getPickUpLocName(),curRequest.getDropOffLocName(),
-                curRequest.getPickUpDateTime(), current_time,
-                (int)Math.abs(current_time.getTime() -
-                        curRequest.getPickUpDateTime().getTime()),
-                curRequest.getCar(),curRequest.getEstimatedFare(),curRequest.getRating()));*/
         riderTripList.add(newTrip);
         this.rider.setRiderTripList(riderTripList);
         riderDatabaseAccessor.updateRiderProfile(this.rider,this);
@@ -518,7 +511,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     public void onRequestRatedError() {}
 
     @Override
-    public void onDriverProfileRetrieveSuccess(Driver driver) { this.driver = driver; }
+    public void onDriverProfileRetrieveSuccess(Driver driver) {}
 
     @Override
     public void onDriverProfileRetrieveFailure() {}
