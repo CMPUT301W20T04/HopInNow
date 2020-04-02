@@ -2,6 +2,7 @@ package com.example.hopinnow.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,24 +30,23 @@ import java.util.Date;
 
 /**
  * Author: Qianxi Li
- * Version: 1.0.0
+ * Co-author and editor: Shway Wang
+ * Version: 1.0.1
  * display the historical trips of the user inside my trip in menu
  */
 public class TripListActivity extends AppCompatActivity implements DriverProfileStatusListener,
         UserProfileStatusListener, RiderProfileStatusListener {
-    ListView tripList;
-    ArrayAdapter<Trip> tripAdapter;;
-    ArrayList<Trip> tripDataList = new ArrayList<>();
+    private static final String TAG = "TripListActivity";
+    private ListView tripList;
+    private ArrayAdapter<Trip> tripAdapter;;
+    private ArrayList<Trip> tripDataList = new ArrayList<>();
     //remember to change the uml
-    private Driver driver;
-    private Rider rider2;
+    private Driver currentDriver;
+    private Rider currentRider;
     private boolean usertype;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private UserDatabaseAccessor userDatabaseAccessor;
-    private LatLng edmonton = new LatLng(53.631611,-113.323975);
-
-    Date d1 = new Date();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,25 +55,29 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
         tripList = findViewById(R.id.trip_list);
         userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getUserProfile(this);
-
     }
-
 
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
-        this.tripDataList = driver.getDriverTripList();
-        tripAdapter = new CustomTripList(this,tripDataList);
-        tripList.setAdapter(tripAdapter);
-        tripAdapter.notifyDataSetChanged();
-        tripList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        this.currentDriver = driver;
+        this.tripDataList = this.currentDriver.getDriverTripList();
+        // DEBUG:
+        if (this.tripDataList != null) {
+            for (Trip trip : this.tripDataList) {
+                Log.v(TAG, trip.getDropOffLocName());
+            }
+        }
+        if (this.tripDataList != null) {
+            tripAdapter = new CustomTripList(this.getApplicationContext(), this.tripDataList);
+            tripList.setAdapter(tripAdapter);
+            tripAdapter.notifyDataSetChanged();
+            tripList.setOnItemClickListener((parent, view, position, id) -> {
                 Intent intent = new Intent(getApplicationContext(),TripDetailActivity.class);
                 //pass in a key
                 intent.putExtra("pos_key", position);
                 startActivity(intent);
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -133,20 +137,19 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
 
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
-        this.rider2 = rider;
-        this.tripDataList = rider2.getRiderTripList();
-        tripAdapter = new CustomTripList(this,tripDataList);
-        tripList.setAdapter(tripAdapter);
-        tripAdapter.notifyDataSetChanged();
-        tripList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        this.currentRider = rider;
+        this.tripDataList = this.currentRider.getRiderTripList();
+        if (this.tripDataList != null) {
+            tripAdapter = new CustomTripList(this,tripDataList);
+            tripList.setAdapter(tripAdapter);
+            tripAdapter.notifyDataSetChanged();
+            tripList.setOnItemClickListener((parent, view, position, id) -> {
                 Intent intent = new Intent(getApplicationContext(),TripDetailActivity.class);
                 //pass in a key
                 intent.putExtra("pos_key", position);
                 startActivity(intent);
-            }
-        });
+            });
+        }
     }
 
     @Override

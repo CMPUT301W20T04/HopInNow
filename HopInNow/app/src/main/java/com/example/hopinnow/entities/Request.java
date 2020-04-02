@@ -10,14 +10,15 @@ import java.util.Date;
 public class Request extends Ride implements Comparable<Request>{
     private Double estimatedFare;
     private String requestID;
-    private boolean isPickedUp;
+    private boolean pickedUp;
+    // manhattan distance to driver
     private double mdToDriver;
-    private boolean isComplete;
+    // is arrived at destination
+    private boolean arrivedAtDest;
+    private boolean complete;
     private Double rating;
-
-
-//public Request(Driver driver, Rider rider, Location pickUpLoc, Location dropOffLoc,
-    // Date dateTime, Car car, Double estimatedFare){}
+    private boolean rated;
+    private int acceptStatus;
 
     /**
      * empty constructor
@@ -49,13 +50,15 @@ public class Request extends Ride implements Comparable<Request>{
                     String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     Car car, Double estimatedFare){
         super(driver,rider,pickUpLoc,dropOffLoc,pickUpLocName, dropOffLocName,pickUpDateTime,car);
-        try{
+        try {
             this.estimatedFare = estimatedFare;
-            this.isPickedUp = false;
-            this.isComplete = false;
+            this.pickedUp = false;
+            this.arrivedAtDest = false;
+            this.complete = false;
             this.rating = -1.0;
-        }
-        catch(Exception e){
+            this.acceptStatus = 0;
+            this.rated = false;
+        } catch(Exception e){
             throw e;
         }
     }
@@ -102,13 +105,7 @@ public class Request extends Ride implements Comparable<Request>{
     public void setRequestID(String requestID) {
         this.requestID = requestID;
     }
-    public boolean isPickedUp() {
-        return isPickedUp;
-    }
 
-    public void setPickedUp(boolean pickedUp) {
-        isPickedUp = pickedUp;
-    }
 
     public double getMdToDriver() {
         return mdToDriver;
@@ -118,6 +115,7 @@ public class Request extends Ride implements Comparable<Request>{
         this.mdToDriver = mdToDriver;
     }
 
+    // this function helps to support the sort function:
     @Override
     public int compareTo(Request request) {
         return (Double.compare(this.getMdToDriver(), request.getMdToDriver()));
@@ -129,7 +127,7 @@ public class Request extends Ride implements Comparable<Request>{
      *      return if the request is complete
      */
     public boolean isComplete() {
-        return isComplete;
+        return complete;
     }
 
     /**
@@ -138,7 +136,7 @@ public class Request extends Ride implements Comparable<Request>{
      *      indicate if the request if complete:
      */
     public void setComplete(boolean complete) {
-        isComplete = complete;
+        this.complete = complete;
     }
 
     /**
@@ -155,5 +153,37 @@ public class Request extends Ride implements Comparable<Request>{
      */
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public int getAcceptStatus() {
+        return this.acceptStatus;
+    }
+
+    public void setAcceptStatus(int acceptStatus) {
+        this.acceptStatus = acceptStatus;
+    }
+
+    public boolean isPickedUp() {
+        return pickedUp;
+    }
+
+    public void setPickedUp(boolean pickedUp) {
+        this.pickedUp = pickedUp;
+    }
+
+    public boolean isArrivedAtDest() {
+        return arrivedAtDest;
+    }
+
+    public void setArrivedAtDest(boolean arrivedAtDest) {
+        this.arrivedAtDest = arrivedAtDest;
+    }
+
+    public boolean isRated() {
+        return rated;
+    }
+
+    public void setRated(boolean rated) {
+        this.rated = rated;
     }
 }

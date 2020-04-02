@@ -2,10 +2,10 @@ package com.example.hopinnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -21,7 +21,6 @@ import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.User;
-import com.example.hopinnow.helperclasses.ProgressbarDialog;
 
 import java.util.ArrayList;
 
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 public class RegisterActivity extends AppCompatActivity implements LoginStatusListener,
         RegisterStatusListener, UserProfileStatusListener {
     // establish the TAG of this activity:
-    public static final String TAG = "RegisterActivity";
+    private static final String TAG = "RegisterActivity";
     // current user information:
     private User user;
     // Database methods:
@@ -48,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
     private Switch driverSwitch;
     private Button registerBtn;
     // alert progress dialog:
-    private ProgressbarDialog progressbarDialog;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,8 +148,9 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
                     user = new Rider(emailData, passwordData, nameData, phoneNumberData,
                             false, 100, null, tripList);
                     // alert progress dialog:
-                    progressbarDialog = new ProgressbarDialog(RegisterActivity.this);
-                    progressbarDialog.startProgressbarDialog();
+                    progressDialog = new ProgressDialog(RegisterActivity.this);
+                    progressDialog.setContentView(R.layout.custom_progress_bar);
+                    progressDialog.show();
                     // create user in the database:
                     userDatabaseAccessor.registerUser(user, RegisterActivity.this);
                 }
@@ -161,7 +161,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
     @Override
     public void onLoginSuccess() {
         // first dismiss the progress bar:
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         // initialize intent to go to the ProfileActivity:
         Intent intent = new Intent(getApplicationContext(), RiderMapActivity.class);
         Bundle bundle = new Bundle();
@@ -177,7 +177,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onLoginFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Login Failed, try again later.", Toast.LENGTH_SHORT).show();
@@ -196,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onRegisterFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Registration Failed, please try again.", Toast.LENGTH_SHORT).show();
@@ -204,7 +204,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onWeakPassword() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Password is too short, at least 7 digits.", Toast.LENGTH_SHORT).show();
@@ -212,7 +212,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onInvalidEmail() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Invalid email.", Toast.LENGTH_SHORT).show();
@@ -220,7 +220,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onUserAlreadyExist() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
         // display the login failure massage:
         Toast.makeText(getApplicationContext(),
                 "Email is already used, please use another one.", Toast.LENGTH_SHORT).show();
@@ -233,7 +233,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onProfileStoreFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 
     @Override
@@ -243,7 +243,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onProfileRetrieveFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 
     @Override
@@ -253,6 +253,6 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
 
     @Override
     public void onProfileUpdateFailure() {
-        this.progressbarDialog.dismissDialog();
+        this.progressDialog.dismiss();
     }
 }

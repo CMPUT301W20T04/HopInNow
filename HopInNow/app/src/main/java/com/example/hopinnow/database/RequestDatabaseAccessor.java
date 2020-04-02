@@ -7,11 +7,16 @@ import androidx.annotation.Nullable;
 import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
+import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
+import com.example.hopinnow.statuslisteners.RiderRequestListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -28,18 +33,21 @@ import static java.util.Objects.requireNonNull;
  */
 public class RequestDatabaseAccessor extends DatabaseAccessor {
     public static final String TAG = "RequestDatabaseAccessor";
-    protected final String referenceName = "availableRequests";
-
+    final String referenceName = "availableRequests";
+    // this is for all snapshot listeners to share:
+    ListenerRegistration listenerRegistration;
+    // this is just for the requestlist snapshot listener:
+    private ListenerRegistration requestListListenerRegistration;
     /**
      * Default constructor, calls super();
      */
-    public RequestDatabaseAccessor() {
+    RequestDatabaseAccessor() {
         super();
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     /**
-     * Add a new request to the availableRequests collection.
+     * Add or update a (new) request to the availableRequests collection.
      * Note: this method should only be called by the rider,
      * if this method is called by the driver, the action is unspecified.
      * @param request
@@ -47,7 +55,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      * @param listener
      *      if the request is added successfully, call the onSuccess method, otherwise, onFailure.
      */
-    public void addRequest(Request request, final AvailRequestListListener listener) {
+    public void addUpdateRequest(Request request, final RequestAddDeleteListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (this.currentUser == null) {
             Log.v(TAG, "user is not logged in!!!");
@@ -80,7 +88,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      * @param listener
      *      if the request is deleted successfully, call the onSuccess method, otherwise, onFailure.
      */
-    public void deleteRequest(final AvailRequestListListener listener) {
+    public void deleteRequest(final RequestAddDeleteListener listener) {
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
         this.firestore
                 .collection(referenceName)
@@ -99,7 +107,7 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
     /**
      * Get all available requests as an ArrayList object from collection availableRequests
      * @param latLong
-     *      the latitude and longitude of the current user
+     *      the latitude and longitude of the current user(usually the driver)
      * @param listener
      *      if all requests are retrieved successfully, call the onSuccess method,
      *      otherwise, onFailure.
@@ -115,8 +123,9 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                             Request request = document.toObject(Request.class);
                             if (request.getDriverEmail() == null) {
                                 LatLong tempLatLong = request.getPickUpLoc();
-                                request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                        + (latLong.getLng() - tempLatLong.getLng()));
+                                // calculate the manhattan distance:
+                                request.setMdToDriver(Math.abs((latLong.getLat() - tempLatLong.getLat())
+                                        + (latLong.getLng() - tempLatLong.getLng())));
                                 requests.add(request);
                             }
                         }
@@ -139,10 +148,9 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
      *      otherwise, onFailure.
      */
     public void listenOnAllRequests(LatLong latLong, final AvailRequestListListener listener) {
-        this.firestore
-                .collection(referenceName)
-                .whereEqualTo("driverEmail", null)
-                .addSnapshotListener((value, e) -> {
+        Query query = this.firestore.collection(this.referenceName)
+                .whereEqualTo("driverEmail", null);
+        this.requestListListenerRegistration = query.addSnapshotListener((value, e) -> {
                     Log.v(TAG, "an event happened!");
                     if (e != null) {
                         Log.v(TAG, "event listening failed.", e);
@@ -155,8 +163,9 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                             Request request = doc.toObject(Request.class);
                             Log.v(TAG, (String) requireNonNull(doc.get("riderEmail")));
                             LatLong tempLatLong = request.getPickUpLoc();
-                            request.setMdToDriver((latLong.getLat() - tempLatLong.getLat())
-                                    + (latLong.getLng() - tempLatLong.getLng()));
+                            // calculate manhattan distance(the distance needs to be absolute):
+                            request.setMdToDriver(Math.abs((latLong.getLat() - tempLatLong.getLat())
+                                    + (latLong.getLng() - tempLatLong.getLng())));
                             requests.add(request);
                         }
                     }
@@ -165,6 +174,12 @@ public class RequestDatabaseAccessor extends DatabaseAccessor {
                     Collections.sort(requests);
                     listener.onAllRequestsUpdateSuccess(requests);
                 });
+    }
 
+    /**
+     * This method removes the requestListListenerRegistration:
+     */
+    public void removeRequestListListenerRegistration() {
+        this.requestListListenerRegistration.remove();
     }
 }

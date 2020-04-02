@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/mock_dropOff"
+                android:id="@+id/mock_startUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp" />
@@ -43,9 +43,11 @@
 
         <LinearLayout
             android:id="@+id/search_layout"
-            android:layout_width="380dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="60dp"
+            android:layout_marginEnd="10dp"
             android:background="@color/ColorWhite"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +55,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="390dp"
+                android:layout_width="380dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -65,32 +67,66 @@
                     android:src="@drawable/marker_pick_up" />
 
                 <fragment
-                    android:id="@+id/pick_up_auto_complete"
+                    android:id="@+id/start_up_auto_complete"
                     android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/add_request_button"
+                android:id="@+id/driver_search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/ColorOrange"
                 android:ems="10"
                 android:gravity="center"
-                android:text="HOP IN NOW!"
+                android:text="SEARCH REQUESTS"
                 android:textColor="@color/ColorWhite"
                 android:textSize="20dp" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/map_zoom_in"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="170dp"
+            android:alpha="0.95"
+            android:background="@color/ColorWhite"
+            android:hint="十"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/map" />
+
+
+        <Button
+            android:id="@+id/map_zoom_out"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="4dp"
+            android:alpha="0.95"
+            android:background="@color/ColorWhite"
+            android:hint="一"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/map_zoom_in"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/driverMenuBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/search_layout"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             android:clickable="true"
             android:src="@drawable/ic_menu"
             app:backgroundTint="#FFFFFF"
@@ -98,37 +134,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/onlineBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:backgroundTint="@color/ColorOrange"
-            app:fabCustomSize="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/onlineBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            app:backgroundTint="@color/ColorOrange"-->
+<!--            app:fabCustomSize="100dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
-        <TextView
-            android:id="@+id/onlineButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fragment_place"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="36dp"
-            android:elevation="30dp"
-            android:text="ONLINE"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/map"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/onlineButtonText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignBottom="@+id/fragment_place"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="52dp"-->
+<!--            android:elevation="30dp"-->
+<!--            android:text="ONLINE"-->
+<!--            android:textAppearance="?android:attr/textAppearanceMedium"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:textSize="24sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/map"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.498"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
         <FrameLayout
             android:id="@+id/fragment_place"
@@ -139,6 +175,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
+        <Button
+            android:id="@+id/my_loc_startup_button"
+            android:layout_width="220dp"
+            android:layout_height="38dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/ColorWhite"
+            android:hint="Search Requests at My Location"
+            android:textAlignment="center"
+            android:textColor="@color/quantum_grey900"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/mock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.664"
+
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

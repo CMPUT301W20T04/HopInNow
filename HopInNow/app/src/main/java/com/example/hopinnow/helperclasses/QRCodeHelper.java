@@ -84,12 +84,12 @@ public class QRCodeHelper {
      *      QR code image
      */
     public Bitmap generateQR() {
-        Map<EncodeHintType, Object> hintsMap = new HashMap<>();
-        hintsMap.put(EncodeHintType.CHARACTER_SET, "utf-8");
-        hintsMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q);
-        hintsMap.put(EncodeHintType.MARGIN, mMargin);
+        //Map<EncodeHintType, Object> hintsMap = new HashMap<>();
+        //hintsMap.put(EncodeHintType.CHARACTER_SET, "utf-8");
+        //hintsMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q);
+        //hintsMap.put(EncodeHintType.MARGIN, mMargin);
         try {
-            BitMatrix bitMatrix = new QRCodeWriter().encode(mContent, BarcodeFormat.QR_CODE, mWidth, mHeight, hintsMap);
+            BitMatrix bitMatrix = new QRCodeWriter().encode(mContent, BarcodeFormat.QR_CODE, mWidth, mHeight,null);
             int[] pixels = new int[mWidth * mHeight];
             for (int i = 0; i < mHeight; i++) {
                 for (int j = 0; j < mWidth; j++) {

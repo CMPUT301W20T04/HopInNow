@@ -9,20 +9,16 @@
     <TextView
         android:id="@+id/tripListTitleText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50sp"
         android:background="@color/ColorOrange"
         android:gravity="center"
-        android:text="Trip History"
+        android:text="@string/trip_history_header"
         android:textColor="@color/ColorWhite"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textSize="30sp" />
 
     <ListView
         android:id="@+id/trip_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
-
-    </ListView>
-
+        android:layout_gravity="center"/>
 </LinearLayout>

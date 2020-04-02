@@ -29,7 +29,7 @@ import static junit.framework.TestCase.assertTrue;
  * UI tests on rider menu activities. Robotium test framework is used.
  */
 @RunWith(AndroidJUnit4.class)
-public class Test3_RiderMenuActivityTest {
+public class Test5_RiderMenuActivityTest {
     private Solo solo;
 
     @Rule
@@ -48,15 +48,23 @@ public class Test3_RiderMenuActivityTest {
                 rule.getActivity());
     }
 
-
     /**
-     * Gets the Activity
-     * @throws Exception
+     * Logs in user.
+     * @throws InterruptedException
+     *      throws exception if thread is interrupted
      */
-    @Test
-    public void start() throws Exception {
-        Activity activity = rule.getActivity();
+    private void loginUser() throws InterruptedException {
+        // Log in To Activity
+        String userEmail = "v@v.com";
+        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
+        String userPassword = "1111111";
+        solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
+        solo.goBack();
+        solo.clickOnView(solo.getView(R.id.loginButton));
+
+        Thread.sleep(2000);
     }
+
 
 
     /**
@@ -68,9 +76,15 @@ public class Test3_RiderMenuActivityTest {
     public void Case1_checkMenu() throws InterruptedException {
         Thread.sleep(2000);
 
+        solo.clickOnView(solo.getView(R.id.driverMenuBtn));
+        solo.clickOnMenuItem("Log Out");
+        Thread.sleep(2000);
+
+        loginUser();
+
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
         solo.clickOnView(solo.getView(R.id.riderMenuBtn));
-        assertTrue(solo.waitForText("Welcome!",1,2000));
+        assertTrue(solo.waitForText("My Profile",1,2000));
 
         //test my profile
         solo.clickOnMenuItem("My Profile");
@@ -79,7 +93,6 @@ public class Test3_RiderMenuActivityTest {
 
 
         //test profile editing after pressing "EDIT PROFILE"
-
         solo.clickOnView(solo.getView(R.id.editProfileBtn));
         Thread.sleep(2000);
 
@@ -97,8 +110,9 @@ public class Test3_RiderMenuActivityTest {
         assertTrue(solo.waitForText("updated!",1,2000));
 
         // log out
-        solo.clickOnView(solo.getView(R.id.proLogoutBtn));
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+        solo.goBack();
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnMenuItem("Log Out");
     }
 
 

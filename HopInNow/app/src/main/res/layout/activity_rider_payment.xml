@@ -23,23 +23,23 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="Payment"
+            android:layout_marginTop="5dp"
             android:textColor="@color/ColorWhite"
-            android:textSize="40sp" />
+            android:textSize="35sp" />
 
     </LinearLayout>
 
 
     <TextView
         android:id="@+id/qr_description"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         android:gravity="center"
         android:text="Please press confirm to show your QR bucks! "
-        android:textColor="@color/quantum_black_100"
+        android:textColor="@color/ColorBlack"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/payment_linear" />
 
@@ -48,10 +48,11 @@
         android:layout_width="240dp"
         android:layout_height="240dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:background="#F3E4CB"
         app:layout_constraintBottom_toTopOf="@+id/tips_layout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/qr_description" />
 
@@ -59,7 +60,7 @@
         android:id="@+id/tips_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="52dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Tips: "
-            android:textColor="@color/quantum_black_100"
+            android:textColor="@color/ColorBlack"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -117,8 +118,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text=""
                 android:onClick="onRadioButtonClicked"
+                android:text=""
                 android:textSize="16sp" />
 
         </RadioGroup>
@@ -145,39 +146,37 @@
 
     <LinearLayout
         android:id="@+id/total_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/rider_payment_submit_tips"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.372"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tips_layout"
-        app:layout_constraintVertical_bias="0.298">
+        app:layout_constraintTop_toBottomOf="@id/tips_layout">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Total Payment:    "
-            android:textColor="@color/quantum_black_100"
+            android:textColor="@color/ColorBlack"
             android:textSize="19sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  $"
+            android:textColor="@color/ColorBlack"
+            android:textSize="19sp" />
 
         <TextView
             android:id="@+id/rider_payment_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sample"
-            android:textColor="@color/quantum_black_100"
-            android:textSize="19sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  QR Bucks"
-            android:textColor="@color/quantum_black_100"
+            android:textColor="@color/ColorBlack"
             android:textSize="19sp" />
 
         <Button
@@ -185,6 +184,7 @@
             android:layout_width="60dp"
             android:layout_height="32dp"
             android:layout_gravity="center"
+            android:layout_marginStart="40dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/orange_all_round_corner"
             android:text="Sum"
@@ -198,15 +198,28 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/orange_full_all_round_corner"
         android:text="CONFIRM"
         android:textColor="@color/ColorWhite"
+
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_layout" />
+
+    <Button
+        android:id="@+id/mock_next_complete_trip"
+        android:layout_width="wrap_content"
+        android:layout_height="0.1dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rider_payment_submit_tips" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

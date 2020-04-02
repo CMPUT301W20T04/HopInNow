@@ -56,8 +56,6 @@ public class Test2_LoginActivityTest {
     }
 
 
-    //TODO WRONG ACCOUNT THEN RIGHT ACCOUNT
-    // NOTE6 : previous use must be logged out to login properly, else user that DNE can still log in
     /**
      * Tests invalid account.
      * @throws InterruptedException
@@ -105,8 +103,11 @@ public class Test2_LoginActivityTest {
         solo.clickOnView(solo.getView(R.id.riderMenuBtn));
         Thread.sleep(2000);
         solo.clickOnActionBarItem(3);
-        //solo.clickOnView(solo.getView(R.id.rider_logout));
-        solo.goBack();
+
+        solo.clickOnView(solo.getView(R.id.riderMenuBtn));
+        solo.clickOnMenuItem("Log Out");
+        Thread.sleep(2000);
+
     }
 
 

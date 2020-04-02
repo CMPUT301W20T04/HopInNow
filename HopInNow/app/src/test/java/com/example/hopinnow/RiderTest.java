@@ -42,7 +42,7 @@ public class RiderTest {
                 0.0, mockRequest, mockTripList);
     }
     /**
-     * test on empty driver
+     * test on empty entity
      */
     @Test
     public void testEmpty(){

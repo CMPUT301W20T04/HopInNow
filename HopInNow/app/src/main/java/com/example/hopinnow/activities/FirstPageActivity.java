@@ -10,8 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import com.example.hopinnow.R;
-//https://stackoverflow.com/questions/17357226/add-the-loading-screen-in-starting-of-the-android-application
 
+//Stackoverflow asked by Anil M H
+//https://stackoverflow.com/questions/17357226/add-the-loading-screen-in-starting-of-the-android-application
+//answered Jun 28 '13 at 4:38
+//MysticMagicϡ
 /**
  * Author: Qianxi Li
  * Shows the page before the program begins

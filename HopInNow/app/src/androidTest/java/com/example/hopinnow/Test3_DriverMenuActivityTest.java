@@ -18,12 +18,12 @@ import org.junit.Test;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.TestCase.assertTrue;
 
-public class Test5_DriverMenuActivityTest {
+public class Test3_DriverMenuActivityTest {
     private Solo solo;
 
     @Rule
-    public ActivityTestRule<DriverMapActivity> rule =
-            new ActivityTestRule<>(DriverMapActivity.class, true, true);
+    public ActivityTestRule<LoginActivity> rule =
+            new ActivityTestRule<>(LoginActivity.class, true, true);
 
 
     /**
@@ -57,9 +57,15 @@ public class Test5_DriverMenuActivityTest {
     public void Case1_checkMenu() throws InterruptedException {
         Thread.sleep(2000);
 
+        String userEmail = "driver@testing.com";
+        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
+        String userPassword = "1111111";
+        solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
+        solo.clickOnView(solo.getView(R.id.loginButton));
+
         solo.assertCurrentActivity("Wrong Activity", DriverMapActivity.class);
         solo.clickOnView(solo.getView(R.id.driverMenuBtn));
-        assertTrue(solo.waitForText("Welcome!",1,2000));
+        assertTrue(solo.waitForText("My Profile",1,2000));
 
         //test my profile
         solo.clickOnMenuItem("My Profile");
@@ -73,28 +79,31 @@ public class Test5_DriverMenuActivityTest {
 
         EditText phoneET = (EditText) solo.getView(R.id.proPhoneET);
         solo.clearEditText(phoneET);
-        solo.enterText(phoneET,"2");
-        assertTrue(solo.waitForText("2",1,2000));
+        solo.enterText(phoneET,"2222222");
+        assertTrue(solo.waitForText("2222222",1,2000));
 
         EditText nameET = (EditText) solo.getView(R.id.proNameET);
         solo.clearEditText(nameET);
-        solo.enterText(nameET,"d");
-        assertTrue(solo.waitForText("d",1,2000));
+        solo.enterText(nameET,"Testing Driver");
+        assertTrue(solo.waitForText("Testing Driver",1,2000));
 
         solo.clickOnView(solo.getView(R.id.proUpdateBtn));
-        assertTrue(solo.waitForText("updated!",1,2000));
         solo.goBack();
 
         //test editing my car
         solo.clickOnMenuItem("Car Information");
-        solo.clearEditText((EditText) solo.getView(R.id.vehMakeEt));
-        solo.enterText(phoneET,"2");
-        solo.clearEditText((EditText) solo.getView(R.id.vehModelEt));
-        solo.enterText(phoneET,"2");
-        solo.clearEditText((EditText) solo.getView(R.id.vehColorEt));
-        solo.enterText(phoneET,"2");
-        solo.clearEditText((EditText) solo.getView(R.id.vehPlateEt));
-        solo.enterText(phoneET,"2");
+        solo.clearEditText((EditText) solo.getView(R.id.vehicleMakeEditText));
+        solo.enterText((EditText) solo.getView(R.id.vehicleMakeEditText),"BMW");
+        assertTrue(solo.waitForText("BMW",1,2000));
+        solo.clearEditText((EditText) solo.getView(R.id.vehicleModelEditText));
+        solo.enterText((EditText) solo.getView(R.id.vehicleModelEditText),"X6");
+        assertTrue(solo.waitForText("X6",1,2000));
+        solo.clearEditText((EditText) solo.getView(R.id.vehicleColorEditText));
+        solo.enterText((EditText) solo.getView(R.id.vehicleColorEditText),"Red");
+        assertTrue(solo.waitForText("Red",1,2000));
+        solo.clearEditText((EditText) solo.getView(R.id.vehiclePlateEditText));
+        solo.enterText((EditText) solo.getView(R.id.vehiclePlateEditText),"2222222");
+        assertTrue(solo.waitForText("2222222",1,2000));
         solo.clickOnView(solo.getView(R.id.vehicleUpdateBtn));
         assertTrue(solo.waitForText("updated!",1,2000));
         solo.goBack();
@@ -106,7 +115,7 @@ public class Test5_DriverMenuActivityTest {
 
         //test offline
         solo.clickOnMenuItem("Offline");
-        assertTrue(solo.waitForText("ONLINE",1,2000));
+        assertTrue(solo.waitForText("SEARCH",1,2000));
 
         // log out
         solo.clickOnView(solo.getView(R.id.driverMenuBtn));
