@@ -28,7 +28,7 @@ import static org.junit.Assert.assertFalse;
  * Author: Tianyu Bai
  * UI tests on rider side activities. Robotium test framework is used.
  *
- * Before running the test, please ensure v@v.com has deposit over 5 QR bucks. Please open
+ * Before running the test, please ensure rider2@rider.com has deposit over 5 QR bucks. Please open
  * permission of location and call. Please set location of emulator/testing device to Edmonton, AB.
  */
 @RunWith(AndroidJUnit4.class)
@@ -70,7 +70,7 @@ public class Test6_RiderActivityTest {
      */
     private void loginUser() throws InterruptedException {
         // Log in To Activity
-        String userEmail = "v@v.com";
+        String userEmail = "rider2@rider.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);

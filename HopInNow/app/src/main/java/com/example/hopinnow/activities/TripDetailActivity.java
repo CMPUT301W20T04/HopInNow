@@ -90,7 +90,12 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         riderEmail.setText("Rider Email: "+trip.getRiderEmail());
         pickUpLocation.setText(String.format("Pick Up Location: %s",trip.getPickUpLocName()));
         dropOffLocation.setText(String.format("Drop Off Location: %s",trip.getDropOffLocName()));
-        rating.setText("Rating: "+trip.getRating().toString());
+        if (trip.getRating()==0){
+            rating.setText("Rating: not rated");
+        } else {
+            rating.setText("Rating: "+trip.getRating().toString());
+        }
+
         cost.setText("Revenue: "+trip.getCost().toString());
         riderDatabaseAccessor.getRiderObject(trip.getRiderEmail(),this);
 
@@ -282,7 +287,11 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         riderEmail.setText("Rider Email:  "+trip.getRiderEmail());
         pickUpLocation.setText(String.format("From: %s",trip.getPickUpLocName()));
         dropOffLocation.setText(String.format("To: %s",trip.getDropOffLocName()));
-        rating.setText("Rating:  "+trip.getRating().toString());
+        if (trip.getRating()==0){
+            rating.setText("Rating: not rated");
+        } else {
+            rating.setText("Rating: "+trip.getRating().toString());
+        }
         cost.setText("Cost:  "+trip.getCost().toString());
         driverDatabaseAccessor.getDriverObject(trip.getDriverEmail(),this);
 

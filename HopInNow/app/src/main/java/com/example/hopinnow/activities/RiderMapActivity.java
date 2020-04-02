@@ -198,9 +198,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         if (Objects.equals(caseCancel, "cancel")) {
             tripCompleted = true;
             cancelRequestLocal();
-        } else {
-            tripCompleted = true;
-            cancelRequestLocal();
             riderRequestDatabaseAccessor.deleteRequest(this);
         }
         // MOCK FOR INTENT TESTING
@@ -864,6 +861,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RiderRequestDatabaseAccessor riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
         riderRequestDatabaseAccessor.riderWaitForPickup(this);
         switchFragment(R.layout.fragment_rider_waiting_pickup);
+        riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
         riderRequestDatabaseAccessor.riderWaitForPickup(this);
 
     }

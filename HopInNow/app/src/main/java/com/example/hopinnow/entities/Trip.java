@@ -131,7 +131,7 @@ public class Trip extends Ride {
      */
     public Double getRating() {
         if (rating == null){
-            throw new NullPointerException();
+            return 0.00;
         }
         else{
             return rating;

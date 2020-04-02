@@ -203,9 +203,10 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     }
 
     @Override
-    public void onWaitOnRatingSuccess() {
+    public void onWaitOnRatingSuccess(Request request) {
         //means the rider update the rating successfully.
         rated = true;
+        this.curRequest = request;
         driverDatabaseAccessor.getDriverProfile(this);
         Log.v(TAG, "Rider has rated the trip!!!!");
         Log.v(TAG, "now to get driver profile...");
@@ -219,7 +220,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
-        this.curRequest = driver.getCurRequest();
+        //this.curRequest = driver.getCurRequest();
         Date current_time = new Date();
         Log.v(TAG, "trying to add in the new trip...");
         ArrayList<Trip> driverTripList = this.driver.getDriverTripList();
