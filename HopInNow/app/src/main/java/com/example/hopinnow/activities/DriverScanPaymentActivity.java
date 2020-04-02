@@ -210,8 +210,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverRequestCompleteSuccess() {
         // waits for rider rating
-        double prevDeposit = driver.getDeposit();
-        this.driver.setDeposit(prevDeposit + Double.parseDouble(this.qrPayment));
         Toast.makeText(this, "You have successfully received " + this.qrPayment +
                 " QR bucks for your completed ride!", Toast.LENGTH_SHORT).show();
         driverRequestDatabaseAccessor.driverWaitOnRating(this.curRequest, this);
@@ -240,6 +238,8 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.driver = driver;
+        double prevDeposit = this.driver.getDeposit();
+        this.driver.setDeposit(prevDeposit + Double.parseDouble(this.qrPayment));
         if (this.curRequest.getRating()!=0){
             setNewDriverRating(this.curRequest.getRating());
             Toast.makeText(DriverScanPaymentActivity.this,"You were rated" +
