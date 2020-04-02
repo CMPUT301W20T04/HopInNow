@@ -252,7 +252,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             menuUserName.setText(rider.getName());
             drawerLayout.openDrawer(GravityCompat.START);
         });
-        //riderDatabaseAccessor.getRiderProfile(this);
+        riderDatabaseAccessor.getRiderProfile(this);
 
         if (curRequest!=null) {
             View searchFragment = findViewById(R.id.search_layout);
