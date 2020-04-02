@@ -98,7 +98,7 @@ public class RequestListAdapter extends BaseAdapter implements ListAdapter {
         TextView fare = (TextView)view.findViewById(R.id.single_request_fare);
         fromLoc.setText(list.get(position).getPickUpLocName());
         toLoc.setText(list.get(position).getDropOffLocName());
-        fare.setText(new DecimalFormat("##.##").format(list.get(position).getEstimatedFare().toString()));
+        fare.setText(list.get(position).getEstimatedFare().toString());
 
         //Handle buttons and add onClickListeners
         Button acceptBtn = (Button)view.findViewById(R.id.accept_btn);
