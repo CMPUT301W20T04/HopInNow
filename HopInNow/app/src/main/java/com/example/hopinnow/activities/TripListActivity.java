@@ -36,7 +36,7 @@ import java.util.Date;
  */
 public class TripListActivity extends AppCompatActivity implements DriverProfileStatusListener,
         UserProfileStatusListener, RiderProfileStatusListener {
-    public static final String TAG = "TripListActivity";
+    private static final String TAG = "TripListActivity";
     private ListView tripList;
     private ArrayAdapter<Trip> tripAdapter;;
     private ArrayList<Trip> tripDataList = new ArrayList<>();
