@@ -46,9 +46,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     private ZXingScannerView cameraView;
     private Driver driver;
     private Request curRequest;
-    // Shway added this:
     private String qrPayment;
-
     private boolean rated = false;
     private String encoded;
     private RxPermissions rxPermissions;
