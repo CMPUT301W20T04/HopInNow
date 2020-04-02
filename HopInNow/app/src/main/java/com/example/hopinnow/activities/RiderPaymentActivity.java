@@ -148,15 +148,9 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 confirmPaymentBtn.setVisibility(View.GONE);
                 showTotalBtn.setEnabled(false);
                 riderRequestDatabaseAccessor.riderWaitForRequestComplete(this);
-                //onScanningCompleted();
             }
         });
 
-        if (riderTripUpdated && driverRatingUpdated){
-            Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
-            intent.putExtra("Current_Request_To_Null", "cancel");
-            startActivity(intent);
-        }
 
     }
 
@@ -180,8 +174,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
             myRating = (double) ratingBar.getRating();
             if (myRating!= -1.0){
                 setNewDriverRating(myRating);
-                dialog.dismiss();
                 completeRequest(myRating);
+                dialog.dismiss();
             } else {
                 Toast.makeText(RiderPaymentActivity.this, "Please select your " +
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
@@ -193,8 +187,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         //cancel rating and complete request
         Button cancelBtn = dialog.findViewById(R.id.dialog_rating_cancel);
         cancelBtn.setOnClickListener(v -> {
-            dialog.dismiss();
             completeRequest(0);
+            dialog.dismiss();
         });
 
         dialog.show();
@@ -214,8 +208,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         this.driver.setRatingCounts(counts+1);
         this.driver.setRating(newRating);
         driverDatabaseAccessor.updateDriverProfile(this.driver,RiderPaymentActivity.this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.show();
+        //progressDialog = new ProgressDialog(this);
+        //progressDialog.show();
     }
 
 
@@ -419,7 +413,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderProfileUpdateSuccess(Rider rider) {
         riderTripUpdated = true;
-        progressDialog.dismiss();
         /* change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", "cancel");
@@ -516,6 +509,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Log.v("DriverRatingCounts",rc);
         Toast.makeText(getApplicationContext(),
                 driverName + " has recieved your rating.", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
+        intent.putExtra("Current_Request_To_Null", "cancel");
+        startActivity(intent);
+
     }
 
     @Override

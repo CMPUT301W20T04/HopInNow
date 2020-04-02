@@ -409,9 +409,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
-    public void onWaitOnRatingSuccess() {
+    public void onWaitOnRatingSuccess(Request request) {
 
     }
+
 
     @Override
     public void onWaitOnRatingError() {
