@@ -143,7 +143,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
     }
 
     /**
-     * Shows driver information and contact means on a dialog
+     * Shows driver information and contact means on a dialog - Viola
      */
     @SuppressLint("CheckResult")
     public void showInfo(Driver d,Rider r){
@@ -156,7 +156,13 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
             TextView driverName= dialog.findViewById(R.id.dialog_driver_name);
             driverName.setText(r.getName());
 
-            dialog.findViewById(R.id.dialog_driver_rating).setVisibility(View.GONE);
+            //set driver specific information gone
+            dialog.findViewById(R.id.dialog_driver_plate_label).setVisibility(View.GONE);
+            dialog.findViewById(R.id.dialog_driver_car_label).setVisibility(View.GONE);
+            TextView ra = dialog.findViewById(R.id.dialog_driver_rating);
+            ra.setCompoundDrawables(null,null,null,null);
+            ra.setText("Contact Rider By: ");
+            ra.setTextSize(18);
             dialog.findViewById(R.id.dialog_driver_car).setVisibility(View.GONE);
             dialog.findViewById(R.id.dialog_driver_plate).setVisibility(View.GONE);
 
@@ -225,8 +231,7 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
                         if (granted) {
                             startActivity(callIntent);
                         } else {
-                            String driverNumber = driver.getPhoneNumber();
-                            Toast.makeText(this,"Driver's Phone Number: " + driverNumber,
+                            Toast.makeText(this,"User's Phone Number: " + phoneNumber,
                                     Toast.LENGTH_LONG).show();
                         }
                     });

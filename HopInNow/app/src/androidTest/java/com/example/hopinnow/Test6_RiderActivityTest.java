@@ -27,10 +27,14 @@ import static org.junit.Assert.assertFalse;
 /**
  * Author: Tianyu Bai
  * UI tests on rider side activities. Robotium test framework is used.
+ *
+ * Before running the test, please ensure v@v.com has deposit over 5 QR bucks. Please open
+ * permission of location and call. Please set location of emulator/testing device to Edmonton, AB.
  */
 @RunWith(AndroidJUnit4.class)
-public class Test4_RiderActivityTest {
+public class Test6_RiderActivityTest {
     private Solo solo;
+    private String address;
 
 
     @Rule
@@ -82,7 +86,6 @@ public class Test4_RiderActivityTest {
      *      throws exception if thread is interrupted
      */
     private void logoutUser() throws InterruptedException {
-
         solo.clickOnView(solo.getView(R.id.riderMenuBtn));
         solo.clickOnMenuItem("Log Out");
         Thread.sleep(2000);
@@ -95,11 +98,13 @@ public class Test4_RiderActivityTest {
      *      throws exception if thread is interrupted
      */
     private void addNewRequest() throws InterruptedException {
-        solo.clickOnButton("Pick Up at My Location");
-        String address = solo.getView(R.id.pick_up_auto_complete).toString();
+        if (address==null){
+            solo.clickOnButton("Pick Up at My Location");
+            address = solo.getView(R.id.pick_up_auto_complete).toString();
+        }
+
         solo.enterText((EditText) solo.getView(R.id.mock_pickUp), address);
         solo.enterText((EditText) solo.getView(R.id.mock_dropOff), address);
-        Thread.sleep(2000);
         solo.clickOnButton("HOP IN NOW!");
         Thread.sleep(2000);
     }
@@ -117,7 +122,7 @@ public class Test4_RiderActivityTest {
 
         solo.clickOnButton("15%");
         solo.clickOnView(solo.getView(R.id.rider_payment_calculate));
-        assertTrue(solo.waitForText("4.03", 1, 2000));
+        assertTrue(solo.waitForText("4.02", 1, 2000));
 
         solo.clickOnButton("20%");
         solo.clickOnView(solo.getView(R.id.rider_payment_calculate));
@@ -142,7 +147,7 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case1() throws InterruptedException {
         loginUser();
         solo.assertCurrentActivity("Wrong Activity", RiderMapActivity.class);
@@ -164,17 +169,14 @@ public class Test4_RiderActivityTest {
      * @throws NumberFormatException
      *      throws exception if string is converted to a number
      */
-    //@Test
+    @Test
     public void Case2() throws InterruptedException, NumberFormatException {
         loginUser();
         addNewRequest();
 
-
-        assertTrue(solo.waitForText("Time Elapsed:", 1, 2000));
-        //double fare = Double.parseDouble(String.valueOf(solo.getView(R.id.fare_amount)));
+        assertTrue(solo.waitForText("Time Elapsed", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.add_money));
-        //String newFare = Double.toString(fare+1);
         assertTrue(solo.waitForText("4.5", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.reduce_money));
@@ -193,12 +195,12 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *      throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case3() throws InterruptedException {
         loginUser();
         addNewRequest();
-        solo.clickOnButton(">");
-        assertTrue(solo.waitForText("Would you like to accept this offer?",
+        solo.clickOnView(solo.getView(R.id.rider_waiting_driver_next));
+        assertTrue(solo.waitForText("responded",
                 1, 2000));
 
         //Tests Dialog
@@ -208,16 +210,15 @@ public class Test4_RiderActivityTest {
         solo.goBack();
 
 
-        //since we are skipping this page for the sake of demo
         //Declining driver offer
-        //solo.clickOnButton("DECLINE");
-        //assertTrue(solo.waitForText("Time Elapsed:",1,2000));
-        //solo.clickOnButton(">");
+        solo.clickOnButton("DECLINE");
+        assertTrue(solo.waitForText("Time Elapsed",1,2000));
+        solo.clickOnView(solo.getView(R.id.rider_waiting_driver_next));
 
         //Accepting driver offer then cancelling request
-        //solo.clickOnButton("ACCEPT");
-        //solo.clickOnButton("CANCEL REQUEST");
-        //assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
+        solo.clickOnButton("ACCEPT");
+        solo.clickOnButton("CANCEL REQUEST");
+        assertTrue(solo.waitForText("HOP",1,2000));
 
         logoutUser();
 
@@ -230,14 +231,14 @@ public class Test4_RiderActivityTest {
      * @throws InterruptedException
      *       throws exception if thread is interrupted
      */
-    //@Test
+    @Test
     public void Case4() throws InterruptedException {
         loginUser();
         addNewRequest();
-        solo.clickOnButton(">");
+        solo.clickOnView(solo.getView(R.id.rider_waiting_driver_next));
         solo.clickOnButton("ACCEPT");
-        solo.clickOnButton(">");
-        assertTrue(solo.waitForText("Now, we are heading to ...",
+        solo.clickOnView(solo.getView(R.id.rider_waiting_next_button));
+        assertTrue(solo.waitForText("heading to ...",
                 1,2000));
 
         //Tests Dialog
@@ -246,65 +247,14 @@ public class Test4_RiderActivityTest {
         assertTrue(solo.waitForText("Car:",1,2000));
         solo.goBack();
 
-        solo.clickOnButton("EMERGENCY CALL");
-        //assertFalse(solo.waitForText("Now, we are heading to ...",1,2000));
-        solo.goBack();
-
-        solo.clickOnButton(">");
-        assertTrue(solo.waitForText("Is this ride complete?",
-                1,2000));
-
-        solo.clickOnButton("NO");
-        assertFalse(solo.waitForText("Is this ride complete?",
-                1,2000));
-
-        solo.clickOnButton(">");
-        solo.clickOnButton("EMERGENCY CALL");
-        //assertTrue(solo.waitForText("Is this ride complete?",1,2000));
-        solo.goBack();
-        Thread.sleep(2000);
-
-        solo.clickOnButton("YES");
+        solo.clickOnView(solo.getView(R.id.rider_pickedup_arrived_button));
         assertTrue(solo.waitForText("Payment",1,2000));
 
-        //test tips and payment
-        checkPayment();
-
-        //test completing trip without rating
-        solo.setProgressBar(0,8);
-        solo.clickOnView(solo.getView(R.id.dialog_rating_cancel));
-        assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
-
-        logoutUser();
+        solo.clickOnView(solo.getView(R.id.mock_next_complete_trip));
 
         Thread.sleep(2000);
     }
 
-    /**
-     * Complete ride by submitting a rating.
-     * @throws InterruptedException
-     *      throws exception if thread is interrupted
-     */
-    //@Test
-    public void Case5() throws InterruptedException {
-        loginUser();
-        addNewRequest();
-        solo.clickOnButton(">");
-        solo.clickOnButton("ACCEPT");
-        solo.clickOnButton(">");
-        solo.clickOnButton(">");
-        solo.clickOnButton("YES");
-        solo.clickOnButton("CONFIRM");
-
-        solo.clickOnView(solo.getView(R.id.dialog_rating_submit));
-        assertTrue(solo.waitForText("Rating", 1, 2000));
-
-        solo.setProgressBar(0,8);
-        solo.clickOnView(solo.getView(R.id.dialog_rating_submit));
-        assertTrue(solo.waitForText("HOP IN NOW!",1,2000));
-
-        Thread.sleep(2000);
-    }
 
 
     /**

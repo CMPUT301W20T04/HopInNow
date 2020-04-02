@@ -206,7 +206,7 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
      *      invoke method when the rider finishes rating the request
      */
     public void riderRateRequest(Request request, final RiderRequestListener listener) {
-
+        request.setRated(true);
         this.firestore
                 .collection(referenceName)
                 .document(request.getRequestID())

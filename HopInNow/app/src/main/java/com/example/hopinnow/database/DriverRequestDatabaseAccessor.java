@@ -234,8 +234,8 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
     public void driverWaitOnRating(Request request, final DriverRequestListener listener) {
         DocumentReference ref = this.firestore.collection(super.referenceName)
                 .document(request.getRequestID());
-        super.listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
-            Request req = Objects.requireNonNull(snapshot).toObject(Request.class);
+        super.listenerRegistration = ref.addSnapshotListener((documentSnapshot, e) -> {
+            Request req = Objects.requireNonNull(documentSnapshot).toObject(Request.class);
             Log.v(TAG, "driver wait for rating caught snapshot");
             if (e != null) {
                 Log.v(TAG, "Listen failed.", e);
@@ -243,15 +243,16 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                 // if an error happened during the rating, stop listening:
                 super.listenerRegistration.remove();
             }
-            if (snapshot.exists()) {
+            if (documentSnapshot.exists()) {
                 // see if the rating actually has changed:
-                if (Objects.requireNonNull(req).getRating() != -1.0) {
+                if (requireNonNull(req).isRated() &&
+                        Objects.requireNonNull(req).getRating() != -1.0) {
                     Log.v(TAG, "request rated: ");
                     listener.onWaitOnRatingSuccess();
                     // if the rating is complete, remove the listener:
                     super.listenerRegistration.remove();
                 } else {
-                    Log.v(TAG, "request rated failed.", e);
+                    Log.v(TAG, "request rated -1.0 stars.");
                     listener.onWaitOnRatingError();
                     // if an error happens here, stops listening:
                     super.listenerRegistration.remove();
