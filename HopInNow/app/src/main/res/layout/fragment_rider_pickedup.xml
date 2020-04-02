@@ -106,11 +106,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:text="Enjoy your journey!"
             android:textColor="@color/ColorBlack"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -123,23 +123,21 @@
             <Button
                 android:id="@+id/rider_pickedup_arrived_button"
                 android:layout_width="160dp"
-                android:layout_height="28dp"
+                android:layout_height="30dp"
                 android:background="@drawable/orange_all_round_corner"
                 android:text="Confirm Drop Off"
-                android:textColor="@color/ColorOrange"
-                android:textSize="15sp" />
+                android:textColor="@color/ColorOrange" />
 
 
             <Button
                 android:id="@+id/rider_pickedup_emergency_button"
                 android:layout_width="160dp"
-                android:layout_height="28dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:layout_gravity="center"
                 android:background="@drawable/red_all_round_corner"
                 android:text="EMERGENCY CALL"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="15sp" />
+                android:textColor="@android:color/holo_red_light" />
 
         </LinearLayout>
 

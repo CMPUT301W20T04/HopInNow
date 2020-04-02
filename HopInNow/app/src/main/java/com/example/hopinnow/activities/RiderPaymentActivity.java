@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
@@ -90,6 +91,7 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         Gson gsonRequest = new Gson();
         String json = mPrefs.getString("CurrentRequest", "");
         curRequest = gsonRequest.fromJson(json, Request.class);
+        progressDialog = new ProgressDialog(this);
 
         // for ui testing
         if (driver == null){
@@ -173,8 +175,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         submitBtn.setOnClickListener(v -> {
             myRating = (double) ratingBar.getRating();
             if (myRating!= -1.0){
+                progressDialog.show();
                 completeRequest(myRating);
-                dialog.dismiss();
             } else {
                 Toast.makeText(RiderPaymentActivity.this, "Please select your " +
                         "rating or press CANCEL to complete your ride.", Toast.LENGTH_SHORT)
@@ -194,7 +196,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private void completeRequest(double rating){
         String msg = "Your trip is completed!";
         Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
-
         this.curRequest.setRating(rating);
         this.curRequest.setEstimatedFare(totalPayment);
         this.riderRequestDatabaseAccessor.riderRateRequest(curRequest,this);
@@ -240,12 +241,15 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
      * This method is trigger by driver finishing the scanning of the QR.
      */
     public void onScanningCompleted(){
+
         double newDepositAmount = rider.getDeposit()-totalPayment;
         this.rider.setDeposit(newDepositAmount);
         //riderDatabaseAccessor.updateRiderProfile(rider,RiderPaymentActivity.this);
-
-        String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
-        Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
+        if (!driverRatingUpdated){
+            String msg = "Your payment of " + totalPayment + " QR bucks is successful!";
+            driverRatingUpdated = true;
+            Toast.makeText(RiderPaymentActivity.this, msg, Toast.LENGTH_LONG).show();
+        }
 
         showRatingDialog();
     }
@@ -388,10 +392,12 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     @Override
     public void onRiderProfileUpdateSuccess(Rider rider) {
         riderTripUpdated = true;
+        progressDialog.dismiss();
         //change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);
         intent.putExtra("Current_Request_To_Null", "cancel");
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -452,6 +458,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRequestRatedSuccess() {
+        Toast.makeText(RiderPaymentActivity.this, "Rating successful!", Toast.LENGTH_SHORT)
+                .show();
         curRequest.setAcceptStatus(1);
         curRequest.setArrivedAtDest(true);
         curRequest.setComplete(true);
