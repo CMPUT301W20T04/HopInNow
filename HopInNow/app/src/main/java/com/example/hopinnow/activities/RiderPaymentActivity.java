@@ -10,13 +10,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
@@ -39,22 +36,16 @@ import com.example.hopinnow.entities.Trip;
 import com.example.hopinnow.helperclasses.QRCodeHelper;
 import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
-import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.RiderRequestListener;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Author: Tianyu Bai
@@ -73,12 +64,10 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
     private ImageView qrImage;
     private Boolean other = false;
     private boolean driverRatingUpdated = false;
-    private boolean riderTripUpdated = false;
     private TextView totalPaymentTextView;
     private Date dropOffDateTime;
     private Double myRating;
     private RiderDatabaseAccessor riderDatabaseAccessor;
-    private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
     private ProgressDialog progressDialog;
 
@@ -102,8 +91,8 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
         }
         this.riderDatabaseAccessor = new RiderDatabaseAccessor();
         this.riderDatabaseAccessor.getRiderProfile(this);
-        this.driverDatabaseAccessor = new DriverDatabaseAccessor();
-        this.driverDatabaseAccessor.getDriverObject(curRequest.getDriverEmail(),this);
+        DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
+        driverDatabaseAccessor.getDriverObject(curRequest.getDriverEmail(),this);
         this.riderRequestDatabaseAccessor = new RiderRequestDatabaseAccessor();
 
         // set local variables
@@ -140,11 +129,11 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
                 Gson gsonPay = new Gson();
                 String encodedMsg= "driverEmail" + curRequest.getDriverEmail() + "DriverEmail" +
                         "totalPayment" + totalPayment + "TotalPayment";
-                String serializePay = gsonPay.toJson(encodedMsg);
+                gsonPay.toJson(encodedMsg);
                 Bitmap bitmap = QRCodeHelper
                         .newInstance(RiderPaymentActivity.this)
                         .setContent(encodedMsg)
-                        .setMargin(1)
+                        .setMargin()
                         .generateQR();
                 qrImage.setImageBitmap(bitmap);
                 qrImage.setBackgroundResource(R.color.ColorBlack);
@@ -393,7 +382,6 @@ public class RiderPaymentActivity extends AppCompatActivity implements RiderProf
 
     @Override
     public void onRiderProfileUpdateSuccess(Rider rider) {
-        riderTripUpdated = true;
         progressDialog.dismiss();
         //change activity
         Intent intent = new Intent(RiderPaymentActivity.this,RiderMapActivity.class);

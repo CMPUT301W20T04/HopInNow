@@ -10,16 +10,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
  *
  */
 public class PagerAdapter extends FragmentPagerAdapter {
-    public PagerAdapter(FragmentManager fm) {
+    PagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @NonNull
     @Override
-    /**
-     * Get item at the position
-     * then return the item
-     */
     public Fragment getItem(int position) {
         return IntroFragment.newInstance(position+1);
     }

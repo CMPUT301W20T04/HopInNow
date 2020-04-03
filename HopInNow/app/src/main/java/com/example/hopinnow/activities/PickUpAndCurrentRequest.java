@@ -35,7 +35,6 @@ import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderObjectRetrieveListener;
-import com.google.android.gms.maps.model.LatLng;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -52,11 +51,9 @@ import java.util.Objects;
 public class PickUpAndCurrentRequest extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, RequestAddDeleteListener, DriverRequestListener,
         RiderObjectRetrieveListener {
-    private static final String TAG = "PickUpAndCurrentRequest";
     private Driver driver;
     private Rider rider;
     private Request request;
-    private TextView requestTitleText;
     private TextView requestFromText;
     private TextView requestToText;
     private TextView requestTimeText;
@@ -64,7 +61,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     private TextView requestRiderText;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
     private DriverDatabaseAccessor driverDatabaseAccessor;
-    private ProgressDialog progressDialog;
     private Context context;
     private Button pickUpButton;
     private Button dropOffButton;
@@ -74,14 +70,13 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        this.progressDialog = new ProgressDialog(this.getContext());
-        this.progressDialog.setContentView(R.layout.custom_progress_bar);
+        ProgressDialog progressDialog = new ProgressDialog(this.getContext());
+        progressDialog.setContentView(R.layout.custom_progress_bar);
         driverDatabaseAccessor = new DriverDatabaseAccessor();
 
         //here get the driver from database
         View view = inflater.inflate(R.layout.fragment_driver_pick_rider_up, container, false);
         if (view != null) {
-            requestTitleText = view.findViewById(R.id.RequestInfoText);
             requestFromText = view.findViewById(R.id.requestFromText);
             requestToText = view.findViewById(R.id.requestToText);
             requestTimeText = view.findViewById(R.id.requestTimeText);
@@ -132,7 +127,6 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             //set pick up button on click listener
             pickUpButton.setOnClickListener(v -> {
                 // switch to a fragment that display the request information and pick up button.
-                String rider_email = driver.getCurRequest().getRiderEmail();
                 request.setPickedUp(true);
                 driver.setCurRequest(request);
                 driverRequestDatabaseAccessor.driverPickupRider(request,
@@ -387,7 +381,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         this.context = context;
         super.onAttach(context);
     }

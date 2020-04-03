@@ -7,8 +7,7 @@ public class SharedPreference {
     public static boolean readSetting(Context context, boolean default_value, String key){
         //"page_settings"
         SharedPreferences sharedPreferences = context.getSharedPreferences(key,Context.MODE_PRIVATE);
-        boolean result = sharedPreferences.getBoolean(key,default_value);
-        return result;
+        return sharedPreferences.getBoolean(key,default_value);
 
     }
     public static void saveSetting(Context context, boolean new_value, String key){

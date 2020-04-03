@@ -21,128 +21,96 @@ public abstract class Ride implements Serializable {
     /**
      * Empty constructor to support database storage
      */
-    public Ride(){}
+    Ride(){}
 
     /**
      * Constructor with all attributes as parameters to support dependency injection
      * @param driverEmail
+     *      driver email
      * @param riderEmail
+     *      rider email
      * @param pickUpLoc
+     *      pickup location
      * @param dropOffLoc
+     *      drop off location
      * @param pickUpLocName
+     *      pickup location name
      * @param dropOffLocName
+     *      drop off location name
      * @param pickUpDateTime
+     *      the date and time the rider was picked up
      * @param car
+     *      the car object of the driver
      */
-    public Ride (String driverEmail, String riderEmail, LatLong pickUpLoc, LatLong dropOffLoc,
-                 String pickUpLocName, String dropOffLocName, Date pickUpDateTime, Car car){
-        try{
-            this.driverEmail = driverEmail;
-            this.riderEmail = riderEmail;
-            this.pickUpLoc = pickUpLoc;
-            this.dropOffLoc = dropOffLoc;
-            this.pickUpLocName = pickUpLocName;
-            this.dropOffLocName = dropOffLocName;
-            this.pickUpDateTime = pickUpDateTime;
-            this.car = car;
-        }
-        catch (Exception e){
-            throw e;
-        }
+    Ride(String driverEmail, String riderEmail, LatLong pickUpLoc, LatLong dropOffLoc,
+         String pickUpLocName, String dropOffLocName, Date pickUpDateTime, Car car){
+        this.driverEmail = driverEmail;
+        this.riderEmail = riderEmail;
+        this.pickUpLoc = pickUpLoc;
+        this.dropOffLoc = dropOffLoc;
+        this.pickUpLocName = pickUpLocName;
+        this.dropOffLocName = dropOffLocName;
+        this.pickUpDateTime = pickUpDateTime;
+        this.car = car;
     }
 
     //setters for all attributes
 
     public void setPickUpLoc(LatLong pickUpLoc){
-        try{
-            this.pickUpLoc = pickUpLoc;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.pickUpLoc = pickUpLoc;
     }
 
     public void setDropOffLoc(LatLong dropOffLoc){
-        try{
-            this.dropOffLoc = dropOffLoc;
-        }
-        catch(Exception e){
-            throw e;
-        }
+        this.dropOffLoc = dropOffLoc;
     }
 
     public void setPickUpDateTime(Date dateTime) {
-        try{
-            this.pickUpDateTime = dateTime;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.pickUpDateTime = dateTime;
     }
 
     /**
      * set car to new value
      * @param car
+     *      car object of driver
      */
     public void setCar(Car car) {
-        try{
-            this.car = car;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.car = car;
     }
 
     /**
      * set drop off location name to a new value
      * @param dropOffLocName
+     *      drop off location name
      */
     public void setDropOffLocName(String dropOffLocName) {
-        try{
-            this.dropOffLocName = dropOffLocName;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.dropOffLocName = dropOffLocName;
     }
 
     /**
      * set pick up location name to a new value
      * @param pickUpLocName
+     *      pick up location name
      */
     public void setPickUpLocName(String pickUpLocName) {
-        try{
-            this.pickUpLocName = pickUpLocName;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.pickUpLocName = pickUpLocName;
     }
 
     /**
      * set driver email to a new value
      * @param driverEmail
+     *      driver's email
      */
     public void setDriverEmail(String driverEmail) {
-        try{
-            this.driverEmail = driverEmail;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.driverEmail = driverEmail;
     }
 
     /**
      * set rider email to a new value
      * @param riderEmail
+     *      rider email
      */
     public void setRiderEmail(String riderEmail) {
-        try{
-            this.riderEmail = riderEmail;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.riderEmail = riderEmail;
     }
 
     //getters
@@ -242,6 +210,4 @@ public abstract class Ride implements Serializable {
             return riderEmail;
         }
     }
-
-//public abstract Request getCurRequest();
 }

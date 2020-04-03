@@ -265,7 +265,6 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
                         super.listenerRegistration.remove();
                     }
                 }
-
             }
         });
     }

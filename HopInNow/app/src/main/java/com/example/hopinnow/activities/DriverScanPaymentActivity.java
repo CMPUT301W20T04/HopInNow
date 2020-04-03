@@ -45,8 +45,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
     private Driver driver;
     private Request curRequest;
     private String qrPayment;
-    private boolean rated = false;
-    private String encoded;
     private RxPermissions rxPermissions;
     private int permissionCount = 0;
     private TextView permissionMsg;
@@ -87,7 +85,7 @@ public class DriverScanPaymentActivity extends AppCompatActivity
      */
     @Override
     public void handleResult(Result rawResult){
-        encoded = rawResult.getText();
+        String encoded = rawResult.getText();
         String qrDriverEmail = StringUtils.substringBetween(encoded,"driverEmail"
                 ,"DriverEmail");
         this.qrPayment = StringUtils.substringBetween(encoded,"totalPayment"
@@ -288,7 +286,6 @@ public class DriverScanPaymentActivity extends AppCompatActivity
             driverRequestDatabaseAccessor.driverWaitOnRating(curRequest,this);
         }*/
         // driver profile updated, go back to map activity
-        rated = false;
         Log.v(TAG, "driver profile updated.");
         Intent intent = new Intent(this.getApplicationContext(), DriverMapActivity.class);
         startActivity(intent);

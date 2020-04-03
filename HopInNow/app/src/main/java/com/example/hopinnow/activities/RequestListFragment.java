@@ -41,12 +41,9 @@ import static java.util.Objects.requireNonNull;
  */
 public class RequestListFragment extends Fragment implements DriverProfileStatusListener,
         AvailRequestListListener, DriverRequestListener, RequestAddDeleteListener {
-    private static final String TAG = "RequestListFragment";
     private ListView requestListView;
     private ArrayList<Request> requestList;
     private Request chooseRequest;
-    private LatLong Loc1 = new LatLong(53.651611, -113.323975);
-    private LatLong Loc2 = new LatLong(53.591611, -113.323975);
     private LatLong pickUp;
     private LatLong dropOff;
     private Location current;
@@ -62,7 +59,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater
                 .inflate(R.layout.fragment_driver_requests, container, false);
-        requestListView = (ListView)view.findViewById(R.id.requestList);
+        requestListView = view.findViewById(R.id.requestList);
         requestList = new ArrayList<>();
         //read request from database
         driverDatabaseAccessor = new DriverDatabaseAccessor();
@@ -102,7 +99,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                     current.getLongitude()), this);
         }
         else {
-            this.startUp = ((DriverMapActivity)getActivity()).getStartUpLoc();
+            this.startUp = ((DriverMapActivity) requireNonNull(getActivity())).getStartUpLoc();
             driverRequestDatabaseAccessor.getAllRequest(
                     new LatLong(startUp.latitude, startUp.longitude), this);
         }
@@ -173,10 +170,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             }
             //ui test
             Button nextBtn = itemView.findViewById(R.id.mock_next_pickUpRider);
-            nextBtn.setOnClickListener(v -> {
-                ((DriverMapActivity) Objects.requireNonNull(context))
-                        .switchFragment(R.layout.fragment_driver_pick_rider_up);
-            });
+            nextBtn.setOnClickListener(v -> ((DriverMapActivity) Objects.requireNonNull(context))
+                    .switchFragment(R.layout.fragment_driver_pick_rider_up));
             pickUp = chooseRequest.getPickUpLoc();
             LatLng pickUp_loc = new LatLng(pickUp.getLat(),pickUp.getLng());
 
@@ -213,7 +208,7 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                             current.getLongitude()), this);
         }
         else {
-            this.startUp = ((DriverMapActivity)getActivity()).getStartUpLoc();
+            this.startUp = ((DriverMapActivity) requireNonNull(getActivity())).getStartUpLoc();
             this.driverRequestDatabaseAccessor
                     .listenOnAllRequests(
                             new LatLong(startUp.latitude, startUp.longitude),this);

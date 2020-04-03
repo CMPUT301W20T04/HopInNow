@@ -8,7 +8,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.hopinnow.R;
@@ -25,7 +24,6 @@ import com.example.hopinnow.helperclasses.SharedPreference;
 public class PagerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button finishButton;
     private Button nextPageButton;
-    private PagerAdapter PagerAdapter;
     private ViewPager viewPager;
     private ImageView[] switchers;
     private ImageView switcher0;
@@ -33,7 +31,6 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
     private ImageView switcher2;
     private ImageView switcher3;
     private ImageView switcher4;
-    private boolean whether_first_use;
     private int currentPage = 0;
 
     @Override
@@ -53,7 +50,7 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
         setContentView(R.layout.activity_pager);
         // Enter the App for the first time and show the guide page
-        whether_first_use = SharedPreference.readSetting(PagerActivity.this, false,"page_settings");
+        boolean whether_first_use = SharedPreference.readSetting(PagerActivity.this, false, "page_settings");
 
         if (whether_first_use) {
 
@@ -78,6 +75,7 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Gets the click status of each button
      * @param v
+     *      the view
      */
     @Override
     public void onClick(View v) {
@@ -106,13 +104,13 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
      * initralize the view pager
      */
     public void initializeViewPager(){
-        PagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        com.example.hopinnow.activities.PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         nextPageButton = findViewById(R.id.nextButton);
         switchers = new ImageView[]{
                 switcher0,switcher1,switcher2,switcher3,switcher4
         };
 
-        viewPager.setAdapter(PagerAdapter);
+        viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(currentPage);
         updateSwitcher(currentPage);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -162,6 +160,7 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
      * update the little square switcher at the bottom
      * two status: active, inactive
      * @param index
+     *      index of the switcher
      */
     public void updateSwitcher(int index){
         for(int i=0;i<switchers.length;i++){
@@ -173,10 +172,7 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
                 //inactive
                 switchers[i].setBackgroundResource(R.drawable.pager_point_inactive);
             }
-
-
         }
-
     }
 }
 

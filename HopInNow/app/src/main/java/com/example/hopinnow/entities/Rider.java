@@ -20,25 +20,28 @@ public class Rider extends User {
     /**
      * Constructor supporting dependency injection
      * @param email
+     *      email
      * @param password
+     *      password
      * @param name
+     *      name
      * @param phoneNumber
+     *      phone number
      * @param userType
+     *      user is either a rider or a driver
      * @param deposit
+     *      deposit of rider or driver
      * @param curRequest
+     *      current request
      * @param riderTripList
+     *      rider's trip list
      */
     public Rider(String email, String password, String name, String phoneNumber,
                  boolean userType,double deposit,
                  Request curRequest, ArrayList<Trip> riderTripList) {
         super(email, password, name, phoneNumber, userType, deposit);
-        try{
-            this.curRequest = curRequest;
-            this.riderTripList = riderTripList;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.curRequest = curRequest;
+        this.riderTripList = riderTripList;
     }
     // setters and getters
 
@@ -53,14 +56,10 @@ public class Rider extends User {
     /**
      * set a new request as current request
      * @param curRequest
+     *      current request
      */
     public void setCurRequest(Request curRequest) {
-        try{
-            this.curRequest = curRequest;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.curRequest = curRequest;
     }
 
     /**
@@ -74,13 +73,9 @@ public class Rider extends User {
     /**
      * set rider Trip List to new value
      * @param riderTripList
+     *      the rider's trip list
      */
     public void setRiderTripList(ArrayList<Trip> riderTripList) {
-        try{
-            this.riderTripList = riderTripList;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.riderTripList = riderTripList;
     }
 }

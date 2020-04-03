@@ -31,8 +31,6 @@ import java.util.ArrayList;
  */
 public class RegisterActivity extends AppCompatActivity implements LoginStatusListener,
         RegisterStatusListener, UserProfileStatusListener {
-    // establish the TAG of this activity:
-    private static final String TAG = "RegisterActivity";
     // current user information:
     private User user;
     // Database methods:
@@ -122,38 +120,35 @@ public class RegisterActivity extends AppCompatActivity implements LoginStatusLi
     @Override
     protected void onStart() {
         super.onStart();
-        this.registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!verifyFields()) {
-                    return;
-                }
-                // initialize the user object to store:
-                String passwordData = password.getText().toString();
-                String nameData = name.getText().toString();
-                String emailData = email.getText().toString();
-                String phoneNumberData = phoneNumber.getText().toString();
-                boolean isDriver = driverSwitch.isChecked();
-                // save user information in the database:
-                ArrayList<Trip> tripList = new ArrayList<Trip>();
-                if (isDriver) { // the user is a driver
-                    user = new Driver(emailData, passwordData, nameData, phoneNumberData,
-                            0, null, null, tripList);
-                    Intent intent = new Intent(getApplicationContext(), RegisterVehicleInfoActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("DriverObject", user);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                } else {    // the user is a rider
-                    user = new Rider(emailData, passwordData, nameData, phoneNumberData,
-                            false, 100, null, tripList);
-                    // alert progress dialog:
-                    progressDialog = new ProgressDialog(RegisterActivity.this);
-                    progressDialog.setContentView(R.layout.custom_progress_bar);
-                    progressDialog.show();
-                    // create user in the database:
-                    userDatabaseAccessor.registerUser(user, RegisterActivity.this);
-                }
+        this.registerBtn.setOnClickListener(view -> {
+            if (!verifyFields()) {
+                return;
+            }
+            // initialize the user object to store:
+            String passwordData = password.getText().toString();
+            String nameData = name.getText().toString();
+            String emailData = email.getText().toString();
+            String phoneNumberData = phoneNumber.getText().toString();
+            boolean isDriver = driverSwitch.isChecked();
+            // save user information in the database:
+            ArrayList<Trip> tripList = new ArrayList<>();
+            if (isDriver) { // the user is a driver
+                user = new Driver(emailData, passwordData, nameData, phoneNumberData,
+                        0, null, null, tripList);
+                Intent intent = new Intent(getApplicationContext(), RegisterVehicleInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("DriverObject", user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            } else {    // the user is a rider
+                user = new Rider(emailData, passwordData, nameData, phoneNumberData,
+                        false, 100, null, tripList);
+                // alert progress dialog:
+                progressDialog = new ProgressDialog(RegisterActivity.this);
+                progressDialog.setContentView(R.layout.custom_progress_bar);
+                progressDialog.show();
+                // create user in the database:
+                userDatabaseAccessor.registerUser(user, RegisterActivity.this);
             }
         });
     }

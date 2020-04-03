@@ -23,7 +23,9 @@ import java.util.Objects;
  * Handles all rider side database accesses
  */
 public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
+
     public static final String TAG = "RiderRequestDA";
+
     public RiderRequestDatabaseAccessor() {
         super();
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();

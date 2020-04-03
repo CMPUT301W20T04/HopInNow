@@ -22,7 +22,6 @@ import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
  * This class is to show the vehicle info and user can update it
  */
 public class VehicleViewActivity extends AppCompatActivity implements DriverProfileStatusListener {
-    private Button updateBtn;
     private EditText vehicleMakeEditText;
     private EditText vehicleModelEditText;
     private EditText vehicleColorEditText;
@@ -65,8 +64,8 @@ public class VehicleViewActivity extends AppCompatActivity implements DriverProf
             }
         }
 
-        this.updateBtn = findViewById(R.id.vehicleUpdateBtn);
-        this.updateBtn.setOnClickListener(v -> {
+        Button updateBtn = findViewById(R.id.vehicleUpdateBtn);
+        updateBtn.setOnClickListener(v -> {
             Car car = new Car();
             car.setMake(vehicleMakeEditText.getText().toString());
             car.setModel(vehicleModelEditText.getText().toString());

@@ -1,7 +1,6 @@
 package com.example.hopinnow.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

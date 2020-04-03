@@ -1,21 +1,20 @@
 package com.example.hopinnow.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.hopinnow.R;
-import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.User;
+import com.example.hopinnow.statuslisteners.LoginStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
 
 /**
@@ -25,8 +24,6 @@ import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
  */
 public class LoginActivity extends AppCompatActivity implements LoginStatusListener,
         UserProfileStatusListener {
-// establish the TAG of this activity:
-    private static final String TAG = "LoginActivity";
     // initialize Database helper:
     private UserDatabaseAccessor userDatabaseAccessor;
     // UI components:
