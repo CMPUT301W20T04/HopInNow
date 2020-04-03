@@ -76,7 +76,6 @@ public class TripDetailActivity extends AppCompatActivity implements DriverProfi
         //get the key
         Intent intent = getIntent();
         search_key = intent.getIntExtra("pos_key",0);
-
         userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getUserProfile(this);
 
