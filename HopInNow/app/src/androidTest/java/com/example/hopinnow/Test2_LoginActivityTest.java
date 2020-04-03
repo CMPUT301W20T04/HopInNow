@@ -89,8 +89,8 @@ public class Test2_LoginActivityTest {
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
         // test email
-        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText),"rider2@rider.com");
-        assertTrue(solo.waitForText("rider2@rider.com",
+        solo.enterText((EditText)solo.getView(R.id.loginEmailEditText),"test@rider.com");
+        assertTrue(solo.waitForText("test@rider.com",
                 1, 2000));
 
         // test password

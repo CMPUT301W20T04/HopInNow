@@ -25,7 +25,9 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.DriverRequestDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
+import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
+import com.example.hopinnow.entities.LatLong;
 import com.example.hopinnow.entities.Request;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.statuslisteners.AvailRequestListListener;
@@ -33,9 +35,11 @@ import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.DriverRequestListener;
 import com.example.hopinnow.statuslisteners.RequestAddDeleteListener;
 import com.example.hopinnow.statuslisteners.RiderObjectRetrieveListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -102,6 +106,16 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
         this.driver = driver;
         request = driver.getCurRequest();
         RiderDatabaseAccessor rDA = new RiderDatabaseAccessor();
+        // for ui test
+        if (request == null){
+            Car c = new Car("Auburn","Speedster","Cream","111111");
+            request = new Request(driver.getEmail(),"test@rider.com",
+                    new LatLong(53.651611, -113.323975),
+                    new LatLong(53.651611, -113.323975), "from","to",
+                    Calendar.getInstance().getTime(), c, 3.5);
+            this.driver.setCurRequest(request);
+        }
+
         rDA.getRiderObject(request.getRiderEmail(), this);
         requestFromText.setText(request.getPickUpLocName());
         requestToText.setText( request.getDropOffLocName());
@@ -110,13 +124,7 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
                 "%.2f", request.getEstimatedFare()));
 
         requestRiderText.setOnClickListener(v -> showInfo());
-        if (request==null){
-            requestFromText.setText("From: pick up location ui test" );
-            requestToText.setText("To: drop off location ui test");
-            requestTimeText.setText("Time: right now ui test" );
-            requestCostText.setText("Estimate Fare: fare ui test");
-            return;
-        }
+
         //display_mode = ((DriverMapActivity)getActivity()).getCurrentRequestPageCounter();
         if (!request.isPickedUp()) {
             // the fragment that display the pickup button and request information
@@ -130,13 +138,10 @@ public class PickUpAndCurrentRequest extends Fragment implements DriverProfileSt
             pickUpButton.setOnClickListener(v -> {
                 // switch to a fragment that display the request information and pick up button.
                 String rider_email = driver.getCurRequest().getRiderEmail();
-
                 request.setPickedUp(true);
                 driver.setCurRequest(request);
                 driverRequestDatabaseAccessor.driverPickupRider(request,
                         PickUpAndCurrentRequest.this);
-                //   ((DriverMapActivity)getActivity()).switchFragment(R.layout.fragment_driver_pick_rider_up);
-
             });
         } else {
             // the fragment that display the drop off button and request information

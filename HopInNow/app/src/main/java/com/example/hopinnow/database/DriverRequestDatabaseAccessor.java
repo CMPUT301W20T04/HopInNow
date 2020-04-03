@@ -85,20 +85,24 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      */
     public void driverListenOnCancelRequestBeforeArrive(Request request,
                                                         final DriverRequestListener listener) {
-        String requestID = request.getRequestID();
-        DocumentReference ref = this.firestore
-                .collection(super.referenceName)
-                .document(requestID);
-        super.listenerRegistration = ref.addSnapshotListener((documentSnapshot, e) -> {
-                    Request req = requireNonNull(documentSnapshot).toObject(Request.class);
-                    if (req == null || !requireNonNull(documentSnapshot).exists()) {
-                        Log.v(TAG, "driverListenOnCancelRequestBeforeArrive The request is" +
-                                "declined by the rider before the driver arrives");
-                        listener.onRequestDeclinedByRider();
-                        // if the request is canceled here, then stop listening:
-                        super.listenerRegistration.remove();
-                    }
-                });
+        if (request.getRequestID()!=null){// ui Test
+            String requestID = request.getRequestID();
+            DocumentReference ref = this.firestore
+                    .collection(super.referenceName)
+                    .document(requestID);
+
+            super.listenerRegistration = ref.addSnapshotListener((documentSnapshot, e) -> {
+                Request req = requireNonNull(documentSnapshot).toObject(Request.class);
+                if (req == null || !requireNonNull(documentSnapshot).exists()) {
+                    Log.v(TAG, "driverListenOnCancelRequestBeforeArrive The request is" +
+                            "declined by the rider before the driver arrives");
+                    listener.onRequestDeclinedByRider();
+                    // if the request is canceled here, then stop listening:
+                    super.listenerRegistration.remove();
+                }
+            });
+        }
+
     }
     /**
      * Called for the driver to listen on the request he or she just accepted,
@@ -154,22 +158,24 @@ public class DriverRequestDatabaseAccessor extends RequestDatabaseAccessor {
      *      the listener to invoke the methods
      */
     public void driverPickupRider(Request request, final DriverRequestListener listener) {
-        String requestID = request.getRequestID();
-        Map<String, Object> map = new HashMap<>();
-        map.put("pickedUp", true);
-        Log.v(TAG, "ready to put isPickedUp == true into database.");
-        this.firestore
-                .collection(super.referenceName)
-                .document(requestID)
-                .update(map)
-                .addOnSuccessListener(aVoid -> {
-                    Log.v(TAG, "picked up success!");
-                    listener.onDriverPickupSuccess();
-                })
-                .addOnFailureListener(e -> {
-                    Log.v(TAG, "picked up fail!");
-                    listener.onDriverPickupFail();
-                });
+        if (request.getRequestID()!=null){//ui test
+            String requestID = request.getRequestID();
+            Map<String, Object> map = new HashMap<>();
+            map.put("pickedUp", true);
+            Log.v(TAG, "ready to put isPickedUp == true into database.");
+            this.firestore
+                    .collection(super.referenceName)
+                    .document(requestID)
+                    .update(map)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.v(TAG, "picked up success!");
+                        listener.onDriverPickupSuccess();
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.v(TAG, "picked up fail!");
+                        listener.onDriverPickupFail();
+                    });
+        }
     }
 
     /**

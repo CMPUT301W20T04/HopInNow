@@ -220,9 +220,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         addRequestBtn.setOnClickListener(v -> {
             //mock, for UI test
             if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
-                pickUpLocName = pickUpMock.getText().toString();
+                pickUpLocName = "Edmonton";
                 pickUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
-                dropOffLocName = dropOffMock.getText().toString();
+                dropOffLocName = "Edmonton";
                 dropOffLoc = new LatLng(current.getLatitude(),current.getLongitude());
                 uiSwitch = true;
             }
