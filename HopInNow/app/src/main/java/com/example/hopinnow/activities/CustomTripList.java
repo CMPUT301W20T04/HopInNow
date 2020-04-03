@@ -47,9 +47,6 @@ public class CustomTripList extends ArrayAdapter<Trip> {
 
         }
         // get the single trip from the trip data list and set texts for single view.
-        //CardView card = view.findViewById(R.id.each_trip_record);
-
-        //
         Trip trip = trips.get(position);
         TextView fromText = view.findViewById(R.id.fromText);
         TextView toText = view.findViewById(R.id.ToText);

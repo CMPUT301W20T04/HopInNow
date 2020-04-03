@@ -55,7 +55,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     private Driver current_driver;
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private DriverRequestDatabaseAccessor driverRequestDatabaseAccessor;
-    // Shway added this:
     private ProgressDialog progressDialog;
     private RequestListAdapter requestListAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -65,10 +64,8 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
                 .inflate(R.layout.fragment_driver_requests, container, false);
         requestListView = (ListView)view.findViewById(R.id.requestList);
         requestList = new ArrayList<>();
-
         //read request from database
         driverDatabaseAccessor = new DriverDatabaseAccessor();
-        // Shway added this:
         this.progressDialog = new ProgressDialog(getContext());
         this.progressDialog.setContentView(R.layout.custom_progress_bar);
         this.progressDialog.show();
@@ -99,8 +96,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
     public void onDriverProfileRetrieveSuccess(Driver driver) {
         this.current_driver = driver;
         driverRequestDatabaseAccessor = new DriverRequestDatabaseAccessor();
-        // TODO
-        // later need to fix the new LatLong(10, 20) to current location of the driver:
         if (((DriverMapActivity) requireNonNull(context)).isUseCurrent()){
             this.current = ((DriverMapActivity)context).getCurrentLoc();
             driverRequestDatabaseAccessor.getAllRequest(new LatLong(current.getLatitude(),
@@ -115,7 +110,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverProfileRetrieveFailure() {
-        // Shway added the following:
         Toast.makeText(getContext(), "Weak Internet, try again later",
                 Toast.LENGTH_LONG).show();
         driverDatabaseAccessor.getDriverProfile(this);
@@ -123,7 +117,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
-        //((DriverMapActivity) requireNonNull(getActivity())).switchFragment(R.layout.fragment_driver_pick_rider_up);
 
     }
 
@@ -193,8 +186,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
             ((DriverMapActivity)context).setDropOffLoc(dropOff_loc);
             ((DriverMapActivity)context).updateBothMarker();
             ((DriverMapActivity)context).setBothMarker(pickUp_loc, dropOff_loc);
-            //((DriverMapActivity)getActivity()).setMapMarker(null, pickUp_loc);
-            //((DriverMapActivity)getActivity()).setMapMarker(null, dropOff_loc);
             acceptBtn.setOnClickListener(v -> {
                 chooseRequest.setDriverEmail(current_driver.getEmail());
                 chooseRequest.setCar(current_driver.getCar());
@@ -231,14 +222,12 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onGetRequiredRequestsFailure() {
-        // Shway added this:
         Toast.makeText(getContext(), "Internet is too weak!", Toast.LENGTH_SHORT).show();
         driverRequestDatabaseAccessor.getAllRequest(new LatLong(10, 20), this);
     }
 
     @Override
     public void onAllRequestsUpdateSuccess(ArrayList<Request> requests) {
-        // Shway added this:
         this.requestList.clear();
         this.requestList.addAll(requests);
         this.requestListAdapter.notifyDataSetChanged();
@@ -252,7 +241,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
 
     @Override
     public void onDriverRequestAccept() {
-
         current_driver.setCurRequest(chooseRequest);
         driverDatabaseAccessor.updateDriverProfile(current_driver, RequestListFragment.this);
 
@@ -281,8 +269,6 @@ public class RequestListFragment extends Fragment implements DriverProfileStatus
         Toast.makeText(context,"Rider has accepted your offer!",Toast.LENGTH_SHORT)
                 .show();
         ((DriverMapActivity) Objects.requireNonNull(context)).switchFragment(R.layout.fragment_driver_pick_rider_up);
-        //((DriverMapActivity) Objects.requireNonNull(context))
-         //       .switchFragment(R.layout.fragment_driver_pick_rider_up);
     }
 
     @Override

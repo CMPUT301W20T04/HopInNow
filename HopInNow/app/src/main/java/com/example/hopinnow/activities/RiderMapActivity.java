@@ -90,16 +90,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
         LocationListener, RequestAddDeleteListener,
         NavigationView.OnNavigationItemSelectedListener {
-
     private static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
     private SharedPreferences mPrefs;
     private LocationManager lm;
-
     private Rider rider;
     private Driver driver = null;
     private Request curRequest;
-
     private Location current;
     private LatLng pickUpLoc;
     private LatLng dropOffLoc;
@@ -111,12 +108,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private boolean tripCompleted = false;
     private boolean uiSwitch = false;
     private double baseFare;
-
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
-
     // progress bar here:
     private ProgressDialog progressDialog;
     private UserDatabaseAccessor userDatabaseAccessor;
