@@ -68,7 +68,6 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -90,16 +89,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RiderProfileStatusListener, RiderRequestListener, DriverObjectRetreieveListener,
         LocationListener, RequestAddDeleteListener,
         NavigationView.OnNavigationItemSelectedListener {
-
-    private static final String TAG = "RiderMapActivity";
     private GoogleMap mMap;
     private SharedPreferences mPrefs;
     private LocationManager lm;
-
     private Rider rider;
     private Driver driver = null;
     private Request curRequest;
-
     private Location current;
     private LatLng pickUpLoc;
     private LatLng dropOffLoc;
@@ -111,20 +106,16 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private boolean tripCompleted = false;
     private boolean uiSwitch = false;
     private double baseFare;
-
     private DriverDatabaseAccessor driverDatabaseAccessor;
     private RiderRequestDatabaseAccessor riderRequestDatabaseAccessor;
     private RiderDatabaseAccessor riderDatabaseAccessor;
     private RiderWaitingDriverFragment fragWatingDriver = new RiderWaitingDriverFragment();
-
     // progress bar here:
     private ProgressDialog progressDialog;
     private UserDatabaseAccessor userDatabaseAccessor;
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
 
-    // Shway added ListenerRegistration:
-    ListenerRegistration listenerRegistration;
     @SuppressLint({"CheckResult", "MissingPermission"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,9 +211,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         addRequestBtn.setOnClickListener(v -> {
             //mock, for UI test
             if ((!dropOffMock.getText().toString().equals(""))&&(!pickUpMock.getText().toString().equals(""))){
-                pickUpLocName = pickUpMock.getText().toString();
+                pickUpLocName = "Edmonton";
                 pickUpLoc = new LatLng(current.getLatitude(),current.getLongitude());
-                dropOffLocName = dropOffMock.getText().toString();
+                dropOffLocName = "Edmonton";
                 dropOffLoc = new LatLng(current.getLatitude(),current.getLongitude());
                 uiSwitch = true;
             }
@@ -378,7 +369,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Log.e("An error occurred: ", status.toString());
             }
         });
-        pickUpAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+        Objects.requireNonNull(pickUpAutoComplete.getView())
+                .findViewById(R.id.places_autocomplete_clear_button)
                 .setOnClickListener(v -> {
                     pickUpAutoComplete.setText("");
                     pickUpLoc = null;
@@ -731,6 +723,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * 1. Drop off location must be no further than 150km from pick up location.
      * 2. If current location enabled, it must be no further than 3km from pick up location.
      * @return
+     *      a boolean indicating if the two locations are valid ones
      */
     private Boolean validLocations(){
         float distance;
@@ -765,6 +758,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**
      * Updates fare offered by the rider to firebase.
      * @param newFare
+     *      update the fee
      */
     public void updateFare(Double newFare){
         curRequest.setEstimatedFare(newFare);
@@ -779,6 +773,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**
      * Responds to driver offer, accept or decline.
      * @param acceptStatus
+     *      the status of acceptance
      */
     public void respondDriverOffer(int acceptStatus){
         riderRequestDatabaseAccessor.riderAcceptOrDeclineRequest(acceptStatus,

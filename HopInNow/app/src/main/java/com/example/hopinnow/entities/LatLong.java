@@ -27,6 +27,7 @@ public class LatLong implements Serializable {
     /**
      * set the longitude
      * @param lat
+     *      latitude
      */
     public void setLat(double lat) {
         this.lat = lat;
@@ -43,6 +44,7 @@ public class LatLong implements Serializable {
     /**
      * set the longitude
      * @param lng
+     *      longitude
      */
     public void setLng(double lng) {
         this.lng = lng;

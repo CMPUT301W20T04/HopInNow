@@ -26,30 +26,32 @@ public class User implements Serializable {
     /**
      * user constructor
      * @param email
+     *      email
      * @param password
+     *      password
      * @param name
+     *      name
      * @param phoneNumber
+     *      phone number
      * @param userType
+     *      user type
      * @param deposit
+     *      deposit
      */
     public User(String email, String password, String name, String phoneNumber, boolean userType,double deposit){
-        try{
-            this.email = email; //unique
-            this.password = password;
-            this.name = name;
-            this.phoneNumber = phoneNumber;
-            this.userType = userType;
-            this.deposit = deposit;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.email = email; //unique
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.userType = userType;
+        this.deposit = deposit;
     }
 
     /**
      * get user email
      * can be null for rider to send request
      * @return
+     *      email
      */
     public String getEmail() {
         return email;
@@ -58,20 +60,17 @@ public class User implements Serializable {
     /**
      * set user email
      * @param email
+     *      email
      */
     public void setEmail(String email) {
-        try{
-            this.email = email;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.email = email;
     }
 
     /**
      * get user password
      * can be null for security reason
      * @return
+     *      password
      */
     public String getPassword() {
         return password;
@@ -80,19 +79,16 @@ public class User implements Serializable {
     /**
      * set user password
      * @param password
+     *      password
      */
     public void setPassword(String password) {
-        try{
-            this.password = password;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.password = password;
     }
 
     /**
      * get user name
      * @return
+     *      name
      */
     public String getName() {
         if (name == null){
@@ -106,19 +102,16 @@ public class User implements Serializable {
     /**
      * set user name
      * @param name
+     *      name
      */
     public void setName(String name) {
-        try{
-            this.name = name;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.name = name;
     }
 
     /**
      * get phone number
      * @return
+     *      phone number
      */
     public String getPhoneNumber() {
         if (phoneNumber == null){
@@ -132,19 +125,16 @@ public class User implements Serializable {
     /**
      * set phone number
      * @param phoneNumber
+     *      phone number
      */
     public void setPhoneNumber(String phoneNumber) {
-        try{
-            this.phoneNumber = phoneNumber;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.phoneNumber = phoneNumber;
     }
 
     /**
      * get user deposit
      * @return
+     *      deposit
      */
     public double getDeposit() {
         if (deposit == null){
@@ -158,19 +148,16 @@ public class User implements Serializable {
     /**
      * set user deposit
      * @param deposit
+     *      deposit
      */
     public void setDeposit(double deposit) {
-        try{
-            this.deposit = deposit;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.deposit = deposit;
     }
 
     /**
      * check user type, true for driver and false for rider
      * @return
+     *      type of the user
      */
     public boolean isUserType() {
         return userType;
@@ -179,14 +166,10 @@ public class User implements Serializable {
     /**
      * set user type, true for driver and false for rider
      * @param userType
+     *      user type
      */
     public void setUserType(boolean userType) {
-        try{
-            this.userType = userType;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.userType = userType;
     }
 
     /**

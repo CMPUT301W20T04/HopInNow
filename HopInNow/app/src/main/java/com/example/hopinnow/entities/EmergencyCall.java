@@ -19,19 +19,16 @@ public class EmergencyCall {
     /**
      * emergency call constructor
      * @param dialogNumber
+     *      the number to dialog
      */
     public EmergencyCall(String dialogNumber) {
-        try{
-            this.dialogNumber = dialogNumber;
-        }
-        catch(Exception e){
-            throw e;
-        }
+        this.dialogNumber = dialogNumber;
     }
 
     /**
      * get dialog number
      * @return
+     *      number to dialog
      */
     public String getDialogNumber() {
         return dialogNumber;
@@ -40,14 +37,10 @@ public class EmergencyCall {
     /**
      * set dialog number
      * @param dialogNumber
+     *      number to dialog
      */
     public void setDialogNumber(String dialogNumber) {
-        try{
-            this.dialogNumber = dialogNumber;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.dialogNumber = dialogNumber;
     }
 }
 

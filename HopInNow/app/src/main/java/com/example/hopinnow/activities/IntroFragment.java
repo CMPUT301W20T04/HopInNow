@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.hopinnow.R;
 
+import java.util.Objects;
+
 public class IntroFragment extends Fragment {
-    private ImageView imageView;
     private static final String SectionNumber = "number";
     private int[] drawable_array = new int[]{
       R.drawable.sign_up,
@@ -28,7 +29,7 @@ public class IntroFragment extends Fragment {
             "While waiting, increase the fare to encourage drivers.",
             "Choose tips, sum up and click confirm to get QR to scan."
     };
-    public static IntroFragment newInstance(int sectionNumber) {
+    static IntroFragment newInstance(int sectionNumber) {
         IntroFragment fragment = new IntroFragment();
         Bundle args = new Bundle();
         args.putInt(SectionNumber, sectionNumber);
@@ -38,12 +39,13 @@ public class IntroFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pager_fragment, container, false);
         TextView textView = view.findViewById(R.id.guidePageText);
-        String textString = guide[(getArguments().getInt(SectionNumber)-1)];
+        String textString = guide[(Objects.requireNonNull(getArguments()).getInt(SectionNumber)-1)];
         textView.setText(textString);
-        imageView = (ImageView) view.findViewById(R.id.image);
+        ImageView imageView = view.findViewById(R.id.image);
         imageView.setBackgroundResource(drawable_array[getArguments().getInt(SectionNumber)-1]);
         return view;
 

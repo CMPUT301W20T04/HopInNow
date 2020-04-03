@@ -21,30 +21,37 @@ public class Trip extends Ride {
     /**
      * Constructor supporting dependency injection
      * @param driver
+     *      driver
      * @param rider
+     *      rider
      * @param pickUpLoc
+     *      pickup location
      * @param dropOffLoc
+     *      drop off location
      * @param pickUpLocName
+     *      pickup location name
      * @param dropOffLocName
+     *      drop off location name
      * @param pickUpDateTime
+     *      pickup date time
      * @param dropOffTime
+     *      drop off time
      * @param duration
+     *      duration of ride
      * @param car
+     *      car of driver
      * @param cost
+     *      cost of travel
      * @param rating
+     *      rating of experience
      */
     public Trip(String driver, String rider, LatLong pickUpLoc, LatLong dropOffLoc, String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                 Date dropOffTime, int duration, Car car, Double cost, Double rating) {
         super(driver, rider, pickUpLoc, dropOffLoc, pickUpLocName, dropOffLocName, pickUpDateTime, car);
-        try{
-            this.cost = cost;
-            this.rating = rating;
-            this.dropOffDateTime = dropOffTime;
-            this.duration = duration;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.cost = cost;
+        this.rating = rating;
+        this.dropOffDateTime = dropOffTime;
+        this.duration = duration;
     }
 
     /**
@@ -63,40 +70,28 @@ public class Trip extends Ride {
     /**
      * set the cost to a new value
      * @param cost
+     *      cost of ride
      */
     public void setCost(Double cost) {
-        try{
-            this.cost = cost;
-        }
-        catch(Exception e){
-            throw e;
-        }
+        this.cost = cost;
     }
 
     /**
      * set the drop off time to a new value
      * @param dropOffTime
+     *      drop off time
      */
     public void setDropOffTime(Date dropOffTime) {
-        try{
-            this.dropOffDateTime = dropOffTime;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.dropOffDateTime = dropOffTime;
     }
 
     /**
      * set the duration to a new value
      * @param duration
+     *      duration of ride
      */
     public void setDuration(int duration) {
-        try{
-            this.duration = duration;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.duration = duration;
     }
 
     /**
@@ -114,14 +109,10 @@ public class Trip extends Ride {
 
     /**
      * get drop off time
-     * @return dropOffDateTime
      */
-    public Date getDropOffTime() {
+    public void getDropOffTime() {
         if (dropOffDateTime == null){
             throw new NullPointerException();
-        }
-        else{
-            return dropOffDateTime;
         }
     }
 
@@ -141,13 +132,9 @@ public class Trip extends Ride {
     /**
      * set the rating to a new value
      * @param rating
+     *      rating of driver
      */
     public void setRating(Double rating) {
-        try{
-            this.rating = rating;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.rating = rating;
     }
 }

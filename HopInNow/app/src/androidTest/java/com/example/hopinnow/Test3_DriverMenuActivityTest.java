@@ -57,7 +57,7 @@ public class Test3_DriverMenuActivityTest {
     public void Case1_checkMenu() throws InterruptedException {
         Thread.sleep(2000);
 
-        String userEmail = "driver@testing.com";
+        String userEmail = "test@driver.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
@@ -88,7 +88,9 @@ public class Test3_DriverMenuActivityTest {
         assertTrue(solo.waitForText("Testing Driver",1,2000));
 
         solo.clickOnView(solo.getView(R.id.proUpdateBtn));
+        Thread.sleep(3000);
         solo.goBack();
+        Thread.sleep(2000);
 
         //test editing my car
         solo.clickOnMenuItem("Car Information");

@@ -108,9 +108,8 @@ public class RiderDriverOfferFragment extends Fragment {
                     .respondDriverOffer(1);
         });
         // this is the decline button:
-        this.declineBtn.setOnClickListener(v -> {
-            ((RiderMapActivity) Objects.requireNonNull(getActivity()))
-                    .respondDriverOffer(-1);
-        });
+        this.declineBtn.setOnClickListener(v ->
+                ((RiderMapActivity) Objects.requireNonNull(getActivity()))
+                .respondDriverOffer(-1));
     }
 }

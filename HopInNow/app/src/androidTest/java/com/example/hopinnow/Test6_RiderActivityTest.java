@@ -70,7 +70,7 @@ public class Test6_RiderActivityTest {
      */
     private void loginUser() throws InterruptedException {
         // Log in To Activity
-        String userEmail = "rider2@rider.com";
+        String userEmail = "test@rider.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
@@ -212,6 +212,7 @@ public class Test6_RiderActivityTest {
 
         //Declining driver offer
         solo.clickOnButton("DECLINE");
+        Thread.sleep(2000);
         assertTrue(solo.waitForText("Time Elapsed",1,2000));
         solo.clickOnView(solo.getView(R.id.rider_waiting_driver_next));
 
@@ -254,6 +255,19 @@ public class Test6_RiderActivityTest {
 
         Thread.sleep(2000);
     }
+
+    /**
+     * Test fragments of rider picked up, rider confirming arriving at drop off location, payment
+     *      actions,and completing ride without rating
+     * @throws InterruptedException
+     *       throws exception if thread is interrupted
+     */
+    //@Test
+    public void Case5() throws InterruptedException {
+        logoutUser();
+    }
+
+
 
 
 

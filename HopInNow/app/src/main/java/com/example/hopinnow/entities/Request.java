@@ -50,22 +50,19 @@ public class Request extends Ride implements Comparable<Request>{
                     String pickUpLocName, String dropOffLocName, Date pickUpDateTime,
                     Car car, Double estimatedFare){
         super(driver,rider,pickUpLoc,dropOffLoc,pickUpLocName, dropOffLocName,pickUpDateTime,car);
-        try {
-            this.estimatedFare = estimatedFare;
-            this.pickedUp = false;
-            this.arrivedAtDest = false;
-            this.complete = false;
-            this.rating = -1.0;
-            this.acceptStatus = 0;
-            this.rated = false;
-        } catch(Exception e){
-            throw e;
-        }
+        this.estimatedFare = estimatedFare;
+        this.pickedUp = false;
+        this.arrivedAtDest = false;
+        this.complete = false;
+        this.rating = -1.0;
+        this.acceptStatus = 0;
+        this.rated = false;
     }
 
     /**
      * get estimated fare
      * @return
+     *      returns the estimated fee
      */
     public Double getEstimatedFare() {
         if (estimatedFare == null){
@@ -79,20 +76,17 @@ public class Request extends Ride implements Comparable<Request>{
     /**
      * set the estimated fare
      * @param estimatedFare
+     *      the estimated fare
      */
     public void setEstimatedFare(Double estimatedFare) {
-        try{
-            this.estimatedFare = estimatedFare;
-        }
-        catch (Exception e){
-            throw e;
-        }
+        this.estimatedFare = estimatedFare;
     }
 
     /**
      * get the reqeust ID
      * can be null
      * @return
+     *      get the request ID
      */
     public String getRequestID() {
         return requestID;
@@ -101,13 +95,14 @@ public class Request extends Ride implements Comparable<Request>{
     /**
      * set request ID
      * @param requestID
+     *      get the request ID
      */
     public void setRequestID(String requestID) {
         this.requestID = requestID;
     }
 
 
-    public double getMdToDriver() {
+    private double getMdToDriver() {
         return mdToDriver;
     }
 

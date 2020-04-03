@@ -20,7 +20,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 public class DriverMenuActivity extends AppCompatActivity implements DriverProfileStatusListener {
     private static final String TAG = "DriverMenuActivity";
-    private TextView driverMenuTextView;
     private String rating;
     private DriverDatabaseAccessor userDatabaseAccessor;
 

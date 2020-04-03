@@ -108,29 +108,31 @@ public class RiderRequestDatabaseAccessor extends RequestDatabaseAccessor {
         DocumentReference ref = this.firestore.collection(this.referenceName)
                 .document(this.currentUser.getUid());
         super.listenerRegistration = ref.addSnapshotListener((snapshot, e) -> {
-                    Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
-                    if (e != null) {
-                        Log.v(TAG, "Listen failed.", e);
-                        listener.onRiderPickedupTimeoutOrFail();
-                        // if there is an error while driver is trying to pick up the rider, then
-                        // stops listening to the snapshot:
+            if (snapshot!=null){
+                Request request = Objects.requireNonNull(snapshot).toObject(Request.class);
+                if (e != null) {
+                    Log.v(TAG, "Listen failed.", e);
+                    listener.onRiderPickedupTimeoutOrFail();
+                    // if there is an error while driver is trying to pick up the rider, then
+                    // stops listening to the snapshot:
+                    super.listenerRegistration.remove();
+                }
+                if (snapshot.exists()) {
+                    if (Objects.requireNonNull(request).isPickedUp()) {
+                        Log.v(TAG, "rider picked up: ");
+                        listener.onRiderPickedupSuccess(snapshot.toObject(Request.class));
+                        // if the rider is now picked up, then stops listening:
                         super.listenerRegistration.remove();
                     }
-                    if (snapshot.exists()) {
-                        if (Objects.requireNonNull(request).isPickedUp()) {
-                            Log.v(TAG, "rider picked up: ");
-                            listener.onRiderPickedupSuccess(snapshot.toObject(Request.class));
-                            // if the rider is now picked up, then stops listening:
-                            super.listenerRegistration.remove();
-                        }
-                    } else {
-                        Log.v(TAG, "Current data: null");
-                        listener.onRiderPickedupTimeoutOrFail();
-                        // if there is an error while driver is trying to pick up the rider, then
-                        // stops listening to the snapshot:
-                        super.listenerRegistration.remove();
-                    }
-                });
+                } else {
+                    Log.v(TAG, "Current data: null");
+                    listener.onRiderPickedupTimeoutOrFail();
+                    // if there is an error while driver is trying to pick up the rider, then
+                    // stops listening to the snapshot:
+                    super.listenerRegistration.remove();
+                }
+            }
+            });
     }
 
     /**

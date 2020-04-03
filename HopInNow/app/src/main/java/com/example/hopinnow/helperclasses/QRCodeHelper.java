@@ -3,17 +3,10 @@ package com.example.hopinnow.helperclasses;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import androidx.annotation.IntRange;
-
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
-import java.util.HashMap;
-import java.util.Map;
 
 //CodingInfinite post by Ahsen Saeed
 //https://codinginfinite.com/qrcode-generator-and-reader-android-example/
@@ -23,7 +16,6 @@ import java.util.Map;
  */
 public class QRCodeHelper {
     private static QRCodeHelper qrCodeHelper = null;
-    private int mMargin;
     private String mContent;
     private int mWidth, mHeight;
 
@@ -35,8 +27,8 @@ public class QRCodeHelper {
      * Constructor class for QRCodeHelper.
      */
     private QRCodeHelper(Context context) {
-        mHeight = (int) (context.getResources().getDisplayMetrics().heightPixels / 2);
-        mWidth = (int) (context.getResources().getDisplayMetrics().widthPixels);
+        mHeight = context.getResources().getDisplayMetrics().heightPixels / 2;
+        mWidth = context.getResources().getDisplayMetrics().widthPixels;
     }
 
 
@@ -68,26 +60,19 @@ public class QRCodeHelper {
 
     /**
      * Simply setting the margin for qrcode.
-     * @param margin for qrcode spaces.
      * @return the instance of QrCode helper class for to use remaining function in class.
      */
-    public QRCodeHelper setMargin(@IntRange(from = 0) int margin) {
-        mMargin = margin;
+    public QRCodeHelper setMargin() {
         return this;
     }
 
 
     /**
      * Generate the QR code.
-     *
      * @return
      *      QR code image
      */
     public Bitmap generateQR() {
-        //Map<EncodeHintType, Object> hintsMap = new HashMap<>();
-        //hintsMap.put(EncodeHintType.CHARACTER_SET, "utf-8");
-        //hintsMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q);
-        //hintsMap.put(EncodeHintType.MARGIN, mMargin);
         try {
             BitMatrix bitMatrix = new QRCodeWriter().encode(mContent, BarcodeFormat.QR_CODE, mWidth, mHeight,null);
             int[] pixels = new int[mWidth * mHeight];

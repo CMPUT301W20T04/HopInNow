@@ -66,7 +66,7 @@ public class Test4_DriverActivityTest {
      */
     private void loginUser() throws InterruptedException {
         // Log in To Activity
-        String userEmail = "driver@testing.com";
+        String userEmail = "test@driver.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
@@ -92,7 +92,7 @@ public class Test4_DriverActivityTest {
      */
     private void loginRiderAddRequest() throws InterruptedException {
         // Log in To Activity
-        String userEmail = "rider2@rider.com";
+        String userEmail = "test@rider.com";
         solo.enterText((EditText)solo.getView(R.id.loginEmailEditText), userEmail);
         String userPassword = "1111111";
         solo.enterText((EditText)solo.getView(R.id.loginPassword), userPassword);
@@ -133,15 +133,9 @@ public class Test4_DriverActivityTest {
         assertTrue(solo.waitForText("Information", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.PickUpRiderButton));
-        assertTrue(solo.waitForText("EMERGENCY", 1, 2000));
+        Thread.sleep(2000);
 
         solo.clickOnView(solo.getView(R.id.dropOffRiderButton));
-        if (solo.waitForText("Allow", 1, 2000)){
-            solo.clickOnButton("Allow");
-        } else {
-            assertTrue(solo.waitForText("QR", 1, 2000));
-        }
-
         Thread.sleep(2000);
     }
 

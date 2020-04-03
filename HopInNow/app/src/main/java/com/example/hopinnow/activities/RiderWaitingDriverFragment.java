@@ -70,7 +70,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
             if((estimate_fare - 1) >= lowest_price) {
                 reduceFare();
             } else {
-                Toast.makeText(((RiderMapActivity) Objects.requireNonNull(getActivity())),
+                Toast.makeText(Objects.requireNonNull(getActivity()),
                         "Sorry, you can not go lower than the estimated base fare.",
                         Toast.LENGTH_SHORT).show();
             }
@@ -126,7 +126,7 @@ public class  RiderWaitingDriverFragment extends Fragment {
         }
     }
 
-    public void endChronometer(){
+    void endChronometer(){
         if(running){
             savedTime = chronometer.getBase();
             chronometer.stop();

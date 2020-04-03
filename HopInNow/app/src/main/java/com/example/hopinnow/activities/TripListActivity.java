@@ -3,8 +3,6 @@ package com.example.hopinnow.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -15,7 +13,6 @@ import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.RiderDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
-import com.example.hopinnow.entities.Car;
 import com.example.hopinnow.entities.Driver;
 import com.example.hopinnow.entities.Rider;
 import com.example.hopinnow.entities.Trip;
@@ -23,10 +20,8 @@ import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.RiderProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Author: Qianxi Li
@@ -38,29 +33,22 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
         UserProfileStatusListener, RiderProfileStatusListener {
     private static final String TAG = "TripListActivity";
     private ListView tripList;
-    private ArrayAdapter<Trip> tripAdapter;;
+    private ArrayAdapter<Trip> tripAdapter;
     private ArrayList<Trip> tripDataList = new ArrayList<>();
-    //remember to change the uml
-    private Driver currentDriver;
-    private Rider currentRider;
-    private boolean usertype;
-    private DriverDatabaseAccessor driverDatabaseAccessor;
-    private RiderDatabaseAccessor riderDatabaseAccessor;
-    private UserDatabaseAccessor userDatabaseAccessor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_list);
         tripList = findViewById(R.id.trip_list);
-        userDatabaseAccessor = new UserDatabaseAccessor();
+        UserDatabaseAccessor userDatabaseAccessor = new UserDatabaseAccessor();
         userDatabaseAccessor.getUserProfile(this);
     }
 
     @Override
     public void onDriverProfileRetrieveSuccess(Driver driver) {
-        this.currentDriver = driver;
-        this.tripDataList = this.currentDriver.getDriverTripList();
+        //remember to change the uml
+        this.tripDataList = driver.getDriverTripList();
         // DEBUG:
         if (this.tripDataList != null) {
             for (Trip trip : this.tripDataList) {
@@ -107,14 +95,14 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
 
     @Override
     public void onProfileRetrieveSuccess(User user) {
-        this.usertype = user.isUserType();
+        boolean usertype = user.isUserType();
         if(usertype){
             //is a driver
-            driverDatabaseAccessor = new DriverDatabaseAccessor();
+            DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
             driverDatabaseAccessor.getDriverProfile(this);
         }else{
             //is a rider
-            riderDatabaseAccessor = new RiderDatabaseAccessor();
+            RiderDatabaseAccessor riderDatabaseAccessor = new RiderDatabaseAccessor();
             riderDatabaseAccessor.getRiderProfile(this);
 
         }
@@ -137,8 +125,7 @@ public class TripListActivity extends AppCompatActivity implements DriverProfile
 
     @Override
     public void onRiderProfileRetrieveSuccess(Rider rider) {
-        this.currentRider = rider;
-        this.tripDataList = this.currentRider.getRiderTripList();
+        this.tripDataList = rider.getRiderTripList();
         if (this.tripDataList != null) {
             tripAdapter = new CustomTripList(this,tripDataList);
             tripList.setAdapter(tripAdapter);

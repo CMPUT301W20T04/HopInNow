@@ -69,25 +69,21 @@ import java.util.Objects;
  * This is the main page for driver where is shows the map, online and menu button
  */
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener, LocationListener {
+        NavigationView.OnNavigationItemSelectedListener, DriverProfileStatusListener,
+        LocationListener {
+    private static final String TAG = "DriverMenuActivity";
     private GoogleMap mMap;
-    private MapFragment mapFragment;
     private LatLng edmonton = new LatLng(53.631611,-113.323975);
     private AutocompleteSupportFragment startUpAutoComplete;
-    private boolean showSearch;
-    private Rider rider;
     private Driver driver;
     private EditText startUpMock;
     private LatLng pickUpLoc, startUpLoc, dropOffLoc;
-    private String pickUpLocName, startUpLocName;
-    private Marker pickUpMarker, dropOffMarker, startUpMarker;
-    private FloatingActionButton driverMenuBtn;
-    private LatLng myPosition;
+    private String startUpLocName;
+    private Marker pickUpMarker;
+    private Marker dropOffMarker;
     private Location current;
     private Button myLocStartUpBtn;
-    private NavigationView navigationView;
     private DriverDatabaseAccessor driverDatabaseAccessor;
-    private static final String TAG = "DriverMenuActivity";
     private DrawerLayout drawerLayout;
     private TextView menuUserName;
     private boolean useCurrent;
@@ -98,15 +94,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_map);
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(DriverMapActivity.this);
         // initialize places
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.map_key));
         }
-
         driverDatabaseAccessor = new DriverDatabaseAccessor();
-        rider = new Rider();
         Car car = new Car("Auburn", "Speedster", "Cream", "111111");
         driver = new Driver("111@gmail.com", "12345678", "Lupin the Third",
                 "12345678", 12.0, null, car, null);
@@ -115,7 +109,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 getSupportFragmentManager().findFragmentById(R.id.start_up_auto_complete));
         setupAutoCompleteFragment();
         drawerLayout = findViewById(R.id.driver_drawer_layout);
-        navigationView = findViewById(R.id.nav_view_driver);
+        NavigationView navigationView = findViewById(R.id.nav_view_driver);
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -179,7 +173,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     protected void onStart(){
         super.onStart();
-        driverMenuBtn = findViewById(R.id.driverMenuBtn);
+        FloatingActionButton driverMenuBtn = findViewById(R.id.driverMenuBtn);
         driverMenuBtn.setOnClickListener(v -> {
             menuUserName = findViewById(R.id.menuUserNameTextView);
             menuUserName.setText(driver.getName());
@@ -216,12 +210,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onMarkerDragStart(Marker m) {
             }
-
             @Override
             public void onMarkerDrag(Marker m) {
                 LatLng newLatLng = m.getPosition();
                 List<Address> addresses = null;
-
                 try {
                     addresses = geocoder.getFromLocation(newLatLng.latitude, newLatLng.longitude, 1);
                 } catch (IOException e) {
@@ -230,20 +222,16 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 String address = Objects.requireNonNull(addresses).get(0).getAddressLine(0);
                 startUpLoc = newLatLng;
                 startUpLocName = address;
-                startUpAutoComplete.setText(pickUpLocName);
             }
 
             @Override
             public void onMarkerDragEnd(Marker m) {
                 LatLng newLatLng = m.getPosition();
-                List<Address> addresses = null;
-
                 try {
-                    addresses = geocoder.getFromLocation(newLatLng.latitude, newLatLng.longitude, 1);
+                    geocoder.getFromLocation(newLatLng.latitude, newLatLng.longitude, 1);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String address = Objects.requireNonNull(addresses).get(0).getAddressLine(0);
             }
         });
     }
@@ -382,7 +370,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 Log.e("An error occurred: ", status.toString());
             }
         });
-        startUpAutoComplete.getView().findViewById(R.id.places_autocomplete_clear_button)
+        Objects.requireNonNull(startUpAutoComplete.getView())
+                .findViewById(R.id.places_autocomplete_clear_button)
                 .setOnClickListener(v -> {
                     startUpAutoComplete.setText("");
                     startUpLoc = null;
@@ -430,7 +419,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     }
     public void adjustMapFocus(){
         LatLngBounds.Builder bound = new LatLngBounds.Builder();
-
         if ((pickUpLoc != null)&&(dropOffLoc != null)) {
             bound.include(pickUpLoc);
             bound.include(dropOffLoc);
@@ -449,23 +437,16 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
     @Override
-    public void onProviderEnabled(String provider) {
-
-    }
+    public void onProviderEnabled(String provider) {}
 
     @Override
-    public void onProviderDisabled(String provider) {
-
-    }
+    public void onProviderDisabled(String provider) {}
 
     @Override
-    public void onBackPressed() {
-    }
+    public void onBackPressed() {}
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -504,7 +485,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 finish();
                 break;
         }
-
         return true;
     }
 
@@ -517,9 +497,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     @Override
-    public void onDriverProfileRetrieveFailure() {
-
-    }
+    public void onDriverProfileRetrieveFailure() {}
 
     @Override
     public void onDriverProfileUpdateSuccess(Driver driver) {
@@ -527,9 +505,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     @Override
-    public void onDriverProfileUpdateFailure() {
-
-    }
+    public void onDriverProfileUpdateFailure() {}
 
     public boolean isUseCurrent() {
         return useCurrent;
@@ -538,10 +514,4 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void setUseCurrent(boolean useCurrent) {
         this.useCurrent = useCurrent;
     }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        overridePendingTransition(0, 0);
-//    }
 }

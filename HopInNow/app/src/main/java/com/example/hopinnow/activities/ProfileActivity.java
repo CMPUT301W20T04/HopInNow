@@ -1,12 +1,9 @@
 package com.example.hopinnow.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,15 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.hopinnow.R;
 import com.example.hopinnow.database.DriverDatabaseAccessor;
 import com.example.hopinnow.database.UserDatabaseAccessor;
 import com.example.hopinnow.entities.Driver;
-import com.example.hopinnow.statuslisteners.DriverObjectRetreieveListener;
+import com.example.hopinnow.entities.User;
 import com.example.hopinnow.statuslisteners.DriverProfileStatusListener;
 import com.example.hopinnow.statuslisteners.UserProfileStatusListener;
-import com.example.hopinnow.entities.User;
-import com.google.api.Distribution;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -35,8 +32,6 @@ import java.util.Objects;
  */
 public class ProfileActivity extends AppCompatActivity implements UserProfileStatusListener,
         DriverProfileStatusListener {
-    // establish the TAG of this activity:
-    private static final String TAG = "ProfileActivity";
     // declare database accessor:
     private UserDatabaseAccessor userDatabaseAccessor;
     // Global User object:
@@ -61,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements UserProfileSta
         setContentView(R.layout.activity_profile);
         // init the userDatabaseAccessor:
         this.userDatabaseAccessor = new UserDatabaseAccessor();
-        Intent intentR = this.getIntent();
+        this.getIntent();
         DriverDatabaseAccessor driverDatabaseAccessor = new DriverDatabaseAccessor();
         driverDatabaseAccessor.getDriverProfile(this);
         // check the login status:
