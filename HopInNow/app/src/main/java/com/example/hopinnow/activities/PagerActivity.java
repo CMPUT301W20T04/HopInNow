@@ -56,6 +56,7 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
         whether_first_use = SharedPreference.readSetting(PagerActivity.this, false,"page_settings");
 
         if (whether_first_use) {
+
             finish();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -100,6 +101,10 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+    /**
+     * initralize the view pager
+     */
     public void initializeViewPager(){
         PagerAdapter = new PagerAdapter(getSupportFragmentManager());
         nextPageButton = findViewById(R.id.nextButton);
@@ -116,10 +121,12 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
                 currentPage = position;
                 updateSwitcher(currentPage);
                 if (position == 4){
+                    // guide end
                     finishButton.setVisibility(View.VISIBLE);
                     nextPageButton.setVisibility(View.GONE);
                 }
                 else{
+                    //guide ongoing
                     finishButton.setVisibility(View.GONE);
                     nextPageButton.setVisibility(View.VISIBLE);
                 }
@@ -132,10 +139,12 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
                 currentPage = position;
                 updateSwitcher(currentPage);
                 if (position == 4){
+                    // guide end
                     finishButton.setVisibility(View.VISIBLE);
                     nextPageButton.setVisibility(View.GONE);
                 }
                 else{
+                    //guide ongoing
                     finishButton.setVisibility(View.GONE);
                     nextPageButton.setVisibility(View.VISIBLE);
                 }
@@ -148,12 +157,20 @@ public class PagerActivity extends AppCompatActivity implements View.OnClickList
         });
 
     }
+
+    /**
+     * update the little square switcher at the bottom
+     * two status: active, inactive
+     * @param index
+     */
     public void updateSwitcher(int index){
         for(int i=0;i<switchers.length;i++){
             if(i == index){
+                //active
                 switchers[i].setBackgroundResource(R.drawable.pager_point);
             }
             else{
+                //inactive
                 switchers[i].setBackgroundResource(R.drawable.pager_point_inactive);
             }
 
