@@ -114,16 +114,13 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
             listener.onLoginSuccess();
         } else {
             this.firebaseAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Log.v(TAG, "Login successfully!");
-                                listener.onLoginSuccess();
-                            } else {
-                                Log.v(TAG, "Login failed!");
-                                listener.onLoginFailure();
-                            }
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.v(TAG, "Login successfully!");
+                            listener.onLoginSuccess();
+                        } else {
+                            Log.v(TAG, "Login failed!");
+                            listener.onLoginFailure();
                         }
                     });
         }
@@ -216,21 +213,15 @@ public class UserDatabaseAccessor extends DatabaseAccessor {
                     .collection(this.referenceName)
                     .document(this.currentUser.getUid())
                     .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Log.v(TAG, "Get User Successfully!");
-                            if (documentSnapshot.exists()) {
-                                listener.onProfileRetrieveSuccess(documentSnapshot
-                                        .toObject(User.class));
-                            }
+                    .addOnSuccessListener(documentSnapshot -> {
+                        Log.v(TAG, "Get User Successfully!");
+                        if (documentSnapshot.exists()) {
+                            listener.onProfileRetrieveSuccess(documentSnapshot
+                                    .toObject(User.class));
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.v(TAG, "Get User Failed!");
-                            listener.onProfileRetrieveFailure();
-                        }
+                    }).addOnFailureListener(e -> {
+                        Log.v(TAG, "Get User Failed!");
+                        listener.onProfileRetrieveFailure();
                     }));
         } else {    // the driver is not logged in
             Log.v(TAG, "User is not logged in!");
