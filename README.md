@@ -12,4 +12,4 @@ Welcome to HopInNow, a uber clone project.
 
 
 ## License
-This application is licensed under the [Apache License, Version 2.0](https://github.com/CMPUT301W20T04/HopInNow/wiki/LICENCE-and-Citations)
+This application is licensed under the [Apache License, Version 2.0](https://github.com/CMPUT301W20T04/HopInNow/wiki/License-and-Citations)
