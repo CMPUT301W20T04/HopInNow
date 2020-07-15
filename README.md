@@ -2,8 +2,22 @@
 
 Welcome to HopInNow, a uber clone project.
    
-![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/ReadMeBanner2.png) 
+![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/ReadMeBanner2.png)
 
+## Demo
+
+Below are some of the ride request flow process demonstrations. Rider view is on the left and driver view is on the right.
+
+>## 1. Login
+![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/Login.gif)
+>## 2. Rider Posts New Request
+![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/NewRequest.gif)
+>## 3. Driver and Rider Interaction Before Ride Completes
+![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/AcceptRequest.gif)
+>## 4. QR Code Payment
+![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/Payment.gif)
+>## 5. Ride History
+![](https://raw.githubusercontent.com/CMPUT301W20T04/HopInNow/master/TripHistory.gif)
 
 ## Credits
 | <a href="https://github.com/ShwayW" target="_blank">**ShuweiWang**</a> | <a href="https://github.com/liqianxi" target="_blank">**QianxiLi**</a> | <a href="https://github.com/MichaelQi11" target="_blank">**HongruQi**</a> |  <a href="https://github.com/viobai" target="_blank">**ViolaBai**</a> | <a href="https://github.com/PPPeterZhou" target="_blank">**PPPeterZhou**</a> |  <a href="https://github.com/Recful" target="_blank">**FrankyHe**</a> | 
